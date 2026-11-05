@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenUI | LangChain 中文文档</title>
+  <meta name="description" content="使用 OpenUI 组件库和 openui-lang 生成完整、可交互的仪表盘和报告">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M12.5 19.5l7-7M10 22l-1 1a4 4 0 0 1-5.7-5.7l3.4-3.4a4 4 0 0 1 5.7 0M22 10l1-1a4 4 0 0 1 5.7 5.7l-3.4 3.4a4 4 0 0 1-5.7 0' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem('lc-docs-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();</script>
+  <link rel="stylesheet" href="assets/docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div id="progress" data-progress></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="打开文档导航" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="LangChain 中文文档首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9.4 14.6l5.2-5.2M7.1 16.9l-1.4 1.4a3.7 3.7 0 0 1-5.2-5.2l3.2-3.2a3.7 3.7 0 0 1 5.2 0M16.9 7.1l1.4-1.4a3.7 3.7 0 0 1 5.2 5.2l-3.2 3.2a3.7 3.7 0 0 1-5.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text">LangChain <span class="brand-sub">中文文档</span></span>
+      </a>
+      <nav class="top-nav" aria-label="主导航">
+        <a class="top-link active" href="index.html" aria-current="page">LangChain</a>
+        <a class="top-link" href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a>
+        <a class="top-link" href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener noreferrer">LangSmith</a>
+        <a class="top-link" href="https://reference.langchain.com/python/langchain/" target="_blank" rel="noopener noreferrer">API 参考</a>
+      </nav>
+      <div class="header-actions">
+        <a class="source-link" href="https://docs.langchain.com/oss/python/langchain/frontend/integrations/openui" target="_blank" rel="noopener noreferrer">English <span aria-hidden="true">↗</span></a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="切换到深色模式" aria-pressed="false" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v1.6M10 16.2v1.6M2.2 10h1.6M16.2 10h1.6M4.5 4.5l1.1 1.1M14.4 14.4l1.1 1.1M15.5 4.5l-1.1 1.1M5.6 14.4l-1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.4 12.1A6.6 6.6 0 0 1 7.9 3.6 6.8 6.8 0 1 0 16.4 12.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" id="sidebar" aria-label="文档导航">
+      <div class="sidebar-head">
+        <div class="sidebar-title">文档目录</div>
+        <div class="nav-search">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.2" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="搜索页面…" aria-label="搜索文档页面" data-nav-search autocomplete="off" spellcheck="false">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+      </div>
+      <div class="sidebar-scroll"><nav class="nav" id="doc-nav" aria-label="文档页面"><div class="nav-home"><a class="nav-link" href="index.html" data-search="LangChain 概览 LangChain overview index  "><span class="nav-dot" aria-hidden="true"></span><span>LangChain 概览</span></a></div><section class="nav-section" data-nav-section><div class="nav-section-title">开始使用</div><a class="nav-link" href="install.html" data-search="安装 LangChain Install LangChain install Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>安装 LangChain</span></a><a class="nav-link" href="quickstart.html" data-search="快速开始 Quickstart quickstart Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>快速开始</span></a><a class="nav-link" href="philosophy.html" data-search="设计理念 Philosophy philosophy Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>设计理念</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">核心组件</div><a class="nav-link" href="agents.html" data-search="智能体 Agents agents Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>智能体</span></a><a class="nav-link" href="models.html" data-search="模型 Models models Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>模型</span></a><a class="nav-link" href="messages.html" data-search="消息 Messages messages Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>消息</span></a><a class="nav-link" href="tools.html" data-search="工具 Tools tools Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>工具</span></a><a class="nav-link" href="short-term-memory.html" data-search="短期记忆 Short-term memory short-term-memory Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>短期记忆</span></a><a class="nav-link" href="event-streaming.html" data-search="事件流 Event streaming event-streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>事件流</span></a><a class="nav-link" href="streaming.html" data-search="流式传输 Streaming streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>流式传输</span></a><a class="nav-link" href="structured-output.html" data-search="结构化输出 Structured output structured-output Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>结构化输出</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">中间件</div><a class="nav-link" href="middleware-overview.html" data-search="中间件概览 Middleware overview middleware-overview Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>中间件概览</span></a><a class="nav-link" href="middleware-built-in.html" data-search="预置中间件 Prebuilt middleware middleware-built-in Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>预置中间件</span></a><a class="nav-link" href="middleware-custom.html" data-search="自定义中间件 Custom middleware middleware-custom Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>自定义中间件</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">前端</div><a class="nav-link" href="frontend-overview.html" data-search="前端概览 Overview frontend-overview Frontend 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端概览</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">模式</div><a class="nav-link" href="frontend-markdown-messages.html" data-search="Markdown 消息 Markdown messages frontend-markdown-messages Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>Markdown 消息</span></a><a class="nav-link" href="frontend-tool-calling.html" data-search="工具调用 Tool calling frontend-tool-calling Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>工具调用</span></a><a class="nav-link" href="frontend-headless-tools.html" data-search="无头工具 Headless tools frontend-headless-tools Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>无头工具</span></a><a class="nav-link" href="frontend-human-in-the-loop.html" data-search="前端人在回路 Human-in-the-Loop frontend-human-in-the-loop Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端人在回路</span></a><a class="nav-link" href="frontend-branching-chat.html" data-search="分支对话 Branching chat frontend-branching-chat Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>分支对话</span></a><a class="nav-link" href="frontend-reasoning-tokens.html" data-search="推理 token Reasoning tokens frontend-reasoning-tokens Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>推理 token</span></a><a class="nav-link" href="frontend-structured-output.html" data-search="前端结构化输出 Structured output frontend-structured-output Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端结构化输出</span></a><a class="nav-link" href="frontend-message-queues.html" data-search="消息队列 Message queues frontend-message-queues Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>消息队列</span></a><a class="nav-link" href="frontend-join-rejoin.html" data-search="断开与重连流 Join &amp; rejoin streams frontend-join-rejoin Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>断开与重连流</span></a><a class="nav-link" href="frontend-time-travel.html" data-search="时间旅行 Time travel frontend-time-travel Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>时间旅行</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">生成式 UI</div><a class="nav-link" href="frontend-generative-ui-overview.html" data-search="生成式 UI 概览 Generative UI overview frontend-generative-ui-overview Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>生成式 UI 概览</span></a><a class="nav-link" href="frontend-controlled-generative-ui.html" data-search="受控生成式 UI Controlled generative UI frontend-controlled-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>受控生成式 UI</span></a><a class="nav-link" href="frontend-declarative-generative-ui.html" data-search="声明式生成式 UI Declarative generative UI frontend-declarative-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>声明式生成式 UI</span></a><a class="nav-link" href="frontend-open-ended-generative-ui.html" data-search="开放式生成式 UI Open-ended generative UI frontend-open-ended-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>开放式生成式 UI</span></a></div></div><div class="nav-subgroup"><div class="nav-subgroup-title">集成</div><a class="nav-link" href="frontend-integrations-overview.html" data-search="集成概览 Overview frontend-integrations-overview Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>集成概览</span></a><a class="nav-link" href="frontend-integrations-copilotkit.html" data-search="CopilotKit CopilotKit frontend-integrations-copilotkit Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>CopilotKit</span></a><a class="nav-link" href="frontend-integrations-ai-elements.html" data-search="AI Elements AI Elements frontend-integrations-ai-elements Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>AI Elements</span></a><a class="nav-link" href="frontend-integrations-assistant-ui.html" data-search="assistant-ui assistant-ui frontend-integrations-assistant-ui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>assistant-ui</span></a><a class="nav-link active" href="frontend-integrations-openui.html" data-search="OpenUI OpenUI frontend-integrations-openui Frontend Integrations 前端 前端" aria-current="page"><span class="nav-dot" aria-hidden="true"></span><span>OpenUI</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">高级用法</div><a class="nav-link" href="guardrails.html" data-search="护栏 Guardrails guardrails Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>护栏</span></a><a class="nav-link" href="runtime.html" data-search="运行时 Runtime runtime Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>运行时</span></a><a class="nav-link" href="context-engineering.html" data-search="智能体中的上下文工程 Context engineering in agents context-engineering Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>智能体中的上下文工程</span></a><a class="nav-link" href="human-in-the-loop.html" data-search="人在回路 Human-in-the-loop human-in-the-loop Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>人在回路</span></a><a class="nav-link" href="retrieval.html" data-search="检索 Retrieval retrieval Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>检索</span></a><a class="nav-link" href="long-term-memory.html" data-search="长期记忆 Long-term memory long-term-memory Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>长期记忆</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">MCP</div><a class="nav-link" href="mcp.html" data-search="MCP 概述 Model Context Protocol (MCP) mcp Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 概述</span></a><a class="nav-link" href="mcp-tools.html" data-search="MCP 工具 Tools mcp-tools Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 工具</span></a><a class="nav-link" href="mcp-connections.html" data-search="MCP 连接 Connections mcp-connections Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 连接</span></a><a class="nav-link" href="mcp-auth.html" data-search="MCP 认证 Authentication mcp-auth Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 认证</span></a></div><div class="nav-subgroup"><div class="nav-subgroup-title">多智能体</div><a class="nav-link" href="multi-agent.html" data-search="多智能体 Multi-agent multi-agent Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>多智能体</span></a><a class="nav-link" href="multi-agent-subagents.html" data-search="子智能体 Subagents multi-agent-subagents Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>子智能体</span></a><a class="nav-link" href="multi-agent-handoffs.html" data-search="交接 Handoffs multi-agent-handoffs Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>交接</span></a><a class="nav-link" href="multi-agent-skills.html" data-search="技能 Skills multi-agent-skills Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>技能</span></a><a class="nav-link" href="multi-agent-router.html" data-search="路由器 Router multi-agent-router Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>路由器</span></a><a class="nav-link" href="multi-agent-custom-workflow.html" data-search="自定义工作流 Custom workflow multi-agent-custom-workflow Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>自定义工作流</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">智能体开发</div><a class="nav-link" href="studio.html" data-search="LangSmith Studio LangSmith Studio studio Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith Studio</span></a><a class="nav-link" href="ui.html" data-search="Agent Chat UI Agent Chat UI ui Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>Agent Chat UI</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">测试</div><a class="nav-link" href="test.html" data-search="测试 Test test Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>测试</span></a><a class="nav-link" href="test-unit-testing.html" data-search="单元测试 Unit testing test-unit-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>单元测试</span></a><a class="nav-link" href="test-integration-testing.html" data-search="集成测试 Integration testing test-integration-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>集成测试</span></a><a class="nav-link" href="test-evals.html" data-search="智能体评估 Agent Evals test-evals Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>智能体评估</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">生产</div><a class="nav-link" href="deploy.html" data-search="部署 Deployment deploy Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>部署</span></a><a class="nav-link" href="observability.html" data-search="LangSmith 可观测性 LangSmith Observability observability Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith 可观测性</span></a></section><div class="nav-empty" data-nav-empty hidden>没有匹配的页面</div></nav></div>
+      <div class="sidebar-foot"><strong>59 篇</strong> · 社区翻译</div>
+    </aside>
+    <div class="sidebar-overlay" data-sidebar-overlay></div>
+    <main class="main" id="main">
+      <div class="content-wrap">
+        <nav class="breadcrumbs" aria-label="面包屑"><a href="index.html">LangChain</a><span class="sep">/</span><span>前端</span><span class="sep">/</span><span>集成</span><span class="sep">/</span><span class="current">OpenUI</span></nav>
+        <header class="page-header">
+          <h1>OpenUI</h1>
+          <div class="page-lead">使用 OpenUI 组件库和 openui-lang 生成完整、可交互的仪表盘和报告</div>
+          <div class="page-meta">
+            <span>约 10 分钟</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>社区翻译</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <a href="https://docs.langchain.com/oss/python/langchain/frontend/integrations/openui" target="_blank" rel="noopener noreferrer">查看英文原文 ↗</a>
+          </div>
+        </header>
+        <article class="content"><p><a href="https://github.com/thesysdev/openui" target="_blank" rel="noopener noreferrer">OpenUI</a> 是一个生成式 UI 库，它让语言模型以名为 <strong>openui-lang</strong> 的声明式格式生成完整、可交互的 UI。智能体返回的不再是聊天消息，而是一个包含卡片、图表、表格、标签页和表单的组件树，由 <code>Renderer</code> 将其转换为真正的 React UI。</p>
+<p>这一集成非常适合报告、仪表盘和数据浏览器等数据密集型输出，在这些场景中，模型既是数据分析师，又是 UI 设计师。</p>
+<h2 id="how-it-works">工作原理<a class="heading-anchor" href="#how-it-works" aria-label="链接到本节">#</a></h2>
+<ol><li><p><strong>生成系统提示词：</strong> 在启动时调用一次 <code>openuiLibrary.prompt()</code>；它会生成一份完整的 openui-lang 参考，模型据此编写合法的组件树</p></li><li><p><strong>在首条消息中注入：</strong> 在新对话开始时，将系统提示词作为开场的系统消息发送</p></li><li><p><strong>模型编写 openui-lang：</strong> 模型以类似 <code>root = Stack([header, kpis, chart])</code> 的程序作出响应，而不是普通文本</p></li><li><p><strong>使用 <code>Renderer</code> 渲染：</strong> 将文本传给 OpenUI 的 <code>Renderer</code> 和组件库；由它解析并渲染组件树</p></li></ol>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">mermaid</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-mermaid">%%{
+  init: {
+    "fontFamily": "monospace",
+    "flowchart": {
+      "curve": "curve"
+    }
+  }
+}%%
+graph LR
+  PROMPT["openuiLibrary.prompt()"]
+  AGENT["createAgent()"]
+  STREAM["useStream()"]
+  RENDERER["Renderer"]
+
+  PROMPT --"system message"--&gt; AGENT
+  AGENT --"openui-lang text"--&gt; STREAM
+  STREAM --"ai message content"--&gt; RENDERER</code></pre>
+</div>
+<h2 id="installation">安装<a class="heading-anchor" href="#installation" aria-label="链接到本节">#</a></h2>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">bash</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">npm install @langchain/react @openuidev/react-ui @openuidev/react-headless @openuidev/react-lang</code></pre>
+</div>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>OpenUI 需要 React 19+ 和 <a href="https://www.npmjs.com/package/zustand" target="_blank" rel="noopener noreferrer"><code>zustand</code></a>。前端代码仅支持 React；LangGraph 智能体后端可以用 TypeScript 或 Python 编写。</p></div>
+</aside>
+<h2 id="import-the-component-styles">导入组件样式<a class="heading-anchor" href="#import-the-component-styles" aria-label="链接到本节">#</a></h2>
+<p>在你的 CSS 入口文件中或直接在根组件中导入 OpenUI 内置的样式：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">css</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-css"><span class="hljs-keyword">@import</span> <span class="hljs-string">"@openuidev/react-ui/components.css"</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">"@openuidev/react-ui/styles/index.css"</span>;</code></pre>
+</div>
+<h2 id="generate-the-system-prompt">生成系统提示词<a class="heading-anchor" href="#generate-the-system-prompt" aria-label="链接到本节">#</a></h2>
+<p>OpenUI 提供了一个 <code>openuiLibrary.prompt()</code> 函数，用于生成完整的 openui-lang 参考，其中包含所有组件签名、语法规则、流式传输技巧和示例。在模块加载时调用一次：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">typescript</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { openuiLibrary, openuiPromptOptions } <span class="hljs-keyword">from</span> <span class="hljs-string">"@openuidev/react-ui/genui-lib"</span>;
+
+<span class="hljs-comment">// Generate the full openui-lang system prompt. Call this once at startup,</span>
+<span class="hljs-comment">// not inside a component, to avoid recomputing it on every render.</span>
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">SYSTEM_PROMPT</span> = openuiLibrary.<span class="hljs-title function_">prompt</span>({
+  ...openuiPromptOptions,
+  <span class="hljs-attr">preamble</span>:
+    <span class="hljs-string">"You are a report generator. When asked for a report, produce a detailed, "</span> +
+    <span class="hljs-string">"data-rich report using openui-lang: executive summary, KPI cards, charts, "</span> +
+    <span class="hljs-string">"tables, and multiple sections. Your ENTIRE response must be raw openui-lang "</span> +
+    <span class="hljs-string">"— no code fences, no markdown, no prose."</span>,
+});</code></pre>
+</div>
+<p><code>preamble</code> 会覆盖默认人设。添加 <code>additionalRules</code> 可注入特定任务的约束：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">typescript</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript"><span class="hljs-keyword">const</span> <span class="hljs-variable constant_">SYSTEM_PROMPT</span> = openuiLibrary.<span class="hljs-title function_">prompt</span>({
+  ...openuiPromptOptions,
+  <span class="hljs-attr">preamble</span>: <span class="hljs-string">"You are a report generator..."</span>,
+  <span class="hljs-attr">additionalRules</span>: [
+    ...(openuiPromptOptions.<span class="hljs-property">additionalRules</span> ?? []),
+    <span class="hljs-string">"Always end the report with 3–4 follow-up query buttons using "</span> +
+    <span class="hljs-string">"Button({ type: 'continue_conversation' }, 'secondary') inside a "</span> +
+    <span class="hljs-string">"Card([CardHeader('Explore Further'), Buttons([...])], 'sunk')."</span>,
+  ],
+});</code></pre>
+</div>
+<h2 id="inject-the-system-prompt-via-usestream">通过 useStream 注入系统提示词<a class="heading-anchor" href="#inject-the-system-prompt-via-usestream" aria-label="链接到本节">#</a></h2>
+<p>将系统提示词作为每个新线程的第一条消息发送。检查 <code>stream.messages.length === 0</code> 以识别新线程，并在前面添加一条 <code>system</code> 消息：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">tsx</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { useCallback } <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> { useStream } <span class="hljs-keyword">from</span> <span class="hljs-string">"@langchain/react"</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">SYSTEM_PROMPT</span> = openuiLibrary.<span class="hljs-title function_">prompt</span>({ ... });
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> stream = <span class="hljs-title function_">useStream</span>({
+    <span class="hljs-attr">apiUrl</span>: <span class="hljs-keyword">import</span>.<span class="hljs-property">meta</span>.<span class="hljs-property">env</span>.<span class="hljs-property">VITE_LANGGRAPH_API_URL</span> ?? <span class="hljs-string">"http://localhost:2024"</span>,
+    <span class="hljs-attr">assistantId</span>: <span class="hljs-string">"openui"</span>,
+  });
+
+  <span class="hljs-keyword">const</span> handleSubmit = <span class="hljs-title function_">useCallback</span>(
+    <span class="hljs-function">(<span class="hljs-params"><span class="hljs-attr">text</span>: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
+      <span class="hljs-comment">// Inject the system prompt only on the first message of a new thread.</span>
+      <span class="hljs-comment">// Subsequent messages already have it in their persisted history.</span>
+      <span class="hljs-keyword">const</span> isNewThread = stream.<span class="hljs-property">messages</span>.<span class="hljs-property">length</span> === <span class="hljs-number">0</span>;
+      stream.<span class="hljs-title function_">submit</span>({
+        <span class="hljs-attr">messages</span>: [
+          ...(isNewThread
+            ? [{ <span class="hljs-attr">type</span>: <span class="hljs-string">"system"</span>, <span class="hljs-attr">content</span>: <span class="hljs-variable constant_">SYSTEM_PROMPT</span> }]
+            : []),
+          { <span class="hljs-attr">type</span>: <span class="hljs-string">"human"</span>, <span class="hljs-attr">content</span>: text },
+        ],
+      });
+    },
+    [stream],
+  );
+
+  <span class="hljs-comment">// ...</span>
+}</code></pre>
+</div>
+<h2 id="render-with-the-renderer">使用 Renderer 渲染<a class="heading-anchor" href="#render-with-the-renderer" aria-label="链接到本节">#</a></h2>
+<p>将 AI 消息的文本内容直接传给 <code>Renderer</code>，同时传入 <code>openuiLibrary</code>：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">tsx</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Renderer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@openuidev/react-lang"</span>;
+<span class="hljs-keyword">import</span> { openuiLibrary } <span class="hljs-keyword">from</span> <span class="hljs-string">"@openuidev/react-ui/genui-lib"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AIMessage</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"langchain"</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">MessageList</span>(<span class="hljs-params">{ messages, isLoading }</span>) {
+  <span class="hljs-keyword">const</span> lastAiIdx = messages.<span class="hljs-title function_">reduce</span>(
+    <span class="hljs-function">(<span class="hljs-params">acc, msg, i</span>) =&gt;</span> (<span class="hljs-title class_">AIMessage</span>.<span class="hljs-title function_">isInstance</span>(msg) ? i : acc),
+    -<span class="hljs-number">1</span>,
+  );
+
+  <span class="hljs-keyword">return</span> messages.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">msg, i</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (<span class="hljs-title class_">AIMessage</span>.<span class="hljs-title function_">isInstance</span>(msg)) {
+      <span class="hljs-keyword">const</span> text = msg.<span class="hljs-property">text</span>;
+      <span class="hljs-keyword">return</span> (
+        <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Renderer</span>
+          <span class="hljs-attr">key</span>=<span class="hljs-string">{msg.id</span> ?? <span class="hljs-attr">i</span>}
+          <span class="hljs-attr">response</span>=<span class="hljs-string">{text}</span>
+          <span class="hljs-attr">library</span>=<span class="hljs-string">{openuiLibrary}</span>
+          <span class="hljs-attr">isStreaming</span>=<span class="hljs-string">{isLoading</span> &amp;&amp; <span class="hljs-attr">i</span> === <span class="hljs-string">lastAiIdx}</span>
+        /&gt;</span></span>
+      );
+    }
+    <span class="hljs-comment">// ... human message bubble</span>
+  });
+}</code></pre>
+</div>
+<p>在流式传输进行期间传入 <code>isStreaming={true}</code>，以便 Renderer 在定义陆续到达时妥善处理尚未解析的引用。</p>
+<h2 id="the-openui-lang-format">openui-lang 格式<a class="heading-anchor" href="#the-openui-lang-format" aria-label="链接到本节">#</a></h2>
+<p>模型编写的是一个程序，而不是一份 JSON 规范。每条语句都是一次赋值；<code>root</code> 是入口点。官方提示词会教模型这种格式，包括提升（hoisting）——先写 <code>root</code>，让 UI 外壳立即出现：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">text</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-text">root = Stack([header, execSummary, kpis, marketSection])
+
+header    = CardHeader("State of AI in 2025", "Comprehensive Analysis")
+execSummary = MarkDownRenderer("## Executive Summary\n\nThe AI market reached...")
+
+kpi1 = Card([CardHeader("$826B", "Global Market"), TextContent("42% YoY", "small")], "sunk")
+kpi2 = Card([CardHeader("78%",   "Adoption"),       TextContent("Fortune 500",  "small")], "sunk")
+kpis = Stack([kpi1, kpi2], "row", "m", "stretch", "start", true)
+
+col1 = Col("Segment", "string")
+col2 = Col("Revenue ($B)", "number")
+tbl  = Table([col1, col2], [["Generative AI", 286], ["ML Infra", 198]])
+s1   = Series("Revenue", [286, 198, 147])
+ch1  = BarChart(["Gen AI", "ML Infra", "Vision"], [s1])
+marketSection = Card([CardHeader("Market Breakdown"), tbl, ch1])</code></pre>
+</div>
+<p>在启用提升（推荐）的情况下，先写入 <code>root</code> 行，使页面结构立即出现，各区块随模型的逐个定义逐步填充。</p>
+<h2 id="progressive-rendering-utilities">渐进式渲染工具<a class="heading-anchor" href="#progressive-rendering-utilities" aria-label="链接到本节">#</a></h2>
+<p>将 <a href="https://reference.langchain.com/javascript/langchain-react/index/useStream" target="_blank" rel="noopener noreferrer"><code>useStream</code></a> 直接接到 <code>Renderer</code> 会导致每收到一个流式传输 token 就重新渲染，并产生每次响应数百次无效的重复解析。这会导致图表组件在其数据尚未到达时崩溃。下面的工具可解决这些问题：</p>
+<div class="table-wrap"><table><thead><tr><th>问题</th><th>解决方案</th></tr></thead><tbody><tr><td><strong>部分字符串字面量</strong></td><td><code>truncateAtOpenString</code> / <code>closeOrTruncateOpenString</code> — 在解析前丢弃或补全不完整的字符串</td></tr><tr><td><strong>token 中途变动</strong></td><td><code>useStableText</code> — 以完整语句边界（<code>name = Expr(…)</code>）为条件控制 Renderer 更新，而不是每个 token 都更新</td></tr><tr><td><strong>图表空数据崩溃</strong></td><td><code>chartDataRefsResolved</code> — 在将图表纳入快照之前，确认其 <code>Series</code> 和标签数组已定义</td></tr><tr><td><strong>尚无 <code>root</code> / 回退</strong></td><td><code>buildProgressiveRoot</code> — 当模型尚未编写 <code>root = Stack([…])</code> 时，从顶层变量合成一个</td></tr><tr><td><strong>snake_case 标识符</strong></td><td><code>sanitizeIdentifiers</code> — 解析器只接受 camelCase；转换模型输出的所有 <code>snake_case</code> 名称</td></tr></tbody></table></div>
+<p>将完整代码块复制到你的项目中，并将 <code>stable</code> 传给 <code>&lt;Renderer&gt;</code>：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">expandable</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> {
+  <span class="hljs-keyword">type</span> <span class="hljs-title class_">ActionEvent</span>,
+  <span class="hljs-title class_">BuiltinActionType</span>,
+  <span class="hljs-title class_">Renderer</span>,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">"@openuidev/react-lang"</span>;
+<span class="hljs-keyword">import</span> { openuiLibrary } <span class="hljs-keyword">from</span> <span class="hljs-string">"@openuidev/react-ui/genui-lib"</span>;
+
+<span class="hljs-comment">/** Strip any markdown code fence the model may have emitted. */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">stripCodeFence</span>(<span class="hljs-params"><span class="hljs-attr">text</span>: <span class="hljs-built_in">string</span></span>): <span class="hljs-built_in">string</span> {
+  <span class="hljs-keyword">return</span> text
+    .<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/^```[a-z]*\r?\n?/i</span>, <span class="hljs-string">""</span>)
+    .<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\n?```\s*$/i</span>, <span class="hljs-string">""</span>)
+    .<span class="hljs-title function_">trim</span>();
+}
+
+<span class="hljs-comment">/**
+ * The openui-lang parser only accepts camelCase identifiers.
+ * Convert any snake_case variable names the model emits; string content is untouched.
+ */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">sanitizeIdentifiers</span>(<span class="hljs-params"><span class="hljs-attr">text</span>: <span class="hljs-built_in">string</span></span>): <span class="hljs-built_in">string</span> {
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">toCamel</span> = (<span class="hljs-params"><span class="hljs-attr">s</span>: <span class="hljs-built_in">string</span></span>) =&gt;
+    s.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/_([a-zA-Z0-9])/g</span>, <span class="hljs-function">(<span class="hljs-params">_, <span class="hljs-attr">c</span>: <span class="hljs-built_in">string</span></span>) =&gt;</span> c.<span class="hljs-title function_">toUpperCase</span>());
+
+  <span class="hljs-keyword">const</span> <span class="hljs-attr">snakeVars</span>: <span class="hljs-built_in">string</span>[] = [];
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> m <span class="hljs-keyword">of</span> text.<span class="hljs-title function_">matchAll</span>(<span class="hljs-regexp">/^([a-zA-Z][a-zA-Z0-9]*(?:_[a-zA-Z0-9]+)+)\s*=/gm</span>)) {
+    <span class="hljs-keyword">if</span> (!snakeVars.<span class="hljs-title function_">includes</span>(m[<span class="hljs-number">1</span>])) snakeVars.<span class="hljs-title function_">push</span>(m[<span class="hljs-number">1</span>]);
+  }
+  <span class="hljs-keyword">if</span> (snakeVars.<span class="hljs-property">length</span> === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> text;
+
+  <span class="hljs-keyword">let</span> result = <span class="hljs-string">""</span>;
+  <span class="hljs-keyword">let</span> inStr = <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">while</span> (i &lt; text.<span class="hljs-property">length</span>) {
+    <span class="hljs-keyword">if</span> (text[i] === <span class="hljs-string">"\\"</span> &amp;&amp; inStr) { result += text[i] + (text[i + <span class="hljs-number">1</span>] ?? <span class="hljs-string">""</span>); i += <span class="hljs-number">2</span>; <span class="hljs-keyword">continue</span>; }
+    <span class="hljs-keyword">if</span> (text[i] === <span class="hljs-string">'"'</span>) { inStr = !inStr; result += text[i++]; <span class="hljs-keyword">continue</span>; }
+    <span class="hljs-keyword">if</span> (!inStr) {
+      <span class="hljs-keyword">let</span> replaced = <span class="hljs-literal">false</span>;
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> v <span class="hljs-keyword">of</span> snakeVars) {
+        <span class="hljs-keyword">if</span> (text.<span class="hljs-title function_">startsWith</span>(v, i) &amp;&amp; !<span class="hljs-regexp">/[a-zA-Z0-9_]/</span>.<span class="hljs-title function_">test</span>(text[i + v.<span class="hljs-property">length</span>] ?? <span class="hljs-string">""</span>)) {
+          result += <span class="hljs-title function_">toCamel</span>(v); i += v.<span class="hljs-property">length</span>; replaced = <span class="hljs-literal">true</span>; <span class="hljs-keyword">break</span>;
+        }
+      }
+      <span class="hljs-keyword">if</span> (!replaced) result += text[i++];
+    } <span class="hljs-keyword">else</span> {
+      result += text[i++];
+    }
+  }
+  <span class="hljs-keyword">return</span> result;
+}
+
+<span class="hljs-comment">/**
+ * Walk the text tracking open strings. If the text ends mid-string, truncate to
+ * the last safe newline — this prevents a partial string literal from consuming
+ * any `root = Stack(…)` line we synthesise later.
+ */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">truncateAtOpenString</span>(<span class="hljs-params"><span class="hljs-attr">text</span>: <span class="hljs-built_in">string</span></span>): <span class="hljs-built_in">string</span> {
+  <span class="hljs-keyword">let</span> inStr = <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">let</span> lastSafeNewline = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; text.<span class="hljs-property">length</span>; i++) {
+    <span class="hljs-keyword">const</span> ch = text[i];
+    <span class="hljs-keyword">if</span> (ch === <span class="hljs-string">"\\"</span> &amp;&amp; inStr) { i++; <span class="hljs-keyword">continue</span>; }
+    <span class="hljs-keyword">if</span> (ch === <span class="hljs-string">'"'</span>) { inStr = !inStr; <span class="hljs-keyword">continue</span>; }
+    <span class="hljs-keyword">if</span> (ch === <span class="hljs-string">"\n"</span> &amp;&amp; !inStr) lastSafeNewline = i;
+  }
+  <span class="hljs-keyword">return</span> inStr ? text.<span class="hljs-title function_">slice</span>(<span class="hljs-number">0</span>, lastSafeNewline) : text;
+}
+
+<span class="hljs-comment">/**
+ * Like truncateAtOpenString, but synthesises a closing `")` when the partial
+ * line is a TextContent statement. This lets text render token-by-token while
+ * all other partial-string lines are still truncated.
+ */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">closeOrTruncateOpenString</span>(<span class="hljs-params"><span class="hljs-attr">text</span>: <span class="hljs-built_in">string</span></span>): <span class="hljs-built_in">string</span> {
+  <span class="hljs-keyword">let</span> inStr = <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">let</span> lastSafeNewline = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; text.<span class="hljs-property">length</span>; i++) {
+    <span class="hljs-keyword">const</span> ch = text[i];
+    <span class="hljs-keyword">if</span> (ch === <span class="hljs-string">"\\"</span> &amp;&amp; inStr) { i++; <span class="hljs-keyword">continue</span>; }
+    <span class="hljs-keyword">if</span> (ch === <span class="hljs-string">'"'</span>) { inStr = !inStr; <span class="hljs-keyword">continue</span>; }
+    <span class="hljs-keyword">if</span> (ch === <span class="hljs-string">"\n"</span> &amp;&amp; !inStr) lastSafeNewline = i;
+  }
+  <span class="hljs-keyword">if</span> (!inStr) <span class="hljs-keyword">return</span> text;
+
+  <span class="hljs-keyword">const</span> safeText = lastSafeNewline &gt; <span class="hljs-number">0</span> ? text.<span class="hljs-title function_">slice</span>(<span class="hljs-number">0</span>, lastSafeNewline) : <span class="hljs-string">""</span>;
+  <span class="hljs-keyword">const</span> partialLine = text.<span class="hljs-title function_">slice</span>(lastSafeNewline &gt; <span class="hljs-number">0</span> ? lastSafeNewline + <span class="hljs-number">1</span> : <span class="hljs-number">0</span>);
+
+  <span class="hljs-keyword">if</span> (<span class="hljs-regexp">/^[a-zA-Z][a-zA-Z0-9]*\s*=\s*TextContent\(/</span>.<span class="hljs-title function_">test</span>(partialLine)) {
+    <span class="hljs-keyword">return</span> (lastSafeNewline &gt; <span class="hljs-number">0</span> ? safeText + <span class="hljs-string">"\n"</span> : <span class="hljs-string">""</span>) + partialLine + <span class="hljs-string">'")'</span>;
+  }
+  <span class="hljs-keyword">return</span> safeText;
+}
+
+<span class="hljs-comment">/** Count lines that form a complete assignment ending with `)` or `]`. */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">countCompleteStatements</span>(<span class="hljs-params"><span class="hljs-attr">text</span>: <span class="hljs-built_in">string</span></span>): <span class="hljs-built_in">number</span> {
+  <span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> line <span class="hljs-keyword">of</span> text.<span class="hljs-title function_">split</span>(<span class="hljs-string">"\n"</span>)) {
+    <span class="hljs-keyword">const</span> t = line.<span class="hljs-title function_">trimEnd</span>();
+    <span class="hljs-keyword">if</span> ((t.<span class="hljs-title function_">endsWith</span>(<span class="hljs-string">")"</span>) || t.<span class="hljs-title function_">endsWith</span>(<span class="hljs-string">"]"</span>)) &amp;&amp; <span class="hljs-regexp">/^[a-zA-Z]/</span>.<span class="hljs-title function_">test</span>(t)) count++;
+  }
+  <span class="hljs-keyword">return</span> count;
+}
+
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">CHART_TYPES</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>([
+  <span class="hljs-string">"BarChart"</span>, <span class="hljs-string">"LineChart"</span>, <span class="hljs-string">"AreaChart"</span>, <span class="hljs-string">"RadarChart"</span>,
+  <span class="hljs-string">"HorizontalBarChart"</span>, <span class="hljs-string">"PieChart"</span>, <span class="hljs-string">"RadialChart"</span>,
+  <span class="hljs-string">"SingleStackedBarChart"</span>, <span class="hljs-string">"ScatterChart"</span>,
+]);
+
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">OPENUI_KEYWORDS</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>([
+  <span class="hljs-string">"true"</span>, <span class="hljs-string">"false"</span>, <span class="hljs-string">"null"</span>, <span class="hljs-string">"grouped"</span>, <span class="hljs-string">"stacked"</span>, <span class="hljs-string">"linear"</span>, <span class="hljs-string">"natural"</span>, <span class="hljs-string">"step"</span>,
+  <span class="hljs-string">"pie"</span>, <span class="hljs-string">"donut"</span>, <span class="hljs-string">"string"</span>, <span class="hljs-string">"number"</span>, <span class="hljs-string">"action"</span>, <span class="hljs-string">"row"</span>, <span class="hljs-string">"column"</span>, <span class="hljs-string">"card"</span>, <span class="hljs-string">"sunk"</span>,
+  <span class="hljs-string">"clear"</span>, <span class="hljs-string">"info"</span>, <span class="hljs-string">"warning"</span>, <span class="hljs-string">"error"</span>, <span class="hljs-string">"success"</span>, <span class="hljs-string">"neutral"</span>, <span class="hljs-string">"danger"</span>, <span class="hljs-string">"start"</span>,
+  <span class="hljs-string">"end"</span>, <span class="hljs-string">"center"</span>, <span class="hljs-string">"between"</span>, <span class="hljs-string">"around"</span>, <span class="hljs-string">"evenly"</span>, <span class="hljs-string">"stretch"</span>, <span class="hljs-string">"baseline"</span>,
+  <span class="hljs-string">"small"</span>, <span class="hljs-string">"default"</span>, <span class="hljs-string">"large"</span>, <span class="hljs-string">"none"</span>, <span class="hljs-string">"xs"</span>, <span class="hljs-string">"s"</span>, <span class="hljs-string">"m"</span>, <span class="hljs-string">"l"</span>, <span class="hljs-string">"xl"</span>,
+  <span class="hljs-string">"horizontal"</span>, <span class="hljs-string">"vertical"</span>,
+]);
+
+<span class="hljs-comment">/**
+ * Chart components (recharts) crash with `.map() on null` when their labels or
+ * series props are unresolved. Before committing a stable snapshot, verify that
+ * every chart in the text has all its data variables already defined.
+ */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">chartDataRefsResolved</span>(<span class="hljs-params"><span class="hljs-attr">text</span>: <span class="hljs-built_in">string</span></span>): <span class="hljs-built_in">boolean</span> {
+  <span class="hljs-keyword">const</span> lines = text.<span class="hljs-title function_">split</span>(<span class="hljs-string">"\n"</span>);
+  <span class="hljs-keyword">const</span> complete = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>&lt;<span class="hljs-built_in">string</span>&gt;();
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> line <span class="hljs-keyword">of</span> lines) {
+    <span class="hljs-keyword">const</span> t = line.<span class="hljs-title function_">trimEnd</span>();
+    <span class="hljs-keyword">const</span> m = t.<span class="hljs-title function_">match</span>(<span class="hljs-regexp">/^([a-zA-Z][a-zA-Z0-9]*)\s*=/</span>);
+    <span class="hljs-keyword">if</span> (m &amp;&amp; (t.<span class="hljs-title function_">endsWith</span>(<span class="hljs-string">")"</span>) || t.<span class="hljs-title function_">endsWith</span>(<span class="hljs-string">"]"</span>))) complete.<span class="hljs-title function_">add</span>(m[<span class="hljs-number">1</span>]);
+  }
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> line <span class="hljs-keyword">of</span> lines) {
+    <span class="hljs-keyword">const</span> t = line.<span class="hljs-title function_">trimEnd</span>();
+    <span class="hljs-keyword">const</span> m = t.<span class="hljs-title function_">match</span>(<span class="hljs-regexp">/^([a-zA-Z][a-zA-Z0-9]*)\s*=\s*([A-Z][a-zA-Z0-9]*)\(/</span>);
+    <span class="hljs-keyword">if</span> (!m || !<span class="hljs-variable constant_">CHART_TYPES</span>.<span class="hljs-title function_">has</span>(m[<span class="hljs-number">2</span>]) || !t.<span class="hljs-title function_">endsWith</span>(<span class="hljs-string">")"</span>)) <span class="hljs-keyword">continue</span>;
+    <span class="hljs-keyword">const</span> rhs = t.<span class="hljs-title function_">slice</span>(t.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">"="</span>) + <span class="hljs-number">1</span>).<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/"(?:[^"\\]|\\.)*"/g</span>, <span class="hljs-string">'""'</span>);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> [, name] <span class="hljs-keyword">of</span> rhs.<span class="hljs-title function_">matchAll</span>(<span class="hljs-regexp">/\b([a-zA-Z][a-zA-Z0-9]*)\b/g</span>)) {
+      <span class="hljs-keyword">if</span> (<span class="hljs-regexp">/^[a-z]/</span>.<span class="hljs-title function_">test</span>(name) &amp;&amp; !<span class="hljs-variable constant_">OPENUI_KEYWORDS</span>.<span class="hljs-title function_">has</span>(name) &amp;&amp; !complete.<span class="hljs-title function_">has</span>(name))
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    }
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+}
+
+<span class="hljs-comment">/**
+ * If the model hasn't written a `root = Stack(…)` yet, synthesise one from the
+ * top-level variables (those defined but not referenced inside any other expression).
+ * This enables progressive rendering even when the model writes root last.
+ */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">buildProgressiveRoot</span>(<span class="hljs-params"><span class="hljs-attr">text</span>: <span class="hljs-built_in">string</span></span>): <span class="hljs-built_in">string</span> {
+  <span class="hljs-keyword">if</span> (!text) <span class="hljs-keyword">return</span> text;
+  <span class="hljs-keyword">const</span> safe = <span class="hljs-title function_">truncateAtOpenString</span>(text);
+  <span class="hljs-keyword">if</span> (<span class="hljs-regexp">/^root\s*=/m</span>.<span class="hljs-title function_">test</span>(safe)) <span class="hljs-keyword">return</span> safe;
+
+  <span class="hljs-keyword">const</span> <span class="hljs-attr">defs</span>: <span class="hljs-built_in">string</span>[] = [];
+  <span class="hljs-keyword">const</span> seen = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>&lt;<span class="hljs-built_in">string</span>&gt;();
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> m <span class="hljs-keyword">of</span> safe.<span class="hljs-title function_">matchAll</span>(<span class="hljs-regexp">/^([a-zA-Z_][a-zA-Z0-9_]*)\s*=/gm</span>)) {
+    <span class="hljs-keyword">if</span> (!seen.<span class="hljs-title function_">has</span>(m[<span class="hljs-number">1</span>])) { defs.<span class="hljs-title function_">push</span>(m[<span class="hljs-number">1</span>]); seen.<span class="hljs-title function_">add</span>(m[<span class="hljs-number">1</span>]); }
+  }
+  <span class="hljs-keyword">if</span> (defs.<span class="hljs-property">length</span> === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> safe;
+
+  <span class="hljs-keyword">const</span> referenced = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>&lt;<span class="hljs-built_in">string</span>&gt;();
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> line <span class="hljs-keyword">of</span> safe.<span class="hljs-title function_">split</span>(<span class="hljs-string">"\n"</span>)) {
+    <span class="hljs-keyword">const</span> thisVar = line.<span class="hljs-title function_">match</span>(<span class="hljs-regexp">/^([a-zA-Z_][a-zA-Z0-9_]*)\s*=/</span>)?.[<span class="hljs-number">1</span>];
+    <span class="hljs-keyword">const</span> stripped = line.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/"(?:[^"\\]|\\.)*"/g</span>, <span class="hljs-string">'""'</span>);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> v <span class="hljs-keyword">of</span> defs) {
+      <span class="hljs-keyword">if</span> (v !== thisVar &amp;&amp; <span class="hljs-keyword">new</span> <span class="hljs-title class_">RegExp</span>(<span class="hljs-string">`\\b<span class="hljs-subst">${v}</span>\\b`</span>).<span class="hljs-title function_">test</span>(stripped)) referenced.<span class="hljs-title function_">add</span>(v);
+    }
+  }
+
+  <span class="hljs-keyword">const</span> topLevel = defs.<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">v</span>) =&gt;</span> !referenced.<span class="hljs-title function_">has</span>(v));
+  <span class="hljs-keyword">const</span> rootVars = topLevel.<span class="hljs-property">length</span> &gt; <span class="hljs-number">0</span> ? topLevel : defs;
+  <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${safe.trimEnd()}</span>\nroot = Stack([<span class="hljs-subst">${rootVars.join(<span class="hljs-string">", "</span>)}</span>], "column", "l")`</span>;
+}
+
+<span class="hljs-comment">/**
+ * Gate Renderer updates to moments when at least one new *complete* statement
+ * has arrived. This eliminates hundreds of no-op re-parses during streaming.
+ *
+ * Special case: TextContent lines update token-by-token (via closeOrTruncate)
+ * so text renders progressively without waiting for the full line to complete.
+ */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">useStableText</span>(<span class="hljs-params"><span class="hljs-attr">raw</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">isStreaming</span>: <span class="hljs-built_in">boolean</span></span>): <span class="hljs-built_in">string</span> {
+  <span class="hljs-keyword">const</span> [stable, setStable] = useState&lt;<span class="hljs-built_in">string</span>&gt;(<span class="hljs-string">""</span>);
+  <span class="hljs-keyword">const</span> lastCount = <span class="hljs-title function_">useRef</span>(<span class="hljs-number">0</span>);
+
+  <span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">const</span> safe = <span class="hljs-title function_">truncateAtOpenString</span>(raw);         <span class="hljs-comment">// strict — for counting only</span>
+    <span class="hljs-keyword">const</span> enhanced = <span class="hljs-title function_">closeOrTruncateOpenString</span>(raw); <span class="hljs-comment">// display — closes partial TextContent</span>
+
+    <span class="hljs-keyword">if</span> (!isStreaming) { <span class="hljs-title function_">setStable</span>(enhanced); <span class="hljs-keyword">return</span>; }
+
+    <span class="hljs-keyword">const</span> count = <span class="hljs-title function_">countCompleteStatements</span>(safe);
+    <span class="hljs-keyword">const</span> newComplete = count &gt; lastCount.<span class="hljs-property">current</span> &amp;&amp; <span class="hljs-title function_">chartDataRefsResolved</span>(safe);
+    <span class="hljs-keyword">const</span> partialTextContent = enhanced !== safe;
+
+    <span class="hljs-keyword">if</span> (newComplete || partialTextContent) {
+      <span class="hljs-keyword">if</span> (newComplete) lastCount.<span class="hljs-property">current</span> = count;
+      <span class="hljs-title function_">setStable</span>(enhanced);
+    }
+  }, [raw, isStreaming]);
+
+  <span class="hljs-keyword">return</span> stable;
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">AIMessageView</span>(<span class="hljs-params">{
+  raw,
+  isStreaming,
+  onSubmit,
+}: {
+  raw: <span class="hljs-built_in">string</span>;
+  isStreaming: <span class="hljs-built_in">boolean</span>;
+  onSubmit: (text: <span class="hljs-built_in">string</span>) =&gt; <span class="hljs-built_in">void</span>;
+}</span>) {
+  <span class="hljs-keyword">const</span> stable = <span class="hljs-title function_">useStableText</span>(raw, isStreaming);
+  <span class="hljs-keyword">const</span> processed = <span class="hljs-title function_">useMemo</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">buildProgressiveRoot</span>(stable), [stable]);
+
+  <span class="hljs-keyword">const</span> handleAction = <span class="hljs-title function_">useCallback</span>(
+    <span class="hljs-function">(<span class="hljs-params"><span class="hljs-attr">event</span>: <span class="hljs-title class_">ActionEvent</span></span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (event.<span class="hljs-property">type</span> === <span class="hljs-title class_">BuiltinActionType</span>.<span class="hljs-property">ContinueConversation</span>) {
+        <span class="hljs-title function_">onSubmit</span>(event.<span class="hljs-property">humanFriendlyMessage</span>);
+      }
+    },
+    [onSubmit],
+  );
+
+  <span class="hljs-keyword">if</span> (!processed) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Renderer</span>
+      <span class="hljs-attr">response</span>=<span class="hljs-string">{processed}</span>
+      <span class="hljs-attr">library</span>=<span class="hljs-string">{openuiLibrary}</span>
+      <span class="hljs-attr">isStreaming</span>=<span class="hljs-string">{isStreaming}</span>
+      <span class="hljs-attr">onAction</span>=<span class="hljs-string">{handleAction}</span>
+    /&gt;</span></span>
+  );
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">MessageList</span>(<span class="hljs-params">{ messages, isLoading, onSubmit }</span>) {
+  <span class="hljs-keyword">const</span> lastAiIdx = messages.<span class="hljs-title function_">reduce</span>(
+    <span class="hljs-function">(<span class="hljs-params">acc, msg, i</span>) =&gt;</span> (msg.<span class="hljs-title function_">getType</span>() === <span class="hljs-string">"ai"</span> ? i : acc),
+    -<span class="hljs-number">1</span>,
+  );
+
+  <span class="hljs-keyword">return</span> messages.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">msg, i</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (msg.<span class="hljs-title function_">getType</span>() === <span class="hljs-string">"human"</span>) {
+      <span class="hljs-keyword">return</span> (
+        <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{msg.id</span> ?? <span class="hljs-attr">i</span>} <span class="hljs-attr">className</span>=<span class="hljs-string">"flex justify-end"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"user-bubble"</span>&gt;</span>
+            {msg.text}
+          <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+      );
+    }
+
+    <span class="hljs-keyword">if</span> (msg.<span class="hljs-title function_">getType</span>() === <span class="hljs-string">"ai"</span>) {
+      <span class="hljs-keyword">const</span> raw = <span class="hljs-title function_">sanitizeIdentifiers</span>(
+        <span class="hljs-title function_">stripCodeFence</span>(msg.<span class="hljs-property">text</span>),
+      );
+      <span class="hljs-keyword">if</span> (!raw) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+      <span class="hljs-keyword">return</span> (
+        <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{msg.id</span> ?? <span class="hljs-attr">i</span>}&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">AIMessageView</span>
+            <span class="hljs-attr">raw</span>=<span class="hljs-string">{raw}</span>
+            <span class="hljs-attr">isStreaming</span>=<span class="hljs-string">{isLoading</span> &amp;&amp; <span class="hljs-attr">i</span> === <span class="hljs-string">lastAiIdx}</span>
+            <span class="hljs-attr">onSubmit</span>=<span class="hljs-string">{onSubmit}</span>
+          /&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+      );
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+  });
+}</code></pre>
+</div>
+<h2 id="follow-up-queries">后续查询<a class="heading-anchor" href="#follow-up-queries" aria-label="链接到本节">#</a></h2>
+<p>OpenUI 的 <code>Button</code> 组件支持 <code>continue_conversation</code> 动作类型。当用户点击后续按钮时，<code>Renderer</code> 触发 <code>onAction</code>，上方的 <code>AIMessageView</code> 会将按钮标签作为下一条用户消息提交，这与在输入框中键入走完全相同的代码路径。</p>
+<p>在系统提示词中通过 <code>additionalRules</code> 为每份报告添加一个“Explore Further”区块：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">text</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-text">followUp1 = Button("Compare AI leaders 2024 vs 2025", { type: "continue_conversation" }, "secondary")
+followUp2 = Button("Global AI investment breakdown",  { type: "continue_conversation" }, "secondary")
+followUpBtns = Buttons([followUp1, followUp2], "row")
+followUpCard  = Card([CardHeader("Explore Further"), followUpBtns], "sunk")
+root = Stack([..., followUpCard])</code></pre>
+</div>
+<h2 id="build-a-parallel-dashboard-with-deep-agents">使用 Deep Agents 构建并行仪表盘<a class="heading-anchor" href="#build-a-parallel-dashboard-with-deep-agents" aria-label="链接到本节">#</a></h2>
+<p>上述流程将一个 OpenUI 程序渲染到一个界面。对于更丰富的应用，<a href="https://docs.langchain.com/oss/python/deepagents/overview" target="_blank" rel="noopener noreferrer">Deep Agents</a> 协调者可以委派给多个专家智能体，让它们各自并发地流式传输自己的 OpenUI 面板，全部通过一条 <a href="https://reference.langchain.com/javascript/langchain-react/index/useStream" target="_blank" rel="noopener noreferrer"><code>useStream</code></a> 连接。<a href="https://github.com/langchain-ai/streaming-cookbook/tree/main/typescript/openui" target="_blank" rel="noopener noreferrer">OpenUI 并行仪表盘示例</a> 能将一份仪表盘简述转化为独立流式传输的 Stripe、PostHog、GitHub 和 Calendar 面板，无需任何自定义图或流解复用代码。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">mermaid</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-mermaid">%%{
+  init: {
+    "fontFamily": "monospace",
+    "flowchart": {
+      "curve": "curve"
+    }
+  }
+}%%
+graph LR
+  BRIEF["User brief"]
+  COORD["Deep Agents coordinator"]
+  PANELS["Stripe / PostHog / GitHub / Calendar panel agents"]
+  SUBAGENTS["stream.subagents"]
+  RENDERER["Renderer per panel"]
+
+  BRIEF --&gt; COORD
+  COORD --"parallel task() calls"--&gt; PANELS
+  PANELS --"namespaced events"--&gt; SUBAGENTS
+  SUBAGENTS --"useMessages(stream, snapshot)"--&gt; RENDERER</code></pre>
+</div>
+<h3 id="share-one-openui-library">共享同一个 OpenUI 库<a class="heading-anchor" href="#share-one-openui-library" aria-label="链接到本节">#</a></h3>
+<p>在服务端（用于生成面板提示词）和客户端（作为 <code>Renderer</code> 属性）使用同一个库对象，这样模型被告知的组件始终与渲染器能够绘制的组件一致：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">library.ts</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { openuiChatLibrary, openuiChatPromptOptions } <span class="hljs-keyword">from</span> <span class="hljs-string">"@openuidev/react-ui"</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> library = openuiChatLibrary;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> promptOptions = openuiChatPromptOptions;</code></pre>
+</div>
+<h3 id="define-the-coordinator-and-panel-agents">定义协调者和面板智能体<a class="heading-anchor" href="#define-the-coordinator-and-panel-agents" aria-label="链接到本节">#</a></h3>
+<p><a href="https://reference.langchain.com/javascript/deepagents/agent/createDeepAgent" target="_blank" rel="noopener noreferrer"><code>createDeepAgent</code></a> 构建的协调者只负责路由：它挑选任务简述所需的专家，并在一条消息中发出它们所有的 <code>task()</code> 调用，使各面板并发运行。每个面板子智能体共享同一份预生成的 OpenUI 系统提示词，并且只接收其数据领域的工具。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">expandable agent.ts</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { createDeepAgent, <span class="hljs-keyword">type</span> <span class="hljs-title class_">SubAgent</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"deepagents"</span>;
+
+<span class="hljs-keyword">import</span> { library, promptOptions } <span class="hljs-keyword">from</span> <span class="hljs-string">"./library.js"</span>;
+<span class="hljs-keyword">import</span> { calendarTools, githubTools, posthogTools, stripeTools } <span class="hljs-keyword">from</span> <span class="hljs-string">"./tools.js"</span>;
+
+<span class="hljs-comment">// The coordinator only routes, so a fast model handles it; panels generate</span>
+<span class="hljs-comment">// strict openui-lang and stay on the frontier model.</span>
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">COORDINATOR_MODEL</span> = <span class="hljs-string">"openai:gpt-5.4-mini"</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">PANEL_MODEL</span> = <span class="hljs-string">"openai:gpt-5.5"</span>;
+
+<span class="hljs-comment">// Generate the shared panel prompt once at module load so the model prefix</span>
+<span class="hljs-comment">// stays stable for provider prompt caching.</span>
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">PANEL_SYSTEM_PROMPT</span> = library.<span class="hljs-title function_">prompt</span>({
+  ...promptOptions,
+  <span class="hljs-attr">preamble</span>:
+    <span class="hljs-string">"Build one panel of a live executive dashboard. Follow the coordinator's "</span> +
+    <span class="hljs-string">"task exactly and stay within the data available from your tools."</span>,
+  <span class="hljs-attr">additionalRules</span>: [
+    ...(promptOptions.<span class="hljs-property">additionalRules</span> ?? []),
+    <span class="hljs-string">"Use your available data tools before writing the panel."</span>,
+    <span class="hljs-string">"Return the complete openui-lang program and nothing else."</span>,
+    <span class="hljs-string">"Emit the `root` statement on the first line so rendering can start immediately."</span>,
+  ],
+});
+
+<span class="hljs-keyword">const</span> <span class="hljs-attr">subagents</span>: <span class="hljs-title class_">SubAgent</span>[] = [
+  {
+    <span class="hljs-attr">name</span>: <span class="hljs-string">"stripe-panel"</span>,
+    <span class="hljs-attr">model</span>: <span class="hljs-variable constant_">PANEL_MODEL</span>,
+    <span class="hljs-attr">description</span>: <span class="hljs-string">"Builds the revenue and payments panel from Stripe data."</span>,
+    <span class="hljs-attr">systemPrompt</span>: <span class="hljs-variable constant_">PANEL_SYSTEM_PROMPT</span>,
+    <span class="hljs-attr">tools</span>: stripeTools,
+  },
+  <span class="hljs-comment">// posthog-panel, github-panel, and calendar-panel follow the same shape.</span>
+];
+
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">COORDINATOR_PROMPT</span> = <span class="hljs-string">`You orchestrate a live executive dashboard.
+
+1. Delegate immediately. Never write openui-lang yourself.
+2. Launch all selected specialists in a SINGLE message, one task call per
+   panel, so they run concurrently.
+3. Give each task a distinct, self-contained description.
+4. After the tasks complete, reply with one short plain-text summary.`</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> dashboard = <span class="hljs-title function_">createDeepAgent</span>({
+  <span class="hljs-attr">model</span>: <span class="hljs-variable constant_">COORDINATOR_MODEL</span>,
+  <span class="hljs-attr">systemPrompt</span>: <span class="hljs-variable constant_">COORDINATOR_PROMPT</span>,
+  subagents,
+});</code></pre>
+</div>
+<p>协调者从不编写 openui-lang。每个面板智能体调用自己的工具，然后返回一个以 <code>root</code> 开头的完整程序，这样其渲染器就能在模型完成剩余语句之前开始绘制。</p>
+<h3 id="register-the-graph">注册图<a class="heading-anchor" href="#register-the-graph" aria-label="链接到本节">#</a></h3>
+<p>将 <code>langgraph.json</code> 指向导出的协调者：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">langgraph.json</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"node_version"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"22"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"graphs"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"dashboard"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"./src/agent.ts:dashboard"</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"env"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"../../.env"</span>
+<span class="hljs-punctuation">}</span></code></pre>
+</div>
+<h3 id="discover-and-render-panels-on-the-frontend">在前端发现并渲染面板<a class="heading-anchor" href="#discover-and-render-panels-on-the-frontend" aria-label="链接到本节">#</a></h3>
+<p>一条 <code>useStream</code> 连接承载协调者和所有面板。面板并非硬编码：每个并行的 <code>task()</code> 调用都会以一个 <code>stream.subagents</code> 快照的形式出现。对每个快照，划定 <code>useMessages(stream, snapshot)</code> 投影范围，使面板只收到自己子智能体的消息，然后将其 OpenUI 程序送入独立的 <code>Renderer</code>：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">expandable App.tsx</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { memo } <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">SubagentDiscoverySnapshot</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@langchain/langgraph-sdk/stream"</span>;
+<span class="hljs-keyword">import</span> { useMessages, useStream } <span class="hljs-keyword">from</span> <span class="hljs-string">"@langchain/react"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Renderer</span>, <span class="hljs-keyword">type</span> <span class="hljs-title class_">ActionEvent</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@openuidev/react-lang"</span>;
+
+<span class="hljs-keyword">import</span> { library } <span class="hljs-keyword">from</span> <span class="hljs-string">"./library"</span>;
+
+<span class="hljs-comment">// One panel, scoped to one subagent. Memoized so the app shell's re-renders</span>
+<span class="hljs-comment">// never reach this Renderer; the panel's own tokens arrive through useMessages.</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">Panel</span> = <span class="hljs-title function_">memo</span>(<span class="hljs-keyword">function</span> <span class="hljs-title function_">Panel</span>(<span class="hljs-params">{
+  stream,
+  snapshot,
+  isStreaming,
+  onAction,
+}: {
+  stream: ReturnType&lt;<span class="hljs-keyword">typeof</span> useStream&gt;;
+  snapshot: SubagentDiscoverySnapshot;
+  isStreaming: <span class="hljs-built_in">boolean</span>;
+  onAction: (event: ActionEvent) =&gt; <span class="hljs-built_in">void</span>;
+}</span>) {
+  <span class="hljs-keyword">const</span> messages = <span class="hljs-title function_">useMessages</span>(stream, snapshot);
+  <span class="hljs-comment">// The program is the last AI message whose text starts with `root =`.</span>
+  <span class="hljs-keyword">const</span> program = <span class="hljs-title function_">programFromMessages</span>(messages);
+
+  <span class="hljs-keyword">if</span> (program === <span class="hljs-string">""</span>) <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">PanelSkeleton</span> <span class="hljs-attr">name</span>=<span class="hljs-string">{snapshot.name}</span> /&gt;</span></span>;
+
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Renderer</span>
+      <span class="hljs-attr">response</span>=<span class="hljs-string">{program}</span>
+      <span class="hljs-attr">library</span>=<span class="hljs-string">{library}</span>
+      <span class="hljs-attr">isStreaming</span>=<span class="hljs-string">{isStreaming}</span>
+      <span class="hljs-attr">onAction</span>=<span class="hljs-string">{onAction}</span>
+    /&gt;</span></span>
+  );
+});
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">Dashboard</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> stream = <span class="hljs-title function_">useStream</span>({
+    <span class="hljs-attr">assistantId</span>: <span class="hljs-string">"dashboard"</span>,
+    <span class="hljs-attr">apiUrl</span>: <span class="hljs-keyword">import</span>.<span class="hljs-property">meta</span>.<span class="hljs-property">env</span>.<span class="hljs-property">VITE_LANGGRAPH_API_URL</span> ?? <span class="hljs-string">"http://localhost:2024"</span>,
+  });
+
+  <span class="hljs-comment">// Discover top-level panels from the stream; the layout adapts to whichever</span>
+  <span class="hljs-comment">// specialists the coordinator delegated.</span>
+  <span class="hljs-keyword">const</span> panels = [...stream.<span class="hljs-property">subagents</span>.<span class="hljs-title function_">values</span>()].<span class="hljs-title function_">filter</span>(
+    <span class="hljs-function">(<span class="hljs-params">snapshot</span>) =&gt;</span> snapshot.<span class="hljs-property">parentId</span> === <span class="hljs-literal">null</span>,
+  );
+
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>
+      {panels.map((snapshot) =&gt; (
+        <span class="hljs-tag">&lt;<span class="hljs-name">Panel</span>
+          <span class="hljs-attr">key</span>=<span class="hljs-string">{snapshot.id}</span>
+          <span class="hljs-attr">stream</span>=<span class="hljs-string">{stream}</span>
+          <span class="hljs-attr">snapshot</span>=<span class="hljs-string">{snapshot}</span>
+          <span class="hljs-attr">isStreaming</span>=<span class="hljs-string">{snapshot.status</span> === <span class="hljs-string">"running"</span> &amp;&amp; <span class="hljs-attr">stream.isLoading</span>}
+          <span class="hljs-attr">onAction</span>=<span class="hljs-string">{(event)</span> =&gt;</span> {
+            // Handle continue_conversation and open_url actions.
+          }}
+        /&gt;
+      ))}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span></span>
+  );
+}</code></pre>
+</div>
+<p>由于 SDK 会将子智能体的 token 事件排除在根 store 之外，且每个 <code>Panel</code> 都按其快照标识进行 memoize，因此一个面板的 token 永远不会导致另一个面板重新渲染。</p>
+<h2 id="best-practices">最佳实践<a class="heading-anchor" href="#best-practices" aria-label="链接到本节">#</a></h2>
+<ul><li><p><strong>在模块加载时生成系统提示词：</strong> 而不是在 React 组件内部；该提示词有数 KB，应只计算一次</p></li><li><p><strong>仅在新线程上注入系统提示词：</strong> 检查 <code>stream.messages.length === 0</code>，在后续轮次跳过注入，避免在线程历史中重复提示词</p></li><li><p><strong>使用提升顺序：</strong> 先写 <code>root = Stack([...])</code>；UI 外壳会立即出现，各区块随模型逐个定义而逐步填充</p></li><li><p><strong>以完整语句为更新条件：</strong> 避免每个 token 都重新渲染 Renderer；仅当完整语句（<code>name = ComponentCall(...)</code>）到达时才更新</p></li><li><p><strong>渲染前验证图表数据：</strong> 图表组件在被纳入稳定快照之前，需要其 <code>Series</code> 和标签数组已定义</p></li><li><p><strong>保持 camelCase 变量名：</strong> openui-lang 解析器只接受 camelCase 标识符；在系统提示词的 <code>additionalRules</code> 中强调这一点</p></li><li><p><strong>在一条消息中委派面板：</strong> 向 Deep Agents 专家分发任务时，在协调者的一条消息中发出所有 <code>task()</code> 调用，使各面板并发流式传输，而不是逐个进行</p></li><li><p><strong>将每个面板限定到其所属子智能体：</strong>从 <code>stream.subagents</code> 中发现面板，并把每个快照传给 <code>useMessages(stream, snapshot)</code>，使面板只渲染其自身子智能体的输出</p></li></ul></article>
+        <nav class="pager" aria-label="翻页"><a class="prev" href="frontend-integrations-assistant-ui.html"><span class="pager-label">上一篇</span><span class="pager-title">assistant-ui</span></a><a class="next" href="guardrails.html"><span class="pager-label">下一篇</span><span class="pager-title">护栏</span></a></nav>
+        <footer class="page-footer">
+          <p>本页为社区维护的简体中文翻译，不是 LangChain 官方文档。如与英文原文有出入，请以 <a href="https://docs.langchain.com/oss/python/langchain/frontend/integrations/openui" target="_blank" rel="noopener noreferrer">英文原文</a> 为准。</p>
+        </footer>
+      </div>
+    </main>
+    <aside class="toc" aria-label="本页目录"><div class="toc-inner"><div class="toc-title">本页目录</div><a class="toc-link level-2" href="#how-it-works">工作原理</a><a class="toc-link level-2" href="#installation">安装</a><a class="toc-link level-2" href="#import-the-component-styles">导入组件样式</a><a class="toc-link level-2" href="#generate-the-system-prompt">生成系统提示词</a><a class="toc-link level-2" href="#inject-the-system-prompt-via-usestream">通过 useStream 注入系统提示词</a><a class="toc-link level-2" href="#render-with-the-renderer">使用 Renderer 渲染</a><a class="toc-link level-2" href="#the-openui-lang-format">openui-lang 格式</a><a class="toc-link level-2" href="#progressive-rendering-utilities">渐进式渲染工具</a><a class="toc-link level-2" href="#follow-up-queries">后续查询</a><a class="toc-link level-2" href="#build-a-parallel-dashboard-with-deep-agents">使用 Deep Agents 构建并行仪表盘</a><a class="toc-link level-3" href="#share-one-openui-library">共享同一个 OpenUI 库</a><a class="toc-link level-3" href="#define-the-coordinator-and-panel-agents">定义协调者和面板智能体</a><a class="toc-link level-3" href="#register-the-graph">注册图</a><a class="toc-link level-3" href="#discover-and-render-panels-on-the-frontend">在前端发现并渲染面板</a><a class="toc-link level-2" href="#best-practices">最佳实践</a></div></aside>
+  </div>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p><strong>LangChain 中文文档</strong> · 社区翻译，非官方站点。内容基于 <a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener noreferrer">docs.langchain.com</a> 的 LangChain（Python）文档生成。</p>
+      <p>共 59 篇 · 代码示例保持英文原样 · 以英文原文为准</p>
+    </div>
+  </footer>
+  <button class="back-top" type="button" data-back-top aria-label="回到顶部">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script src="assets/docs.js" defer></script>
+</body>
+</html>

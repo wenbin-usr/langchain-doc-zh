@@ -1,0 +1,986 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>人在回路 | LangChain 中文文档</title>
+  <meta name="description" content="人在回路（HITL）中间件让你可以为智能体的工具调用添加人工监督。当模型提出可能需要审核的操作时——例如写入文件或执行 SQL——该中间件可以暂停执行并等待决策。">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M12.5 19.5l7-7M10 22l-1 1a4 4 0 0 1-5.7-5.7l3.4-3.4a4 4 0 0 1 5.7 0M22 10l1-1a4 4 0 0 1 5.7 5.7l-3.4 3.4a4 4 0 0 1-5.7 0' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem('lc-docs-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();</script>
+  <link rel="stylesheet" href="assets/docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div id="progress" data-progress></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="打开文档导航" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="LangChain 中文文档首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9.4 14.6l5.2-5.2M7.1 16.9l-1.4 1.4a3.7 3.7 0 0 1-5.2-5.2l3.2-3.2a3.7 3.7 0 0 1 5.2 0M16.9 7.1l1.4-1.4a3.7 3.7 0 0 1 5.2 5.2l-3.2 3.2a3.7 3.7 0 0 1-5.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text">LangChain <span class="brand-sub">中文文档</span></span>
+      </a>
+      <nav class="top-nav" aria-label="主导航">
+        <a class="top-link active" href="index.html" aria-current="page">LangChain</a>
+        <a class="top-link" href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a>
+        <a class="top-link" href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener noreferrer">LangSmith</a>
+        <a class="top-link" href="https://reference.langchain.com/python/langchain/" target="_blank" rel="noopener noreferrer">API 参考</a>
+      </nav>
+      <div class="header-actions">
+        <a class="source-link" href="https://docs.langchain.com/oss/python/langchain/human-in-the-loop" target="_blank" rel="noopener noreferrer">English <span aria-hidden="true">↗</span></a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="切换到深色模式" aria-pressed="false" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v1.6M10 16.2v1.6M2.2 10h1.6M16.2 10h1.6M4.5 4.5l1.1 1.1M14.4 14.4l1.1 1.1M15.5 4.5l-1.1 1.1M5.6 14.4l-1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.4 12.1A6.6 6.6 0 0 1 7.9 3.6 6.8 6.8 0 1 0 16.4 12.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" id="sidebar" aria-label="文档导航">
+      <div class="sidebar-head">
+        <div class="sidebar-title">文档目录</div>
+        <div class="nav-search">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.2" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="搜索页面…" aria-label="搜索文档页面" data-nav-search autocomplete="off" spellcheck="false">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+      </div>
+      <div class="sidebar-scroll"><nav class="nav" id="doc-nav" aria-label="文档页面"><div class="nav-home"><a class="nav-link" href="index.html" data-search="LangChain 概览 LangChain overview index  "><span class="nav-dot" aria-hidden="true"></span><span>LangChain 概览</span></a></div><section class="nav-section" data-nav-section><div class="nav-section-title">开始使用</div><a class="nav-link" href="install.html" data-search="安装 LangChain Install LangChain install Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>安装 LangChain</span></a><a class="nav-link" href="quickstart.html" data-search="快速开始 Quickstart quickstart Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>快速开始</span></a><a class="nav-link" href="philosophy.html" data-search="设计理念 Philosophy philosophy Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>设计理念</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">核心组件</div><a class="nav-link" href="agents.html" data-search="智能体 Agents agents Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>智能体</span></a><a class="nav-link" href="models.html" data-search="模型 Models models Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>模型</span></a><a class="nav-link" href="messages.html" data-search="消息 Messages messages Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>消息</span></a><a class="nav-link" href="tools.html" data-search="工具 Tools tools Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>工具</span></a><a class="nav-link" href="short-term-memory.html" data-search="短期记忆 Short-term memory short-term-memory Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>短期记忆</span></a><a class="nav-link" href="event-streaming.html" data-search="事件流 Event streaming event-streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>事件流</span></a><a class="nav-link" href="streaming.html" data-search="流式传输 Streaming streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>流式传输</span></a><a class="nav-link" href="structured-output.html" data-search="结构化输出 Structured output structured-output Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>结构化输出</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">中间件</div><a class="nav-link" href="middleware-overview.html" data-search="中间件概览 Middleware overview middleware-overview Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>中间件概览</span></a><a class="nav-link" href="middleware-built-in.html" data-search="预置中间件 Prebuilt middleware middleware-built-in Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>预置中间件</span></a><a class="nav-link" href="middleware-custom.html" data-search="自定义中间件 Custom middleware middleware-custom Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>自定义中间件</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">前端</div><a class="nav-link" href="frontend-overview.html" data-search="前端概览 Overview frontend-overview Frontend 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端概览</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">模式</div><a class="nav-link" href="frontend-markdown-messages.html" data-search="Markdown 消息 Markdown messages frontend-markdown-messages Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>Markdown 消息</span></a><a class="nav-link" href="frontend-tool-calling.html" data-search="工具调用 Tool calling frontend-tool-calling Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>工具调用</span></a><a class="nav-link" href="frontend-headless-tools.html" data-search="无头工具 Headless tools frontend-headless-tools Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>无头工具</span></a><a class="nav-link" href="frontend-human-in-the-loop.html" data-search="前端人在回路 Human-in-the-Loop frontend-human-in-the-loop Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端人在回路</span></a><a class="nav-link" href="frontend-branching-chat.html" data-search="分支对话 Branching chat frontend-branching-chat Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>分支对话</span></a><a class="nav-link" href="frontend-reasoning-tokens.html" data-search="推理 token Reasoning tokens frontend-reasoning-tokens Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>推理 token</span></a><a class="nav-link" href="frontend-structured-output.html" data-search="前端结构化输出 Structured output frontend-structured-output Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端结构化输出</span></a><a class="nav-link" href="frontend-message-queues.html" data-search="消息队列 Message queues frontend-message-queues Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>消息队列</span></a><a class="nav-link" href="frontend-join-rejoin.html" data-search="断开与重连流 Join &amp; rejoin streams frontend-join-rejoin Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>断开与重连流</span></a><a class="nav-link" href="frontend-time-travel.html" data-search="时间旅行 Time travel frontend-time-travel Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>时间旅行</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">生成式 UI</div><a class="nav-link" href="frontend-generative-ui-overview.html" data-search="生成式 UI 概览 Generative UI overview frontend-generative-ui-overview Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>生成式 UI 概览</span></a><a class="nav-link" href="frontend-controlled-generative-ui.html" data-search="受控生成式 UI Controlled generative UI frontend-controlled-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>受控生成式 UI</span></a><a class="nav-link" href="frontend-declarative-generative-ui.html" data-search="声明式生成式 UI Declarative generative UI frontend-declarative-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>声明式生成式 UI</span></a><a class="nav-link" href="frontend-open-ended-generative-ui.html" data-search="开放式生成式 UI Open-ended generative UI frontend-open-ended-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>开放式生成式 UI</span></a></div></div><div class="nav-subgroup"><div class="nav-subgroup-title">集成</div><a class="nav-link" href="frontend-integrations-overview.html" data-search="集成概览 Overview frontend-integrations-overview Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>集成概览</span></a><a class="nav-link" href="frontend-integrations-copilotkit.html" data-search="CopilotKit CopilotKit frontend-integrations-copilotkit Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>CopilotKit</span></a><a class="nav-link" href="frontend-integrations-ai-elements.html" data-search="AI Elements AI Elements frontend-integrations-ai-elements Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>AI Elements</span></a><a class="nav-link" href="frontend-integrations-assistant-ui.html" data-search="assistant-ui assistant-ui frontend-integrations-assistant-ui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>assistant-ui</span></a><a class="nav-link" href="frontend-integrations-openui.html" data-search="OpenUI OpenUI frontend-integrations-openui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>OpenUI</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">高级用法</div><a class="nav-link" href="guardrails.html" data-search="护栏 Guardrails guardrails Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>护栏</span></a><a class="nav-link" href="runtime.html" data-search="运行时 Runtime runtime Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>运行时</span></a><a class="nav-link" href="context-engineering.html" data-search="智能体中的上下文工程 Context engineering in agents context-engineering Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>智能体中的上下文工程</span></a><a class="nav-link active" href="human-in-the-loop.html" data-search="人在回路 Human-in-the-loop human-in-the-loop Advanced usage 高级用法 高级用法" aria-current="page"><span class="nav-dot" aria-hidden="true"></span><span>人在回路</span></a><a class="nav-link" href="retrieval.html" data-search="检索 Retrieval retrieval Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>检索</span></a><a class="nav-link" href="long-term-memory.html" data-search="长期记忆 Long-term memory long-term-memory Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>长期记忆</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">MCP</div><a class="nav-link" href="mcp.html" data-search="MCP 概述 Model Context Protocol (MCP) mcp Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 概述</span></a><a class="nav-link" href="mcp-tools.html" data-search="MCP 工具 Tools mcp-tools Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 工具</span></a><a class="nav-link" href="mcp-connections.html" data-search="MCP 连接 Connections mcp-connections Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 连接</span></a><a class="nav-link" href="mcp-auth.html" data-search="MCP 认证 Authentication mcp-auth Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 认证</span></a></div><div class="nav-subgroup"><div class="nav-subgroup-title">多智能体</div><a class="nav-link" href="multi-agent.html" data-search="多智能体 Multi-agent multi-agent Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>多智能体</span></a><a class="nav-link" href="multi-agent-subagents.html" data-search="子智能体 Subagents multi-agent-subagents Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>子智能体</span></a><a class="nav-link" href="multi-agent-handoffs.html" data-search="交接 Handoffs multi-agent-handoffs Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>交接</span></a><a class="nav-link" href="multi-agent-skills.html" data-search="技能 Skills multi-agent-skills Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>技能</span></a><a class="nav-link" href="multi-agent-router.html" data-search="路由器 Router multi-agent-router Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>路由器</span></a><a class="nav-link" href="multi-agent-custom-workflow.html" data-search="自定义工作流 Custom workflow multi-agent-custom-workflow Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>自定义工作流</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">智能体开发</div><a class="nav-link" href="studio.html" data-search="LangSmith Studio LangSmith Studio studio Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith Studio</span></a><a class="nav-link" href="ui.html" data-search="Agent Chat UI Agent Chat UI ui Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>Agent Chat UI</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">测试</div><a class="nav-link" href="test.html" data-search="测试 Test test Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>测试</span></a><a class="nav-link" href="test-unit-testing.html" data-search="单元测试 Unit testing test-unit-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>单元测试</span></a><a class="nav-link" href="test-integration-testing.html" data-search="集成测试 Integration testing test-integration-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>集成测试</span></a><a class="nav-link" href="test-evals.html" data-search="智能体评估 Agent Evals test-evals Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>智能体评估</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">生产</div><a class="nav-link" href="deploy.html" data-search="部署 Deployment deploy Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>部署</span></a><a class="nav-link" href="observability.html" data-search="LangSmith 可观测性 LangSmith Observability observability Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith 可观测性</span></a></section><div class="nav-empty" data-nav-empty hidden>没有匹配的页面</div></nav></div>
+      <div class="sidebar-foot"><strong>59 篇</strong> · 社区翻译</div>
+    </aside>
+    <div class="sidebar-overlay" data-sidebar-overlay></div>
+    <main class="main" id="main">
+      <div class="content-wrap">
+        <nav class="breadcrumbs" aria-label="面包屑"><a href="index.html">LangChain</a><span class="sep">/</span><span>高级用法</span><span class="sep">/</span><span class="current">人在回路</span></nav>
+        <header class="page-header">
+          <h1>人在回路</h1>
+          <div class="page-lead">人在回路（HITL）<a href="middleware-built-in.html#human-in-the-loop">中间件</a>让你可以为智能体的工具调用添加人工监督。当模型提出可能需要审核的操作时——例如写入文件或执行 SQL——该中间件可以暂停执行并等待决策。</div>
+          <div class="page-meta">
+            <span>约 19 分钟</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>社区翻译</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <a href="https://docs.langchain.com/oss/python/langchain/human-in-the-loop" target="_blank" rel="noopener noreferrer">查看英文原文 ↗</a>
+          </div>
+        </header>
+        <article class="content">
+<p>它的做法是根据可配置的策略检查每一次工具调用。如果需要干预，中间件会发出一个<a href="https://reference.langchain.com/python/langgraph/types/interrupt" target="_blank" rel="noopener noreferrer">中断</a>以停止执行。图状态通过 LangGraph 的<a href="https://docs.langchain.com/oss/python/langgraph/persistence" target="_blank" rel="noopener noreferrer">持久化层</a>保存，因此执行可以安全地暂停并在之后恢复。</p>
+<p>随后由人的决策决定接下来发生什么：可以按原样批准该操作（<code>approve</code>）、在执行前修改（<code>edit</code>）、带反馈拒绝（<code>reject</code>），或者对“ask user”类工具直接给出回复（<code>respond</code>）。</p>
+<h2 id="interrupt-decision-types">中断决策类型<a class="heading-anchor" href="#interrupt-decision-types" aria-label="链接到本节">#</a></h2>
+<p><a href="middleware-built-in.html#human-in-the-loop">中间件</a>定义了四种内置方式，供人对中断做出响应：</p>
+<div class="table-wrap"><table><thead><tr><th>决策类型</th><th>说明</th><th>示例场景</th></tr></thead><tbody><tr><td>✅ <code>approve</code></td><td>使用智能体提出的原始参数执行该工具。</td><td>按原样发送邮件草稿</td></tr><tr><td>✏️ <code>edit</code></td><td>在执行前修改工具参数。</td><td>在发送邮件前更改收件人</td></tr><tr><td>❌ <code>reject</code></td><td>完全跳过这次工具调用，并向智能体返回拒绝反馈。</td><td>拒绝删除文件并说明原因</td></tr><tr><td>💬 <code>respond</code></td><td>对于“ask user”类工具，跳过执行，直接以合成工具结果的形式返回人的消息。</td><td>通过直接回复来回答<code>"ask_user"</code>提示</td></tr></tbody></table></div>
+<p>每个工具可用的决策类型取决于你在<code>interrupt_on</code>中配置的策略。</p>
+<p>当多个工具调用同时被暂停时，每个操作都需要单独的决策。</p>
+<p>在默认的批量模式下，请按操作在中断请求中出现的顺序提供决策。在<a href="#pause-once-per-tool-call">单调用模式</a>下，每个工具调用都有自己的中断，并且只接受一个决策。</p>
+<p>当人拒绝所请求的操作时，使用<code>reject</code>。仅当人代替工具行事时才使用<code>respond</code>，例如回答<code>ask_user</code>提示。不要用<code>respond</code>来拒绝有副作用的工具，因为其消息会被视为成功的工具结果。</p>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>在<strong>编辑</strong>工具参数时，应保守地做改动。对原始参数的重大修改可能导致模型重新评估其方案，并可能多次执行该工具或采取意料之外的操作。</p></div>
+</aside>
+<h2 id="configuring-interrupts">配置中断<a class="heading-anchor" href="#configuring-interrupts" aria-label="链接到本节">#</a></h2>
+<p>要使用 HITL，在创建智能体时将<a href="middleware-built-in.html#human-in-the-loop">中间件</a>添加到智能体的<code>middleware</code>列表中。</p>
+<p>你通过一个映射来配置它，该映射把工具操作映射到每个操作允许的决策类型。当工具调用与映射中的某个操作匹配时，中间件会中断执行。</p>
+<p>本示例使用默认的批量模式。如需每次工具调用暂停一次，请参阅<a href="#set-the-interrupt-mode">设置中断模式</a>。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> HumanInTheLoopMiddleware
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[write_file, execute_sql, read_data],
+    middleware=[
+        HumanInTheLoopMiddleware(
+            interrupt_on={
+                <span class="hljs-string">"write_file"</span>: <span class="hljs-literal">True</span>,  <span class="hljs-comment"># All decisions (approve, edit, reject, respond) allowed</span>
+                <span class="hljs-string">"execute_sql"</span>: {<span class="hljs-string">"allowed_decisions"</span>: [<span class="hljs-string">"approve"</span>, <span class="hljs-string">"reject"</span>]},  <span class="hljs-comment"># No editing allowed</span>
+                <span class="hljs-string">"read_data"</span>: <span class="hljs-literal">False</span>, <span class="hljs-comment"># Safe operation, no approval needed</span>
+            },
+            <span class="hljs-comment"># Prefix for interrupt messages - combined with tool name and args to form the full message</span>
+            <span class="hljs-comment"># e.g., "Tool execution pending approval: execute_sql with query='DELETE FROM...'"</span>
+            <span class="hljs-comment"># Individual tools can override this by specifying a "description" in their interrupt config</span>
+            description_prefix=<span class="hljs-string">"Tool execution pending approval"</span>,
+        ),
+    ],
+    <span class="hljs-comment"># Human-in-the-loop requires checkpointing to handle interrupts.</span>
+    <span class="hljs-comment"># In production, use a persistent checkpointer like AsyncPostgresSaver or MongoDBSaver.</span>
+    checkpointer=InMemorySaver(),
+)</code></pre>
+</div>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>你必须配置检查点保存器，以便在多次中断之间持久化图状态。生产环境中，请使用持久化检查点保存器，例如<a href="https://reference.langchain.com/python/langgraph/checkpoints/#langgraph.checkpoint.postgres.aio.AsyncPostgresSaver" target="_blank" rel="noopener noreferrer"><code>AsyncPostgresSaver</code></a>或<a href="https://pypi.org/project/langgraph-checkpoint-mongodb/" target="_blank" rel="noopener noreferrer"><code>MongoDBSaver</code></a>。测试或原型开发时，可使用<a href="https://reference.langchain.com/python/langgraph/checkpoints/#langgraph.checkpoint.memory.InMemorySaver" target="_blank" rel="noopener noreferrer"><code>InMemorySaver</code></a>。</p>
+<p>调用智能体时，传入<code>config</code>，并在其中包含<strong>线程 ID</strong>，以将执行与某个对话线程关联。详情请参阅<a href="https://docs.langchain.com/oss/python/langgraph/interrupts" target="_blank" rel="noopener noreferrer">LangGraph 中断文档</a>。</p></div>
+</aside>
+<details class="doc-accordion"><summary>配置选项</summary><div class="accordion-body">
+<p><strong>interrupt_on</strong> <code>dict</code> <em>必填</em></p>
+<p>工具名称到审批配置的映射。值可以是<code>True</code>（使用默认配置中断）、<code>False</code>（自动批准）或<code>InterruptOnConfig</code>对象。</p>
+<p><strong>description_prefix</strong> <code>string</code>（默认值：Tool execution requires approval）</p>
+<p>操作请求描述的前缀</p>
+<p><strong>interrupt_mode</strong> <code>string</code>（默认值：batched）</p>
+<p>智能体如何暂停以等待审核。<code>"batched"</code> 每轮模型调用引发一个中断，通过有序列表作答。<code>"per_call"</code> 每个受拦截的调用引发一个中断，通过中断 ID 作答。<code>"per_call"</code> 需要<code>langchain&gt;=1.4.6</code>。请参阅<a href="#set-the-interrupt-mode">设置中断模式</a>。</p>
+<p><strong>edit_notice</strong> <code>string | None</code></p>
+<p>当审核者用<code>edit</code>决策替换某次调用时，在该调用的结果之前添加的文本，让模型知道该调用已被更改。默认值为一条说明人工审核者替换了该调用的提示。传入<code>None</code>则不添加任何内容。</p>
+<p><strong><code>InterruptOnConfig</code> 选项：</strong></p>
+<p><strong>allowed_decisions</strong> <code>list[string]</code></p>
+<p>允许的决策列表：<code>'approve'</code>、<code>'edit'</code>、<code>'reject'</code>或<code>'respond'</code></p>
+<p><strong>description</strong> <code>string | callable</code></p>
+<p>用于自定义描述的静态字符串或可调用函数</p>
+<p><strong>when</strong> <code>callable</code></p>
+<p>可选谓词，接收<a href="https://reference.langchain.com/python/langgraph.prebuilt/tool_node/ToolCallRequest" target="_blank" rel="noopener noreferrer">ToolCallRequest</a>，返回<code>True</code>表示中断或返回<code>False</code>表示自动批准。可用它根据调用的参数控制是否触发中断。需要<code>langchain&gt;=1.3.3</code>。</p></div></details>
+<h2 id="conditional-interrupts">条件中断<a class="heading-anchor" href="#conditional-interrupts" aria-label="链接到本节">#</a></h2>
+<p>默认情况下，<code>interrupt_on</code> 中列出的每次工具调用都会暂停等待审核。若只想让部分调用暂停，可添加<code>when</code>谓词到工具的<code>InterruptOnConfig</code>中。该谓词接收<code>ToolCallRequest</code>，返回<code>True</code>表示中断或返回<code>False</code>表示自动批准，因此你可以根据工具的参数进行控制。</p>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>条件中断需要<code>langchain&gt;=1.3.3</code>。</p></div>
+</aside>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> HumanInTheLoopMiddleware, ToolCallRequest
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">writes_outside_workspace</span>(<span class="hljs-params">request: ToolCallRequest</span>) -&gt; <span class="hljs-built_in">bool</span>:
+    <span class="hljs-string">"""Pause writes to paths outside the workspace directory."""</span>
+    path = request.tool_call[<span class="hljs-string">"args"</span>].get(<span class="hljs-string">"path"</span>, <span class="hljs-string">""</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">not</span> path.startswith(<span class="hljs-string">"/workspace/"</span>)
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">is_write_query</span>(<span class="hljs-params">request: ToolCallRequest</span>) -&gt; <span class="hljs-built_in">bool</span>:
+    <span class="hljs-string">"""Pause SQL that isn't a read-only SELECT."""</span>
+    query = request.tool_call[<span class="hljs-string">"args"</span>].get(<span class="hljs-string">"query"</span>, <span class="hljs-string">""</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">not</span> query.lstrip().upper().startswith(<span class="hljs-string">"SELECT"</span>)
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[write_file, execute_sql, read_data],
+    middleware=[
+        HumanInTheLoopMiddleware(
+            interrupt_on={
+                <span class="hljs-string">"write_file"</span>: {
+                    <span class="hljs-string">"allowed_decisions"</span>: [<span class="hljs-string">"approve"</span>, <span class="hljs-string">"edit"</span>, <span class="hljs-string">"reject"</span>],
+                    <span class="hljs-string">"when"</span>: writes_outside_workspace,
+                },
+                <span class="hljs-string">"execute_sql"</span>: {
+                    <span class="hljs-string">"allowed_decisions"</span>: [<span class="hljs-string">"approve"</span>, <span class="hljs-string">"reject"</span>],
+                    <span class="hljs-string">"when"</span>: is_write_query,
+                },
+            },
+        ),
+    ],
+    checkpointer=InMemorySaver(),
+)</code></pre>
+</div>
+<p>当<code>when</code>谓词返回<code>False</code>时，该调用会直接执行，不会中断。当它返回<code>True</code>，或省略<code>when</code>时，调用照常暂停。求值为<code>False</code>的调用从不会暂停，因此审核者只会看到需要决策的操作。</p>
+<p>智能体恢复执行时该谓词会再次运行，因此对同一次调用它必须返回相同结果。如果它在恢复时返回<code>False</code>，工具会直接运行，审核者的答复会被忽略，即使是<code>reject</code>。在批量模式下，如果只有部分调用的结果发生变化，中间件会引发<code>ValueError</code>。</p>
+<h2 id="set-the-interrupt-mode">设置中断模式<a class="heading-anchor" href="#set-the-interrupt-mode" aria-label="链接到本节">#</a></h2>
+<p>中间件以两种模式之一暂停，通过<code>interrupt_mode</code>设置：</p>
+<ul><li><p><strong><code>"per_call"</code></strong>：每个需要审核的工具调用在开始时都会引发自己的中断。每个中断都携带其可接受答案的<a href="https://docs.langchain.com/oss/python/langgraph/interrupts#define-an-interrupt-response-schema" target="_blank" rel="noopener noreferrer"><code>response_schema</code></a>。你通过中断 ID 为键，用一个决策来作答。</p></li><li><p><strong><code>"batched"</code></strong>（默认）：每轮模型调用引发一个中断，列出所有需要审核的调用。你用顺序相同的决策列表作答。</p></li></ul>
+<p>新的智能体应使用单调用模式。LangChain 计划在下一个主版本中将其设为默认。关于并排对比以及单调用模式所解决的问题，请参阅<a href="https://docs.langchain.com/oss/python/concepts/human-in-the-loop" target="_blank" rel="noopener noreferrer">人在回路概览</a>。</p>
+<h2 id="pause-once-per-tool-call">每次工具调用暂停一次<a class="heading-anchor" href="#pause-once-per-tool-call" aria-label="链接到本节">#</a></h2>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>单调用中断需要<code>langchain&gt;=1.4.6</code>。</p></div>
+</aside>
+<p>设置<code>interrupt_mode="per_call"</code>以分别审核每次工具调用。这个智能体对<code>write_file</code>和<code>execute_sql</code>进行拦截审核，并允许<code>read_data</code>无需审核直接运行：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-1-tab-0" role="tab" aria-controls="codegroup-1-panel-0" aria-selected="true" tabindex="0">Google</button><button class="code-tab" type="button" id="codegroup-1-tab-1" role="tab" aria-controls="codegroup-1-panel-1" aria-selected="false" tabindex="-1">OpenAI</button><button class="code-tab" type="button" id="codegroup-1-tab-2" role="tab" aria-controls="codegroup-1-panel-2" aria-selected="false" tabindex="-1">Anthropic</button><button class="code-tab" type="button" id="codegroup-1-tab-3" role="tab" aria-controls="codegroup-1-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-1-tab-4" role="tab" aria-controls="codegroup-1-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-1-tab-5" role="tab" aria-controls="codegroup-1-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-1-tab-6" role="tab" aria-controls="codegroup-1-panel-6" aria-selected="false" tabindex="-1">Ollama</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-1-panel-0" role="tabpanel" aria-labelledby="codegroup-1-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> HumanInTheLoopMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">write_file</span>(<span class="hljs-params">path: <span class="hljs-built_in">str</span>, content: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Write content to a file."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Wrote <span class="hljs-subst">{<span class="hljs-built_in">len</span>(content)}</span> characters to <span class="hljs-subst">{path}</span>"</span>
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">execute_sql</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Run a SQL query."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"Deleted 42 rows"</span>
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">read_data</span>(<span class="hljs-params">table: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Read rows from a table."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"3 rows from <span class="hljs-subst">{table}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>,
+    tools=[write_file, execute_sql, read_data],
+    middleware=[
+        HumanInTheLoopMiddleware(
+            interrupt_on={
+                <span class="hljs-string">"write_file"</span>: <span class="hljs-literal">True</span>,
+                <span class="hljs-string">"execute_sql"</span>: {<span class="hljs-string">"allowed_decisions"</span>: [<span class="hljs-string">"approve"</span>, <span class="hljs-string">"reject"</span>]},
+                <span class="hljs-string">"read_data"</span>: <span class="hljs-literal">False</span>,
+            },
+            interrupt_mode=<span class="hljs-string">"per_call"</span>,
+        ),
+    ],
+    checkpointer=InMemorySaver(),
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-1" role="tabpanel" aria-labelledby="codegroup-1-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> HumanInTheLoopMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">write_file</span>(<span class="hljs-params">path: <span class="hljs-built_in">str</span>, content: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Write content to a file."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Wrote <span class="hljs-subst">{<span class="hljs-built_in">len</span>(content)}</span> characters to <span class="hljs-subst">{path}</span>"</span>
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">execute_sql</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Run a SQL query."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"Deleted 42 rows"</span>
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">read_data</span>(<span class="hljs-params">table: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Read rows from a table."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"3 rows from <span class="hljs-subst">{table}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"openai:gpt-5.5"</span>,
+    tools=[write_file, execute_sql, read_data],
+    middleware=[
+        HumanInTheLoopMiddleware(
+            interrupt_on={
+                <span class="hljs-string">"write_file"</span>: <span class="hljs-literal">True</span>,
+                <span class="hljs-string">"execute_sql"</span>: {<span class="hljs-string">"allowed_decisions"</span>: [<span class="hljs-string">"approve"</span>, <span class="hljs-string">"reject"</span>]},
+                <span class="hljs-string">"read_data"</span>: <span class="hljs-literal">False</span>,
+            },
+            interrupt_mode=<span class="hljs-string">"per_call"</span>,
+        ),
+    ],
+    checkpointer=InMemorySaver(),
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-2" role="tabpanel" aria-labelledby="codegroup-1-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> HumanInTheLoopMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">write_file</span>(<span class="hljs-params">path: <span class="hljs-built_in">str</span>, content: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Write content to a file."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Wrote <span class="hljs-subst">{<span class="hljs-built_in">len</span>(content)}</span> characters to <span class="hljs-subst">{path}</span>"</span>
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">execute_sql</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Run a SQL query."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"Deleted 42 rows"</span>
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">read_data</span>(<span class="hljs-params">table: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Read rows from a table."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"3 rows from <span class="hljs-subst">{table}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"anthropic:claude-sonnet-5"</span>,
+    tools=[write_file, execute_sql, read_data],
+    middleware=[
+        HumanInTheLoopMiddleware(
+            interrupt_on={
+                <span class="hljs-string">"write_file"</span>: <span class="hljs-literal">True</span>,
+                <span class="hljs-string">"execute_sql"</span>: {<span class="hljs-string">"allowed_decisions"</span>: [<span class="hljs-string">"approve"</span>, <span class="hljs-string">"reject"</span>]},
+                <span class="hljs-string">"read_data"</span>: <span class="hljs-literal">False</span>,
+            },
+            interrupt_mode=<span class="hljs-string">"per_call"</span>,
+        ),
+    ],
+    checkpointer=InMemorySaver(),
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-3" role="tabpanel" aria-labelledby="codegroup-1-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> HumanInTheLoopMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">write_file</span>(<span class="hljs-params">path: <span class="hljs-built_in">str</span>, content: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Write content to a file."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Wrote <span class="hljs-subst">{<span class="hljs-built_in">len</span>(content)}</span> characters to <span class="hljs-subst">{path}</span>"</span>
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">execute_sql</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Run a SQL query."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"Deleted 42 rows"</span>
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">read_data</span>(<span class="hljs-params">table: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Read rows from a table."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"3 rows from <span class="hljs-subst">{table}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"openrouter:z-ai/glm-5.2"</span>,
+    tools=[write_file, execute_sql, read_data],
+    middleware=[
+        HumanInTheLoopMiddleware(
+            interrupt_on={
+                <span class="hljs-string">"write_file"</span>: <span class="hljs-literal">True</span>,
+                <span class="hljs-string">"execute_sql"</span>: {<span class="hljs-string">"allowed_decisions"</span>: [<span class="hljs-string">"approve"</span>, <span class="hljs-string">"reject"</span>]},
+                <span class="hljs-string">"read_data"</span>: <span class="hljs-literal">False</span>,
+            },
+            interrupt_mode=<span class="hljs-string">"per_call"</span>,
+        ),
+    ],
+    checkpointer=InMemorySaver(),
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-4" role="tabpanel" aria-labelledby="codegroup-1-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> HumanInTheLoopMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">write_file</span>(<span class="hljs-params">path: <span class="hljs-built_in">str</span>, content: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Write content to a file."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Wrote <span class="hljs-subst">{<span class="hljs-built_in">len</span>(content)}</span> characters to <span class="hljs-subst">{path}</span>"</span>
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">execute_sql</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Run a SQL query."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"Deleted 42 rows"</span>
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">read_data</span>(<span class="hljs-params">table: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Read rows from a table."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"3 rows from <span class="hljs-subst">{table}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"fireworks:accounts/fireworks/models/glm-5p2"</span>,
+    tools=[write_file, execute_sql, read_data],
+    middleware=[
+        HumanInTheLoopMiddleware(
+            interrupt_on={
+                <span class="hljs-string">"write_file"</span>: <span class="hljs-literal">True</span>,
+                <span class="hljs-string">"execute_sql"</span>: {<span class="hljs-string">"allowed_decisions"</span>: [<span class="hljs-string">"approve"</span>, <span class="hljs-string">"reject"</span>]},
+                <span class="hljs-string">"read_data"</span>: <span class="hljs-literal">False</span>,
+            },
+            interrupt_mode=<span class="hljs-string">"per_call"</span>,
+        ),
+    ],
+    checkpointer=InMemorySaver(),
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-5" role="tabpanel" aria-labelledby="codegroup-1-tab-5" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> HumanInTheLoopMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">write_file</span>(<span class="hljs-params">path: <span class="hljs-built_in">str</span>, content: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Write content to a file."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Wrote <span class="hljs-subst">{<span class="hljs-built_in">len</span>(content)}</span> characters to <span class="hljs-subst">{path}</span>"</span>
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">execute_sql</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Run a SQL query."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"Deleted 42 rows"</span>
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">read_data</span>(<span class="hljs-params">table: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Read rows from a table."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"3 rows from <span class="hljs-subst">{table}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>,
+    tools=[write_file, execute_sql, read_data],
+    middleware=[
+        HumanInTheLoopMiddleware(
+            interrupt_on={
+                <span class="hljs-string">"write_file"</span>: <span class="hljs-literal">True</span>,
+                <span class="hljs-string">"execute_sql"</span>: {<span class="hljs-string">"allowed_decisions"</span>: [<span class="hljs-string">"approve"</span>, <span class="hljs-string">"reject"</span>]},
+                <span class="hljs-string">"read_data"</span>: <span class="hljs-literal">False</span>,
+            },
+            interrupt_mode=<span class="hljs-string">"per_call"</span>,
+        ),
+    ],
+    checkpointer=InMemorySaver(),
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-6" role="tabpanel" aria-labelledby="codegroup-1-tab-6" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> HumanInTheLoopMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">write_file</span>(<span class="hljs-params">path: <span class="hljs-built_in">str</span>, content: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Write content to a file."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Wrote <span class="hljs-subst">{<span class="hljs-built_in">len</span>(content)}</span> characters to <span class="hljs-subst">{path}</span>"</span>
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">execute_sql</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Run a SQL query."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"Deleted 42 rows"</span>
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">read_data</span>(<span class="hljs-params">table: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Read rows from a table."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"3 rows from <span class="hljs-subst">{table}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"ollama:north-mini-code-1.0"</span>,
+    tools=[write_file, execute_sql, read_data],
+    middleware=[
+        HumanInTheLoopMiddleware(
+            interrupt_on={
+                <span class="hljs-string">"write_file"</span>: <span class="hljs-literal">True</span>,
+                <span class="hljs-string">"execute_sql"</span>: {<span class="hljs-string">"allowed_decisions"</span>: [<span class="hljs-string">"approve"</span>, <span class="hljs-string">"reject"</span>]},
+                <span class="hljs-string">"read_data"</span>: <span class="hljs-literal">False</span>,
+            },
+            interrupt_mode=<span class="hljs-string">"per_call"</span>,
+        ),
+    ],
+    checkpointer=InMemorySaver(),
+)</code></pre>
+</div></div>
+</div>
+<h3 id="read-the-interrupts">读取中断<a class="heading-anchor" href="#read-the-interrupts" aria-label="链接到本节">#</a></h3>
+<p>当模型在一轮中调用全部三个工具时，<code>read_data</code>会立即运行。两个受拦截的调用各自引发一个中断：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-string">"1"</span>}}
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Archive old orders, then delete them."</span>}]},
+    config=config,
+    version=<span class="hljs-string">"v2"</span>,
+)
+
+<span class="hljs-comment"># One interrupt per gated tool call, in no fixed order</span>
+<span class="hljs-keyword">for</span> interrupt <span class="hljs-keyword">in</span> result.interrupts:
+    <span class="hljs-built_in">print</span>(interrupt.value)
+<span class="hljs-comment"># &gt; {'type': 'tool_approval', 'tool_call_id': 'call_write', 'name': 'write_file', 'args': {'path': 'orders_archive.csv', 'content': 'id,total\n1,20\n'}, 'description': "Tool execution requires approval\n\nTool: write_file\nArgs: {'path': 'orders_archive.csv', 'content': 'id,total\\n1,20\\n'}"}</span>
+<span class="hljs-comment"># &gt; {'type': 'tool_approval', 'tool_call_id': 'call_sql', 'name': 'execute_sql', 'args': {'query': "DELETE FROM orders WHERE created_at &lt; '2025-01-01'"}, 'description': 'Tool execution requires approval\n\nTool: execute_sql\nArgs: {\'query\': "DELETE FROM orders WHERE created_at &lt; \'2025-01-01\'"}'}</span></code></pre>
+</div>
+<p>每个中断值都有<code>type: "tool_approval"</code>，因此客户端可以将其与其他中断区分开。<code>tool_call_id</code>、<code>name</code>和<code>args</code>字段标识正在审核的调用。</p>
+<h3 id="read-the-response-schema">读取响应模式<a class="heading-anchor" href="#read-the-response-schema" aria-label="链接到本节">#</a></h3>
+<p>每个中断还携带一个 <code>response_schema</code>：一个 JSON schema，其中为工具允许的每个决策提供一个分支，并按决策的 <code>type</code> 进行匹配。<code>execute_sql</code> schema 有 <code>approve</code> 和 <code>reject</code> 分支。<code>write_file</code> schema 则包含全部四个。对于只允许一个决策的工具，<code>response_schema</code> 就是该决策的 schema 本身，不含 <code>oneOf</code>。</p>
+<p>每个标签页展示一个 <code>write_file</code> 分支、一个与之匹配的答案，以及模型收到的 <a href="https://reference.langchain.com/python/langchain-core/messages/tool/ToolMessage" target="_blank" rel="noopener noreferrer">ToolMessage</a>。为便于阅读，下面的分支就地展开 <code>$ref</code> 定义，并省略 <code>title</code> 和 <code>description</code> 字段。</p>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-2-tab-0" role="tab" aria-controls="tabs-2-panel-0" aria-selected="true" tabindex="0">approve</button><button class="doc-tab" type="button" id="tabs-2-tab-1" role="tab" aria-controls="tabs-2-panel-1" aria-selected="false" tabindex="-1">edit</button><button class="doc-tab" type="button" id="tabs-2-tab-2" role="tab" aria-controls="tabs-2-panel-2" aria-selected="false" tabindex="-1">reject</button><button class="doc-tab" type="button" id="tabs-2-tab-3" role="tab" aria-controls="tabs-2-panel-3" aria-selected="false" tabindex="-1">respond</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-2-panel-0" role="tabpanel" aria-labelledby="tabs-2-tab-0">
+<p>按建议原样运行该调用。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Schema branch</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-json"><span class="hljs-punctuation">{</span><span class="hljs-attr">"properties"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">"const"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"approve"</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"string"</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"required"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"type"</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"object"</span><span class="hljs-punctuation">}</span></code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Answer</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">{<span class="hljs-string">"type"</span>: <span class="hljs-string">"approve"</span>}</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Model receives</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-text">Wrote 14 characters to orders_archive.csv</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-2-panel-1" role="tabpanel" aria-labelledby="tabs-2-tab-1" hidden="">
+<p>使用新参数运行该调用。<code>edited_action.name</code> 必须保持为 <code>write_file</code>，且 <code>edited_action.args</code> 必须匹配 <code>write_file</code> 的参数 schema。工具未声明的参数会被忽略，模型发送这类参数时也是如此。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Schema branch</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"properties"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">"const"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"edit"</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"string"</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"edited_action"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"properties"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">"name"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">"const"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"write_file"</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"string"</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">"args"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+          <span class="hljs-attr">"properties"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">"path"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"string"</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">"content"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"string"</span><span class="hljs-punctuation">}</span>
+          <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+          <span class="hljs-attr">"required"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"path"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"content"</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+          <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"object"</span>
+        <span class="hljs-punctuation">}</span>
+      <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"required"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"name"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"args"</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"object"</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"required"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"type"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"edited_action"</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"object"</span>
+<span class="hljs-punctuation">}</span></code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Answer</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">{
+    <span class="hljs-string">"type"</span>: <span class="hljs-string">"edit"</span>,
+    <span class="hljs-string">"edited_action"</span>: {
+        <span class="hljs-string">"name"</span>: <span class="hljs-string">"write_file"</span>,
+        <span class="hljs-string">"args"</span>: {<span class="hljs-string">"path"</span>: <span class="hljs-string">"archive/orders_2024.csv"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"id,total\n1,20\n"</span>},
+    },
+}</code></pre>
+</div>
+<p>模型会在收到一条说明（审核者替换了该调用）之后收到工具的结果。在中间件上设置 <code>edit_notice</code> 可以更改该说明，或传入 <code>None</code> 将其移除。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Model receives</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-text">Note: a human reviewer replaced this tool call before it ran. The call recorded in your message is the one you produced, not the one that executed. This was intentional and authorized. Do not re-issue your original call. Executed instead: write_file with arguments {"path": "archive/orders_2024.csv", "content": "id,total\n1,20\n"}.
+
+Tool response:
+Wrote 14 characters to archive/orders_2024.csv</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-2-panel-2" role="tabpanel" aria-labelledby="tabs-2-tab-2" hidden="">
+<p>跳过该调用。<code>message</code> 是可选的，用于告知模型原因。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Schema branch</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-json"><span class="hljs-punctuation">{</span><span class="hljs-attr">"properties"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">"const"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"reject"</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"string"</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"message"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"string"</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"required"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"type"</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"object"</span><span class="hljs-punctuation">}</span></code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Answer</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">{<span class="hljs-string">"type"</span>: <span class="hljs-string">"reject"</span>, <span class="hljs-string">"message"</span>: <span class="hljs-string">"Write to the archive/ folder instead."</span>}</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Model receives (error status)</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-text">User rejected the tool call for `write_file` with reason: Write to the archive/ folder instead.</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-2-panel-3" role="tabpanel" aria-labelledby="tabs-2-tab-3" hidden="">
+<p>跳过该调用，并代替工具给出回答。<code>message</code> 是必填的。模型会将其作为成功的工具结果接收，因此若要拒绝调用，请使用 <code>reject</code>。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Schema branch</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-json"><span class="hljs-punctuation">{</span><span class="hljs-attr">"properties"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">"const"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"respond"</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"string"</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"message"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"string"</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"required"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"type"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"message"</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"object"</span><span class="hljs-punctuation">}</span></code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Answer</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">{<span class="hljs-string">"type"</span>: <span class="hljs-string">"respond"</span>, <span class="hljs-string">"message"</span>: <span class="hljs-string">"Saved orders_archive.csv to the shared drive myself."</span>}</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Model receives</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-text">Saved orders_archive.csv to the shared drive myself.</code></pre>
+</div>
+</div></div>
+</div>
+<h3 id="resume-each-call-by-id">按 ID 恢复每个调用<a class="heading-anchor" href="#resume-each-call-by-id" aria-label="链接到本节">#</a></h3>
+<p>为每个中断提供一个决策作为回答，以中断 ID 为键：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langgraph.types <span class="hljs-keyword">import</span> Command
+
+decisions = {}
+<span class="hljs-keyword">for</span> interrupt <span class="hljs-keyword">in</span> result.interrupts:
+    <span class="hljs-keyword">if</span> interrupt.value[<span class="hljs-string">"name"</span>] == <span class="hljs-string">"execute_sql"</span>:
+        decisions[interrupt.<span class="hljs-built_in">id</span>] = {
+            <span class="hljs-string">"type"</span>: <span class="hljs-string">"reject"</span>,
+            <span class="hljs-string">"message"</span>: <span class="hljs-string">"Archive the rows before deleting them."</span>,
+        }
+    <span class="hljs-keyword">else</span>:
+        decisions[interrupt.<span class="hljs-built_in">id</span>] = {<span class="hljs-string">"type"</span>: <span class="hljs-string">"approve"</span>}
+
+result = agent.invoke(Command(resume=decisions), config=config, version=<span class="hljs-string">"v2"</span>)</code></pre>
+</div>
+<p>你也可以逐个回答中断。未回答的中断会保持待处理状态，其工具会在收到回答后运行。</p>
+<aside class="callout callout-warning">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>警告</span></div>
+  <div class="callout-body"><p>如果一起发送的多个回答中有一个无效，其他回答对应的工具仍可能运行，而它们的中断仍显示为待处理。再次回答这些中断会导致那些工具运行两次。在一起发送之前，请对照 <code>response_schema</code> 检查各个回答，或者逐个发送。</p></div>
+</aside>
+<h3 id="correct-an-invalid-answer">修正无效的回答<a class="heading-anchor" href="#correct-an-invalid-answer" aria-label="链接到本节">#</a></h3>
+<p>LangGraph 在保存回答之前，会对照中断的 <code>response_schema</code> 检查每个回答。无效的回答会抛出 <code>ValidationError</code>，且不会保存任何内容，因此你可以向同一个中断 ID 发送修正后的回答。这里，该编辑遗漏了 <code>content</code>：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> ValidationError
+
+write_file_interrupt = <span class="hljs-built_in">next</span>(
+    interrupt <span class="hljs-keyword">for</span> interrupt <span class="hljs-keyword">in</span> result.interrupts <span class="hljs-keyword">if</span> interrupt.value[<span class="hljs-string">"name"</span>] == <span class="hljs-string">"write_file"</span>
+)
+edit = {
+    <span class="hljs-string">"type"</span>: <span class="hljs-string">"edit"</span>,
+    <span class="hljs-string">"edited_action"</span>: {<span class="hljs-string">"name"</span>: <span class="hljs-string">"write_file"</span>, <span class="hljs-string">"args"</span>: {<span class="hljs-string">"path"</span>: <span class="hljs-string">"archive/orders_2024.csv"</span>}},
+}
+
+<span class="hljs-keyword">try</span>:
+    agent.invoke(Command(resume={write_file_interrupt.<span class="hljs-built_in">id</span>: edit}), config=config, version=<span class="hljs-string">"v2"</span>)
+<span class="hljs-keyword">except</span> ValidationError <span class="hljs-keyword">as</span> error:
+    <span class="hljs-keyword">for</span> problem <span class="hljs-keyword">in</span> error.errors():
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">"."</span>.join(<span class="hljs-built_in">str</span>(part) <span class="hljs-keyword">for</span> part <span class="hljs-keyword">in</span> problem[<span class="hljs-string">"loc"</span>]), problem[<span class="hljs-string">"msg"</span>])
+<span class="hljs-comment"># &gt; edit.edited_action.args.content Field required</span>
+
+<span class="hljs-comment"># Nothing was saved, so answer the same interrupt again</span>
+edit[<span class="hljs-string">"edited_action"</span>][<span class="hljs-string">"args"</span>][<span class="hljs-string">"content"</span>] = <span class="hljs-string">"id,total\n1,20\n"</span>
+result = agent.invoke(
+    Command(resume={write_file_interrupt.<span class="hljs-built_in">id</span>: edit}), config=config, version=<span class="hljs-string">"v2"</span>
+)</code></pre>
+</div>
+<p>每个错误都会指出校验失败的字段，因此你可以将其展示给审核者。对于参数是原始 JSON schema 而非 Pydantic 模型的工具，<code>response_schema</code> 会显示参数，但 LangGraph 不会对照这些参数检查编辑内容。</p>
+<h3 id="order-middleware-for-per-call-review">为逐调用审核排列中间件顺序<a class="heading-anchor" href="#order-middleware-for-per-call-review" aria-label="链接到本节">#</a></h3>
+<p>在逐调用模式下，审核在工具调用开始时进行，位于工具调用中间件链内：</p>
+<ul><li><p>请将 <code>HumanInTheLoopMiddleware</code> 列在工具重试或错误处理中间件（例如 <a href="https://reference.langchain.com/python/langchain/agents/middleware/tool_retry/ToolRetryMiddleware" target="_blank" rel="noopener noreferrer">ToolRetryMiddleware</a> 和 <a href="https://reference.langchain.com/python/langchain/agents/middleware/tool_error/ToolErrorMiddleware" target="_blank" rel="noopener noreferrer">ToolErrorMiddleware</a>）之前，以便它包裹这些中间件。否则，被重试的调用会再次询问审核者，无效的回答会被重试或作为工具错误返回给模型。</p></li><li><p>当智能体恢复时，列在 <code>HumanInTheLoopMiddleware</code> 之前的中间件会重新运行到暂停点，因此它在调用其处理器之前不得产生副作用。工具只在收到回答后运行。</p></li><li><p><a href="#conditional-interrupts"><code>when</code> 谓词</a> 会在每次调用开始时运行，因此它接收到的 <a href="https://reference.langchain.com/python/langgraph.prebuilt/tool_node/ToolCallRequest" target="_blank" rel="noopener noreferrer">ToolCallRequest</a> 会包含该工具。</p></li></ul>
+<h2 id="responding-to-interrupts">响应中断<a class="heading-anchor" href="#responding-to-interrupts" aria-label="链接到本节">#</a></h2>
+<p>当你调用智能体时，它会一直运行，直到完成或抛出中断。当某个工具调用匹配你在 <code>interrupt_on</code> 中配置的策略时，就会触发中断。使用 <code>version="v2"</code> 时，结果是一个 <code>GraphOutput</code>，其 <code>interrupts</code> 属性包含需要审核的操作。随后你可以将这些操作呈现给审核者，并在提供决策后恢复执行。</p>
+<p>本节中的示例以及下文介绍的决策类型均使用默认的批处理模式。关于逐调用模式，请参阅 <a href="#pause-once-per-tool-call">Pause once per tool call</a>。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langgraph.types <span class="hljs-keyword">import</span> Command
+
+<span class="hljs-comment"># Human-in-the-loop leverages LangGraph's persistence layer.</span>
+<span class="hljs-comment"># You must provide a thread ID to associate the execution with a conversation thread,</span>
+<span class="hljs-comment"># so the conversation can be paused and resumed (as is needed for human review).</span>
+config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-string">"some_id"</span>}}
+<span class="hljs-comment"># Run the graph until the interrupt is hit.</span>
+result = agent.invoke(
+    {
+        <span class="hljs-string">"messages"</span>: [
+            {
+                <span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>,
+                <span class="hljs-string">"content"</span>: <span class="hljs-string">"Delete old records from the database"</span>,
+            }
+        ]
+    },
+    config=config,
+    version=<span class="hljs-string">"v2"</span>,
+)
+
+<span class="hljs-comment"># result is a GraphOutput with .value and .interrupts</span>
+<span class="hljs-built_in">print</span>(result.interrupts)
+<span class="hljs-comment"># &gt; (</span>
+<span class="hljs-comment"># &gt;    Interrupt(</span>
+<span class="hljs-comment"># &gt;       value={</span>
+<span class="hljs-comment"># &gt;          'action_requests': [</span>
+<span class="hljs-comment"># &gt;             {</span>
+<span class="hljs-comment"># &gt;                'name': 'execute_sql',</span>
+<span class="hljs-comment"># &gt;                'args': {'query': 'DELETE FROM records WHERE created_at &lt; NOW() - INTERVAL \'30 days\';'},</span>
+<span class="hljs-comment"># &gt;                'description': 'Tool execution pending approval\n\nTool: execute_sql\nArgs: {...}'</span>
+<span class="hljs-comment"># &gt;             }</span>
+<span class="hljs-comment"># &gt;          ],</span>
+<span class="hljs-comment"># &gt;          'review_configs': [</span>
+<span class="hljs-comment"># &gt;             {</span>
+<span class="hljs-comment"># &gt;                'action_name': 'execute_sql',</span>
+<span class="hljs-comment"># &gt;                'allowed_decisions': ['approve', 'reject']</span>
+<span class="hljs-comment"># &gt;             }</span>
+<span class="hljs-comment"># &gt;          ]</span>
+<span class="hljs-comment"># &gt;       }</span>
+<span class="hljs-comment"># &gt;    ),</span>
+<span class="hljs-comment"># &gt; )</span>
+
+
+<span class="hljs-comment"># Resume with approval decision</span>
+agent.invoke(
+    Command(
+        resume={<span class="hljs-string">"decisions"</span>: [{<span class="hljs-string">"type"</span>: <span class="hljs-string">"approve"</span>}]}  <span class="hljs-comment"># or "reject" [!code highlight]</span>
+    ),
+    config=config, <span class="hljs-comment"># Same thread ID to resume the paused conversation</span>
+    version=<span class="hljs-string">"v2"</span>,
+)</code></pre>
+</div>
+<h3 id="decision-types">决策类型<a class="heading-anchor" href="#decision-types" aria-label="链接到本节">#</a></h3>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-3-tab-0" role="tab" aria-controls="tabs-3-panel-0" aria-selected="true" tabindex="0">approve</button><button class="doc-tab" type="button" id="tabs-3-tab-1" role="tab" aria-controls="tabs-3-panel-1" aria-selected="false" tabindex="-1">edit</button><button class="doc-tab" type="button" id="tabs-3-tab-2" role="tab" aria-controls="tabs-3-panel-2" aria-selected="false" tabindex="-1">reject</button><button class="doc-tab" type="button" id="tabs-3-tab-3" role="tab" aria-controls="tabs-3-panel-3" aria-selected="false" tabindex="-1">respond</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-3-panel-0" role="tabpanel" aria-labelledby="tabs-3-tab-0">
+<p>使用 <code>approve</code> 按原样批准工具调用，并不作修改地执行它。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">agent.invoke(
+    Command(
+        <span class="hljs-comment"># Decisions are provided as a list, one per action under review.</span>
+        <span class="hljs-comment"># The order of decisions must match the order of actions</span>
+        <span class="hljs-comment"># in the interrupt request.</span>
+        resume={
+            <span class="hljs-string">"decisions"</span>: [
+                {
+                    <span class="hljs-string">"type"</span>: <span class="hljs-string">"approve"</span>,
+                }
+            ]
+        }
+    ),
+    config=config,  <span class="hljs-comment"># Same thread ID to resume the paused conversation</span>
+    version=<span class="hljs-string">"v2"</span>,
+)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-3-panel-1" role="tabpanel" aria-labelledby="tabs-3-tab-1" hidden="">
+<p>使用 <code>edit</code> 在执行前修改工具调用。提供带有新工具名和参数的编辑后操作。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">agent.invoke(
+    Command(
+        <span class="hljs-comment"># Decisions are provided as a list, one per action under review.</span>
+        <span class="hljs-comment"># The order of decisions must match the order of actions</span>
+        <span class="hljs-comment"># in the interrupt request.</span>
+        resume={
+            <span class="hljs-string">"decisions"</span>: [
+                {
+                    <span class="hljs-string">"type"</span>: <span class="hljs-string">"edit"</span>,
+                    <span class="hljs-comment"># Edited action with tool name and args</span>
+                    <span class="hljs-string">"edited_action"</span>: {
+                        <span class="hljs-comment"># Tool name to call.</span>
+                        <span class="hljs-comment"># Will usually be the same as the original action.</span>
+                        <span class="hljs-string">"name"</span>: <span class="hljs-string">"new_tool_name"</span>,
+                        <span class="hljs-comment"># Arguments to pass to the tool.</span>
+                        <span class="hljs-string">"args"</span>: {<span class="hljs-string">"key1"</span>: <span class="hljs-string">"new_value"</span>, <span class="hljs-string">"key2"</span>: <span class="hljs-string">"original_value"</span>},
+                    }
+                }
+            ]
+        }
+    ),
+    config=config,  <span class="hljs-comment"># Same thread ID to resume the paused conversation</span>
+    version=<span class="hljs-string">"v2"</span>,
+)</code></pre>
+</div>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p><strong>编辑</strong> 工具参数时，请保守地做出修改。对原始参数的重大修改可能导致模型重新评估其方案，并可能多次执行工具或采取意外操作。</p></div>
+</aside>
+</div>
+<div class="doc-tab-panel" id="tabs-3-panel-2" role="tabpanel" aria-labelledby="tabs-3-tab-2" hidden="">
+<p>使用 <code>reject</code> 拒绝工具调用，并提供反馈而非执行。该工具不会被执行。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">agent.invoke(
+    Command(
+        <span class="hljs-comment"># Decisions are provided as a list, one per action under review.</span>
+        <span class="hljs-comment"># The order of decisions must match the order of actions</span>
+        <span class="hljs-comment"># in the interrupt request.</span>
+        resume={
+            <span class="hljs-string">"decisions"</span>: [
+                {
+                    <span class="hljs-string">"type"</span>: <span class="hljs-string">"reject"</span>,
+                    <span class="hljs-comment"># Optional: explain why the action was rejected</span>
+                    <span class="hljs-comment"># and whether the agent should retry a different approach.</span>
+                    <span class="hljs-string">"message"</span>: <span class="hljs-string">"User rejected this action. Do not retry this tool call."</span>,
+                }
+            ]
+        }
+    ),
+    config=config,  <span class="hljs-comment"># Same thread ID to resume the paused conversation</span>
+    version=<span class="hljs-string">"v2"</span>,
+)</code></pre>
+</div>
+<p><code>message</code> 会作为反馈添加到对话中，帮助智能体理解该操作为何被拒绝，以及它应该改做什么。省略 <code>message</code> 时，中间件会使用默认的拒绝消息，告知模型该工具未被执行，且除非用户要求，否则不要重试同一个工具调用。对于有副作用的工具，请提供特定领域的消息，明确说明智能体应当放弃该操作、追问后续问题，还是尝试更安全的替代方案。</p>
+</div>
+<div class="doc-tab-panel" id="tabs-3-panel-3" role="tabpanel" aria-labelledby="tabs-3-tab-3" hidden="">
+<p>对于“询问用户”类工具——其真正的实现就是人类的回答——请使用 <code>respond</code>。<code>message</code> 的内容会直接作为工具结果返回，工具本身不会被执行。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">agent.invoke(
+    Command(
+        <span class="hljs-comment"># Decisions are provided as a list, one per action under review.</span>
+        <span class="hljs-comment"># The order of decisions must match the order of actions</span>
+        <span class="hljs-comment"># in the interrupt request.</span>
+        resume={
+            <span class="hljs-string">"decisions"</span>: [
+                {
+                    <span class="hljs-string">"type"</span>: <span class="hljs-string">"respond"</span>,
+                    <span class="hljs-comment"># The human's reply, returned directly as the tool result</span>
+                    <span class="hljs-string">"message"</span>: <span class="hljs-string">"Blue."</span>,
+                }
+            ]
+        }
+    ),
+    config=config,  <span class="hljs-comment"># Same thread ID to resume the paused conversation</span>
+    version=<span class="hljs-string">"v2"</span>,
+)</code></pre>
+</div>
+<p><code>message</code> 会作为成功的 <code>ToolMessage</code> 返回给智能体。当工具本身就是有意作为人类输入的占位符时，请使用 <code>respond</code>，例如一个用于请求澄清的 <code>ask_user</code> 工具。不要使用 <code>respond</code> 来拒绝某项提议的操作，因为它会告诉模型该工具已成功完成。</p>
+</div></div>
+</div>
+<h3 id="multiple-decisions">多个决策<a class="heading-anchor" href="#multiple-decisions" aria-label="链接到本节">#</a></h3>
+<p>当多个操作处于审核中时，请按它们在中断中出现的相同顺序，为每个操作提供一个决策：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">{
+    <span class="hljs-string">"decisions"</span>: [
+        {<span class="hljs-string">"type"</span>: <span class="hljs-string">"approve"</span>},
+        {
+            <span class="hljs-string">"type"</span>: <span class="hljs-string">"edit"</span>,
+            <span class="hljs-string">"edited_action"</span>: {
+                <span class="hljs-string">"name"</span>: <span class="hljs-string">"tool_name"</span>,
+                <span class="hljs-string">"args"</span>: {<span class="hljs-string">"param"</span>: <span class="hljs-string">"new_value"</span>}
+            }
+        },
+        {
+            <span class="hljs-string">"type"</span>: <span class="hljs-string">"reject"</span>,
+            <span class="hljs-string">"message"</span>: <span class="hljs-string">"This action is not allowed"</span>
+        }
+    ]
+}</code></pre>
+</div>
+<h2 id="streaming-with-human-in-the-loop">人在回路中的流式传输<a class="heading-anchor" href="#streaming-with-human-in-the-loop" aria-label="链接到本节">#</a></h2>
+<p>你可以使用 <code>stream_events()</code> 在智能体运行并处理中断的同时流式传输实时更新。使用 <code>stream.messages</code> 流式传输 LLM token，使用 <code>stream.values</code> 检查智能体状态快照中的中断。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langgraph.types <span class="hljs-keyword">import</span> Command
+
+config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-string">"some_id"</span>}}
+
+<span class="hljs-comment"># Stream agent progress and LLM tokens until interrupt</span>
+stream = agent.stream_events(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Delete old records from the database"</span>}]},
+    config=config,
+    version=<span class="hljs-string">"v3"</span>,
+)
+<span class="hljs-keyword">for</span> message <span class="hljs-keyword">in</span> stream.messages:
+    <span class="hljs-keyword">for</span> token <span class="hljs-keyword">in</span> message.text:
+        <span class="hljs-built_in">print</span>(token, end=<span class="hljs-string">""</span>, flush=<span class="hljs-literal">True</span>)
+
+<span class="hljs-comment"># Check whether the run paused for human input</span>
+<span class="hljs-keyword">if</span> stream.interrupted:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"\n\nInterrupt: <span class="hljs-subst">{stream.interrupts}</span>"</span>)
+
+<span class="hljs-comment"># Resume with streaming after human decision</span>
+stream = agent.stream_events(
+    Command(resume={<span class="hljs-string">"decisions"</span>: [{<span class="hljs-string">"type"</span>: <span class="hljs-string">"approve"</span>}]}),
+    config=config,
+    version=<span class="hljs-string">"v3"</span>,
+)
+<span class="hljs-keyword">for</span> message <span class="hljs-keyword">in</span> stream.messages:
+    <span class="hljs-keyword">for</span> token <span class="hljs-keyword">in</span> message.text:
+        <span class="hljs-built_in">print</span>(token, end=<span class="hljs-string">""</span>, flush=<span class="hljs-literal">True</span>)</code></pre>
+</div>
+<p>在 <a href="#pause-once-per-tool-call">逐调用模式</a> 下，<code>stream.interrupts</code> 为每个受控工具调用保存一个中断。使用以中断 ID 为键的 dict 恢复：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">decisions = {interrupt.<span class="hljs-built_in">id</span>: {<span class="hljs-string">"type"</span>: <span class="hljs-string">"approve"</span>} <span class="hljs-keyword">for</span> interrupt <span class="hljs-keyword">in</span> stream.interrupts}
+stream = agent.stream_events(Command(resume=decisions), config=config, version=<span class="hljs-string">"v3"</span>)
+<span class="hljs-keyword">for</span> message <span class="hljs-keyword">in</span> stream.messages:
+    <span class="hljs-keyword">for</span> token <span class="hljs-keyword">in</span> message.text:
+        <span class="hljs-built_in">print</span>(token, end=<span class="hljs-string">""</span>, flush=<span class="hljs-literal">True</span>)</code></pre>
+</div>
+<p>有关流式传输模式的更多细节，请参阅 <a href="streaming.html">Streaming</a> 指南。</p>
+<h2 id="execution-lifecycle">执行生命周期<a class="heading-anchor" href="#execution-lifecycle" aria-label="链接到本节">#</a></h2>
+<p>该中间件定义了一个 <code>after_model</code> 钩子，它在模型生成响应之后、任何工具调用执行之前运行：</p>
+<ol><li><p>智能体调用模型生成响应。</p></li><li><p>中间件检查响应中是否包含工具调用。</p></li><li><p>如果有任何调用需要人类输入，中间件会使用 <code>action_requests</code> 和 <code>review_configs</code> 构建一个 <a href="https://reference.langchain.com/python/langchain/agents/middleware/human_in_the_loop/HITLRequest" target="_blank" rel="noopener noreferrer">HITLRequest</a>，并调用 <a href="https://reference.langchain.com/python/langgraph/types/interrupt" target="_blank" rel="noopener noreferrer">interrupt</a>。</p></li><li><p>智能体等待人类的决策。</p></li><li><p>根据 <code>HITLResponse</code> 决策，中间件执行已批准或已编辑的调用，为被拒绝的调用合成 <a href="https://reference.langchain.com/python/langchain-core/messages/tool/ToolMessage" target="_blank" rel="noopener noreferrer">ToolMessage</a>，对 <code>respond</code> 决策直接将人类回复作为 <a href="https://reference.langchain.com/python/langchain-core/messages/tool/ToolMessage" target="_blank" rel="noopener noreferrer">ToolMessage</a> 返回，并恢复执行。</p></li></ol>
+<p>在 <a href="#pause-once-per-tool-call">逐调用模式</a> 下，<code>after_model</code> 钩子不执行任何操作。中间件改为在每个受控调用运行时暂停它，每次调用有一个 <a href="https://reference.langchain.com/python/langgraph/types/interrupt" target="_blank" rel="noopener noreferrer">interrupt</a>，并在该调用的决策到达后运行工具。</p>
+<h2 id="custom-hitl-logic">自定义 HITL 逻辑<a class="heading-anchor" href="#custom-hitl-logic" aria-label="链接到本节">#</a></h2>
+<p>对于更专门的工作流，你可以直接使用 <a href="https://reference.langchain.com/python/langgraph/types/interrupt" target="_blank" rel="noopener noreferrer">interrupt</a> 原语和 <a href="https://docs.langchain.com/oss/python/langchain/middleware" target="_blank" rel="noopener noreferrer">middleware</a> 抽象来构建自定义 HITL 逻辑。</p>
+<p>回顾上文中的 <a href="#execution-lifecycle">execution lifecycle</a>，以了解如何将中断集成到智能体的运行中。</p></article>
+        <nav class="pager" aria-label="翻页"><a class="prev" href="context-engineering.html"><span class="pager-label">上一篇</span><span class="pager-title">智能体中的上下文工程</span></a><a class="next" href="retrieval.html"><span class="pager-label">下一篇</span><span class="pager-title">检索</span></a></nav>
+        <footer class="page-footer">
+          <p>本页为社区维护的简体中文翻译，不是 LangChain 官方文档。如与英文原文有出入，请以 <a href="https://docs.langchain.com/oss/python/langchain/human-in-the-loop" target="_blank" rel="noopener noreferrer">英文原文</a> 为准。</p>
+        </footer>
+      </div>
+    </main>
+    <aside class="toc" aria-label="本页目录"><div class="toc-inner"><div class="toc-title">本页目录</div><a class="toc-link level-2" href="#interrupt-decision-types">中断决策类型</a><a class="toc-link level-2" href="#configuring-interrupts">配置中断</a><a class="toc-link level-2" href="#conditional-interrupts">条件中断</a><a class="toc-link level-2" href="#set-the-interrupt-mode">设置中断模式</a><a class="toc-link level-2" href="#pause-once-per-tool-call">每次工具调用暂停一次</a><a class="toc-link level-3" href="#read-the-interrupts">读取中断</a><a class="toc-link level-3" href="#read-the-response-schema">读取响应模式</a><a class="toc-link level-3" href="#resume-each-call-by-id">按 ID 恢复每个调用</a><a class="toc-link level-3" href="#correct-an-invalid-answer">修正无效的回答</a><a class="toc-link level-3" href="#order-middleware-for-per-call-review">为逐调用审核排列中间件顺序</a><a class="toc-link level-2" href="#responding-to-interrupts">响应中断</a><a class="toc-link level-3" href="#decision-types">决策类型</a><a class="toc-link level-3" href="#multiple-decisions">多个决策</a><a class="toc-link level-2" href="#streaming-with-human-in-the-loop">人在回路中的流式传输</a><a class="toc-link level-2" href="#execution-lifecycle">执行生命周期</a><a class="toc-link level-2" href="#custom-hitl-logic">自定义 HITL 逻辑</a></div></aside>
+  </div>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p><strong>LangChain 中文文档</strong> · 社区翻译，非官方站点。内容基于 <a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener noreferrer">docs.langchain.com</a> 的 LangChain（Python）文档生成。</p>
+      <p>共 59 篇 · 代码示例保持英文原样 · 以英文原文为准</p>
+    </div>
+  </footer>
+  <button class="back-top" type="button" data-back-top aria-label="回到顶部">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script src="assets/docs.js" defer></script>
+</body>
+</html>

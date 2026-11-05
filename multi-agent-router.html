@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>路由器 | LangChain 中文文档</title>
+  <meta name="description" content="在 路由器架构中，路由步骤会对输入进行分类，并将其分发到专门的智能体。当你拥有彼此独立的垂直领域（各自需要专属智能体的独立知识域）时，这种架构很有用。">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M12.5 19.5l7-7M10 22l-1 1a4 4 0 0 1-5.7-5.7l3.4-3.4a4 4 0 0 1 5.7 0M22 10l1-1a4 4 0 0 1 5.7 5.7l-3.4 3.4a4 4 0 0 1-5.7 0' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem('lc-docs-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();</script>
+  <link rel="stylesheet" href="assets/docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div id="progress" data-progress></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="打开文档导航" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="LangChain 中文文档首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9.4 14.6l5.2-5.2M7.1 16.9l-1.4 1.4a3.7 3.7 0 0 1-5.2-5.2l3.2-3.2a3.7 3.7 0 0 1 5.2 0M16.9 7.1l1.4-1.4a3.7 3.7 0 0 1 5.2 5.2l-3.2 3.2a3.7 3.7 0 0 1-5.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text">LangChain <span class="brand-sub">中文文档</span></span>
+      </a>
+      <nav class="top-nav" aria-label="主导航">
+        <a class="top-link active" href="index.html" aria-current="page">LangChain</a>
+        <a class="top-link" href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a>
+        <a class="top-link" href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener noreferrer">LangSmith</a>
+        <a class="top-link" href="https://reference.langchain.com/python/langchain/" target="_blank" rel="noopener noreferrer">API 参考</a>
+      </nav>
+      <div class="header-actions">
+        <a class="source-link" href="https://docs.langchain.com/oss/python/langchain/multi-agent/router" target="_blank" rel="noopener noreferrer">English <span aria-hidden="true">↗</span></a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="切换到深色模式" aria-pressed="false" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v1.6M10 16.2v1.6M2.2 10h1.6M16.2 10h1.6M4.5 4.5l1.1 1.1M14.4 14.4l1.1 1.1M15.5 4.5l-1.1 1.1M5.6 14.4l-1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.4 12.1A6.6 6.6 0 0 1 7.9 3.6 6.8 6.8 0 1 0 16.4 12.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" id="sidebar" aria-label="文档导航">
+      <div class="sidebar-head">
+        <div class="sidebar-title">文档目录</div>
+        <div class="nav-search">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.2" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="搜索页面…" aria-label="搜索文档页面" data-nav-search autocomplete="off" spellcheck="false">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+      </div>
+      <div class="sidebar-scroll"><nav class="nav" id="doc-nav" aria-label="文档页面"><div class="nav-home"><a class="nav-link" href="index.html" data-search="LangChain 概览 LangChain overview index  "><span class="nav-dot" aria-hidden="true"></span><span>LangChain 概览</span></a></div><section class="nav-section" data-nav-section><div class="nav-section-title">开始使用</div><a class="nav-link" href="install.html" data-search="安装 LangChain Install LangChain install Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>安装 LangChain</span></a><a class="nav-link" href="quickstart.html" data-search="快速开始 Quickstart quickstart Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>快速开始</span></a><a class="nav-link" href="philosophy.html" data-search="设计理念 Philosophy philosophy Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>设计理念</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">核心组件</div><a class="nav-link" href="agents.html" data-search="智能体 Agents agents Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>智能体</span></a><a class="nav-link" href="models.html" data-search="模型 Models models Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>模型</span></a><a class="nav-link" href="messages.html" data-search="消息 Messages messages Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>消息</span></a><a class="nav-link" href="tools.html" data-search="工具 Tools tools Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>工具</span></a><a class="nav-link" href="short-term-memory.html" data-search="短期记忆 Short-term memory short-term-memory Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>短期记忆</span></a><a class="nav-link" href="event-streaming.html" data-search="事件流 Event streaming event-streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>事件流</span></a><a class="nav-link" href="streaming.html" data-search="流式传输 Streaming streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>流式传输</span></a><a class="nav-link" href="structured-output.html" data-search="结构化输出 Structured output structured-output Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>结构化输出</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">中间件</div><a class="nav-link" href="middleware-overview.html" data-search="中间件概览 Middleware overview middleware-overview Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>中间件概览</span></a><a class="nav-link" href="middleware-built-in.html" data-search="预置中间件 Prebuilt middleware middleware-built-in Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>预置中间件</span></a><a class="nav-link" href="middleware-custom.html" data-search="自定义中间件 Custom middleware middleware-custom Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>自定义中间件</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">前端</div><a class="nav-link" href="frontend-overview.html" data-search="前端概览 Overview frontend-overview Frontend 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端概览</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">模式</div><a class="nav-link" href="frontend-markdown-messages.html" data-search="Markdown 消息 Markdown messages frontend-markdown-messages Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>Markdown 消息</span></a><a class="nav-link" href="frontend-tool-calling.html" data-search="工具调用 Tool calling frontend-tool-calling Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>工具调用</span></a><a class="nav-link" href="frontend-headless-tools.html" data-search="无头工具 Headless tools frontend-headless-tools Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>无头工具</span></a><a class="nav-link" href="frontend-human-in-the-loop.html" data-search="前端人在回路 Human-in-the-Loop frontend-human-in-the-loop Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端人在回路</span></a><a class="nav-link" href="frontend-branching-chat.html" data-search="分支对话 Branching chat frontend-branching-chat Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>分支对话</span></a><a class="nav-link" href="frontend-reasoning-tokens.html" data-search="推理 token Reasoning tokens frontend-reasoning-tokens Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>推理 token</span></a><a class="nav-link" href="frontend-structured-output.html" data-search="前端结构化输出 Structured output frontend-structured-output Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端结构化输出</span></a><a class="nav-link" href="frontend-message-queues.html" data-search="消息队列 Message queues frontend-message-queues Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>消息队列</span></a><a class="nav-link" href="frontend-join-rejoin.html" data-search="断开与重连流 Join &amp; rejoin streams frontend-join-rejoin Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>断开与重连流</span></a><a class="nav-link" href="frontend-time-travel.html" data-search="时间旅行 Time travel frontend-time-travel Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>时间旅行</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">生成式 UI</div><a class="nav-link" href="frontend-generative-ui-overview.html" data-search="生成式 UI 概览 Generative UI overview frontend-generative-ui-overview Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>生成式 UI 概览</span></a><a class="nav-link" href="frontend-controlled-generative-ui.html" data-search="受控生成式 UI Controlled generative UI frontend-controlled-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>受控生成式 UI</span></a><a class="nav-link" href="frontend-declarative-generative-ui.html" data-search="声明式生成式 UI Declarative generative UI frontend-declarative-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>声明式生成式 UI</span></a><a class="nav-link" href="frontend-open-ended-generative-ui.html" data-search="开放式生成式 UI Open-ended generative UI frontend-open-ended-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>开放式生成式 UI</span></a></div></div><div class="nav-subgroup"><div class="nav-subgroup-title">集成</div><a class="nav-link" href="frontend-integrations-overview.html" data-search="集成概览 Overview frontend-integrations-overview Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>集成概览</span></a><a class="nav-link" href="frontend-integrations-copilotkit.html" data-search="CopilotKit CopilotKit frontend-integrations-copilotkit Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>CopilotKit</span></a><a class="nav-link" href="frontend-integrations-ai-elements.html" data-search="AI Elements AI Elements frontend-integrations-ai-elements Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>AI Elements</span></a><a class="nav-link" href="frontend-integrations-assistant-ui.html" data-search="assistant-ui assistant-ui frontend-integrations-assistant-ui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>assistant-ui</span></a><a class="nav-link" href="frontend-integrations-openui.html" data-search="OpenUI OpenUI frontend-integrations-openui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>OpenUI</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">高级用法</div><a class="nav-link" href="guardrails.html" data-search="护栏 Guardrails guardrails Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>护栏</span></a><a class="nav-link" href="runtime.html" data-search="运行时 Runtime runtime Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>运行时</span></a><a class="nav-link" href="context-engineering.html" data-search="智能体中的上下文工程 Context engineering in agents context-engineering Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>智能体中的上下文工程</span></a><a class="nav-link" href="human-in-the-loop.html" data-search="人在回路 Human-in-the-loop human-in-the-loop Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>人在回路</span></a><a class="nav-link" href="retrieval.html" data-search="检索 Retrieval retrieval Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>检索</span></a><a class="nav-link" href="long-term-memory.html" data-search="长期记忆 Long-term memory long-term-memory Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>长期记忆</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">MCP</div><a class="nav-link" href="mcp.html" data-search="MCP 概述 Model Context Protocol (MCP) mcp Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 概述</span></a><a class="nav-link" href="mcp-tools.html" data-search="MCP 工具 Tools mcp-tools Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 工具</span></a><a class="nav-link" href="mcp-connections.html" data-search="MCP 连接 Connections mcp-connections Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 连接</span></a><a class="nav-link" href="mcp-auth.html" data-search="MCP 认证 Authentication mcp-auth Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 认证</span></a></div><div class="nav-subgroup"><div class="nav-subgroup-title">多智能体</div><a class="nav-link" href="multi-agent.html" data-search="多智能体 Multi-agent multi-agent Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>多智能体</span></a><a class="nav-link" href="multi-agent-subagents.html" data-search="子智能体 Subagents multi-agent-subagents Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>子智能体</span></a><a class="nav-link" href="multi-agent-handoffs.html" data-search="交接 Handoffs multi-agent-handoffs Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>交接</span></a><a class="nav-link" href="multi-agent-skills.html" data-search="技能 Skills multi-agent-skills Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>技能</span></a><a class="nav-link active" href="multi-agent-router.html" data-search="路由器 Router multi-agent-router Advanced usage Multi-agent 高级用法 高级用法" aria-current="page"><span class="nav-dot" aria-hidden="true"></span><span>路由器</span></a><a class="nav-link" href="multi-agent-custom-workflow.html" data-search="自定义工作流 Custom workflow multi-agent-custom-workflow Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>自定义工作流</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">智能体开发</div><a class="nav-link" href="studio.html" data-search="LangSmith Studio LangSmith Studio studio Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith Studio</span></a><a class="nav-link" href="ui.html" data-search="Agent Chat UI Agent Chat UI ui Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>Agent Chat UI</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">测试</div><a class="nav-link" href="test.html" data-search="测试 Test test Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>测试</span></a><a class="nav-link" href="test-unit-testing.html" data-search="单元测试 Unit testing test-unit-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>单元测试</span></a><a class="nav-link" href="test-integration-testing.html" data-search="集成测试 Integration testing test-integration-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>集成测试</span></a><a class="nav-link" href="test-evals.html" data-search="智能体评估 Agent Evals test-evals Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>智能体评估</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">生产</div><a class="nav-link" href="deploy.html" data-search="部署 Deployment deploy Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>部署</span></a><a class="nav-link" href="observability.html" data-search="LangSmith 可观测性 LangSmith Observability observability Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith 可观测性</span></a></section><div class="nav-empty" data-nav-empty hidden>没有匹配的页面</div></nav></div>
+      <div class="sidebar-foot"><strong>59 篇</strong> · 社区翻译</div>
+    </aside>
+    <div class="sidebar-overlay" data-sidebar-overlay></div>
+    <main class="main" id="main">
+      <div class="content-wrap">
+        <nav class="breadcrumbs" aria-label="面包屑"><a href="index.html">LangChain</a><span class="sep">/</span><span>高级用法</span><span class="sep">/</span><span>多智能体</span><span class="sep">/</span><span class="current">路由器</span></nav>
+        <header class="page-header">
+          <h1>路由器</h1>
+          <div class="page-lead">在 <strong>路由器</strong>架构中，路由步骤会对输入进行分类，并将其分发到专门的<a href="agents.html">智能体</a>。当你拥有彼此独立的<strong>垂直领域</strong>（各自需要专属智能体的独立知识域）时，这种架构很有用。</div>
+          <div class="page-meta">
+            <span>约 3 分钟</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>社区翻译</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <a href="https://docs.langchain.com/oss/python/langchain/multi-agent/router" target="_blank" rel="noopener noreferrer">查看英文原文 ↗</a>
+          </div>
+        </header>
+        <article class="content">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">mermaid</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-mermaid">graph LR
+    A([Query]) --&gt; B[Router]
+    B --&gt; C[Agent A]
+    B --&gt; D[Agent B]
+    B --&gt; E[Agent C]
+    C --&gt; F[Synthesize]
+    D --&gt; F
+    E --&gt; F
+    F --&gt; G([Combined answer])
+
+    classDef trigger fill:#F6FFDB,stroke:#6E8900,stroke-width:2px,color:#2E3900
+    classDef process fill:#E5F4FF,stroke:#006DDD,stroke-width:2px,color:#030710
+
+    class A,G trigger
+    class B,C,D,E,F process</code></pre>
+</div>
+<h2 id="key-characteristics">关键特性<a class="heading-anchor" href="#key-characteristics" aria-label="链接到本节">#</a></h2>
+<ul><li><p>路由器会拆解查询</p></li><li><p>并行调用零个或多个专门智能体</p></li><li><p>将结果综合为连贯的回复</p></li></ul>
+<h2 id="when-to-use">何时使用<a class="heading-anchor" href="#when-to-use" aria-label="链接到本节">#</a></h2>
+<p>当你拥有彼此独立的垂直领域（各自需要专属智能体的独立知识域）、需要并行查询多个来源，并希望将结果综合为统一的回复时，可以使用路由器模式。</p>
+<h2 id="basic-implementation">基础实现<a class="heading-anchor" href="#basic-implementation" aria-label="链接到本节">#</a></h2>
+<p>路由器会对查询进行分类，并将其分发到合适的智能体。单智能体路由使用 <a href="https://docs.langchain.com/oss/python/langgraph/graph-api#command" target="_blank" rel="noopener noreferrer"><code>Command</code></a>，并行分发到多个智能体则使用 <a href="https://docs.langchain.com/oss/python/langgraph/graph-api#send" target="_blank" rel="noopener noreferrer"><code>Send</code></a>。</p>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-1-tab-0" role="tab" aria-controls="tabs-1-panel-0" aria-selected="true" tabindex="0">Single agent</button><button class="doc-tab" type="button" id="tabs-1-tab-1" role="tab" aria-controls="tabs-1-panel-1" aria-selected="false" tabindex="-1">Multiple agents (parallel)</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-1-panel-0" role="tabpanel" aria-labelledby="tabs-1-tab-0">
+<p>使用 <code>Command</code> 路由到单个专门智能体：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langgraph.types <span class="hljs-keyword">import</span> Command
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">classify_query</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Use LLM to classify query and determine the appropriate agent."""</span>
+    <span class="hljs-comment"># Classification logic here</span>
+    ...
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">route_query</span>(<span class="hljs-params">state: State</span>) -&gt; Command:
+    <span class="hljs-string">"""Route to the appropriate agent based on query classification."""</span>
+    active_agent = classify_query(state[<span class="hljs-string">"query"</span>])
+
+    <span class="hljs-comment"># Route to the selected agent</span>
+    <span class="hljs-keyword">return</span> Command(goto=active_agent)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-1-panel-1" role="tabpanel" aria-labelledby="tabs-1-tab-1" hidden="">
+<p>使用 <code>Send</code> 并行分发到多个专门智能体：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> TypedDict
+<span class="hljs-keyword">from</span> langgraph.types <span class="hljs-keyword">import</span> Send
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ClassificationResult</span>(<span class="hljs-title class_ inherited__">TypedDict</span>):
+    query: <span class="hljs-built_in">str</span>
+    agent: <span class="hljs-built_in">str</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">classify_query</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">list</span>[ClassificationResult]:
+    <span class="hljs-string">"""Use LLM to classify query and determine which agents to invoke."""</span>
+    <span class="hljs-comment"># Classification logic here</span>
+    ...
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">route_query</span>(<span class="hljs-params">state: State</span>):
+    <span class="hljs-string">"""Route to relevant agents based on query classification."""</span>
+    classifications = classify_query(state[<span class="hljs-string">"query"</span>])
+
+    <span class="hljs-comment"># Fan out to selected agents in parallel</span>
+    <span class="hljs-keyword">return</span> [
+        Send(c[<span class="hljs-string">"agent"</span>], {<span class="hljs-string">"query"</span>: c[<span class="hljs-string">"query"</span>]})
+        <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> classifications
+    ]</code></pre>
+</div>
+</div></div>
+</div>
+<p>完整实现请参见下方教程。</p>
+<div class="card-grid"><a class="doc-card" href="https://docs.langchain.com/oss/python/langchain/multi-agent/router-knowledge-base" target="_blank" rel="noopener noreferrer"><span class="card-title">教程：使用路由构建多源知识库</span><span class="card-body"><p>构建一个路由器，并行查询 GitHub、Notion 和 Slack，再将结果综合为连贯的答案。内容涵盖状态定义、专门智能体、使用 <code>Send</code> 进行并行执行以及结果综合。</p></span></a></div>
+<h2 id="stateless-vs-stateful">无状态与有状态<a class="heading-anchor" href="#stateless-vs-stateful" aria-label="链接到本节">#</a></h2>
+<p>两种方式：</p>
+<ul><li><p><a href="#stateless"><strong>无状态路由器</strong></a> 独立处理每个请求</p></li><li><p><a href="#stateful"><strong>有状态路由器</strong></a> 在请求之间保留对话历史</p></li></ul>
+<h2 id="stateless">无状态<a class="heading-anchor" href="#stateless" aria-label="链接到本节">#</a></h2>
+<p>每个请求都独立路由——调用之间没有记忆。多轮对话请参见 <a href="#stateful">有状态路由器</a>。</p>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p><strong>路由器与子智能体</strong>：两种模式都能将工作分发给多个智能体，但它们在路由决策的产生方式上有所不同：</p>
+<ul><li><p><strong>路由器</strong>：一个专门的路由步骤（通常是一次 LLM 调用或基于规则的逻辑），负责对输入进行分类并分发到各个智能体。路由器本身通常不维护对话历史，也不执行多轮编排——它只是一个预处理步骤。</p></li><li><p><strong>子智能体</strong>：由主监督智能体在持续进行的对话中动态决定调用哪些 <a href="multi-agent-subagents.html">子智能体</a>。主智能体维护上下文，可以跨轮次调用多个子智能体，并编排复杂的多步骤工作流。</p></li></ul>
+<p>当你有清晰的输入类别，并希望采用确定性或轻量级的分类时，使用 <strong>路由器</strong>。当你需要灵活、能感知对话的编排，由 LLM 根据不断演化的上下文决定下一步做什么时，使用 <strong>监督者</strong>。</p></div>
+</aside>
+<h2 id="stateful">有状态<a class="heading-anchor" href="#stateful" aria-label="链接到本节">#</a></h2>
+<p>对于多轮对话，你需要在多次调用之间维护上下文。</p>
+<h3 id="tool-wrapper">工具包装<a class="heading-anchor" href="#tool-wrapper" aria-label="链接到本节">#</a></h3>
+<p>最简单的方式：将无状态路由器包装成一个工具，供对话式智能体调用。对话式智能体负责记忆与上下文，路由器则保持无状态。这样避免了在多个并行智能体之间管理对话历史的复杂性。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search_docs</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search across multiple documentation sources."""</span>
+    result = workflow.invoke({<span class="hljs-string">"query"</span>: query})
+    <span class="hljs-keyword">return</span> result[<span class="hljs-string">"final_answer"</span>]
+
+<span class="hljs-comment"># Conversational agent uses the router as a tool</span>
+conversational_agent = create_agent(
+    model,
+    tools=[search_docs],
+    prompt=<span class="hljs-string">"You are a helpful assistant. Use search_docs to answer questions."</span>
+)</code></pre>
+</div>
+<h3 id="full-persistence">完整持久化<a class="heading-anchor" href="#full-persistence" aria-label="链接到本节">#</a></h3>
+<p>如果你需要路由器本身维护状态，可以使用 <a href="short-term-memory.html">持久化</a> 来存储消息历史。在路由到某个智能体时，从状态中获取之前的消息，并有选择地将它们纳入该智能体的上下文——这是 <a href="context-engineering.html">上下文工程</a> 的一个抓手。</p>
+<aside class="callout callout-warning">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>警告</span></div>
+  <div class="callout-body"><p><strong>有状态路由器需要自定义历史管理。</strong> 如果路由器在不同轮次之间切换智能体，当各智能体的语气或提示词不同时，终端用户可能会觉得对话不够流畅。采用并行调用时，你需要在路由器层面维护历史（输入与综合输出），并在路由逻辑中利用这些历史。可以考虑改用 <a href="multi-agent-handoffs.html">交接模式</a> 或 <a href="multi-agent-subagents.html">子智能体模式</a>——两者都为多轮对话提供了更清晰的语义。</p></div>
+</aside></article>
+        <nav class="pager" aria-label="翻页"><a class="prev" href="multi-agent-skills.html"><span class="pager-label">上一篇</span><span class="pager-title">技能</span></a><a class="next" href="multi-agent-custom-workflow.html"><span class="pager-label">下一篇</span><span class="pager-title">自定义工作流</span></a></nav>
+        <footer class="page-footer">
+          <p>本页为社区维护的简体中文翻译，不是 LangChain 官方文档。如与英文原文有出入，请以 <a href="https://docs.langchain.com/oss/python/langchain/multi-agent/router" target="_blank" rel="noopener noreferrer">英文原文</a> 为准。</p>
+        </footer>
+      </div>
+    </main>
+    <aside class="toc" aria-label="本页目录"><div class="toc-inner"><div class="toc-title">本页目录</div><a class="toc-link level-2" href="#key-characteristics">关键特性</a><a class="toc-link level-2" href="#when-to-use">何时使用</a><a class="toc-link level-2" href="#basic-implementation">基础实现</a><a class="toc-link level-2" href="#stateless-vs-stateful">无状态与有状态</a><a class="toc-link level-2" href="#stateless">无状态</a><a class="toc-link level-2" href="#stateful">有状态</a><a class="toc-link level-3" href="#tool-wrapper">工具包装</a><a class="toc-link level-3" href="#full-persistence">完整持久化</a></div></aside>
+  </div>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p><strong>LangChain 中文文档</strong> · 社区翻译，非官方站点。内容基于 <a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener noreferrer">docs.langchain.com</a> 的 LangChain（Python）文档生成。</p>
+      <p>共 59 篇 · 代码示例保持英文原样 · 以英文原文为准</p>
+    </div>
+  </footer>
+  <button class="back-top" type="button" data-back-top aria-label="回到顶部">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script src="assets/docs.js" defer></script>
+</body>
+</html>

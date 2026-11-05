@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Markdown 消息 | LangChain 中文文档</title>
+  <meta name="description" content="将 LLM 响应渲染为格式丰富的 Markdown，并妥善支持流式传输">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M12.5 19.5l7-7M10 22l-1 1a4 4 0 0 1-5.7-5.7l3.4-3.4a4 4 0 0 1 5.7 0M22 10l1-1a4 4 0 0 1 5.7 5.7l-3.4 3.4a4 4 0 0 1-5.7 0' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem('lc-docs-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();</script>
+  <link rel="stylesheet" href="assets/docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div id="progress" data-progress></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="打开文档导航" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="LangChain 中文文档首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9.4 14.6l5.2-5.2M7.1 16.9l-1.4 1.4a3.7 3.7 0 0 1-5.2-5.2l3.2-3.2a3.7 3.7 0 0 1 5.2 0M16.9 7.1l1.4-1.4a3.7 3.7 0 0 1 5.2 5.2l-3.2 3.2a3.7 3.7 0 0 1-5.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text">LangChain <span class="brand-sub">中文文档</span></span>
+      </a>
+      <nav class="top-nav" aria-label="主导航">
+        <a class="top-link active" href="index.html" aria-current="page">LangChain</a>
+        <a class="top-link" href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a>
+        <a class="top-link" href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener noreferrer">LangSmith</a>
+        <a class="top-link" href="https://reference.langchain.com/python/langchain/" target="_blank" rel="noopener noreferrer">API 参考</a>
+      </nav>
+      <div class="header-actions">
+        <a class="source-link" href="https://docs.langchain.com/oss/python/langchain/frontend/markdown-messages" target="_blank" rel="noopener noreferrer">English <span aria-hidden="true">↗</span></a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="切换到深色模式" aria-pressed="false" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v1.6M10 16.2v1.6M2.2 10h1.6M16.2 10h1.6M4.5 4.5l1.1 1.1M14.4 14.4l1.1 1.1M15.5 4.5l-1.1 1.1M5.6 14.4l-1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.4 12.1A6.6 6.6 0 0 1 7.9 3.6 6.8 6.8 0 1 0 16.4 12.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" id="sidebar" aria-label="文档导航">
+      <div class="sidebar-head">
+        <div class="sidebar-title">文档目录</div>
+        <div class="nav-search">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.2" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="搜索页面…" aria-label="搜索文档页面" data-nav-search autocomplete="off" spellcheck="false">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+      </div>
+      <div class="sidebar-scroll"><nav class="nav" id="doc-nav" aria-label="文档页面"><div class="nav-home"><a class="nav-link" href="index.html" data-search="LangChain 概览 LangChain overview index  "><span class="nav-dot" aria-hidden="true"></span><span>LangChain 概览</span></a></div><section class="nav-section" data-nav-section><div class="nav-section-title">开始使用</div><a class="nav-link" href="install.html" data-search="安装 LangChain Install LangChain install Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>安装 LangChain</span></a><a class="nav-link" href="quickstart.html" data-search="快速开始 Quickstart quickstart Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>快速开始</span></a><a class="nav-link" href="philosophy.html" data-search="设计理念 Philosophy philosophy Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>设计理念</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">核心组件</div><a class="nav-link" href="agents.html" data-search="智能体 Agents agents Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>智能体</span></a><a class="nav-link" href="models.html" data-search="模型 Models models Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>模型</span></a><a class="nav-link" href="messages.html" data-search="消息 Messages messages Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>消息</span></a><a class="nav-link" href="tools.html" data-search="工具 Tools tools Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>工具</span></a><a class="nav-link" href="short-term-memory.html" data-search="短期记忆 Short-term memory short-term-memory Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>短期记忆</span></a><a class="nav-link" href="event-streaming.html" data-search="事件流 Event streaming event-streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>事件流</span></a><a class="nav-link" href="streaming.html" data-search="流式传输 Streaming streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>流式传输</span></a><a class="nav-link" href="structured-output.html" data-search="结构化输出 Structured output structured-output Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>结构化输出</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">中间件</div><a class="nav-link" href="middleware-overview.html" data-search="中间件概览 Middleware overview middleware-overview Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>中间件概览</span></a><a class="nav-link" href="middleware-built-in.html" data-search="预置中间件 Prebuilt middleware middleware-built-in Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>预置中间件</span></a><a class="nav-link" href="middleware-custom.html" data-search="自定义中间件 Custom middleware middleware-custom Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>自定义中间件</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">前端</div><a class="nav-link" href="frontend-overview.html" data-search="前端概览 Overview frontend-overview Frontend 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端概览</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">模式</div><a class="nav-link active" href="frontend-markdown-messages.html" data-search="Markdown 消息 Markdown messages frontend-markdown-messages Frontend Patterns 前端 前端" aria-current="page"><span class="nav-dot" aria-hidden="true"></span><span>Markdown 消息</span></a><a class="nav-link" href="frontend-tool-calling.html" data-search="工具调用 Tool calling frontend-tool-calling Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>工具调用</span></a><a class="nav-link" href="frontend-headless-tools.html" data-search="无头工具 Headless tools frontend-headless-tools Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>无头工具</span></a><a class="nav-link" href="frontend-human-in-the-loop.html" data-search="前端人在回路 Human-in-the-Loop frontend-human-in-the-loop Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端人在回路</span></a><a class="nav-link" href="frontend-branching-chat.html" data-search="分支对话 Branching chat frontend-branching-chat Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>分支对话</span></a><a class="nav-link" href="frontend-reasoning-tokens.html" data-search="推理 token Reasoning tokens frontend-reasoning-tokens Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>推理 token</span></a><a class="nav-link" href="frontend-structured-output.html" data-search="前端结构化输出 Structured output frontend-structured-output Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端结构化输出</span></a><a class="nav-link" href="frontend-message-queues.html" data-search="消息队列 Message queues frontend-message-queues Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>消息队列</span></a><a class="nav-link" href="frontend-join-rejoin.html" data-search="断开与重连流 Join &amp; rejoin streams frontend-join-rejoin Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>断开与重连流</span></a><a class="nav-link" href="frontend-time-travel.html" data-search="时间旅行 Time travel frontend-time-travel Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>时间旅行</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">生成式 UI</div><a class="nav-link" href="frontend-generative-ui-overview.html" data-search="生成式 UI 概览 Generative UI overview frontend-generative-ui-overview Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>生成式 UI 概览</span></a><a class="nav-link" href="frontend-controlled-generative-ui.html" data-search="受控生成式 UI Controlled generative UI frontend-controlled-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>受控生成式 UI</span></a><a class="nav-link" href="frontend-declarative-generative-ui.html" data-search="声明式生成式 UI Declarative generative UI frontend-declarative-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>声明式生成式 UI</span></a><a class="nav-link" href="frontend-open-ended-generative-ui.html" data-search="开放式生成式 UI Open-ended generative UI frontend-open-ended-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>开放式生成式 UI</span></a></div></div><div class="nav-subgroup"><div class="nav-subgroup-title">集成</div><a class="nav-link" href="frontend-integrations-overview.html" data-search="集成概览 Overview frontend-integrations-overview Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>集成概览</span></a><a class="nav-link" href="frontend-integrations-copilotkit.html" data-search="CopilotKit CopilotKit frontend-integrations-copilotkit Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>CopilotKit</span></a><a class="nav-link" href="frontend-integrations-ai-elements.html" data-search="AI Elements AI Elements frontend-integrations-ai-elements Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>AI Elements</span></a><a class="nav-link" href="frontend-integrations-assistant-ui.html" data-search="assistant-ui assistant-ui frontend-integrations-assistant-ui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>assistant-ui</span></a><a class="nav-link" href="frontend-integrations-openui.html" data-search="OpenUI OpenUI frontend-integrations-openui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>OpenUI</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">高级用法</div><a class="nav-link" href="guardrails.html" data-search="护栏 Guardrails guardrails Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>护栏</span></a><a class="nav-link" href="runtime.html" data-search="运行时 Runtime runtime Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>运行时</span></a><a class="nav-link" href="context-engineering.html" data-search="智能体中的上下文工程 Context engineering in agents context-engineering Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>智能体中的上下文工程</span></a><a class="nav-link" href="human-in-the-loop.html" data-search="人在回路 Human-in-the-loop human-in-the-loop Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>人在回路</span></a><a class="nav-link" href="retrieval.html" data-search="检索 Retrieval retrieval Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>检索</span></a><a class="nav-link" href="long-term-memory.html" data-search="长期记忆 Long-term memory long-term-memory Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>长期记忆</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">MCP</div><a class="nav-link" href="mcp.html" data-search="MCP 概述 Model Context Protocol (MCP) mcp Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 概述</span></a><a class="nav-link" href="mcp-tools.html" data-search="MCP 工具 Tools mcp-tools Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 工具</span></a><a class="nav-link" href="mcp-connections.html" data-search="MCP 连接 Connections mcp-connections Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 连接</span></a><a class="nav-link" href="mcp-auth.html" data-search="MCP 认证 Authentication mcp-auth Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 认证</span></a></div><div class="nav-subgroup"><div class="nav-subgroup-title">多智能体</div><a class="nav-link" href="multi-agent.html" data-search="多智能体 Multi-agent multi-agent Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>多智能体</span></a><a class="nav-link" href="multi-agent-subagents.html" data-search="子智能体 Subagents multi-agent-subagents Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>子智能体</span></a><a class="nav-link" href="multi-agent-handoffs.html" data-search="交接 Handoffs multi-agent-handoffs Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>交接</span></a><a class="nav-link" href="multi-agent-skills.html" data-search="技能 Skills multi-agent-skills Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>技能</span></a><a class="nav-link" href="multi-agent-router.html" data-search="路由器 Router multi-agent-router Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>路由器</span></a><a class="nav-link" href="multi-agent-custom-workflow.html" data-search="自定义工作流 Custom workflow multi-agent-custom-workflow Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>自定义工作流</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">智能体开发</div><a class="nav-link" href="studio.html" data-search="LangSmith Studio LangSmith Studio studio Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith Studio</span></a><a class="nav-link" href="ui.html" data-search="Agent Chat UI Agent Chat UI ui Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>Agent Chat UI</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">测试</div><a class="nav-link" href="test.html" data-search="测试 Test test Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>测试</span></a><a class="nav-link" href="test-unit-testing.html" data-search="单元测试 Unit testing test-unit-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>单元测试</span></a><a class="nav-link" href="test-integration-testing.html" data-search="集成测试 Integration testing test-integration-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>集成测试</span></a><a class="nav-link" href="test-evals.html" data-search="智能体评估 Agent Evals test-evals Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>智能体评估</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">生产</div><a class="nav-link" href="deploy.html" data-search="部署 Deployment deploy Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>部署</span></a><a class="nav-link" href="observability.html" data-search="LangSmith 可观测性 LangSmith Observability observability Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith 可观测性</span></a></section><div class="nav-empty" data-nav-empty hidden>没有匹配的页面</div></nav></div>
+      <div class="sidebar-foot"><strong>59 篇</strong> · 社区翻译</div>
+    </aside>
+    <div class="sidebar-overlay" data-sidebar-overlay></div>
+    <main class="main" id="main">
+      <div class="content-wrap">
+        <nav class="breadcrumbs" aria-label="面包屑"><a href="index.html">LangChain</a><span class="sep">/</span><span>前端</span><span class="sep">/</span><span>模式</span><span class="sep">/</span><span class="current">Markdown 消息</span></nav>
+        <header class="page-header">
+          <h1>Markdown 消息</h1>
+          <div class="page-lead">将 LLM 响应渲染为格式丰富的 Markdown，并妥善支持流式传输</div>
+          <div class="page-meta">
+            <span>约 6 分钟</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>社区翻译</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <a href="https://docs.langchain.com/oss/python/langchain/frontend/markdown-messages" target="_blank" rel="noopener noreferrer">查看英文原文 ↗</a>
+          </div>
+        </header>
+        <article class="content"><p>LLM 天然会输出 Markdown 格式的文本，包括标题、列表、代码块、表格和行内格式。把这类内容当作纯文本渲染，就浪费了模型所提供的结构。本模式将展示如何在所有主流前端框架中，随智能体的流式输出实时解析并渲染 Markdown。</p>
+<h2 id="how-markdown-rendering-works">Markdown 渲染的工作方式<a class="heading-anchor" href="#how-markdown-rendering-works" aria-label="链接到本节">#</a></h2>
+<p>渲染流水线包含三个步骤：</p>
+<ol><li><p><strong>接收：</strong> <a href="https://reference.langchain.com/javascript/langchain-react/index/useStream" target="_blank" rel="noopener noreferrer"><code>useStream</code></a> 在每条 AI 消息上把流式传输的文本累积到 <code>msg.text</code>，并在新 token 到达时响应式更新。</p></li><li><p><strong>解析：</strong> Markdown 解析器将原始文本转换为 HTML（或 React 元素树）。这一步在每次更新时都会运行，但对于聊天长度的内容足够快（5 KB 的消息耗时 &lt; 5ms）。</p></li><li><p><strong>渲染：</strong> 解析后的输出被渲染到 DOM 中。React 使用虚拟 DOM 差异对比；Vue 和 Svelte 使用 <code>v-html</code> / <code>{@html}</code> 配合经过净化的 HTML。</p></li></ol>
+<h2 id="setting-up-usestream">设置 <code>useStream</code><a class="heading-anchor" href="#setting-up-usestream" aria-label="链接到本节">#</a></h2>
+<p>Markdown 模式使用一个无需特殊配置的简单聊天智能体。用你的智能体 URL 和 assistant ID 接入 <a href="https://reference.langchain.com/javascript/langchain-react/index/useStream" target="_blank" rel="noopener noreferrer"><code>useStream</code></a>。</p>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>代码示例使用 <code>useStream&lt;typeof myAgent&gt;</code> 获得类型安全的流状态。请参阅 <a href="frontend-overview.html#type-inference">Python</a> 或 <a href="https://docs.langchain.com/oss/javascript/langchain/frontend/overview#type-inference" target="_blank" rel="noopener noreferrer">JavaScript</a> 后端的类型推断。</p></div>
+</aside>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">React</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { useStream } <span class="hljs-keyword">from</span> <span class="hljs-string">"@langchain/react"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AIMessage</span>, <span class="hljs-title class_">HumanMessage</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"langchain"</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">AGENT_URL</span> = <span class="hljs-string">"http://localhost:2024"</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">Chat</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> stream = useStream&lt;<span class="hljs-keyword">typeof</span> myAgent&gt;({
+    <span class="hljs-attr">apiUrl</span>: <span class="hljs-variable constant_">AGENT_URL</span>,
+    <span class="hljs-attr">assistantId</span>: <span class="hljs-string">"simple_agent"</span>,
+  });
+
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      {stream.messages.map((msg) =&gt; {
+        if (AIMessage.isInstance(msg)) {
+          return <span class="hljs-tag">&lt;<span class="hljs-name">Markdown</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{msg.id}</span>&gt;</span>{msg.text}<span class="hljs-tag">&lt;/<span class="hljs-name">Markdown</span>&gt;</span>;
+        }
+        if (HumanMessage.isInstance(msg)) {
+          return <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{msg.id}</span>&gt;</span>{msg.text}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>;
+        }
+      })}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Vue</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-vue">&lt;script setup lang="ts"&gt;
+import { useStream } from "@langchain/vue";
+import { AIMessage, HumanMessage } from "langchain";
+
+const AGENT_URL = "http://localhost:2024";
+
+const stream = useStream&lt;typeof myAgent&gt;({
+  apiUrl: AGENT_URL,
+  assistantId: "simple_agent",
+});
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;template v-for="msg in stream.messages.value" :key="msg.id"&gt;
+      &lt;Markdown v-if="AIMessage.isInstance(msg)"&gt;{{ msg.text }}&lt;/Markdown&gt;
+      &lt;p v-else-if="HumanMessage.isInstance(msg)"&gt;{{ msg.text }}&lt;/p&gt;
+    &lt;/template&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Svelte</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-svelte">&lt;script lang="ts"&gt;
+  import { useStream } from "@langchain/svelte";
+  import { AIMessage, HumanMessage } from "langchain";
+
+  const AGENT_URL = "http://localhost:2024";
+
+  const stream = useStream&lt;typeof myAgent&gt;({
+    apiUrl: AGENT_URL,
+    assistantId: "simple_agent",
+  });
+&lt;/script&gt;
+
+&lt;div&gt;
+  {#each stream.messages as msg (msg.id)}
+    {#if AIMessage.isInstance(msg)}
+      &lt;Markdown content={msg.text} /&gt;
+    {:else if HumanMessage.isInstance(msg)}
+      &lt;p&gt;{msg.text}&lt;/p&gt;
+    {/if}
+  {/each}
+&lt;/div&gt;</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Angular</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@angular/core"</span>;
+<span class="hljs-keyword">import</span> { injectStream } <span class="hljs-keyword">from</span> <span class="hljs-string">"@langchain/angular"</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">AGENT_URL</span> = <span class="hljs-string">"http://localhost:2024"</span>;
+
+<span class="hljs-meta">@Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">"app-chat"</span>,
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
+    @for (msg of stream.messages(); track msg.id) {
+      &lt;app-markdown [content]="msg.text" /&gt;
+    }
+  `</span>,
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ChatComponent</span> {
+  stream = injectStream&lt;<span class="hljs-keyword">typeof</span> myAgent&gt;({
+    <span class="hljs-attr">apiUrl</span>: <span class="hljs-variable constant_">AGENT_URL</span>,
+    <span class="hljs-attr">assistantId</span>: <span class="hljs-string">"simple_agent"</span>,
+  });
+}</code></pre>
+</div>
+<h2 id="choosing-a-markdown-library">选择 Markdown 库<a class="heading-anchor" href="#choosing-a-markdown-library" aria-label="链接到本节">#</a></h2>
+<p>每个框架都有适合的 Markdown 渲染选择：</p>
+<div class="table-wrap"><table><thead><tr><th>框架</th><th>库</th><th>输出</th><th>原因</th></tr></thead><tbody><tr><td>React</td><td><code>react-markdown</code> + <code>remark-gfm</code></td><td>React 元素</td><td>基于组件、虚拟 DOM 差异对比、无需 <code>dangerouslySetInnerHTML</code></td></tr><tr><td>Vue</td><td><code>marked</code> + <code>dompurify</code></td><td>通过 <code>v-html</code> 生成净化后的 HTML</td><td>轻量、快速、内置 GFM</td></tr><tr><td>Svelte</td><td><code>marked</code> + <code>dompurify</code></td><td>通过 <code>{@html}</code> 生成净化后的 HTML</td><td>与 Vue 相同，API 一致</td></tr><tr><td>Angular</td><td><code>marked</code> + <code>dompurify</code></td><td>通过 <code>[innerHTML]</code> 生成净化后的 HTML</td><td>与 Vue/Svelte 相同</td></tr></tbody></table></div>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>React 的 <code>react-markdown</code> 直接将 Markdown 转换为 React 元素，因此不需要 HTML 净化，也不涉及 <code>dangerouslySetInnerHTML</code>。对于 Vue、Svelte 和 Angular，在渲染前务必用 <code>dompurify</code> 净化解析后的 HTML。</p></div>
+</aside>
+<h2 id="building-the-markdown-component">构建 Markdown 组件<a class="heading-anchor" href="#building-the-markdown-component" aria-label="链接到本节">#</a></h2>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">React</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> <span class="hljs-title class_">ReactMarkdown</span> <span class="hljs-keyword">from</span> <span class="hljs-string">"react-markdown"</span>;
+<span class="hljs-keyword">import</span> remarkGfm <span class="hljs-keyword">from</span> <span class="hljs-string">"remark-gfm"</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">Markdown</span>(<span class="hljs-params">{ children }: { children: <span class="hljs-built_in">string</span> }</span>) {
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"markdown-content"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">ReactMarkdown</span> <span class="hljs-attr">remarkPlugins</span>=<span class="hljs-string">{[remarkGfm]}</span>&gt;</span>
+        {children}
+      <span class="hljs-tag">&lt;/<span class="hljs-name">ReactMarkdown</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Vue</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-vue">&lt;script setup lang="ts"&gt;
+import { computed, useSlots } from "vue";
+import { marked } from "marked";
+import DOMPurify from "dompurify";
+
+marked.setOptions({ gfm: true, breaks: true });
+
+const slots = useSlots();
+
+const html = computed(() =&gt; {
+  const slot = slots.default?.();
+  const text = slot
+    ?.map((vnode) =&gt;
+      typeof vnode.children === "string" ? vnode.children : ""
+    )
+    .join("") ?? "";
+  if (!text) return "";
+  return DOMPurify.sanitize(marked.parse(text) as string);
+});
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;div class="markdown-content" v-html="html" /&gt;
+&lt;/template&gt;</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Svelte</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-svelte">&lt;script lang="ts"&gt;
+  import { marked } from "marked";
+  import DOMPurify from "dompurify";
+
+  let { content }: { content: string } = $props();
+
+  marked.setOptions({ gfm: true, breaks: true });
+
+  let html = $derived.by(() =&gt; {
+    if (!content) return "";
+    return DOMPurify.sanitize(marked.parse(content) as string);
+  });
+&lt;/script&gt;
+
+&lt;div class="markdown-content"&gt;
+  {@html html}
+&lt;/div&gt;</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Angular</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span>, <span class="hljs-title class_">Input</span>, computed, signal } <span class="hljs-keyword">from</span> <span class="hljs-string">"@angular/core"</span>;
+<span class="hljs-keyword">import</span> { marked } <span class="hljs-keyword">from</span> <span class="hljs-string">"marked"</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">DOMPurify</span> <span class="hljs-keyword">from</span> <span class="hljs-string">"dompurify"</span>;
+
+marked.<span class="hljs-title function_">setOptions</span>({ <span class="hljs-attr">gfm</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">breaks</span>: <span class="hljs-literal">true</span> });
+
+<span class="hljs-meta">@Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">"app-markdown"</span>,
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`&lt;div class="markdown-content" [innerHTML]="html()"&gt;&lt;/div&gt;`</span>,
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MarkdownComponent</span> {
+  <span class="hljs-meta">@Input</span>() <span class="hljs-keyword">set</span> <span class="hljs-title function_">content</span>(<span class="hljs-params"><span class="hljs-attr">value</span>: <span class="hljs-built_in">string</span></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">_content</span>.<span class="hljs-title function_">set</span>(value);
+  }
+
+  <span class="hljs-keyword">private</span> _content = <span class="hljs-title function_">signal</span>(<span class="hljs-string">""</span>);
+
+  html = <span class="hljs-title function_">computed</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">const</span> text = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_content</span>();
+    <span class="hljs-keyword">if</span> (!text) <span class="hljs-keyword">return</span> <span class="hljs-string">""</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">DOMPurify</span>.<span class="hljs-title function_">sanitize</span>(marked.<span class="hljs-title function_">parse</span>(text) <span class="hljs-keyword">as</span> <span class="hljs-built_in">string</span>);
+  });
+}</code></pre>
+</div>
+<h2 id="sanitizing-html-output">净化 HTML 输出<a class="heading-anchor" href="#sanitizing-html-output" aria-label="链接到本节">#</a></h2>
+<p>当把解析后的 Markdown 作为原始 HTML 渲染时（<code>v-html</code>、<code>{@html}</code>、<code>[innerHTML]</code>），你必须对输出进行净化，以防止跨站脚本攻击（XSS）。LLM 响应可能包含任意文本，包括 Markdown 解析器可能转换为可执行 HTML 的标记。</p>
+<p>使用 <code>dompurify</code> 移除危险元素：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">typescript</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">DOMPurify</span> <span class="hljs-keyword">from</span> <span class="hljs-string">"dompurify"</span>;
+
+<span class="hljs-keyword">const</span> safeHtml = <span class="hljs-title class_">DOMPurify</span>.<span class="hljs-title function_">sanitize</span>(rawHtml);</code></pre>
+</div>
+<p>DOMPurify 会移除 <code>&lt;script&gt;</code> 标签、<code>onclick</code> 属性、<code>javascript:</code> URL 以及其他 XSS 攻击向量，同时保留标题、列表、代码块、表格和链接等安全的 Markdown 输出。</p>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>React 的 <code>react-markdown</code> 不需要 <code>dompurify</code>，因为它直接生成 React 元素，不涉及原始 HTML 注入。</p></div>
+</aside>
+<h2 id="streaming-considerations">流式传输注意事项<a class="heading-anchor" href="#streaming-considerations" aria-label="链接到本节">#</a></h2>
+<p><code>useStream</code> 会在每个 token 到达时响应式更新 <code>msg.text</code>。Markdown 组件在每次更新时都会重新解析。对于典型的聊天消息，这样的性能是可以接受的：</p>
+<ul><li><p><code>marked</code> 的解析速度约为 1 MB/s。5 KB 的消息耗时 &lt; 5ms</p></li><li><p><code>react-markdown</code> + remark 流水线对于聊天长度的内容同样快速</p></li><li><p>浏览器的布局引擎能高效处理 DOM 更新</p></li></ul>
+<p>对于超长响应（&gt; 50 KB），可以考虑以下优化：</p>
+<ul><li><p><strong>限制渲染频率：</strong> 使用 <code>requestAnimationFrame</code> 以 60fps 批处理更新，而不是每来一个 token 就重新渲染</p></li><li><p><strong>增量解析：</strong> 只解析新增内容并追加到已渲染的缓冲区（高级用法，聊天 UI 通常不需要）</p></li></ul>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>对大多数聊天应用而言，在每个 token 到达时重新解析完整消息这种简单做法已经足够。只有在长消息下出现滚动卡顿或掉帧时，才需要进行优化。</p></div>
+</aside>
+<h2 id="best-practices">最佳实践<a class="heading-anchor" href="#best-practices" aria-label="链接到本节">#</a></h2>
+<ul><li><p><strong>始终净化：</strong> 使用 <code>v-html</code>、<code>{@html}</code> 或 <code>[innerHTML]</code> 时，务必让解析后的输出经过 <code>dompurify</code>。绝不要信任由 LLM 输出经 Markdown 解析器生成的原始 HTML。</p></li><li><p><strong>启用 GFM：</strong> GitHub Flavored Markdown 增加了表格、删除线、任务列表和自动链接。这些功能 LLM 经常使用。</p></li><li><p><strong>处理空内容：</strong> 在解析前检查空字符串，避免渲染空容器。</p></li><li><p><strong>使用 <code>breaks: true</code>：</strong> 启用换行转换，使 LLM 输出中的单个换行渲染为 <code>&lt;br&gt;</code>，而不是被忽略。LLM 经常用单个换行做视觉分隔。</p></li><li><p><strong>为聊天场景设置样式：</strong> 使用适合聊天气泡的紧凑边距和尺寸，而不是全宽的文章布局。</p></li><li><p><strong>用丰富内容测试：</strong> 用标题、嵌套列表、含长行的代码块、宽表格和引用块验证渲染效果，以发现溢出或布局问题。</p></li></ul></article>
+        <nav class="pager" aria-label="翻页"><a class="prev" href="frontend-overview.html"><span class="pager-label">上一篇</span><span class="pager-title">前端概览</span></a><a class="next" href="frontend-tool-calling.html"><span class="pager-label">下一篇</span><span class="pager-title">工具调用</span></a></nav>
+        <footer class="page-footer">
+          <p>本页为社区维护的简体中文翻译，不是 LangChain 官方文档。如与英文原文有出入，请以 <a href="https://docs.langchain.com/oss/python/langchain/frontend/markdown-messages" target="_blank" rel="noopener noreferrer">英文原文</a> 为准。</p>
+        </footer>
+      </div>
+    </main>
+    <aside class="toc" aria-label="本页目录"><div class="toc-inner"><div class="toc-title">本页目录</div><a class="toc-link level-2" href="#how-markdown-rendering-works">Markdown 渲染的工作方式</a><a class="toc-link level-2" href="#setting-up-usestream">设置 useStream</a><a class="toc-link level-2" href="#choosing-a-markdown-library">选择 Markdown 库</a><a class="toc-link level-2" href="#building-the-markdown-component">构建 Markdown 组件</a><a class="toc-link level-2" href="#sanitizing-html-output">净化 HTML 输出</a><a class="toc-link level-2" href="#streaming-considerations">流式传输注意事项</a><a class="toc-link level-2" href="#best-practices">最佳实践</a></div></aside>
+  </div>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p><strong>LangChain 中文文档</strong> · 社区翻译，非官方站点。内容基于 <a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener noreferrer">docs.langchain.com</a> 的 LangChain（Python）文档生成。</p>
+      <p>共 59 篇 · 代码示例保持英文原样 · 以英文原文为准</p>
+    </div>
+  </footer>
+  <button class="back-top" type="button" data-back-top aria-label="回到顶部">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script src="assets/docs.js" defer></script>
+</body>
+</html>

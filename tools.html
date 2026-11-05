@@ -1,0 +1,1236 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>工具 | LangChain 中文文档</title>
+  <meta name="description" content="定义工具，让 LangChain 智能体能够获取实时数据、执行代码、查询外部数据库并采取行动。">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M12.5 19.5l7-7M10 22l-1 1a4 4 0 0 1-5.7-5.7l3.4-3.4a4 4 0 0 1 5.7 0M22 10l1-1a4 4 0 0 1 5.7 5.7l-3.4 3.4a4 4 0 0 1-5.7 0' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem('lc-docs-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();</script>
+  <link rel="stylesheet" href="assets/docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div id="progress" data-progress></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="打开文档导航" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="LangChain 中文文档首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9.4 14.6l5.2-5.2M7.1 16.9l-1.4 1.4a3.7 3.7 0 0 1-5.2-5.2l3.2-3.2a3.7 3.7 0 0 1 5.2 0M16.9 7.1l1.4-1.4a3.7 3.7 0 0 1 5.2 5.2l-3.2 3.2a3.7 3.7 0 0 1-5.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text">LangChain <span class="brand-sub">中文文档</span></span>
+      </a>
+      <nav class="top-nav" aria-label="主导航">
+        <a class="top-link active" href="index.html" aria-current="page">LangChain</a>
+        <a class="top-link" href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a>
+        <a class="top-link" href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener noreferrer">LangSmith</a>
+        <a class="top-link" href="https://reference.langchain.com/python/langchain/" target="_blank" rel="noopener noreferrer">API 参考</a>
+      </nav>
+      <div class="header-actions">
+        <a class="source-link" href="https://docs.langchain.com/oss/python/langchain/tools" target="_blank" rel="noopener noreferrer">English <span aria-hidden="true">↗</span></a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="切换到深色模式" aria-pressed="false" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v1.6M10 16.2v1.6M2.2 10h1.6M16.2 10h1.6M4.5 4.5l1.1 1.1M14.4 14.4l1.1 1.1M15.5 4.5l-1.1 1.1M5.6 14.4l-1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.4 12.1A6.6 6.6 0 0 1 7.9 3.6 6.8 6.8 0 1 0 16.4 12.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" id="sidebar" aria-label="文档导航">
+      <div class="sidebar-head">
+        <div class="sidebar-title">文档目录</div>
+        <div class="nav-search">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.2" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="搜索页面…" aria-label="搜索文档页面" data-nav-search autocomplete="off" spellcheck="false">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+      </div>
+      <div class="sidebar-scroll"><nav class="nav" id="doc-nav" aria-label="文档页面"><div class="nav-home"><a class="nav-link" href="index.html" data-search="LangChain 概览 LangChain overview index  "><span class="nav-dot" aria-hidden="true"></span><span>LangChain 概览</span></a></div><section class="nav-section" data-nav-section><div class="nav-section-title">开始使用</div><a class="nav-link" href="install.html" data-search="安装 LangChain Install LangChain install Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>安装 LangChain</span></a><a class="nav-link" href="quickstart.html" data-search="快速开始 Quickstart quickstart Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>快速开始</span></a><a class="nav-link" href="philosophy.html" data-search="设计理念 Philosophy philosophy Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>设计理念</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">核心组件</div><a class="nav-link" href="agents.html" data-search="智能体 Agents agents Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>智能体</span></a><a class="nav-link" href="models.html" data-search="模型 Models models Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>模型</span></a><a class="nav-link" href="messages.html" data-search="消息 Messages messages Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>消息</span></a><a class="nav-link active" href="tools.html" data-search="工具 Tools tools Core components 核心组件 核心组件" aria-current="page"><span class="nav-dot" aria-hidden="true"></span><span>工具</span></a><a class="nav-link" href="short-term-memory.html" data-search="短期记忆 Short-term memory short-term-memory Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>短期记忆</span></a><a class="nav-link" href="event-streaming.html" data-search="事件流 Event streaming event-streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>事件流</span></a><a class="nav-link" href="streaming.html" data-search="流式传输 Streaming streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>流式传输</span></a><a class="nav-link" href="structured-output.html" data-search="结构化输出 Structured output structured-output Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>结构化输出</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">中间件</div><a class="nav-link" href="middleware-overview.html" data-search="中间件概览 Middleware overview middleware-overview Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>中间件概览</span></a><a class="nav-link" href="middleware-built-in.html" data-search="预置中间件 Prebuilt middleware middleware-built-in Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>预置中间件</span></a><a class="nav-link" href="middleware-custom.html" data-search="自定义中间件 Custom middleware middleware-custom Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>自定义中间件</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">前端</div><a class="nav-link" href="frontend-overview.html" data-search="前端概览 Overview frontend-overview Frontend 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端概览</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">模式</div><a class="nav-link" href="frontend-markdown-messages.html" data-search="Markdown 消息 Markdown messages frontend-markdown-messages Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>Markdown 消息</span></a><a class="nav-link" href="frontend-tool-calling.html" data-search="工具调用 Tool calling frontend-tool-calling Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>工具调用</span></a><a class="nav-link" href="frontend-headless-tools.html" data-search="无头工具 Headless tools frontend-headless-tools Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>无头工具</span></a><a class="nav-link" href="frontend-human-in-the-loop.html" data-search="前端人在回路 Human-in-the-Loop frontend-human-in-the-loop Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端人在回路</span></a><a class="nav-link" href="frontend-branching-chat.html" data-search="分支对话 Branching chat frontend-branching-chat Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>分支对话</span></a><a class="nav-link" href="frontend-reasoning-tokens.html" data-search="推理 token Reasoning tokens frontend-reasoning-tokens Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>推理 token</span></a><a class="nav-link" href="frontend-structured-output.html" data-search="前端结构化输出 Structured output frontend-structured-output Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端结构化输出</span></a><a class="nav-link" href="frontend-message-queues.html" data-search="消息队列 Message queues frontend-message-queues Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>消息队列</span></a><a class="nav-link" href="frontend-join-rejoin.html" data-search="断开与重连流 Join &amp; rejoin streams frontend-join-rejoin Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>断开与重连流</span></a><a class="nav-link" href="frontend-time-travel.html" data-search="时间旅行 Time travel frontend-time-travel Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>时间旅行</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">生成式 UI</div><a class="nav-link" href="frontend-generative-ui-overview.html" data-search="生成式 UI 概览 Generative UI overview frontend-generative-ui-overview Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>生成式 UI 概览</span></a><a class="nav-link" href="frontend-controlled-generative-ui.html" data-search="受控生成式 UI Controlled generative UI frontend-controlled-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>受控生成式 UI</span></a><a class="nav-link" href="frontend-declarative-generative-ui.html" data-search="声明式生成式 UI Declarative generative UI frontend-declarative-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>声明式生成式 UI</span></a><a class="nav-link" href="frontend-open-ended-generative-ui.html" data-search="开放式生成式 UI Open-ended generative UI frontend-open-ended-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>开放式生成式 UI</span></a></div></div><div class="nav-subgroup"><div class="nav-subgroup-title">集成</div><a class="nav-link" href="frontend-integrations-overview.html" data-search="集成概览 Overview frontend-integrations-overview Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>集成概览</span></a><a class="nav-link" href="frontend-integrations-copilotkit.html" data-search="CopilotKit CopilotKit frontend-integrations-copilotkit Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>CopilotKit</span></a><a class="nav-link" href="frontend-integrations-ai-elements.html" data-search="AI Elements AI Elements frontend-integrations-ai-elements Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>AI Elements</span></a><a class="nav-link" href="frontend-integrations-assistant-ui.html" data-search="assistant-ui assistant-ui frontend-integrations-assistant-ui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>assistant-ui</span></a><a class="nav-link" href="frontend-integrations-openui.html" data-search="OpenUI OpenUI frontend-integrations-openui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>OpenUI</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">高级用法</div><a class="nav-link" href="guardrails.html" data-search="护栏 Guardrails guardrails Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>护栏</span></a><a class="nav-link" href="runtime.html" data-search="运行时 Runtime runtime Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>运行时</span></a><a class="nav-link" href="context-engineering.html" data-search="智能体中的上下文工程 Context engineering in agents context-engineering Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>智能体中的上下文工程</span></a><a class="nav-link" href="human-in-the-loop.html" data-search="人在回路 Human-in-the-loop human-in-the-loop Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>人在回路</span></a><a class="nav-link" href="retrieval.html" data-search="检索 Retrieval retrieval Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>检索</span></a><a class="nav-link" href="long-term-memory.html" data-search="长期记忆 Long-term memory long-term-memory Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>长期记忆</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">MCP</div><a class="nav-link" href="mcp.html" data-search="MCP 概述 Model Context Protocol (MCP) mcp Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 概述</span></a><a class="nav-link" href="mcp-tools.html" data-search="MCP 工具 Tools mcp-tools Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 工具</span></a><a class="nav-link" href="mcp-connections.html" data-search="MCP 连接 Connections mcp-connections Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 连接</span></a><a class="nav-link" href="mcp-auth.html" data-search="MCP 认证 Authentication mcp-auth Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 认证</span></a></div><div class="nav-subgroup"><div class="nav-subgroup-title">多智能体</div><a class="nav-link" href="multi-agent.html" data-search="多智能体 Multi-agent multi-agent Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>多智能体</span></a><a class="nav-link" href="multi-agent-subagents.html" data-search="子智能体 Subagents multi-agent-subagents Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>子智能体</span></a><a class="nav-link" href="multi-agent-handoffs.html" data-search="交接 Handoffs multi-agent-handoffs Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>交接</span></a><a class="nav-link" href="multi-agent-skills.html" data-search="技能 Skills multi-agent-skills Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>技能</span></a><a class="nav-link" href="multi-agent-router.html" data-search="路由器 Router multi-agent-router Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>路由器</span></a><a class="nav-link" href="multi-agent-custom-workflow.html" data-search="自定义工作流 Custom workflow multi-agent-custom-workflow Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>自定义工作流</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">智能体开发</div><a class="nav-link" href="studio.html" data-search="LangSmith Studio LangSmith Studio studio Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith Studio</span></a><a class="nav-link" href="ui.html" data-search="Agent Chat UI Agent Chat UI ui Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>Agent Chat UI</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">测试</div><a class="nav-link" href="test.html" data-search="测试 Test test Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>测试</span></a><a class="nav-link" href="test-unit-testing.html" data-search="单元测试 Unit testing test-unit-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>单元测试</span></a><a class="nav-link" href="test-integration-testing.html" data-search="集成测试 Integration testing test-integration-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>集成测试</span></a><a class="nav-link" href="test-evals.html" data-search="智能体评估 Agent Evals test-evals Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>智能体评估</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">生产</div><a class="nav-link" href="deploy.html" data-search="部署 Deployment deploy Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>部署</span></a><a class="nav-link" href="observability.html" data-search="LangSmith 可观测性 LangSmith Observability observability Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith 可观测性</span></a></section><div class="nav-empty" data-nav-empty hidden>没有匹配的页面</div></nav></div>
+      <div class="sidebar-foot"><strong>59 篇</strong> · 社区翻译</div>
+    </aside>
+    <div class="sidebar-overlay" data-sidebar-overlay></div>
+    <main class="main" id="main">
+      <div class="content-wrap">
+        <nav class="breadcrumbs" aria-label="面包屑"><a href="index.html">LangChain</a><span class="sep">/</span><span>核心组件</span><span class="sep">/</span><span class="current">工具</span></nav>
+        <header class="page-header">
+          <h1>工具</h1>
+          <div class="page-lead">定义工具，让 LangChain 智能体能够获取实时数据、执行代码、查询外部数据库并采取行动。</div>
+          <div class="page-meta">
+            <span>约 24 分钟</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>社区翻译</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <a href="https://docs.langchain.com/oss/python/langchain/tools" target="_blank" rel="noopener noreferrer">查看英文原文 ↗</a>
+          </div>
+        </header>
+        <article class="content"><p>工具扩展了<a href="agents.html">智能体</a>的能力——让它们能够获取实时数据、执行代码、查询外部数据库，并在现实世界中采取行动。</p>
+<p>在底层，工具是输入和输出定义明确的、可被调用的函数，它们会被传递给<a href="models.html">聊天模型</a>。模型根据对话上下文决定何时调用工具，以及提供哪些输入参数。</p>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>关于模型如何处理工具调用的详细信息，请参阅<a href="models.html#tool-calling">工具调用</a>。使用<a href="https://smith.langchain.com/?utm_source=docs&amp;utm_medium=cta&amp;utm_campaign=langsmith-signup&amp;utm_content=oss-langchain-tools" target="_blank" rel="noopener noreferrer">LangSmith</a>跟踪工具调用并调试错误。按照<a href="https://docs.langchain.com/langsmith/trace-with-langchain" target="_blank" rel="noopener noreferrer">跟踪快速入门</a>完成设置。</p>
+<p>我们还建议你设置<a href="https://docs.langchain.com/langsmith/engine" target="_blank" rel="noopener noreferrer">LangSmith Engine</a>，它会监控你的跟踪记录、检测问题并提出修复方案。</p></div>
+</aside>
+<h2 id="create-tools">创建工具<a class="heading-anchor" href="#create-tools" aria-label="链接到本节">#</a></h2>
+<h3 id="basic-tool-definition">基本工具定义<a class="heading-anchor" href="#basic-tool-definition" aria-label="链接到本节">#</a></h3>
+<p>创建工具最简单的方式是使用<a href="https://reference.langchain.com/python/langchain-core/tools/convert/tool" target="_blank" rel="noopener noreferrer"><code>@tool</code></a>装饰器。默认情况下，函数的文档字符串会成为工具的描述，帮助模型理解何时使用该工具：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search_database</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span>, limit: <span class="hljs-built_in">int</span> = <span class="hljs-number">10</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search the customer database for records matching the query.
+
+    Args:
+        query: Search terms to look for
+        limit: Maximum number of results to return
+    """</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Found <span class="hljs-subst">{limit}</span> results for '<span class="hljs-subst">{query}</span>'"</span></code></pre>
+</div>
+<p>类型提示是<strong>必需</strong>的，因为它们定义了工具的输入 schema。文档字符串应当信息充分且简洁，以帮助模型理解工具的用途。</p>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p><strong>服务端工具使用：</strong>某些聊天模型内置了在服务端执行的工具（网页搜索、代码解释器）。详情请参阅<a href="#server-side-tool-use">服务端工具使用</a>。</p></div>
+</aside>
+<aside class="callout callout-warning">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>警告</span></div>
+  <div class="callout-body"><p>工具名称建议使用<code>snake_case</code>（例如用<code>web_search</code>而非<code>Web Search</code>）。一些模型提供商对包含空格或特殊字符的名称存在问题，或者会直接拒绝并报错。坚持使用字母数字字符、下划线和连字符有助于提升跨提供商的兼容性。</p></div>
+</aside>
+<h3 id="customize-tool-properties">自定义工具属性<a class="heading-anchor" href="#customize-tool-properties" aria-label="链接到本节">#</a></h3>
+<h4 id="custom-tool-name">自定义工具名称<a class="heading-anchor" href="#custom-tool-name" aria-label="链接到本节">#</a></h4>
+<p>默认情况下，工具名称来自函数名。当需要更具描述性的名称时，可以覆盖它：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-meta">@tool(<span class="hljs-params"><span class="hljs-string">"web_search"</span></span>)  </span><span class="hljs-comment"># Custom name</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search the web for information."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Results for: <span class="hljs-subst">{query}</span>"</span>
+
+<span class="hljs-built_in">print</span>(search.name)  <span class="hljs-comment"># web_search</span></code></pre>
+</div>
+<h4 id="custom-tool-description">自定义工具描述<a class="heading-anchor" href="#custom-tool-description" aria-label="链接到本节">#</a></h4>
+<p>覆盖自动生成的工具描述，以便为模型提供更清晰的指引：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-meta">@tool(<span class="hljs-params"><span class="hljs-string">"calculator"</span>, description=<span class="hljs-string">"Performs arithmetic calculations. Use this for any math problems."</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">calc</span>(<span class="hljs-params">expression: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Evaluate mathematical expressions."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">str</span>(<span class="hljs-built_in">eval</span>(expression))</code></pre>
+</div>
+<h3 id="advanced-schema-definition">高级 schema 定义<a class="heading-anchor" href="#advanced-schema-definition" aria-label="链接到本节">#</a></h3>
+<p>使用 Pydantic 模型或 JSON schema 定义复杂的输入：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-1-tab-0" role="tab" aria-controls="codegroup-1-panel-0" aria-selected="true" tabindex="0">Pydantic model</button><button class="code-tab" type="button" id="codegroup-1-tab-1" role="tab" aria-controls="codegroup-1-panel-1" aria-selected="false" tabindex="-1">JSON Schema</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-1-panel-0" role="tabpanel" aria-labelledby="codegroup-1-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Literal</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">WeatherInput</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    <span class="hljs-string">"""Input for weather queries."""</span>
+    location: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"City name or coordinates"</span>)
+    units: <span class="hljs-type">Literal</span>[<span class="hljs-string">"celsius"</span>, <span class="hljs-string">"fahrenheit"</span>] = Field(
+        default=<span class="hljs-string">"celsius"</span>,
+        description=<span class="hljs-string">"Temperature unit preference"</span>
+    )
+    include_forecast: <span class="hljs-built_in">bool</span> = Field(
+        default=<span class="hljs-literal">False</span>,
+        description=<span class="hljs-string">"Include 5-day forecast"</span>
+    )
+
+<span class="hljs-meta">@tool(<span class="hljs-params">args_schema=WeatherInput</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">location: <span class="hljs-built_in">str</span>, units: <span class="hljs-built_in">str</span> = <span class="hljs-string">"celsius"</span>, include_forecast: <span class="hljs-built_in">bool</span> = <span class="hljs-literal">False</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get current weather and optional forecast."""</span>
+    temp = <span class="hljs-number">22</span> <span class="hljs-keyword">if</span> units == <span class="hljs-string">"celsius"</span> <span class="hljs-keyword">else</span> <span class="hljs-number">72</span>
+    result = <span class="hljs-string">f"Current weather in <span class="hljs-subst">{location}</span>: <span class="hljs-subst">{temp}</span> degrees <span class="hljs-subst">{units[<span class="hljs-number">0</span>].upper()}</span>"</span>
+    <span class="hljs-keyword">if</span> include_forecast:
+        result += <span class="hljs-string">"\nNext 5 days: Sunny"</span>
+    <span class="hljs-keyword">return</span> result</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-1" role="tabpanel" aria-labelledby="codegroup-1-tab-1" hidden="">
+  <pre><code class="hljs language-python">weather_schema = {
+    <span class="hljs-string">"type"</span>: <span class="hljs-string">"object"</span>,
+    <span class="hljs-string">"properties"</span>: {
+        <span class="hljs-string">"location"</span>: {<span class="hljs-string">"type"</span>: <span class="hljs-string">"string"</span>},
+        <span class="hljs-string">"units"</span>: {<span class="hljs-string">"type"</span>: <span class="hljs-string">"string"</span>},
+        <span class="hljs-string">"include_forecast"</span>: {<span class="hljs-string">"type"</span>: <span class="hljs-string">"boolean"</span>}
+    },
+    <span class="hljs-string">"required"</span>: [<span class="hljs-string">"location"</span>, <span class="hljs-string">"units"</span>, <span class="hljs-string">"include_forecast"</span>]
+}
+
+<span class="hljs-meta">@tool(<span class="hljs-params">args_schema=weather_schema</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">location: <span class="hljs-built_in">str</span>, units: <span class="hljs-built_in">str</span> = <span class="hljs-string">"celsius"</span>, include_forecast: <span class="hljs-built_in">bool</span> = <span class="hljs-literal">False</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get current weather and optional forecast."""</span>
+    temp = <span class="hljs-number">22</span> <span class="hljs-keyword">if</span> units == <span class="hljs-string">"celsius"</span> <span class="hljs-keyword">else</span> <span class="hljs-number">72</span>
+    result = <span class="hljs-string">f"Current weather in <span class="hljs-subst">{location}</span>: <span class="hljs-subst">{temp}</span> degrees <span class="hljs-subst">{units[<span class="hljs-number">0</span>].upper()}</span>"</span>
+    <span class="hljs-keyword">if</span> include_forecast:
+        result += <span class="hljs-string">"\nNext 5 days: Sunny"</span>
+    <span class="hljs-keyword">return</span> result</code></pre>
+</div></div>
+</div>
+<h3 id="reserved-argument-names">保留的参数名称<a class="heading-anchor" href="#reserved-argument-names" aria-label="链接到本节">#</a></h3>
+<p>以下参数名称是保留的，不能用作工具参数。使用这些名称将导致运行时错误。</p>
+<div class="table-wrap"><table><thead><tr><th>参数名称</th><th>用途</th></tr></thead><tbody><tr><td><code>config</code></td><td>保留用于在内部向工具传递<code>RunnableConfig</code></td></tr><tr><td><code>runtime</code></td><td>保留用于<code>ToolRuntime</code>参数（访问状态、上下文、存储）</td></tr></tbody></table></div>
+<p>要访问运行时信息，请使用<a href="https://reference.langchain.com/python/langchain/tools/#langchain.tools.ToolRuntime" target="_blank" rel="noopener noreferrer"><code>ToolRuntime</code></a>参数，而不是将自己的参数命名为<code>config</code>或<code>runtime</code>。</p>
+<p>如果你使用<code>InjectedState</code>、<code>InjectedStore</code>、<code>get_runtime()</code>或<code>InjectedToolCallId</code>，请参阅<a href="#migrate-from-older-injection-patterns">从旧版注入模式迁移</a>。</p>
+<h2 id="access-context">访问上下文<a class="heading-anchor" href="#access-context" aria-label="链接到本节">#</a></h2>
+<p>当工具能够访问对话历史、用户数据和持久化记忆等运行时信息时，它们才最强大。本节介绍如何在工具内部访问和更新这些信息。</p>
+<p>工具可以通过<a href="https://reference.langchain.com/python/langchain/tools/#langchain.tools.ToolRuntime" target="_blank" rel="noopener noreferrer"><code>ToolRuntime</code></a>参数访问运行时信息，该参数提供：</p>
+<div class="table-wrap"><table><thead><tr><th>组件</th><th>描述</th><th>用例</th></tr></thead><tbody><tr><td><strong>状态</strong></td><td>短期记忆——在当前对话期间存在的可变数据（消息、计数器、自定义字段）</td><td>访问对话历史、跟踪工具调用次数</td></tr><tr><td><strong>上下文</strong></td><td>在调用时传入的不可变配置（用户 ID、会话信息）</td><td>根据用户身份个性化响应</td></tr><tr><td><strong>存储</strong></td><td>长期记忆——跨对话持久存在的数据</td><td>保存用户偏好、维护知识库</td></tr><tr><td><strong>流写入器</strong></td><td>在工具执行期间发出实时更新</td><td>为长时间运行的操作显示进度</td></tr><tr><td><strong>执行信息</strong></td><td>当前执行的身份与重试信息（线程 ID、运行 ID、尝试次数）</td><td>访问线程/运行 ID，根据重试状态调整行为</td></tr><tr><td><strong>服务器信息</strong></td><td>在 LangGraph Server 上运行时的服务器特定元数据（assistant ID、graph ID、已认证用户）</td><td>访问 assistant ID、graph ID 或已认证用户信息</td></tr><tr><td><strong>配置</strong></td><td>用于该执行的<a href="https://reference.langchain.com/python/langchain-core/runnables/config/RunnableConfig" target="_blank" rel="noopener noreferrer"><code>RunnableConfig</code></a></td><td>访问回调、标签和元数据</td></tr><tr><td><strong>工具调用 ID</strong></td><td>当前工具调用的唯一标识符</td><td>将工具调用与日志和模型调用关联起来</td></tr></tbody></table></div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">mermaid</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-mermaid">graph LR
+    %% Runtime Context
+    subgraph "🔧 Tool Runtime Context"
+        A[Tool Call] --&gt; B[ToolRuntime]
+        B --&gt; C[State Access]
+        B --&gt; D[Context Access]
+        B --&gt; E[Store Access]
+        B --&gt; F[Stream Writer]
+    end
+
+    %% Available Resources
+    subgraph "📊 Available Resources"
+        C --&gt; G[Messages]
+        C --&gt; H[Custom State]
+        D --&gt; I[User ID]
+        D --&gt; J[Session Info]
+        E --&gt; K[Long-term Memory]
+        E --&gt; L[User Preferences]
+    end
+
+    %% Tool Capabilities
+    subgraph "⚡ Enhanced Tool Capabilities"
+        M[Context-Aware Tools]
+        N[Stateful Tools]
+        O[Memory-Enabled Tools]
+        P[Streaming Tools]
+    end
+
+    %% Connections
+    G --&gt; M
+    H --&gt; N
+    I --&gt; M
+    J --&gt; M
+    K --&gt; O
+    L --&gt; O
+    F --&gt; P
+
+    classDef trigger fill:#F6FFDB,stroke:#6E8900,stroke-width:2px,color:#2E3900
+    classDef process fill:#E5F4FF,stroke:#006DDD,stroke-width:2px,color:#030710
+    classDef output fill:#EBD0F0,stroke:#885270,stroke-width:2px,color:#441E33
+    classDef neutral fill:#F2FAFF,stroke:#40668D,stroke-width:2px,color:#2F4B68
+
+    class A trigger
+    class B,C,D,E,F process
+    class G,H,I,J,K,L neutral
+    class M,N,O,P output</code></pre>
+</div>
+<h3 id="short-term-memory-state">短期记忆（State）<a class="heading-anchor" href="#short-term-memory-state" aria-label="链接到本节">#</a></h3>
+<p>状态表示在对话期间存在的短期记忆。它包含消息历史以及你在<a href="https://docs.langchain.com/oss/python/langgraph/graph-api#state" target="_blank" rel="noopener noreferrer">图状态</a>中定义的自定义字段。</p>
+<h4 id="access-state">访问状态<a class="heading-anchor" href="#access-state" aria-label="链接到本节">#</a></h4>
+<p>在工具签名中添加<code>runtime: ToolRuntime</code>即可访问状态。调用时，<a href="https://reference.langchain.com/python/langgraph/agents/#langgraph.prebuilt.tool_node.ToolNode" target="_blank" rel="noopener noreferrer"><code>ToolNode</code></a>会自动注入该值；该参数不会包含在发送给模型的工具 schema 中。使用<code>runtime.state</code>读取当前对话状态：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool, ToolRuntime
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> HumanMessage
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_last_user_message</span>(<span class="hljs-params">runtime: ToolRuntime</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get the most recent message from the user."""</span>
+    messages = runtime.state[<span class="hljs-string">"messages"</span>]
+
+    <span class="hljs-comment"># Find the last human message</span>
+    <span class="hljs-keyword">for</span> message <span class="hljs-keyword">in</span> <span class="hljs-built_in">reversed</span>(messages):
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(message, HumanMessage):
+            <span class="hljs-keyword">return</span> message.content
+
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"No user messages found"</span>
+
+<span class="hljs-comment"># Access custom state fields</span>
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_user_preference</span>(<span class="hljs-params">
+    pref_name: <span class="hljs-built_in">str</span>,
+    runtime: ToolRuntime
+</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get a user preference value."""</span>
+    preferences = runtime.state.get(<span class="hljs-string">"user_preferences"</span>, {})
+    <span class="hljs-keyword">return</span> preferences.get(pref_name, <span class="hljs-string">"Not set"</span>)</code></pre>
+</div>
+<aside class="callout callout-warning">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>警告</span></div>
+  <div class="callout-body"><p><code>runtime</code>参数对模型是隐藏的。对于上面的示例，模型在工具 schema 中只能看到<code>pref_name</code>。</p></div>
+</aside>
+<h4 id="update-state">更新状态<a class="heading-anchor" href="#update-state" aria-label="链接到本节">#</a></h4>
+<p>使用<a href="https://reference.langchain.com/python/langgraph/types/Command" target="_blank" rel="noopener noreferrer"><code>Command</code></a>更新智能体的状态。这对于需要更新自定义状态字段的工具很有用。在更新中包含<code>ToolMessage</code>，以便模型能够看到工具调用的结果：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> AgentState
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> ToolMessage
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> ToolRuntime, tool
+<span class="hljs-keyword">from</span> langgraph.types <span class="hljs-keyword">import</span> Command
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">CustomState</span>(<span class="hljs-title class_ inherited__">AgentState</span>):
+    user_name: <span class="hljs-built_in">str</span>
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">set_user_name</span>(<span class="hljs-params">new_name: <span class="hljs-built_in">str</span>, runtime: ToolRuntime[<span class="hljs-literal">None</span>, CustomState]</span>) -&gt; Command:
+    <span class="hljs-string">"""Set the user's name in the conversation state."""</span>
+    <span class="hljs-keyword">return</span> Command(
+        update={
+            <span class="hljs-string">"user_name"</span>: new_name,
+            <span class="hljs-string">"messages"</span>: [
+                ToolMessage(
+                    content=<span class="hljs-string">f"User name set to <span class="hljs-subst">{new_name}</span>."</span>,
+                    tool_call_id=runtime.tool_call_id,
+                )
+            ],
+        }
+    )</code></pre>
+</div>
+<div class="card-grid"><a class="doc-card" href="https://smith.langchain.com/public/d29da0cb-a0f6-4a14-b976-9f4154e46c4c/r" target="_blank" rel="noopener noreferrer"><span class="card-title">查看示例跟踪</span><span class="card-body"><p>打开此示例的公开 LangSmith 运行记录。</p></span></a></div>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>当工具更新状态变量时，考虑为这些字段定义<a href="https://docs.langchain.com/oss/python/langgraph/graph-api#reducers" target="_blank" rel="noopener noreferrer">reducer</a>。由于 LLM 可以并行调用多个工具，reducer 决定了当同一状态字段被并发工具调用更新时如何解决冲突。</p></div>
+</aside>
+<h3 id="context">上下文<a class="heading-anchor" href="#context" aria-label="链接到本节">#</a></h3>
+<p>上下文提供在调用时传入的不可变配置数据。可将它用于用户 ID、会话详情或不应在对话期间变化的应用特定设置。</p>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p><code>thread_id</code>（通过<code>config={"configurable": {"thread_id": ...}}</code>传入）限定<em>对话</em>的范围：消息历史和检查点，而<code>context</code>携带你的工具和中间件在调用时读取的<em>每次运行</em>数据。持久化需要<a href="short-term-memory.html">检查点保存器</a>。在生产环境中，你通常会同时传入每个对话稳定的<code>thread_id</code>和每次调用时的<code>context</code>对象。</p></div>
+</aside>
+<p>通过<code>runtime.context</code>访问上下文。配置<a href="short-term-memory.html">检查点保存器</a>并传入带有稳定<code>thread_id</code>的<code>context</code>，使对话在多次调用之间保持持久：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool, ToolRuntime
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+
+USER_DATABASE = {
+    <span class="hljs-string">"user123"</span>: {
+        <span class="hljs-string">"name"</span>: <span class="hljs-string">"Alice Johnson"</span>,
+        <span class="hljs-string">"account_type"</span>: <span class="hljs-string">"Premium"</span>,
+        <span class="hljs-string">"balance"</span>: <span class="hljs-number">5000</span>,
+        <span class="hljs-string">"email"</span>: <span class="hljs-string">"alice@example.com"</span>,
+    },
+    <span class="hljs-string">"user456"</span>: {
+        <span class="hljs-string">"name"</span>: <span class="hljs-string">"Bob Smith"</span>,
+        <span class="hljs-string">"account_type"</span>: <span class="hljs-string">"Standard"</span>,
+        <span class="hljs-string">"balance"</span>: <span class="hljs-number">1200</span>,
+        <span class="hljs-string">"email"</span>: <span class="hljs-string">"bob@example.com"</span>,
+    },
+}
+
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">UserContext</span>:
+    user_id: <span class="hljs-built_in">str</span>
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_account_info</span>(<span class="hljs-params">runtime: ToolRuntime[UserContext]</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get the current user's account information."""</span>
+    user_id = runtime.context.user_id
+
+    <span class="hljs-keyword">if</span> user_id <span class="hljs-keyword">in</span> USER_DATABASE:
+        user = USER_DATABASE[user_id]
+        <span class="hljs-keyword">return</span> (
+            <span class="hljs-string">f"Account holder: <span class="hljs-subst">{user[<span class="hljs-string">'name'</span>]}</span>\n"</span>
+            <span class="hljs-string">f"Type: <span class="hljs-subst">{user[<span class="hljs-string">'account_type'</span>]}</span>\n"</span>
+            <span class="hljs-string">f"Balance: $<span class="hljs-subst">{user[<span class="hljs-string">'balance'</span>]}</span>"</span>
+        )
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"User not found"</span>
+
+
+model = ChatOpenAI(model=<span class="hljs-string">"gpt-5.5"</span>)
+agent = create_agent(
+    model,
+    tools=[get_account_info],
+    context_schema=UserContext,
+    checkpointer=InMemorySaver(),
+    system_prompt=<span class="hljs-string">"You are a financial assistant."</span>,
+)
+
+thread_id = <span class="hljs-built_in">str</span>(uuid7())
+config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: thread_id}}
+context = UserContext(user_id=<span class="hljs-string">"user123"</span>)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's my current balance?"</span>}]},
+    config=config,
+    context=context,
+)
+<span class="hljs-built_in">print</span>(result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content_blocks)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What was my balance again?"</span>}]},
+    config=config,
+    context=context,
+)
+<span class="hljs-built_in">print</span>(result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content_blocks)</code></pre>
+</div>
+<div class="card-grid"><a class="doc-card" href="https://smith.langchain.com/public/71fda0a0-84cc-4eb8-83a1-611ebbd675a5/r" target="_blank" rel="noopener noreferrer"><span class="card-title">查看示例跟踪</span><span class="card-body"><p>打开此示例的公开 LangSmith 运行记录。</p></span></a></div>
+<h3 id="long-term-memory-store">长期记忆（Store）<a class="heading-anchor" href="#long-term-memory-store" aria-label="链接到本节">#</a></h3>
+<p><a href="https://reference.langchain.com/python/langchain-core/stores/BaseStore" target="_blank" rel="noopener noreferrer"><code>BaseStore</code></a>提供跨对话持久存在的存储。与状态（短期记忆）不同，保存到存储中的数据在未来会话中仍然可用。</p>
+<p>通过<code>runtime.store</code>访问存储。存储使用命名空间/键模式来组织数据：</p>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>对于生产部署，请使用持久化存储实现（如<a href="https://reference.langchain.com/python/langgraph/store/#langgraph.store.postgres.PostgresStore" target="_blank" rel="noopener noreferrer"><code>PostgresStore</code></a>、<code>MongoDBStore</code>或<code>RedisStore</code>），而不是<code>InMemoryStore</code>。有关设置详情，请参阅<a href="https://docs.langchain.com/oss/python/langgraph/add-memory" target="_blank" rel="noopener noreferrer">记忆文档</a>。</p></div>
+</aside>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">expandable</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langgraph.store.memory <span class="hljs-keyword">import</span> InMemoryStore
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool, ToolRuntime
+<span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI
+
+<span class="hljs-comment"># Access memory</span>
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_user_info</span>(<span class="hljs-params">user_id: <span class="hljs-built_in">str</span>, runtime: ToolRuntime</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Look up user info."""</span>
+    store = runtime.store
+    user_info = store.get((<span class="hljs-string">"users"</span>,), user_id)
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">str</span>(user_info.value) <span class="hljs-keyword">if</span> user_info <span class="hljs-keyword">else</span> <span class="hljs-string">"Unknown user"</span>
+
+<span class="hljs-comment"># Update memory</span>
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">save_user_info</span>(<span class="hljs-params">user_id: <span class="hljs-built_in">str</span>, name: <span class="hljs-built_in">str</span>, age: <span class="hljs-built_in">int</span>, email: <span class="hljs-built_in">str</span>, runtime: ToolRuntime</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Save user info."""</span>
+    store = runtime.store
+    store.put((<span class="hljs-string">"users"</span>,), user_id, {<span class="hljs-string">"name"</span>: name, <span class="hljs-string">"age"</span>: age, <span class="hljs-string">"email"</span>: email})
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"Successfully saved user info."</span>
+
+model = ChatOpenAI(model=<span class="hljs-string">"gpt-5.5"</span>)
+
+store = InMemoryStore()
+agent = create_agent(
+    model,
+    tools=[get_user_info, save_user_info],
+    store=store
+)
+
+<span class="hljs-comment"># First session: save user info</span>
+agent.invoke({
+    <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Save the following user: userid: abc123, name: Foo, age: 25, email: foo@langchain.dev"</span>}]
+})
+
+<span class="hljs-comment"># Second session: get user info</span>
+agent.invoke({
+    <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Get user info for user with id 'abc123'"</span>}]
+})
+<span class="hljs-comment"># Here is the user info for user with ID "abc123":</span>
+<span class="hljs-comment"># - Name: Foo</span>
+<span class="hljs-comment"># - Age: 25</span>
+<span class="hljs-comment"># - Email: foo@langchain.dev</span></code></pre>
+</div>
+<h3 id="stream-writer">流写入器<a class="heading-anchor" href="#stream-writer" aria-label="链接到本节">#</a></h3>
+<p>在工具执行期间流式传输实时更新。这对于在长时间运行的操作中向用户提供进度反馈很有用。</p>
+<p>使用<code>runtime.stream_writer</code>发出自定义更新：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool, ToolRuntime
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span>, runtime: ToolRuntime</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    writer = runtime.stream_writer
+
+    <span class="hljs-comment"># Stream custom updates as the tool executes</span>
+    writer(<span class="hljs-string">f"Looking up data for city: <span class="hljs-subst">{city}</span>"</span>)
+    writer(<span class="hljs-string">f"Acquired data for city: <span class="hljs-subst">{city}</span>"</span>)
+
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span></code></pre>
+</div>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>如果你在工具内部使用<code>runtime.stream_writer</code>，则该工具必须在 LangGraph 执行上下文中被调用。更多详情请参阅<a href="streaming.html">流式传输</a>。</p></div>
+</aside>
+<h3 id="execution-info">执行信息<a class="heading-anchor" href="#execution-info" aria-label="链接到本节">#</a></h3>
+<p>通过<code>runtime.execution_info</code>在工具内部访问线程 ID、运行 ID 和重试状态：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool, ToolRuntime
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">log_execution_context</span>(<span class="hljs-params">runtime: ToolRuntime</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Log execution identity information."""</span>
+    info = runtime.execution_info
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Thread: <span class="hljs-subst">{info.thread_id}</span>, Run: <span class="hljs-subst">{info.run_id}</span>"</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Attempt: <span class="hljs-subst">{info.node_attempt}</span>"</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"done"</span></code></pre>
+</div>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>需要<code>deepagents&gt;=0.5.0</code>（或<code>langgraph&gt;=1.1.5</code>）。</p></div>
+</aside>
+<h3 id="server-info">服务器信息<a class="heading-anchor" href="#server-info" aria-label="链接到本节">#</a></h3>
+<p>当工具在 LangGraph Server 上运行时，可通过 <code>runtime.server_info</code> 访问助手 ID、图 ID 和已通过身份验证的用户：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool, ToolRuntime
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_assistant_scoped_data</span>(<span class="hljs-params">runtime: ToolRuntime</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Fetch data scoped to the current assistant."""</span>
+    server = runtime.server_info
+    <span class="hljs-keyword">if</span> server <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Assistant: <span class="hljs-subst">{server.assistant_id}</span>, Graph: <span class="hljs-subst">{server.graph_id}</span>"</span>)
+        <span class="hljs-keyword">if</span> server.user <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">f"User: <span class="hljs-subst">{server.user.identity}</span>"</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"done"</span></code></pre>
+</div>
+<p>当工具未在 LangGraph Server 上运行（例如在本地开发或测试期间）时，<code>server_info</code> 为 <code>None</code>。</p>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>需要 <code>deepagents&gt;=0.5.0</code>（或 <code>langgraph&gt;=1.1.5</code>）。</p></div>
+</aside>
+<details class="doc-accordion"><summary>从旧的注入模式迁移</summary><div class="accordion-body">
+<p>较早的示例使用了 <code>InjectedState</code>、<code>InjectedStore</code>、<code>get_runtime()</code> 或 <code>InjectedToolCallId</code>。请改用 <a href="https://reference.langchain.com/python/langchain/tools/#langchain.tools.ToolRuntime" target="_blank" rel="noopener noreferrer"><code>ToolRuntime</code></a>，通过一个显式接口访问状态、上下文、存储和执行元数据。</p>
+<h4 id="previous-pattern">先前模式<a class="heading-anchor" href="#previous-pattern" aria-label="链接到本节">#</a></h4>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool, InjectedState
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">summarize</span>(<span class="hljs-params">state: InjectedState</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Summarize the conversation."""</span>
+    messages = state[<span class="hljs-string">"messages"</span>]
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Conversation length: <span class="hljs-subst">{<span class="hljs-built_in">len</span>(messages)}</span> messages."</span></code></pre>
+</div>
+<h4 id="recommended-pattern">推荐模式<a class="heading-anchor" href="#recommended-pattern" aria-label="链接到本节">#</a></h4>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool, ToolRuntime
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">summarize</span>(<span class="hljs-params">runtime: ToolRuntime</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Summarize the conversation."""</span>
+    messages = runtime.state[<span class="hljs-string">"messages"</span>]
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Conversation length: <span class="hljs-subst">{<span class="hljs-built_in">len</span>(messages)}</span> messages."</span></code></pre>
+</div>
+<p>有关智能体级别的迁移（例如 <code>create_react_agent</code> 和自定义状态），请参阅 <a href="https://docs.langchain.com/oss/python/migrate/langchain-v1" target="_blank" rel="noopener noreferrer">LangChain v1 迁移指南</a>。</p></div></details>
+<h2 id="tool-execution">工具执行<a class="heading-anchor" href="#tool-execution" aria-label="链接到本节">#</a></h2>
+<p>在 LangChain 中，工具由智能体使用（例如通过 <a href="https://reference.langchain.com/python/langchain/agents/factory/create_agent" target="_blank" rel="noopener noreferrer"><code>create_agent</code></a>），工具错误处理则通过 <a href="https://docs.langchain.com/oss/python/langchain/middleware" target="_blank" rel="noopener noreferrer">中间件</a> 配置。</p>
+<p>对于 LangGraph 工作流，工具执行由 <a href="https://reference.langchain.com/python/langgraph/agents/#langgraph.prebuilt.tool_node.ToolNode" target="_blank" rel="noopener noreferrer"><code>ToolNode</code></a> 处理。有关 Graph API 的用法（包括工具如何访问当前图状态和运行范围内的上下文），请参阅 <a href="https://docs.langchain.com/oss/python/langgraph/workflows-agents#toolnode" target="_blank" rel="noopener noreferrer">ToolNode</a>。</p>
+<h3 id="tool-return-values">工具返回值<a class="heading-anchor" href="#tool-return-values" aria-label="链接到本节">#</a></h3>
+<p>你可以为工具选择不同的返回值：</p>
+<ul><li><p>返回 <code>string</code>，用于人类可读的结果。</p></li><li><p>返回 <code>object</code>，用于模型应解析的结构化结果。</p></li><li><p>当你需要写入状态时，返回 <code>Command</code>，并可附带可选的消息。</p></li></ul>
+<h4 id="return-a-string">返回字符串<a class="heading-anchor" href="#return-a-string" aria-label="链接到本节">#</a></h4>
+<p>当工具应提供纯文本供模型读取并在下一次回复中使用时，返回字符串。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It is currently sunny in <span class="hljs-subst">{city}</span>."</span></code></pre>
+</div>
+<div class="card-grid"><a class="doc-card" href="https://smith.langchain.com/public/9c20937f-20e4-4ed2-adfa-eeda6fd63997/r" target="_blank" rel="noopener noreferrer"><span class="card-title">查看示例追踪</span><span class="card-body"><p>打开此示例的公开 LangSmith 运行记录。</p></span></a></div>
+<p>行为：</p>
+<ul><li><p>返回值会被转换为 <code>ToolMessage</code>。</p></li><li><p>模型会看到该文本，并决定接下来的操作。</p></li><li><p>除非模型或其他工具后续做出更改，否则不会修改任何智能体状态字段。</p></li></ul>
+<p>当结果本身就是人类可读的文本时，使用此方式。</p>
+<h4 id="return-an-object">返回对象<a class="heading-anchor" href="#return-an-object" aria-label="链接到本节">#</a></h4>
+<p>当工具生成模型需要检查的结构化数据时，返回对象（例如 <code>dict</code>）。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather_data</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">dict</span>:
+    <span class="hljs-string">"""Get structured weather data for a city."""</span>
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-string">"city"</span>: city,
+        <span class="hljs-string">"temperature_c"</span>: <span class="hljs-number">22</span>,
+        <span class="hljs-string">"conditions"</span>: <span class="hljs-string">"sunny"</span>,
+    }</code></pre>
+</div>
+<div class="card-grid"><a class="doc-card" href="https://smith.langchain.com/public/2f82d8ae-bcf6-4b6d-94ee-0d724c30fa98/r" target="_blank" rel="noopener noreferrer"><span class="card-title">查看示例追踪</span><span class="card-body"><p>打开此示例的公开 LangSmith 运行记录。</p></span></a></div>
+<p>行为：</p>
+<ul><li><p>该对象会被序列化，并作为工具输出返回。</p></li><li><p>模型可以读取特定字段并对其推理。</p></li><li><p>与返回字符串一样，这种方式不会直接更新图状态。</p></li></ul>
+<p>当下游推理更适合使用明确的字段而非自由格式文本时，使用此方式。</p>
+<h4 id="return-multimodal-content">返回多模态内容<a class="heading-anchor" href="#return-multimodal-content" aria-label="链接到本节">#</a></h4>
+<p>工具并不局限于纯文本。当模型支持多模态工具结果时，工具可以返回 <a href="messages.html#standard-content-blocks">标准内容块</a>，使模型在单个工具结果中接收文本、图像和其他媒体。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">capture_screenshot</span>() -&gt; <span class="hljs-built_in">list</span>[<span class="hljs-built_in">dict</span>]:
+    <span class="hljs-string">"""Capture a screenshot of the current page."""</span>
+    <span class="hljs-keyword">return</span> [
+        {<span class="hljs-string">"type"</span>: <span class="hljs-string">"text"</span>, <span class="hljs-string">"text"</span>: <span class="hljs-string">"Screenshot of the current page:"</span>},
+        {<span class="hljs-string">"type"</span>: <span class="hljs-string">"image"</span>, <span class="hljs-string">"url"</span>: <span class="hljs-string">"https://example.com/page.png"</span>},
+    ]</code></pre>
+</div>
+<p>行为：</p>
+<ul><li><p>返回值会被转换为带有多模态 <code>content</code> 的 <code>ToolMessage</code>。</p></li><li><p>工具运行后，可使用 <code>message.content_blocks</code> 读取规范化后的内容块列表。</p></li><li><p>模型必须支持你返回的模态。在返回图像、音频或视频之前，请查看 <a href="https://docs.langchain.com/oss/python/integrations/chat" target="_blank" rel="noopener noreferrer">模型的能力</a>。</p></li></ul>
+<p>有关内容块类型和特定提供商的要求，请参阅 <a href="messages.html#multimodal">多模态消息</a>。</p>
+<p>返回图像或混合内容的 MCP 工具也以相同方式转换。请参阅 <a href="mcp-tools.html#multimodal-content">多模态内容</a>。</p>
+<h4 id="return-a-command">返回 Command<a class="heading-anchor" href="#return-a-command" aria-label="链接到本节">#</a></h4>
+<p>当工具需要更新图状态（例如设置用户偏好或应用状态）时，返回 <a href="https://reference.langchain.com/python/langgraph/types/Command" target="_blank" rel="noopener noreferrer"><code>Command</code></a>。当 <code>Command</code> 指向当前图时，请在更新中包含一个 <code>ToolMessage</code>，其工具调用 ID 与当前工具调用匹配。消息历史中的每次工具调用都必须有对应的 <code>ToolMessage</code>。</p>
+<p>请将 <code>runtime.tool_call_id</code> 用于 <code>tool_call_id</code> 参数。<code>ToolNode</code> 会强制执行此要求：如果更新中没有与工具调用匹配的 <code>ToolMessage</code>，就会引发 <code>ValueError</code>。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> ToolMessage
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> ToolRuntime, tool
+<span class="hljs-keyword">from</span> langgraph.types <span class="hljs-keyword">import</span> Command
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">set_language</span>(<span class="hljs-params">language: <span class="hljs-built_in">str</span>, runtime: ToolRuntime</span>) -&gt; Command:
+    <span class="hljs-string">"""Set the preferred response language."""</span>
+    <span class="hljs-keyword">return</span> Command(
+        update={
+            <span class="hljs-string">"preferred_language"</span>: language,
+            <span class="hljs-string">"messages"</span>: [
+                ToolMessage(
+                    content=<span class="hljs-string">f"Language set to <span class="hljs-subst">{language}</span>."</span>,
+                    tool_call_id=runtime.tool_call_id,
+                )
+            ],
+        }
+    )</code></pre>
+</div>
+<p>行为：</p>
+<ul><li><p>该命令使用 <code>update</code> 更新状态。</p></li><li><p>更新后的状态可供同一次运行中的后续步骤使用。</p></li><li><p>对于可能被并行工具调用更新的字段，请使用 reducer。</p></li></ul>
+<p>当工具不仅返回数据，还要修改智能体状态时，使用此方式。</p>
+<h4 id="return-directly-from-a-tool">从工具直接返回<a class="heading-anchor" href="#return-directly-from-a-tool" aria-label="链接到本节">#</a></h4>
+<p>在工具上设置 return direct 可以短路智能体循环：智能体立即将工具的输出返回给调用方，而不再将其送回模型做进一步处理。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+<span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI
+
+
+<span class="hljs-meta">@tool(<span class="hljs-params">return_direct=<span class="hljs-literal">True</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">fetch_order_status</span>(<span class="hljs-params">order_id: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Fetch the current status of a customer order."""</span>
+    <span class="hljs-comment"># In production, query your order management system here</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Order <span class="hljs-subst">{order_id}</span> is shipped and will arrive in 2 days."</span>
+
+
+agent = create_agent(
+    ChatOpenAI(model=<span class="hljs-string">"gpt-4o-mini"</span>),
+    tools=[fetch_order_status],
+)
+
+result = agent.invoke({
+    <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What is the status of order #12345?"</span>}]
+})
+<span class="hljs-comment"># The agent returns the tool output directly without another LLM call:</span>
+<span class="hljs-comment"># "Order 12345 is shipped and will arrive in 2 days."</span></code></pre>
+</div>
+<div class="card-grid"><a class="doc-card" href="https://smith.langchain.com/public/0a2f53f6-eaea-4092-b86b-c4e0a41998bc/r" target="_blank" rel="noopener noreferrer"><span class="card-title">查看示例追踪</span><span class="card-body"><p>打开此示例的公开 LangSmith 运行记录。</p></span></a></div>
+<p>行为：</p>
+<ul><li><p>工具正常执行，其输出被包装在 <code>ToolMessage</code> 中。</p></li><li><p>智能体停止循环，并将工具的输出作为最终响应返回，从而跳过任何额外的模型调用。</p></li><li><p><strong>多个并行工具调用：</strong> 当模型在一步中调用多个工具时，所有工具都会先执行。所有工具完成后，仅当该批次中的 <strong>每个</strong> 工具都具有 <code>return_direct=True</code> 时，智能体才会路由到 <code>END</code>。最终响应包含该步骤中调用的每个工具的 <code>ToolMessage</code> 输出。</p></li></ul>
+<p>适用于以下情况：</p>
+<ul><li><p>工具的输出就是完整且可直接交给用户的答案（例如返回可直接展示结果的查询）。</p></li><li><p>在无需额外推理时，你希望避免额外的模型调用。</p></li><li><p>你需要确定性、未经修改的输出：模型无法改写、总结工具结果，也无法基于该结果采取行动。</p></li></ul>
+<aside class="callout callout-warning">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>警告</span></div>
+  <div class="callout-body"><p>由于模型不会处理工具的输出，<code>return_direct=True</code> 不适用于其结果需要进一步推理、总结或与其他工具调用串联的工具。</p></div>
+</aside>
+<aside class="callout callout-warning">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>警告</span></div>
+  <div class="callout-body"><p><strong>混合并行调用：</strong> 如果模型在调用 <code>return_direct=True</code> 工具的同时还调用了没有 <code>return_direct=True</code> 的工具，智能体在该步骤后 <strong>不会</strong> 退出。它会带着该批次中的每个 <code>ToolMessage</code> 路由回模型，以便模型对所有结果进行推理。仅当该步骤中的每次工具调用都具有 <code>return_direct=True</code> 时，<code>return_direct</code> 才会短路循环。</p></div>
+</aside>
+<h4 id="return-a-command-with-returndirect">返回带 return_direct 的 Command<a class="heading-anchor" href="#return-a-command-with-returndirect" aria-label="链接到本节">#</a></h4>
+<p>设置了 <code>return_direct=True</code> 的工具也可以返回 <a href="https://reference.langchain.com/python/langgraph/types/Command" target="_blank" rel="noopener noreferrer"><code>Command</code></a>，以便在智能体退出前更新图状态。与普通返回值不同，<code>Command</code> 不会被自动转换为 <code>ToolMessage</code>。当 <code>Command</code> 指向当前图时（<code>graph</code> 未设置或为 <code>None</code>），请在 <code>Command.update</code> 中包含一个与工具调用的 <code>tool_call_id</code> 匹配的 <code>ToolMessage</code>。省略它会导致 <code>ToolNode</code> 引发 <code>ValueError</code>，因为消息历史中的每次 <code>AIMessage</code> 工具调用都必须有对应的 <code>ToolMessage</code>。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> ToolMessage
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> ToolRuntime, tool
+<span class="hljs-keyword">from</span> langgraph.types <span class="hljs-keyword">import</span> Command
+
+
+<span class="hljs-meta">@tool(<span class="hljs-params">return_direct=<span class="hljs-literal">True</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">fetch_and_store_order</span>(<span class="hljs-params">order_id: <span class="hljs-built_in">str</span>, runtime: ToolRuntime</span>) -&gt; Command:
+    <span class="hljs-string">"""Fetch order status and store it in state."""</span>
+    status = <span class="hljs-string">f"Order <span class="hljs-subst">{order_id}</span> is shipped and will arrive in 2 days."</span>
+    <span class="hljs-keyword">return</span> Command(
+        update={
+            <span class="hljs-string">"last_order_status"</span>: status,
+            <span class="hljs-comment"># Must include a ToolMessage so the message history stays valid</span>
+            <span class="hljs-string">"messages"</span>: [
+                ToolMessage(
+                    content=status,
+                    tool_call_id=runtime.tool_call_id,
+                )
+            ],
+        }
+    )</code></pre>
+</div>
+<p>若要改为写入父图，请设置 <code>graph=Command.PARENT</code>。在这种情况下，<code>ToolMessage</code> 的要求会被解除，因为执行会完全离开当前图。</p>
+<h3 id="error-handling">错误处理<a class="heading-anchor" href="#error-handling" aria-label="链接到本节">#</a></h3>
+<p>使用 LangChain 智能体 <a href="https://docs.langchain.com/oss/python/langchain/middleware" target="_blank" rel="noopener noreferrer">中间件</a> 处理工具错误，以重试失败的工具调用或返回自定义错误消息：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-2-tab-0" role="tab" aria-controls="codegroup-2-panel-0" aria-selected="true" tabindex="0">Google</button><button class="code-tab" type="button" id="codegroup-2-tab-1" role="tab" aria-controls="codegroup-2-panel-1" aria-selected="false" tabindex="-1">OpenAI</button><button class="code-tab" type="button" id="codegroup-2-tab-2" role="tab" aria-controls="codegroup-2-panel-2" aria-selected="false" tabindex="-1">Anthropic</button><button class="code-tab" type="button" id="codegroup-2-tab-3" role="tab" aria-controls="codegroup-2-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-2-tab-4" role="tab" aria-controls="codegroup-2-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-2-tab-5" role="tab" aria-controls="codegroup-2-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-2-tab-6" role="tab" aria-controls="codegroup-2-panel-6" aria-selected="false" tabindex="-1">Ollama</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-2-panel-0" role="tabpanel" aria-labelledby="codegroup-2-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> collections.abc <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_tool_call
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> ToolMessage
+<span class="hljs-keyword">from</span> langchain.tools.tool_node <span class="hljs-keyword">import</span> ToolCallRequest
+
+
+<span class="hljs-meta">@wrap_tool_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">handle_tool_errors</span>(<span class="hljs-params">
+    request: ToolCallRequest,
+    handler: <span class="hljs-type">Callable</span>[[ToolCallRequest], ToolMessage],
+</span>) -&gt; ToolMessage:
+    <span class="hljs-string">"""Convert tool exceptions into ToolMessages the model can handle."""</span>
+    <span class="hljs-keyword">try</span>:
+        <span class="hljs-keyword">return</span> handler(request)
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+        <span class="hljs-keyword">return</span> ToolMessage(
+            content=<span class="hljs-string">f"Tool error: Please check your input and try again. (<span class="hljs-subst">{e}</span>)"</span>,
+            tool_call_id=request.tool_call[<span class="hljs-string">"id"</span>],
+        )
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>,
+    tools=[],
+    middleware=[handle_tool_errors],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-1" role="tabpanel" aria-labelledby="codegroup-2-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> collections.abc <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_tool_call
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> ToolMessage
+<span class="hljs-keyword">from</span> langchain.tools.tool_node <span class="hljs-keyword">import</span> ToolCallRequest
+
+
+<span class="hljs-meta">@wrap_tool_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">handle_tool_errors</span>(<span class="hljs-params">
+    request: ToolCallRequest,
+    handler: <span class="hljs-type">Callable</span>[[ToolCallRequest], ToolMessage],
+</span>) -&gt; ToolMessage:
+    <span class="hljs-string">"""Convert tool exceptions into ToolMessages the model can handle."""</span>
+    <span class="hljs-keyword">try</span>:
+        <span class="hljs-keyword">return</span> handler(request)
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+        <span class="hljs-keyword">return</span> ToolMessage(
+            content=<span class="hljs-string">f"Tool error: Please check your input and try again. (<span class="hljs-subst">{e}</span>)"</span>,
+            tool_call_id=request.tool_call[<span class="hljs-string">"id"</span>],
+        )
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"openai:gpt-5.5"</span>,
+    tools=[],
+    middleware=[handle_tool_errors],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-2" role="tabpanel" aria-labelledby="codegroup-2-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> collections.abc <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_tool_call
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> ToolMessage
+<span class="hljs-keyword">from</span> langchain.tools.tool_node <span class="hljs-keyword">import</span> ToolCallRequest
+
+
+<span class="hljs-meta">@wrap_tool_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">handle_tool_errors</span>(<span class="hljs-params">
+    request: ToolCallRequest,
+    handler: <span class="hljs-type">Callable</span>[[ToolCallRequest], ToolMessage],
+</span>) -&gt; ToolMessage:
+    <span class="hljs-string">"""Convert tool exceptions into ToolMessages the model can handle."""</span>
+    <span class="hljs-keyword">try</span>:
+        <span class="hljs-keyword">return</span> handler(request)
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+        <span class="hljs-keyword">return</span> ToolMessage(
+            content=<span class="hljs-string">f"Tool error: Please check your input and try again. (<span class="hljs-subst">{e}</span>)"</span>,
+            tool_call_id=request.tool_call[<span class="hljs-string">"id"</span>],
+        )
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"anthropic:claude-sonnet-5"</span>,
+    tools=[],
+    middleware=[handle_tool_errors],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-3" role="tabpanel" aria-labelledby="codegroup-2-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> collections.abc <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_tool_call
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> ToolMessage
+<span class="hljs-keyword">from</span> langchain.tools.tool_node <span class="hljs-keyword">import</span> ToolCallRequest
+
+
+<span class="hljs-meta">@wrap_tool_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">handle_tool_errors</span>(<span class="hljs-params">
+    request: ToolCallRequest,
+    handler: <span class="hljs-type">Callable</span>[[ToolCallRequest], ToolMessage],
+</span>) -&gt; ToolMessage:
+    <span class="hljs-string">"""Convert tool exceptions into ToolMessages the model can handle."""</span>
+    <span class="hljs-keyword">try</span>:
+        <span class="hljs-keyword">return</span> handler(request)
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+        <span class="hljs-keyword">return</span> ToolMessage(
+            content=<span class="hljs-string">f"Tool error: Please check your input and try again. (<span class="hljs-subst">{e}</span>)"</span>,
+            tool_call_id=request.tool_call[<span class="hljs-string">"id"</span>],
+        )
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"openrouter:z-ai/glm-5.2"</span>,
+    tools=[],
+    middleware=[handle_tool_errors],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-4" role="tabpanel" aria-labelledby="codegroup-2-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> collections.abc <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_tool_call
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> ToolMessage
+<span class="hljs-keyword">from</span> langchain.tools.tool_node <span class="hljs-keyword">import</span> ToolCallRequest
+
+
+<span class="hljs-meta">@wrap_tool_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">handle_tool_errors</span>(<span class="hljs-params">
+    request: ToolCallRequest,
+    handler: <span class="hljs-type">Callable</span>[[ToolCallRequest], ToolMessage],
+</span>) -&gt; ToolMessage:
+    <span class="hljs-string">"""Convert tool exceptions into ToolMessages the model can handle."""</span>
+    <span class="hljs-keyword">try</span>:
+        <span class="hljs-keyword">return</span> handler(request)
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+        <span class="hljs-keyword">return</span> ToolMessage(
+            content=<span class="hljs-string">f"Tool error: Please check your input and try again. (<span class="hljs-subst">{e}</span>)"</span>,
+            tool_call_id=request.tool_call[<span class="hljs-string">"id"</span>],
+        )
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"fireworks:accounts/fireworks/models/glm-5p2"</span>,
+    tools=[],
+    middleware=[handle_tool_errors],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-5" role="tabpanel" aria-labelledby="codegroup-2-tab-5" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> collections.abc <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_tool_call
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> ToolMessage
+<span class="hljs-keyword">from</span> langchain.tools.tool_node <span class="hljs-keyword">import</span> ToolCallRequest
+
+
+<span class="hljs-meta">@wrap_tool_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">handle_tool_errors</span>(<span class="hljs-params">
+    request: ToolCallRequest,
+    handler: <span class="hljs-type">Callable</span>[[ToolCallRequest], ToolMessage],
+</span>) -&gt; ToolMessage:
+    <span class="hljs-string">"""Convert tool exceptions into ToolMessages the model can handle."""</span>
+    <span class="hljs-keyword">try</span>:
+        <span class="hljs-keyword">return</span> handler(request)
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+        <span class="hljs-keyword">return</span> ToolMessage(
+            content=<span class="hljs-string">f"Tool error: Please check your input and try again. (<span class="hljs-subst">{e}</span>)"</span>,
+            tool_call_id=request.tool_call[<span class="hljs-string">"id"</span>],
+        )
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>,
+    tools=[],
+    middleware=[handle_tool_errors],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-6" role="tabpanel" aria-labelledby="codegroup-2-tab-6" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> collections.abc <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_tool_call
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> ToolMessage
+<span class="hljs-keyword">from</span> langchain.tools.tool_node <span class="hljs-keyword">import</span> ToolCallRequest
+
+
+<span class="hljs-meta">@wrap_tool_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">handle_tool_errors</span>(<span class="hljs-params">
+    request: ToolCallRequest,
+    handler: <span class="hljs-type">Callable</span>[[ToolCallRequest], ToolMessage],
+</span>) -&gt; ToolMessage:
+    <span class="hljs-string">"""Convert tool exceptions into ToolMessages the model can handle."""</span>
+    <span class="hljs-keyword">try</span>:
+        <span class="hljs-keyword">return</span> handler(request)
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+        <span class="hljs-keyword">return</span> ToolMessage(
+            content=<span class="hljs-string">f"Tool error: Please check your input and try again. (<span class="hljs-subst">{e}</span>)"</span>,
+            tool_call_id=request.tool_call[<span class="hljs-string">"id"</span>],
+        )
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"ollama:north-mini-code-1.0"</span>,
+    tools=[],
+    middleware=[handle_tool_errors],
+)</code></pre>
+</div></div>
+</div>
+<h3 id="state-injection">状态注入<a class="heading-anchor" href="#state-injection" aria-label="链接到本节">#</a></h3>
+<p>工具通过 <a href="https://reference.langchain.com/python/langchain/tools/#langchain.tools.ToolRuntime" target="_blank" rel="noopener noreferrer"><code>ToolRuntime</code></a> 访问图状态。有关状态、上下文、存储和流式传输 API，请参阅 <a href="#access-context">访问上下文</a>。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool, ToolRuntime
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_message_count</span>(<span class="hljs-params">runtime: ToolRuntime</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get the number of messages in the conversation."""</span>
+    messages = runtime.state[<span class="hljs-string">"messages"</span>]
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"There are <span class="hljs-subst">{<span class="hljs-built_in">len</span>(messages)}</span> messages."</span></code></pre>
+</div>
+<p>有关从工具访问状态、上下文和长期记忆的更多细节，请参阅 <a href="#access-context">访问上下文</a>。</p>
+<h2 id="dynamic-tool-selection">动态工具选择<a class="heading-anchor" href="#dynamic-tool-selection" aria-label="链接到本节">#</a></h2>
+<p>使用动态工具时，智能体可用的工具集合会在运行时修改，而不是全部预先定义。并非每个工具都适合每种情况。工具过多可能使模型不堪重负（使上下文过载）并增加错误；工具过少则会限制能力。动态工具选择让你可以根据身份验证状态、用户权限、功能标志或对话阶段来调整可用的工具集。</p>
+<p>根据工具是否在事先已知，有两种做法：</p>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-3-tab-0" role="tab" aria-controls="tabs-3-panel-0" aria-selected="true" tabindex="0">Filtering pre-registered tools</button><button class="doc-tab" type="button" id="tabs-3-tab-1" role="tab" aria-controls="tabs-3-panel-1" aria-selected="false" tabindex="-1">Runtime tool registration</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-3-panel-0" role="tabpanel" aria-labelledby="tabs-3-tab-0">
+<p>当所有可能的工具在创建智能体时已知，你可以预先注册它们，并基于状态、权限或上下文动态筛选向模型暴露哪些工具。</p>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-4-tab-0" role="tab" aria-controls="tabs-4-panel-0" aria-selected="true" tabindex="0">State</button><button class="doc-tab" type="button" id="tabs-4-tab-1" role="tab" aria-controls="tabs-4-panel-1" aria-selected="false" tabindex="-1">Store</button><button class="doc-tab" type="button" id="tabs-4-tab-2" role="tab" aria-controls="tabs-4-panel-2" aria-selected="false" tabindex="-1">Runtime Context</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-4-panel-0" role="tabpanel" aria-labelledby="tabs-4-tab-0">
+<p>仅在对话达到某些里程碑后才启用高级工具：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_model_call, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">state_based_tools</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse]
+</span>) -&gt; ModelResponse:
+    <span class="hljs-string">"""Filter tools based on conversation State."""</span>
+    <span class="hljs-comment"># Read from State: check if user has authenticated</span>
+    state = request.state
+    is_authenticated = state.get(<span class="hljs-string">"authenticated"</span>, <span class="hljs-literal">False</span>)
+    message_count = <span class="hljs-built_in">len</span>(state[<span class="hljs-string">"messages"</span>])
+
+    <span class="hljs-comment"># Only enable sensitive tools after authentication</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> is_authenticated:
+        tools = [t <span class="hljs-keyword">for</span> t <span class="hljs-keyword">in</span> request.tools <span class="hljs-keyword">if</span> t.name.startswith(<span class="hljs-string">"public_"</span>)]
+        request = request.override(tools=tools)
+    <span class="hljs-keyword">elif</span> message_count &lt; <span class="hljs-number">5</span>:
+        <span class="hljs-comment"># Limit tools early in conversation</span>
+        tools = [t <span class="hljs-keyword">for</span> t <span class="hljs-keyword">in</span> request.tools <span class="hljs-keyword">if</span> t.name != <span class="hljs-string">"advanced_search"</span>]
+        request = request.override(tools=tools)
+
+    <span class="hljs-keyword">return</span> handler(request)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[public_search, private_search, advanced_search],
+    middleware=[state_based_tools]
+)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-4-panel-1" role="tabpanel" aria-labelledby="tabs-4-tab-1" hidden="">
+<p>基于 Store 中的用户偏好或功能标志筛选工具：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_model_call, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+<span class="hljs-keyword">from</span> langgraph.store.memory <span class="hljs-keyword">import</span> InMemoryStore
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_id: <span class="hljs-built_in">str</span>
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">store_based_tools</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse]
+</span>) -&gt; ModelResponse:
+    <span class="hljs-string">"""Filter tools based on Store preferences."""</span>
+    user_id = request.runtime.context.user_id
+
+    <span class="hljs-comment"># Read from Store: get user's enabled features</span>
+    store = request.runtime.store
+    feature_flags = store.get((<span class="hljs-string">"features"</span>,), user_id)
+
+    <span class="hljs-keyword">if</span> feature_flags:
+        enabled_features = feature_flags.value.get(<span class="hljs-string">"enabled_tools"</span>, [])
+        <span class="hljs-comment"># Only include tools that are enabled for this user</span>
+        tools = [t <span class="hljs-keyword">for</span> t <span class="hljs-keyword">in</span> request.tools <span class="hljs-keyword">if</span> t.name <span class="hljs-keyword">in</span> enabled_features]
+        request = request.override(tools=tools)
+
+    <span class="hljs-keyword">return</span> handler(request)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[search_tool, analysis_tool, export_tool],
+    middleware=[store_based_tools],
+    context_schema=Context,
+    store=InMemoryStore()
+)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-4-panel-2" role="tabpanel" aria-labelledby="tabs-4-tab-2" hidden="">
+<p>基于运行时上下文中的用户权限筛选工具：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_model_call, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_role: <span class="hljs-built_in">str</span>
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">context_based_tools</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse]
+</span>) -&gt; ModelResponse:
+    <span class="hljs-string">"""Filter tools based on Runtime Context permissions."""</span>
+    <span class="hljs-comment"># Read from Runtime Context: get user role</span>
+    <span class="hljs-keyword">if</span> request.runtime <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">or</span> request.runtime.context <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+        <span class="hljs-comment"># If no context provided, default to viewer (most restrictive)</span>
+        user_role = <span class="hljs-string">"viewer"</span>
+    <span class="hljs-keyword">else</span>:
+        user_role = request.runtime.context.user_role
+
+    <span class="hljs-keyword">if</span> user_role == <span class="hljs-string">"admin"</span>:
+        <span class="hljs-comment"># Admins get all tools</span>
+        <span class="hljs-keyword">pass</span>
+    <span class="hljs-keyword">elif</span> user_role == <span class="hljs-string">"editor"</span>:
+        <span class="hljs-comment"># Editors can't delete</span>
+        tools = [t <span class="hljs-keyword">for</span> t <span class="hljs-keyword">in</span> request.tools <span class="hljs-keyword">if</span> t.name != <span class="hljs-string">"delete_data"</span>]
+        request = request.override(tools=tools)
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-comment"># Viewers get read-only tools</span>
+        tools = [t <span class="hljs-keyword">for</span> t <span class="hljs-keyword">in</span> request.tools <span class="hljs-keyword">if</span> t.name.startswith(<span class="hljs-string">"read_"</span>)]
+        request = request.override(tools=tools)
+
+    <span class="hljs-keyword">return</span> handler(request)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[read_data, write_data, delete_data],
+    middleware=[context_based_tools],
+    context_schema=Context
+)</code></pre>
+</div>
+</div></div>
+</div>
+<p>以下场景最适合采用这种做法：</p>
+<ul><li><p>所有可能的工具在编译/启动时已知</p></li><li><p>你希望基于权限、功能标志或对话状态进行筛选</p></li><li><p>工具是静态的，但它们的可用性是动态的</p></li></ul>
+<p>更多示例请参阅<a href="middleware-custom.html#dynamically-selecting-tools">动态选择工具</a>。</p>
+</div>
+<div class="doc-tab-panel" id="tabs-3-panel-1" role="tabpanel" aria-labelledby="tabs-3-tab-1" hidden="">
+<p>当工具在运行时被发现或创建时（例如从 MCP 服务器加载、根据用户数据生成，或从远程注册表获取），你既需要注册这些工具，也需要动态处理它们的执行。</p>
+<p>这需要两个中间件钩子：</p>
+<ol><li><p><code>wrap_model_call</code> - 将动态工具添加到请求中</p></li><li><p><code>wrap_tool_call</code> - 处理动态添加的工具的执行</p></li></ol>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> AgentMiddleware, ModelRequest, ToolCallRequest
+
+<span class="hljs-comment"># A tool that will be added dynamically at runtime</span>
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">calculate_tip</span>(<span class="hljs-params">bill_amount: <span class="hljs-built_in">float</span>, tip_percentage: <span class="hljs-built_in">float</span> = <span class="hljs-number">20.0</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Calculate the tip amount for a bill."""</span>
+    tip = bill_amount * (tip_percentage / <span class="hljs-number">100</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Tip: $<span class="hljs-subst">{tip:<span class="hljs-number">.2</span>f}</span>, Total: $<span class="hljs-subst">{bill_amount + tip:<span class="hljs-number">.2</span>f}</span>"</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">DynamicToolMiddleware</span>(<span class="hljs-title class_ inherited__">AgentMiddleware</span>):
+    <span class="hljs-string">"""Middleware that registers and handles dynamic tools."""</span>
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">wrap_model_call</span>(<span class="hljs-params">self, request: ModelRequest, handler</span>):
+        <span class="hljs-comment"># Add dynamic tool to the request</span>
+        <span class="hljs-comment"># This could be loaded from an MCP server, database, etc.</span>
+        updated = request.override(tools=[*request.tools, calculate_tip])
+        <span class="hljs-keyword">return</span> handler(updated)
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">wrap_tool_call</span>(<span class="hljs-params">self, request: ToolCallRequest, handler</span>):
+        <span class="hljs-comment"># Handle execution of the dynamic tool</span>
+        <span class="hljs-keyword">if</span> request.tool_call[<span class="hljs-string">"name"</span>] == <span class="hljs-string">"calculate_tip"</span>:
+            <span class="hljs-keyword">return</span> handler(request.override(tool=calculate_tip))
+        <span class="hljs-keyword">return</span> handler(request)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[get_weather],  <span class="hljs-comment"># Only static tools registered here</span>
+    middleware=[DynamicToolMiddleware()],
+)
+
+<span class="hljs-comment"># The agent can now use both get_weather AND calculate_tip</span>
+result = agent.invoke({
+    <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Calculate a 20% tip on $85"</span>}]
+})</code></pre>
+</div>
+<p>以下场景最适合采用这种做法：</p>
+<ul><li><p>工具在运行时被发现（例如来自 MCP 服务器）</p></li><li><p>工具根据用户数据或配置动态生成</p></li><li><p>你正在集成外部工具注册表</p></li></ul>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p><code>wrap_tool_call</code> 钩子对于运行时注册的工具是必需的，因为智能体需要知道如何执行不在原始工具列表中的工具。缺少它，智能体将无法调用动态添加的工具。</p></div>
+</aside>
+</div></div>
+</div>
+<h2 id="headless-tools">无头工具<a class="heading-anchor" href="#headless-tools" aria-label="链接到本节">#</a></h2>
+<p>有些工具应当<strong>在你的用户应用运行的位置</strong>（通常是浏览器）运行，而不是在进程内运行。<strong>无头工具</strong>是工具定义，包含名称、描述和参数模式，你在<strong>服务器</strong>上随智能体一起注册它们。而<strong>实现</strong>只在<strong>客户端</strong>上注册，并在一次简短的中断/恢复握手之后执行。</p>
+<p>这与函数体在服务器上运行的普通工具不同，也与<a href="#server-side-tool-use">服务端工具使用</a>（由模型提供商远程执行内置工具）不同。</p>
+<h3 id="when-to-use-headless-tools">何时使用无头工具<a class="heading-anchor" href="#when-to-use-headless-tools" aria-label="链接到本节">#</a></h3>
+<p>当工作依赖仅存在于客户端上的<strong>环境、设备或 UI</strong>时，可以使用它们。例如：</p>
+<ul><li><p><strong>浏览器 API：</strong>Geolocation、IndexedDB、Clipboard、Canvas 2D、文件选择器、Battery API 等。</p></li><li><p><strong>隐私与本地性：</strong>数据保留在设备上（例如 IndexedDB 中的本地“记忆”）。</p></li><li><p><strong>延迟：</strong>纯本地操作无需额外的服务器往返。</p></li><li><p><strong>结构化、安全的副作用：</strong>优先使用许多小型的、有类型的工具（例如每个 canvas 原语对应一个工具），而不是向<code>eval</code>发送任意代码。</p></li></ul>
+<h3 id="how-the-pattern-works">该模式如何工作<a class="heading-anchor" href="#how-the-pattern-works" aria-label="链接到本节">#</a></h3>
+<p>在两种运行时中，模型看到的都是一个可调用的普通工具，但实际执行发生在服务器进程之外。</p>
+<ol><li><p><strong>定义</strong>一个无头工具，使用来自<code>langchain.tools</code>的<code>tool(name=..., description=..., args_schema=...)</code>。无头工具只有模式，没有进程内实现。</p></li><li><p><strong>注册</strong>该工具到<code>create_agent</code>或你的 LangGraph 图，使模型可以正常调用它。</p></li><li><p>工具被调用时，<strong>处理</strong>中断负载。图不会在本地运行，而是带着形如<code>{"type": "tool", "tool_call": {"id", "name", "args"}}</code>的负载暂停。</p></li><li><p>在你的应用、其他服务或人工步骤执行该操作之后，<strong>恢复</strong>图。对于基于浏览器的流程，你可以从前端镜像该模式，并在那里附加<code>.implement(...)</code>。</p></li></ol>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>如果在 Python 中只使用<code>name</code>、<code>description</code>和<code>args_schema</code>调用<code>tool(...)</code>，LangChain 会返回<code>HeadlessTool</code>。Python 端没有<code>.implement()</code> API。</p></div>
+</aside>
+<p>当模型针对这些工具之一发出工具调用时，运行会<strong>中断</strong>，而不是在本地执行该工具。你的应用可以检查负载，在合适的环境中执行操作（例如浏览器、其他服务或人工审核步骤），然后用工具结果<strong>恢复</strong>图。当你使用受支持的 JS SDK 钩子时，它们可以检测无头工具中断、运行匹配的客户端实现，并为你提交恢复命令。</p>
+<p>使用可选的<strong><code>onTool</code></strong>回调来观察生命周期事件（<code>start</code>、<code>success</code>、<code>error</code>），以实现加载动画或提示等 UI 反馈。</p>
+<div class="card-grid"><a class="doc-card" href="frontend-headless-tools.html"><span class="card-title">无头工具前端模式</span><span class="card-body"><p>查看使用<code>useStream</code>在客户端执行仅含模式的工具的端到端示例。</p></span></a></div>
+<h2 id="prebuilt-tools">预置工具<a class="heading-anchor" href="#prebuilt-tools" aria-label="链接到本节">#</a></h2>
+<p>LangChain 提供了大量预置工具和工具包，用于网络搜索、代码解释、数据库访问等常见任务。这些即用型工具可以直接集成到你的智能体中，无需编写自定义代码。</p>
+<p>有关按类别组织的可用工具的完整列表，请参阅<a href="https://docs.langchain.com/oss/python/integrations/tools" target="_blank" rel="noopener noreferrer">工具与工具包</a>集成页面。</p>
+<h2 id="tools-from-mcp-servers">来自 MCP 服务器的工具<a class="heading-anchor" href="#tools-from-mcp-servers" aria-label="链接到本节">#</a></h2>
+<p><a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener noreferrer">模型上下文协议（MCP）</a>是一个开放协议，规范了应用向语言模型暴露工具的方式。你无需手工编写工具，而是连接 MCP 服务器，并将它声明的工具适配为 LangChain 工具，然后像其他工具一样传给智能体。</p>
+<p><a href="https://reference.langchain.com/python/langchain/mcp/adapter/MCPAdapter" target="_blank" rel="noopener noreferrer"><code>MCPAdapter</code></a>会发现服务器的工具并将其转换为 LangChain 工具。打开适配器，调用<code>list_tools()</code>，然后将结果传给<a href="https://reference.langchain.com/python/langchain/agents/factory/create_agent" target="_blank" rel="noopener noreferrer"><code>create_agent</code></a>：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.mcp <span class="hljs-keyword">import</span> MCPAdapter
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> MCPAdapter(<span class="hljs-string">"https://example.com/mcp"</span>) <span class="hljs-keyword">as</span> adapter:
+    tools = <span class="hljs-keyword">await</span> adapter.list_tools()
+    agent = create_agent(<span class="hljs-string">"claude-sonnet-4-6"</span>, tools)</code></pre>
+</div>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p><code>langchain.mcp</code> 命名空间需要<code>langchain[mcp]&gt;=1.4.0</code>，且处于 beta 阶段。API 可能会变化。</p></div>
+</aside>
+<p>有关传输方式、身份验证、多个服务器以及处理工具结果，请参阅<a href="https://docs.langchain.com/oss/python/langchain/mcp" target="_blank" rel="noopener noreferrer">模型上下文协议（MCP）</a>。</p>
+<h2 id="server-side-tool-use">服务端工具使用<a class="heading-anchor" href="#server-side-tool-use" aria-label="链接到本节">#</a></h2>
+<p>部分聊天模型内置了由模型提供商在服务端执行的工具。这些能力包括网络搜索和代码解释器，你无需定义或托管工具逻辑。</p>
+<p>有关启用和使用这些内置工具的详细信息，请参阅各个<a href="https://docs.langchain.com/oss/python/integrations/providers" target="_blank" rel="noopener noreferrer">聊天模型集成页面</a>以及<a href="models.html#server-side-tool-use">工具调用文档</a>。</p></article>
+        <nav class="pager" aria-label="翻页"><a class="prev" href="messages.html"><span class="pager-label">上一篇</span><span class="pager-title">消息</span></a><a class="next" href="short-term-memory.html"><span class="pager-label">下一篇</span><span class="pager-title">短期记忆</span></a></nav>
+        <footer class="page-footer">
+          <p>本页为社区维护的简体中文翻译，不是 LangChain 官方文档。如与英文原文有出入，请以 <a href="https://docs.langchain.com/oss/python/langchain/tools" target="_blank" rel="noopener noreferrer">英文原文</a> 为准。</p>
+        </footer>
+      </div>
+    </main>
+    <aside class="toc" aria-label="本页目录"><div class="toc-inner"><div class="toc-title">本页目录</div><a class="toc-link level-2" href="#create-tools">创建工具</a><a class="toc-link level-3" href="#basic-tool-definition">基本工具定义</a><a class="toc-link level-3" href="#customize-tool-properties">自定义工具属性</a><a class="toc-link level-3" href="#advanced-schema-definition">高级 schema 定义</a><a class="toc-link level-3" href="#reserved-argument-names">保留的参数名称</a><a class="toc-link level-2" href="#access-context">访问上下文</a><a class="toc-link level-3" href="#short-term-memory-state">短期记忆（State）</a><a class="toc-link level-3" href="#context">上下文</a><a class="toc-link level-3" href="#long-term-memory-store">长期记忆（Store）</a><a class="toc-link level-3" href="#stream-writer">流写入器</a><a class="toc-link level-3" href="#execution-info">执行信息</a><a class="toc-link level-3" href="#server-info">服务器信息</a><a class="toc-link level-2" href="#tool-execution">工具执行</a><a class="toc-link level-3" href="#tool-return-values">工具返回值</a><a class="toc-link level-3" href="#error-handling">错误处理</a><a class="toc-link level-3" href="#state-injection">状态注入</a><a class="toc-link level-2" href="#dynamic-tool-selection">动态工具选择</a><a class="toc-link level-2" href="#headless-tools">无头工具</a><a class="toc-link level-3" href="#when-to-use-headless-tools">何时使用无头工具</a><a class="toc-link level-3" href="#how-the-pattern-works">该模式如何工作</a><a class="toc-link level-2" href="#prebuilt-tools">预置工具</a><a class="toc-link level-2" href="#tools-from-mcp-servers">来自 MCP 服务器的工具</a><a class="toc-link level-2" href="#server-side-tool-use">服务端工具使用</a></div></aside>
+  </div>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p><strong>LangChain 中文文档</strong> · 社区翻译，非官方站点。内容基于 <a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener noreferrer">docs.langchain.com</a> 的 LangChain（Python）文档生成。</p>
+      <p>共 59 篇 · 代码示例保持英文原样 · 以英文原文为准</p>
+    </div>
+  </footer>
+  <button class="back-top" type="button" data-back-top aria-label="回到顶部">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script src="assets/docs.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,1192 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>智能体中的上下文工程 | LangChain 中文文档</title>
+  <meta name="description" content="了解智能体为何会失败，以及如何通过上下文工程提升其可靠性。">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M12.5 19.5l7-7M10 22l-1 1a4 4 0 0 1-5.7-5.7l3.4-3.4a4 4 0 0 1 5.7 0M22 10l1-1a4 4 0 0 1 5.7 5.7l-3.4 3.4a4 4 0 0 1-5.7 0' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem('lc-docs-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();</script>
+  <link rel="stylesheet" href="assets/docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div id="progress" data-progress></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="打开文档导航" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="LangChain 中文文档首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9.4 14.6l5.2-5.2M7.1 16.9l-1.4 1.4a3.7 3.7 0 0 1-5.2-5.2l3.2-3.2a3.7 3.7 0 0 1 5.2 0M16.9 7.1l1.4-1.4a3.7 3.7 0 0 1 5.2 5.2l-3.2 3.2a3.7 3.7 0 0 1-5.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text">LangChain <span class="brand-sub">中文文档</span></span>
+      </a>
+      <nav class="top-nav" aria-label="主导航">
+        <a class="top-link active" href="index.html" aria-current="page">LangChain</a>
+        <a class="top-link" href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a>
+        <a class="top-link" href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener noreferrer">LangSmith</a>
+        <a class="top-link" href="https://reference.langchain.com/python/langchain/" target="_blank" rel="noopener noreferrer">API 参考</a>
+      </nav>
+      <div class="header-actions">
+        <a class="source-link" href="https://docs.langchain.com/oss/python/langchain/context-engineering" target="_blank" rel="noopener noreferrer">English <span aria-hidden="true">↗</span></a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="切换到深色模式" aria-pressed="false" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v1.6M10 16.2v1.6M2.2 10h1.6M16.2 10h1.6M4.5 4.5l1.1 1.1M14.4 14.4l1.1 1.1M15.5 4.5l-1.1 1.1M5.6 14.4l-1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.4 12.1A6.6 6.6 0 0 1 7.9 3.6 6.8 6.8 0 1 0 16.4 12.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" id="sidebar" aria-label="文档导航">
+      <div class="sidebar-head">
+        <div class="sidebar-title">文档目录</div>
+        <div class="nav-search">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.2" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="搜索页面…" aria-label="搜索文档页面" data-nav-search autocomplete="off" spellcheck="false">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+      </div>
+      <div class="sidebar-scroll"><nav class="nav" id="doc-nav" aria-label="文档页面"><div class="nav-home"><a class="nav-link" href="index.html" data-search="LangChain 概览 LangChain overview index  "><span class="nav-dot" aria-hidden="true"></span><span>LangChain 概览</span></a></div><section class="nav-section" data-nav-section><div class="nav-section-title">开始使用</div><a class="nav-link" href="install.html" data-search="安装 LangChain Install LangChain install Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>安装 LangChain</span></a><a class="nav-link" href="quickstart.html" data-search="快速开始 Quickstart quickstart Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>快速开始</span></a><a class="nav-link" href="philosophy.html" data-search="设计理念 Philosophy philosophy Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>设计理念</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">核心组件</div><a class="nav-link" href="agents.html" data-search="智能体 Agents agents Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>智能体</span></a><a class="nav-link" href="models.html" data-search="模型 Models models Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>模型</span></a><a class="nav-link" href="messages.html" data-search="消息 Messages messages Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>消息</span></a><a class="nav-link" href="tools.html" data-search="工具 Tools tools Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>工具</span></a><a class="nav-link" href="short-term-memory.html" data-search="短期记忆 Short-term memory short-term-memory Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>短期记忆</span></a><a class="nav-link" href="event-streaming.html" data-search="事件流 Event streaming event-streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>事件流</span></a><a class="nav-link" href="streaming.html" data-search="流式传输 Streaming streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>流式传输</span></a><a class="nav-link" href="structured-output.html" data-search="结构化输出 Structured output structured-output Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>结构化输出</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">中间件</div><a class="nav-link" href="middleware-overview.html" data-search="中间件概览 Middleware overview middleware-overview Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>中间件概览</span></a><a class="nav-link" href="middleware-built-in.html" data-search="预置中间件 Prebuilt middleware middleware-built-in Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>预置中间件</span></a><a class="nav-link" href="middleware-custom.html" data-search="自定义中间件 Custom middleware middleware-custom Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>自定义中间件</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">前端</div><a class="nav-link" href="frontend-overview.html" data-search="前端概览 Overview frontend-overview Frontend 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端概览</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">模式</div><a class="nav-link" href="frontend-markdown-messages.html" data-search="Markdown 消息 Markdown messages frontend-markdown-messages Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>Markdown 消息</span></a><a class="nav-link" href="frontend-tool-calling.html" data-search="工具调用 Tool calling frontend-tool-calling Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>工具调用</span></a><a class="nav-link" href="frontend-headless-tools.html" data-search="无头工具 Headless tools frontend-headless-tools Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>无头工具</span></a><a class="nav-link" href="frontend-human-in-the-loop.html" data-search="前端人在回路 Human-in-the-Loop frontend-human-in-the-loop Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端人在回路</span></a><a class="nav-link" href="frontend-branching-chat.html" data-search="分支对话 Branching chat frontend-branching-chat Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>分支对话</span></a><a class="nav-link" href="frontend-reasoning-tokens.html" data-search="推理 token Reasoning tokens frontend-reasoning-tokens Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>推理 token</span></a><a class="nav-link" href="frontend-structured-output.html" data-search="前端结构化输出 Structured output frontend-structured-output Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端结构化输出</span></a><a class="nav-link" href="frontend-message-queues.html" data-search="消息队列 Message queues frontend-message-queues Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>消息队列</span></a><a class="nav-link" href="frontend-join-rejoin.html" data-search="断开与重连流 Join &amp; rejoin streams frontend-join-rejoin Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>断开与重连流</span></a><a class="nav-link" href="frontend-time-travel.html" data-search="时间旅行 Time travel frontend-time-travel Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>时间旅行</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">生成式 UI</div><a class="nav-link" href="frontend-generative-ui-overview.html" data-search="生成式 UI 概览 Generative UI overview frontend-generative-ui-overview Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>生成式 UI 概览</span></a><a class="nav-link" href="frontend-controlled-generative-ui.html" data-search="受控生成式 UI Controlled generative UI frontend-controlled-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>受控生成式 UI</span></a><a class="nav-link" href="frontend-declarative-generative-ui.html" data-search="声明式生成式 UI Declarative generative UI frontend-declarative-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>声明式生成式 UI</span></a><a class="nav-link" href="frontend-open-ended-generative-ui.html" data-search="开放式生成式 UI Open-ended generative UI frontend-open-ended-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>开放式生成式 UI</span></a></div></div><div class="nav-subgroup"><div class="nav-subgroup-title">集成</div><a class="nav-link" href="frontend-integrations-overview.html" data-search="集成概览 Overview frontend-integrations-overview Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>集成概览</span></a><a class="nav-link" href="frontend-integrations-copilotkit.html" data-search="CopilotKit CopilotKit frontend-integrations-copilotkit Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>CopilotKit</span></a><a class="nav-link" href="frontend-integrations-ai-elements.html" data-search="AI Elements AI Elements frontend-integrations-ai-elements Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>AI Elements</span></a><a class="nav-link" href="frontend-integrations-assistant-ui.html" data-search="assistant-ui assistant-ui frontend-integrations-assistant-ui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>assistant-ui</span></a><a class="nav-link" href="frontend-integrations-openui.html" data-search="OpenUI OpenUI frontend-integrations-openui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>OpenUI</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">高级用法</div><a class="nav-link" href="guardrails.html" data-search="护栏 Guardrails guardrails Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>护栏</span></a><a class="nav-link" href="runtime.html" data-search="运行时 Runtime runtime Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>运行时</span></a><a class="nav-link active" href="context-engineering.html" data-search="智能体中的上下文工程 Context engineering in agents context-engineering Advanced usage 高级用法 高级用法" aria-current="page"><span class="nav-dot" aria-hidden="true"></span><span>智能体中的上下文工程</span></a><a class="nav-link" href="human-in-the-loop.html" data-search="人在回路 Human-in-the-loop human-in-the-loop Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>人在回路</span></a><a class="nav-link" href="retrieval.html" data-search="检索 Retrieval retrieval Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>检索</span></a><a class="nav-link" href="long-term-memory.html" data-search="长期记忆 Long-term memory long-term-memory Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>长期记忆</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">MCP</div><a class="nav-link" href="mcp.html" data-search="MCP 概述 Model Context Protocol (MCP) mcp Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 概述</span></a><a class="nav-link" href="mcp-tools.html" data-search="MCP 工具 Tools mcp-tools Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 工具</span></a><a class="nav-link" href="mcp-connections.html" data-search="MCP 连接 Connections mcp-connections Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 连接</span></a><a class="nav-link" href="mcp-auth.html" data-search="MCP 认证 Authentication mcp-auth Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 认证</span></a></div><div class="nav-subgroup"><div class="nav-subgroup-title">多智能体</div><a class="nav-link" href="multi-agent.html" data-search="多智能体 Multi-agent multi-agent Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>多智能体</span></a><a class="nav-link" href="multi-agent-subagents.html" data-search="子智能体 Subagents multi-agent-subagents Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>子智能体</span></a><a class="nav-link" href="multi-agent-handoffs.html" data-search="交接 Handoffs multi-agent-handoffs Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>交接</span></a><a class="nav-link" href="multi-agent-skills.html" data-search="技能 Skills multi-agent-skills Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>技能</span></a><a class="nav-link" href="multi-agent-router.html" data-search="路由器 Router multi-agent-router Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>路由器</span></a><a class="nav-link" href="multi-agent-custom-workflow.html" data-search="自定义工作流 Custom workflow multi-agent-custom-workflow Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>自定义工作流</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">智能体开发</div><a class="nav-link" href="studio.html" data-search="LangSmith Studio LangSmith Studio studio Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith Studio</span></a><a class="nav-link" href="ui.html" data-search="Agent Chat UI Agent Chat UI ui Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>Agent Chat UI</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">测试</div><a class="nav-link" href="test.html" data-search="测试 Test test Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>测试</span></a><a class="nav-link" href="test-unit-testing.html" data-search="单元测试 Unit testing test-unit-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>单元测试</span></a><a class="nav-link" href="test-integration-testing.html" data-search="集成测试 Integration testing test-integration-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>集成测试</span></a><a class="nav-link" href="test-evals.html" data-search="智能体评估 Agent Evals test-evals Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>智能体评估</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">生产</div><a class="nav-link" href="deploy.html" data-search="部署 Deployment deploy Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>部署</span></a><a class="nav-link" href="observability.html" data-search="LangSmith 可观测性 LangSmith Observability observability Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith 可观测性</span></a></section><div class="nav-empty" data-nav-empty hidden>没有匹配的页面</div></nav></div>
+      <div class="sidebar-foot"><strong>59 篇</strong> · 社区翻译</div>
+    </aside>
+    <div class="sidebar-overlay" data-sidebar-overlay></div>
+    <main class="main" id="main">
+      <div class="content-wrap">
+        <nav class="breadcrumbs" aria-label="面包屑"><a href="index.html">LangChain</a><span class="sep">/</span><span>高级用法</span><span class="sep">/</span><span class="current">智能体中的上下文工程</span></nav>
+        <header class="page-header">
+          <h1>智能体中的上下文工程</h1>
+          <div class="page-lead">了解智能体为何会失败，以及如何通过上下文工程提升其可靠性。</div>
+          <div class="page-meta">
+            <span>约 13 分钟</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>社区翻译</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <a href="https://docs.langchain.com/oss/python/langchain/context-engineering" target="_blank" rel="noopener noreferrer">查看英文原文 ↗</a>
+          </div>
+        </header>
+        <article class="content"><h2 id="overview">概述<a class="heading-anchor" href="#overview" aria-label="链接到本节">#</a></h2>
+<p>构建智能体（或任何 LLM 应用）最难的部分，是让它们足够可靠。它们或许在原型阶段能跑通，但在真实用例中往往失败。</p>
+<h3 id="why-do-agents-fail">智能体为什么会失败？<a class="heading-anchor" href="#why-do-agents-fail" aria-label="链接到本节">#</a></h3>
+<p>智能体失败时，通常是因为智能体内部的 LLM 调用采取了错误的动作，或者没有做我们期望的事。LLM 失败有两方面原因：</p>
+<ol><li><p>底层 LLM 能力不足</p></li><li><p>没有把“正确的”上下文传给 LLM</p></li></ol>
+<p>多数情况下，真正让智能体变得不可靠的，其实是第二种原因。</p>
+<p><strong>上下文工程</strong>是指以恰当的格式提供恰当的信息和工具，使 LLM 能够完成任务。这是 AI 工程师的首要工作。缺少“正确的”上下文是打造更可靠智能体的头号阻碍，而 LangChain 的智能体抽象正是为支持上下文工程而设计的。</p>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>初次接触上下文工程？请先阅读<a href="https://docs.langchain.com/oss/python/concepts/context" target="_blank" rel="noopener noreferrer">概念概述</a>，了解不同类型的上下文以及何时使用它们。</p></div>
+</aside>
+<h3 id="the-agent-loop">智能体循环<a class="heading-anchor" href="#the-agent-loop" aria-label="链接到本节">#</a></h3>
+<p>典型的智能体循环包含两个主要步骤：</p>
+<ol><li><p><strong>模型调用</strong> — 使用提示词和可用工具调用 LLM，返回响应或执行工具的请求</p></li><li><p><strong>工具执行</strong> — 执行 LLM 请求的工具，返回工具结果</p></li></ol>
+<figure class="doc-figure"><img src="https://mintcdn.com/langchain-5e9cc07a/Tazq8zGc0yYUYrDl/oss/images/core_agent_loop.png?fit=max&amp;auto=format&amp;n=Tazq8zGc0yYUYrDl&amp;q=85&amp;s=ac72e48317a9ced68fd1be64e89ec063" alt="核心智能体循环示意图" loading="lazy" decoding="async" class="doc-image"><figcaption>核心智能体循环示意图</figcaption></figure>
+<p>该循环持续进行，直到 LLM 决定结束。</p>
+<h3 id="what-you-can-control">你可以控制什么<a class="heading-anchor" href="#what-you-can-control" aria-label="链接到本节">#</a></h3>
+<p>要构建可靠的智能体，你需要控制智能体循环每一步中发生的事，以及各步骤之间发生的事。</p>
+<div class="table-wrap"><table><thead><tr><th>上下文类型</th><th>你可以控制的内容</th><th>瞬时或持久</th></tr></thead><tbody><tr><td><strong><a href="#model-context">模型上下文</a></strong></td><td>进入模型调用的内容（指令、消息历史、工具、响应格式）</td><td>瞬时</td></tr><tr><td><strong><a href="#tool-context">工具上下文</a></strong></td><td>工具可以访问和产生的内容（对状态、存储、运行时上下文的读写）</td><td>持久</td></tr><tr><td><strong><a href="#life-cycle-context">生命周期上下文</a></strong></td><td>模型调用与工具调用之间发生的事（摘要、护栏、日志记录等）</td><td>持久</td></tr></tbody></table></div>
+<div class="card-grid"><div class="doc-card"><span class="card-title">瞬时上下文</span><span class="card-body"><p>LLM 在单次调用中看到的内容。你可以修改消息、工具或提示词，而不改变保存在状态中的内容。</p></span></div><div class="doc-card"><span class="card-title">持久上下文</span><span class="card-body"><p>跨轮次保存在状态中的内容。生命周期钩子和工具写入会永久修改它。</p></span></div></div>
+<h3 id="data-sources">数据源<a class="heading-anchor" href="#data-sources" aria-label="链接到本节">#</a></h3>
+<p>在整个过程中，你的智能体会访问（读取/写入）不同的数据源：</p>
+<div class="table-wrap"><table><thead><tr><th>数据源</th><th>也称为</th><th>作用域</th><th>示例</th></tr></thead><tbody><tr><td><strong>运行时上下文</strong></td><td>静态配置</td><td>会话级</td><td>用户 ID、API 密钥、数据库连接、权限、环境设置</td></tr><tr><td><strong>状态</strong></td><td>短期记忆</td><td>会话级</td><td>当前消息、已上传文件、认证状态、工具结果</td></tr><tr><td><strong>存储</strong></td><td>长期记忆</td><td>跨会话</td><td>用户偏好、提炼的洞察、记忆、历史数据</td></tr></tbody></table></div>
+<h3 id="how-it-works">工作原理<a class="heading-anchor" href="#how-it-works" aria-label="链接到本节">#</a></h3>
+<p>LangChain <a href="https://docs.langchain.com/oss/python/langchain/middleware" target="_blank" rel="noopener noreferrer">中间件</a>是底层机制，让使用 LangChain 的开发者能够将上下文工程落到实处。</p>
+<p>中间件允许你挂接到智能体生命周期中的任意步骤，并：</p>
+<ul><li><p>更新上下文</p></li><li><p>跳转到智能体生命周期中的其他步骤</p></li></ul>
+<p>在本指南中，你会频繁看到以中间件 API 作为实现上下文工程目标的手段。</p>
+<h2 id="model-context">模型上下文<a class="heading-anchor" href="#model-context" aria-label="链接到本节">#</a></h2>
+<p>控制每次模型调用的内容——指令、可用工具、使用哪个模型以及输出格式。这些决策直接影响可靠性和成本。</p>
+<div class="card-grid"><a class="doc-card" href="#system-prompt"><span class="card-title">系统提示词</span><span class="card-body"><p>开发者提供给 LLM 的基础指令。</p></span></a><a class="doc-card" href="#messages"><span class="card-title">消息</span><span class="card-body"><p>发送给 LLM 的完整消息列表（对话历史）。</p></span></a><a class="doc-card" href="#tools"><span class="card-title">工具</span><span class="card-body"><p>智能体可用来执行操作的各项工具。</p></span></a><a class="doc-card" href="#model"><span class="card-title">模型</span><span class="card-body"><p>实际要调用的模型（包括其配置）。</p></span></a><a class="doc-card" href="#response-format"><span class="card-title">响应格式</span><span class="card-body"><p>模型最终响应的模式规范。</p></span></a></div>
+<p>所有这些模型上下文都可以取自<strong>状态</strong>（短期记忆）、<strong>存储</strong>（长期记忆）或<strong>运行时上下文</strong>（静态配置）。</p>
+<h3 id="system-prompt">系统提示词<a class="heading-anchor" href="#system-prompt" aria-label="链接到本节">#</a></h3>
+<p>系统提示词设定 LLM 的行为与能力。不同的用户、上下文或对话阶段需要不同的指令。成功的智能体会借助记忆、偏好和配置，为对话的当前状态提供恰当的指令。</p>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-1-tab-0" role="tab" aria-controls="tabs-1-panel-0" aria-selected="true" tabindex="0">State</button><button class="doc-tab" type="button" id="tabs-1-tab-1" role="tab" aria-controls="tabs-1-panel-1" aria-selected="false" tabindex="-1">Store</button><button class="doc-tab" type="button" id="tabs-1-tab-2" role="tab" aria-controls="tabs-1-panel-2" aria-selected="false" tabindex="-1">Runtime Context</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-1-panel-0" role="tabpanel" aria-labelledby="tabs-1-tab-0">
+<p>从状态中访问消息数量或对话上下文：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> dynamic_prompt, ModelRequest
+
+<span class="hljs-meta">@dynamic_prompt</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">state_aware_prompt</span>(<span class="hljs-params">request: ModelRequest</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-comment"># request.messages is a shortcut for request.state["messages"]</span>
+    message_count = <span class="hljs-built_in">len</span>(request.messages)
+
+    base = <span class="hljs-string">"You are a helpful assistant."</span>
+
+    <span class="hljs-keyword">if</span> message_count &gt; <span class="hljs-number">10</span>:
+        base += <span class="hljs-string">"\nThis is a long conversation - be extra concise."</span>
+
+    <span class="hljs-keyword">return</span> base
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[...],
+    middleware=[state_aware_prompt]
+)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-1-panel-1" role="tabpanel" aria-labelledby="tabs-1-tab-1" hidden="">
+<p>从长期记忆中访问用户偏好：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> dynamic_prompt, ModelRequest
+<span class="hljs-keyword">from</span> langgraph.store.memory <span class="hljs-keyword">import</span> InMemoryStore
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_id: <span class="hljs-built_in">str</span>
+
+<span class="hljs-meta">@dynamic_prompt</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">store_aware_prompt</span>(<span class="hljs-params">request: ModelRequest</span>) -&gt; <span class="hljs-built_in">str</span>:
+    user_id = request.runtime.context.user_id
+
+    <span class="hljs-comment"># Read from Store: get user preferences</span>
+    store = request.runtime.store
+    user_prefs = store.get((<span class="hljs-string">"preferences"</span>,), user_id)
+
+    base = <span class="hljs-string">"You are a helpful assistant."</span>
+
+    <span class="hljs-keyword">if</span> user_prefs:
+        style = user_prefs.value.get(<span class="hljs-string">"communication_style"</span>, <span class="hljs-string">"balanced"</span>)
+        base += <span class="hljs-string">f"\nUser prefers <span class="hljs-subst">{style}</span> responses."</span>
+
+    <span class="hljs-keyword">return</span> base
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[...],
+    middleware=[store_aware_prompt],
+    context_schema=Context,
+    store=InMemoryStore()
+)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-1-panel-2" role="tabpanel" aria-labelledby="tabs-1-tab-2" hidden="">
+<p>从运行时上下文中访问用户 ID 或配置：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> dynamic_prompt, ModelRequest
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_role: <span class="hljs-built_in">str</span>
+    deployment_env: <span class="hljs-built_in">str</span>
+
+<span class="hljs-meta">@dynamic_prompt</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">context_aware_prompt</span>(<span class="hljs-params">request: ModelRequest</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-comment"># Read from Runtime Context: user role and environment</span>
+    user_role = request.runtime.context.user_role
+    env = request.runtime.context.deployment_env
+
+    base = <span class="hljs-string">"You are a helpful assistant."</span>
+
+    <span class="hljs-keyword">if</span> user_role == <span class="hljs-string">"admin"</span>:
+        base += <span class="hljs-string">"\nYou have admin access. You can perform all operations."</span>
+    <span class="hljs-keyword">elif</span> user_role == <span class="hljs-string">"viewer"</span>:
+        base += <span class="hljs-string">"\nYou have read-only access. Guide users to read operations only."</span>
+
+    <span class="hljs-keyword">if</span> env == <span class="hljs-string">"production"</span>:
+        base += <span class="hljs-string">"\nBe extra careful with any data modifications."</span>
+
+    <span class="hljs-keyword">return</span> base
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[...],
+    middleware=[context_aware_prompt],
+    context_schema=Context
+)</code></pre>
+</div>
+</div></div>
+</div>
+<h3 id="messages">消息<a class="heading-anchor" href="#messages" aria-label="链接到本节">#</a></h3>
+<p>消息构成发送给 LLM 的提示词。管理好消息内容至关重要，这能确保 LLM 获得恰当的信息以做出良好响应。</p>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-2-tab-0" role="tab" aria-controls="tabs-2-panel-0" aria-selected="true" tabindex="0">State</button><button class="doc-tab" type="button" id="tabs-2-tab-1" role="tab" aria-controls="tabs-2-panel-1" aria-selected="false" tabindex="-1">Store</button><button class="doc-tab" type="button" id="tabs-2-tab-2" role="tab" aria-controls="tabs-2-panel-2" aria-selected="false" tabindex="-1">Runtime Context</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-2-panel-0" role="tabpanel" aria-labelledby="tabs-2-tab-0">
+<p>当与当前查询相关时，从状态中注入已上传文件的上下文：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_model_call, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">inject_file_context</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse]
+</span>) -&gt; ModelResponse:
+    <span class="hljs-string">"""Inject context about files user has uploaded this session."""</span>
+    <span class="hljs-comment"># Read from State: get uploaded files metadata</span>
+    uploaded_files = request.state.get(<span class="hljs-string">"uploaded_files"</span>, [])
+
+    <span class="hljs-keyword">if</span> uploaded_files:
+        <span class="hljs-comment"># Build context about available files</span>
+        file_descriptions = []
+        <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> uploaded_files:
+            file_descriptions.append(
+                <span class="hljs-string">f"- <span class="hljs-subst">{file[<span class="hljs-string">'name'</span>]}</span> (<span class="hljs-subst">{file[<span class="hljs-string">'type'</span>]}</span>): <span class="hljs-subst">{file[<span class="hljs-string">'summary'</span>]}</span>"</span>
+            )
+
+        file_context = <span class="hljs-string">f"""Files you have access to in this conversation:
+<span class="hljs-subst">{<span class="hljs-built_in">chr</span>(<span class="hljs-number">10</span>).join(file_descriptions)}</span>
+
+Reference these files when answering questions."""</span>
+
+        <span class="hljs-comment"># Inject file context before recent messages</span>
+        messages = [
+            *request.messages,
+            {<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: file_context},
+        ]
+        request = request.override(messages=messages)
+
+    <span class="hljs-keyword">return</span> handler(request)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[...],
+    middleware=[inject_file_context]
+)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-2-panel-1" role="tabpanel" aria-labelledby="tabs-2-tab-1" hidden="">
+<p>从存储中注入用户的邮件写作风格以指导起草：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_model_call, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+<span class="hljs-keyword">from</span> langgraph.store.memory <span class="hljs-keyword">import</span> InMemoryStore
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_id: <span class="hljs-built_in">str</span>
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">inject_writing_style</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse]
+</span>) -&gt; ModelResponse:
+    <span class="hljs-string">"""Inject user's email writing style from Store."""</span>
+    user_id = request.runtime.context.user_id
+
+    <span class="hljs-comment"># Read from Store: get user's writing style examples</span>
+    store = request.runtime.store
+    writing_style = store.get((<span class="hljs-string">"writing_style"</span>,), user_id)
+
+    <span class="hljs-keyword">if</span> writing_style:
+        style = writing_style.value
+        <span class="hljs-comment"># Build style guide from stored examples</span>
+        style_context = <span class="hljs-string">f"""Your writing style:
+- Tone: <span class="hljs-subst">{style.get(<span class="hljs-string">'tone'</span>, <span class="hljs-string">'professional'</span>)}</span>
+- Typical greeting: "<span class="hljs-subst">{style.get(<span class="hljs-string">'greeting'</span>, <span class="hljs-string">'Hi'</span>)}</span>"
+- Typical sign-off: "<span class="hljs-subst">{style.get(<span class="hljs-string">'sign_off'</span>, <span class="hljs-string">'Best'</span>)}</span>"
+- Example email you've written:
+<span class="hljs-subst">{style.get(<span class="hljs-string">'example_email'</span>, <span class="hljs-string">''</span>)}</span>"""</span>
+
+        <span class="hljs-comment"># Append at end - models pay more attention to final messages</span>
+        messages = [
+            *request.messages,
+            {<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: style_context}
+        ]
+        request = request.override(messages=messages)
+
+    <span class="hljs-keyword">return</span> handler(request)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[...],
+    middleware=[inject_writing_style],
+    context_schema=Context,
+    store=InMemoryStore()
+)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-2-panel-2" role="tabpanel" aria-labelledby="tabs-2-tab-2" hidden="">
+<p>根据用户所在的司法辖区，从运行时上下文注入合规规则：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_model_call, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_jurisdiction: <span class="hljs-built_in">str</span>
+    industry: <span class="hljs-built_in">str</span>
+    compliance_frameworks: <span class="hljs-built_in">list</span>[<span class="hljs-built_in">str</span>]
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">inject_compliance_rules</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse]
+</span>) -&gt; ModelResponse:
+    <span class="hljs-string">"""Inject compliance constraints from Runtime Context."""</span>
+    <span class="hljs-comment"># Read from Runtime Context: get compliance requirements</span>
+    jurisdiction = request.runtime.context.user_jurisdiction
+    industry = request.runtime.context.industry
+    frameworks = request.runtime.context.compliance_frameworks
+
+    <span class="hljs-comment"># Build compliance constraints</span>
+    rules = []
+    <span class="hljs-keyword">if</span> <span class="hljs-string">"GDPR"</span> <span class="hljs-keyword">in</span> frameworks:
+        rules.append(<span class="hljs-string">"- Must obtain explicit consent before processing personal data"</span>)
+        rules.append(<span class="hljs-string">"- Users have right to data deletion"</span>)
+    <span class="hljs-keyword">if</span> <span class="hljs-string">"HIPAA"</span> <span class="hljs-keyword">in</span> frameworks:
+        rules.append(<span class="hljs-string">"- Cannot share patient health information without authorization"</span>)
+        rules.append(<span class="hljs-string">"- Must use secure, encrypted communication"</span>)
+    <span class="hljs-keyword">if</span> industry == <span class="hljs-string">"finance"</span>:
+        rules.append(<span class="hljs-string">"- Cannot provide financial advice without proper disclaimers"</span>)
+
+    <span class="hljs-keyword">if</span> rules:
+        compliance_context = <span class="hljs-string">f"""Compliance requirements for <span class="hljs-subst">{jurisdiction}</span>:
+<span class="hljs-subst">{<span class="hljs-built_in">chr</span>(<span class="hljs-number">10</span>).join(rules)}</span>"""</span>
+
+        <span class="hljs-comment"># Append at end - models pay more attention to final messages</span>
+        messages = [
+            *request.messages,
+            {<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: compliance_context}
+        ]
+        request = request.override(messages=messages)
+
+    <span class="hljs-keyword">return</span> handler(request)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[...],
+    middleware=[inject_compliance_rules],
+    context_schema=Context
+)</code></pre>
+</div>
+</div></div>
+</div>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p><strong>瞬时更新与持久更新的对比：</strong></p>
+<p>上面的示例使用<code>wrap_model_call</code>进行<strong>瞬时</strong>更新——修改单次调用中发送给模型的消息，而不改变状态中保存的内容。</p>
+<p>对于会修改状态的<strong>持久</strong>更新，你可以：</p>
+<ul><li><p>从<code>wrap_model_call</code>返回带<a href="https://reference.langchain.com/python/langgraph/types/Command" target="_blank" rel="noopener noreferrer"><code>Command</code></a>的<a href="https://reference.langchain.com/python/langchain/agents/middleware/types/ExtendedModelResponse" target="_blank" rel="noopener noreferrer"><code>ExtendedModelResponse</code></a>，以便在模型调用层注入状态更新。</p></li><li><p>使用<code>before_model</code>、<code>after_model</code>或<code>wrap_tool_call</code>（用于工具返回）等生命周期钩子来更新对话历史。更多详情参见<a href="https://docs.langchain.com/oss/python/langchain/middleware" target="_blank" rel="noopener noreferrer">中间件文档</a>。</p></li></ul>
+<p>更多信息参见<a href="middleware-custom.html#state-updates">状态更新</a>。</p></div>
+</aside>
+<h3 id="tools">工具<a class="heading-anchor" href="#tools" aria-label="链接到本节">#</a></h3>
+<p>工具让模型能够与数据库、API 和外部系统交互。你如何定义和选择工具，直接影响模型能否有效完成任务。</p>
+<h4 id="defining-tools">定义工具<a class="heading-anchor" href="#defining-tools" aria-label="链接到本节">#</a></h4>
+<p>每个工具都需要清晰的名称、描述、参数名和参数描述。这些不只是元数据——它们会引导模型推理何时以及如何使用该工具。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+<span class="hljs-meta">@tool(<span class="hljs-params">parse_docstring=<span class="hljs-literal">True</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search_orders</span>(<span class="hljs-params">
+    user_id: <span class="hljs-built_in">str</span>,
+    status: <span class="hljs-built_in">str</span>,
+    limit: <span class="hljs-built_in">int</span> = <span class="hljs-number">10</span>
+</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for user orders by status.
+
+    Use this when the user asks about order history or wants to check
+    order status. Always filter by the provided status.
+
+    Args:
+        user_id: Unique identifier for the user
+        status: Order status: 'pending', 'shipped', or 'delivered'
+        limit: Maximum number of results to return
+    """</span>
+    <span class="hljs-comment"># Implementation here</span>
+    <span class="hljs-keyword">pass</span></code></pre>
+</div>
+<h4 id="selecting-tools">选择工具<a class="heading-anchor" href="#selecting-tools" aria-label="链接到本节">#</a></h4>
+<p>并非每个工具都适合每种场景。工具过多可能让模型不堪重负（上下文过载）并增加错误；工具过少则会限制能力。动态工具选择会根据认证状态、用户权限、功能标志或对话阶段调整可用工具集。</p>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-3-tab-0" role="tab" aria-controls="tabs-3-panel-0" aria-selected="true" tabindex="0">State</button><button class="doc-tab" type="button" id="tabs-3-tab-1" role="tab" aria-controls="tabs-3-panel-1" aria-selected="false" tabindex="-1">Store</button><button class="doc-tab" type="button" id="tabs-3-tab-2" role="tab" aria-controls="tabs-3-panel-2" aria-selected="false" tabindex="-1">Runtime Context</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-3-panel-0" role="tabpanel" aria-labelledby="tabs-3-tab-0">
+<p>仅在达到特定对话里程碑后启用高级工具：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_model_call, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">state_based_tools</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse]
+</span>) -&gt; ModelResponse:
+    <span class="hljs-string">"""Filter tools based on conversation State."""</span>
+    <span class="hljs-comment"># Read from State: check if user has authenticated</span>
+    state = request.state
+    is_authenticated = state.get(<span class="hljs-string">"authenticated"</span>, <span class="hljs-literal">False</span>)
+    message_count = <span class="hljs-built_in">len</span>(state[<span class="hljs-string">"messages"</span>])
+
+    <span class="hljs-comment"># Only enable sensitive tools after authentication</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> is_authenticated:
+        tools = [t <span class="hljs-keyword">for</span> t <span class="hljs-keyword">in</span> request.tools <span class="hljs-keyword">if</span> t.name.startswith(<span class="hljs-string">"public_"</span>)]
+        request = request.override(tools=tools)
+    <span class="hljs-keyword">elif</span> message_count &lt; <span class="hljs-number">5</span>:
+        <span class="hljs-comment"># Limit tools early in conversation</span>
+        tools = [t <span class="hljs-keyword">for</span> t <span class="hljs-keyword">in</span> request.tools <span class="hljs-keyword">if</span> t.name != <span class="hljs-string">"advanced_search"</span>]
+        request = request.override(tools=tools)
+
+    <span class="hljs-keyword">return</span> handler(request)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[public_search, private_search, advanced_search],
+    middleware=[state_based_tools]
+)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-3-panel-1" role="tabpanel" aria-labelledby="tabs-3-tab-1" hidden="">
+<p>根据存储中的用户偏好或功能标志过滤工具：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_model_call, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+<span class="hljs-keyword">from</span> langgraph.store.memory <span class="hljs-keyword">import</span> InMemoryStore
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_id: <span class="hljs-built_in">str</span>
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">store_based_tools</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse]
+</span>) -&gt; ModelResponse:
+    <span class="hljs-string">"""Filter tools based on Store preferences."""</span>
+    user_id = request.runtime.context.user_id
+
+    <span class="hljs-comment"># Read from Store: get user's enabled features</span>
+    store = request.runtime.store
+    feature_flags = store.get((<span class="hljs-string">"features"</span>,), user_id)
+
+    <span class="hljs-keyword">if</span> feature_flags:
+        enabled_features = feature_flags.value.get(<span class="hljs-string">"enabled_tools"</span>, [])
+        <span class="hljs-comment"># Only include tools that are enabled for this user</span>
+        tools = [t <span class="hljs-keyword">for</span> t <span class="hljs-keyword">in</span> request.tools <span class="hljs-keyword">if</span> t.name <span class="hljs-keyword">in</span> enabled_features]
+        request = request.override(tools=tools)
+
+    <span class="hljs-keyword">return</span> handler(request)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[search_tool, analysis_tool, export_tool],
+    middleware=[store_based_tools],
+    context_schema=Context,
+    store=InMemoryStore()
+)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-3-panel-2" role="tabpanel" aria-labelledby="tabs-3-tab-2" hidden="">
+<p>根据运行时上下文中的用户权限过滤工具：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_model_call, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_role: <span class="hljs-built_in">str</span>
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">context_based_tools</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse]
+</span>) -&gt; ModelResponse:
+    <span class="hljs-string">"""Filter tools based on Runtime Context permissions."""</span>
+    <span class="hljs-comment"># Read from Runtime Context: get user role</span>
+    user_role = request.runtime.context.user_role
+
+    <span class="hljs-keyword">if</span> user_role == <span class="hljs-string">"admin"</span>:
+        <span class="hljs-comment"># Admins get all tools</span>
+        <span class="hljs-keyword">pass</span>
+    <span class="hljs-keyword">elif</span> user_role == <span class="hljs-string">"editor"</span>:
+        <span class="hljs-comment"># Editors can't delete</span>
+        tools = [t <span class="hljs-keyword">for</span> t <span class="hljs-keyword">in</span> request.tools <span class="hljs-keyword">if</span> t.name != <span class="hljs-string">"delete_data"</span>]
+        request = request.override(tools=tools)
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-comment"># Viewers get read-only tools</span>
+        tools = [t <span class="hljs-keyword">for</span> t <span class="hljs-keyword">in</span> request.tools <span class="hljs-keyword">if</span> t.name.startswith(<span class="hljs-string">"read_"</span>)]
+        request = request.override(tools=tools)
+
+    <span class="hljs-keyword">return</span> handler(request)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[read_data, write_data, delete_data],
+    middleware=[context_based_tools],
+    context_schema=Context
+)</code></pre>
+</div>
+</div></div>
+</div>
+<p>有关过滤已预注册工具以及在运行时注册工具（例如从 MCP 服务器注册）的内容，参见<a href="tools.html#dynamic-tool-selection">动态工具</a>。</p>
+<h3 id="model">模型<a class="heading-anchor" href="#model" aria-label="链接到本节">#</a></h3>
+<p>不同模型在优势、成本和上下文窗口上各不相同。针对手头任务选择合适的模型，而这个选择可能在智能体运行过程中发生变化。</p>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-4-tab-0" role="tab" aria-controls="tabs-4-panel-0" aria-selected="true" tabindex="0">State</button><button class="doc-tab" type="button" id="tabs-4-tab-1" role="tab" aria-controls="tabs-4-panel-1" aria-selected="false" tabindex="-1">Store</button><button class="doc-tab" type="button" id="tabs-4-tab-2" role="tab" aria-controls="tabs-4-panel-2" aria-selected="false" tabindex="-1">Runtime Context</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-4-panel-0" role="tabpanel" aria-labelledby="tabs-4-tab-0">
+<p>根据状态中的对话长度使用不同的模型：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_model_call, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-comment"># Initialize models once outside the middleware</span>
+large_model = init_chat_model(<span class="hljs-string">"claude-sonnet-4-6"</span>)
+standard_model = init_chat_model(<span class="hljs-string">"gpt-5.5"</span>)
+efficient_model = init_chat_model(<span class="hljs-string">"gpt-5.4-mini"</span>)
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">state_based_model</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse]
+</span>) -&gt; ModelResponse:
+    <span class="hljs-string">"""Select model based on State conversation length."""</span>
+    <span class="hljs-comment"># request.messages is a shortcut for request.state["messages"]</span>
+    message_count = <span class="hljs-built_in">len</span>(request.messages)
+
+    <span class="hljs-keyword">if</span> message_count &gt; <span class="hljs-number">20</span>:
+        <span class="hljs-comment"># Long conversation - use model with larger context window</span>
+        model = large_model
+    <span class="hljs-keyword">elif</span> message_count &gt; <span class="hljs-number">10</span>:
+        <span class="hljs-comment"># Medium conversation</span>
+        model = standard_model
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-comment"># Short conversation - use efficient model</span>
+        model = efficient_model
+
+    request = request.override(model=model)
+
+    <span class="hljs-keyword">return</span> handler(request)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.4-mini"</span>,
+    tools=[...],
+    middleware=[state_based_model]
+)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-4-panel-1" role="tabpanel" aria-labelledby="tabs-4-tab-1" hidden="">
+<p>使用存储中用户偏好的模型：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_model_call, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+<span class="hljs-keyword">from</span> langgraph.store.memory <span class="hljs-keyword">import</span> InMemoryStore
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_id: <span class="hljs-built_in">str</span>
+
+<span class="hljs-comment"># Initialize available models once</span>
+MODEL_MAP = {
+    <span class="hljs-string">"gpt-5.5"</span>: init_chat_model(<span class="hljs-string">"gpt-5.5"</span>),
+    <span class="hljs-string">"gpt-5.4-mini"</span>: init_chat_model(<span class="hljs-string">"gpt-5.4-mini"</span>),
+    <span class="hljs-string">"claude-sonnet"</span>: init_chat_model(<span class="hljs-string">"claude-sonnet-4-6"</span>),
+}
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">store_based_model</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse]
+</span>) -&gt; ModelResponse:
+    <span class="hljs-string">"""Select model based on Store preferences."""</span>
+    user_id = request.runtime.context.user_id
+
+    <span class="hljs-comment"># Read from Store: get user's preferred model</span>
+    store = request.runtime.store
+    user_prefs = store.get((<span class="hljs-string">"preferences"</span>,), user_id)
+
+    <span class="hljs-keyword">if</span> user_prefs:
+        preferred_model = user_prefs.value.get(<span class="hljs-string">"preferred_model"</span>)
+        <span class="hljs-keyword">if</span> preferred_model <span class="hljs-keyword">and</span> preferred_model <span class="hljs-keyword">in</span> MODEL_MAP:
+            request = request.override(model=MODEL_MAP[preferred_model])
+
+    <span class="hljs-keyword">return</span> handler(request)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[...],
+    middleware=[store_based_model],
+    context_schema=Context,
+    store=InMemoryStore()
+)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-4-panel-2" role="tabpanel" aria-labelledby="tabs-4-tab-2" hidden="">
+<p>根据成本限制或运行时上下文中的环境选择模型：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_model_call, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    cost_tier: <span class="hljs-built_in">str</span>
+    environment: <span class="hljs-built_in">str</span>
+
+<span class="hljs-comment"># Initialize models once outside the middleware</span>
+premium_model = init_chat_model(<span class="hljs-string">"claude-sonnet-4-6"</span>)
+standard_model = init_chat_model(<span class="hljs-string">"gpt-5.5"</span>)
+budget_model = init_chat_model(<span class="hljs-string">"gpt-5.4-mini"</span>)
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">context_based_model</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse]
+</span>) -&gt; ModelResponse:
+    <span class="hljs-string">"""Select model based on Runtime Context."""</span>
+    <span class="hljs-comment"># Read from Runtime Context: cost tier and environment</span>
+    cost_tier = request.runtime.context.cost_tier
+    environment = request.runtime.context.environment
+
+    <span class="hljs-keyword">if</span> environment == <span class="hljs-string">"production"</span> <span class="hljs-keyword">and</span> cost_tier == <span class="hljs-string">"premium"</span>:
+        <span class="hljs-comment"># Production premium users get best model</span>
+        model = premium_model
+    <span class="hljs-keyword">elif</span> cost_tier == <span class="hljs-string">"budget"</span>:
+        <span class="hljs-comment"># Budget tier gets efficient model</span>
+        model = budget_model
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-comment"># Standard tier</span>
+        model = standard_model
+
+    request = request.override(model=model)
+
+    <span class="hljs-keyword">return</span> handler(request)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[...],
+    middleware=[context_based_model],
+    context_schema=Context
+)</code></pre>
+</div>
+</div></div>
+</div>
+<p>更多示例请参阅<a href="models.html#dynamic-model-selection">动态模型</a>。</p>
+<h3 id="response-format">响应格式<a class="heading-anchor" href="#response-format" aria-label="链接到本节">#</a></h3>
+<p>结构化输出把非结构化文本转换为经过校验的结构化数据。在提取特定字段或为下游系统返回数据时，自由形式的文本并不够用。</p>
+<p><strong>工作原理：</strong>当你把 schema 作为响应格式提供时，模型的最终响应保证符合该 schema。智能体运行模型 / 工具调用循环，直至模型完成工具调用，随后最终响应会被强制转换为所提供的格式。</p>
+<h4 id="defining-formats">定义格式<a class="heading-anchor" href="#defining-formats" aria-label="链接到本节">#</a></h4>
+<p>schema 定义用于引导模型。字段名、类型和描述精确指定了输出应当遵循的格式。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">CustomerSupportTicket</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    <span class="hljs-string">"""Structured ticket information extracted from customer message."""</span>
+
+    category: <span class="hljs-built_in">str</span> = Field(
+        description=<span class="hljs-string">"Issue category: 'billing', 'technical', 'account', or 'product'"</span>
+    )
+    priority: <span class="hljs-built_in">str</span> = Field(
+        description=<span class="hljs-string">"Urgency level: 'low', 'medium', 'high', or 'critical'"</span>
+    )
+    summary: <span class="hljs-built_in">str</span> = Field(
+        description=<span class="hljs-string">"One-sentence summary of the customer's issue"</span>
+    )
+    customer_sentiment: <span class="hljs-built_in">str</span> = Field(
+        description=<span class="hljs-string">"Customer's emotional tone: 'frustrated', 'neutral', or 'satisfied'"</span>
+    )</code></pre>
+</div>
+<h4 id="selecting-formats">选择格式<a class="heading-anchor" href="#selecting-formats" aria-label="链接到本节">#</a></h4>
+<p>动态响应格式选择会依据用户偏好、对话阶段或角色调整 schema——在早期返回简单的格式，随着复杂度提升再返回详细的格式。</p>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-5-tab-0" role="tab" aria-controls="tabs-5-panel-0" aria-selected="true" tabindex="0">State</button><button class="doc-tab" type="button" id="tabs-5-tab-1" role="tab" aria-controls="tabs-5-panel-1" aria-selected="false" tabindex="-1">Store</button><button class="doc-tab" type="button" id="tabs-5-tab-2" role="tab" aria-controls="tabs-5-panel-2" aria-selected="false" tabindex="-1">Runtime Context</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-5-panel-0" role="tabpanel" aria-labelledby="tabs-5-tab-0">
+<p>基于对话状态配置结构化输出：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_model_call, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">SimpleResponse</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    <span class="hljs-string">"""Simple response for early conversation."""</span>
+    answer: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"A brief answer"</span>)
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">DetailedResponse</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    <span class="hljs-string">"""Detailed response for established conversation."""</span>
+    answer: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"A detailed answer"</span>)
+    reasoning: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"Explanation of reasoning"</span>)
+    confidence: <span class="hljs-built_in">float</span> = Field(description=<span class="hljs-string">"Confidence score 0-1"</span>)
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">state_based_output</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse]
+</span>) -&gt; ModelResponse:
+    <span class="hljs-string">"""Select output format based on State."""</span>
+    <span class="hljs-comment"># request.messages is a shortcut for request.state["messages"]</span>
+    message_count = <span class="hljs-built_in">len</span>(request.messages)
+
+    <span class="hljs-keyword">if</span> message_count &lt; <span class="hljs-number">3</span>:
+        <span class="hljs-comment"># Early conversation - use simple format</span>
+        request = request.override(response_format=SimpleResponse)
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-comment"># Established conversation - use detailed format</span>
+        request = request.override(response_format=DetailedResponse)
+
+    <span class="hljs-keyword">return</span> handler(request)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[...],
+    middleware=[state_based_output]
+)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-5-panel-1" role="tabpanel" aria-labelledby="tabs-5-tab-1" hidden="">
+<p>基于 Store 中的用户偏好配置输出格式：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_model_call, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+<span class="hljs-keyword">from</span> langgraph.store.memory <span class="hljs-keyword">import</span> InMemoryStore
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_id: <span class="hljs-built_in">str</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">VerboseResponse</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    <span class="hljs-string">"""Verbose response with details."""</span>
+    answer: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"Detailed answer"</span>)
+    sources: <span class="hljs-built_in">list</span>[<span class="hljs-built_in">str</span>] = Field(description=<span class="hljs-string">"Sources used"</span>)
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ConciseResponse</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    <span class="hljs-string">"""Concise response."""</span>
+    answer: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"Brief answer"</span>)
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">store_based_output</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse]
+</span>) -&gt; ModelResponse:
+    <span class="hljs-string">"""Select output format based on Store preferences."""</span>
+    user_id = request.runtime.context.user_id
+
+    <span class="hljs-comment"># Read from Store: get user's preferred response style</span>
+    store = request.runtime.store
+    user_prefs = store.get((<span class="hljs-string">"preferences"</span>,), user_id)
+
+    <span class="hljs-keyword">if</span> user_prefs:
+        style = user_prefs.value.get(<span class="hljs-string">"response_style"</span>, <span class="hljs-string">"concise"</span>)
+        <span class="hljs-keyword">if</span> style == <span class="hljs-string">"verbose"</span>:
+            request = request.override(response_format=VerboseResponse)
+        <span class="hljs-keyword">else</span>:
+            request = request.override(response_format=ConciseResponse)
+
+    <span class="hljs-keyword">return</span> handler(request)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[...],
+    middleware=[store_based_output],
+    context_schema=Context,
+    store=InMemoryStore()
+)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-5-panel-2" role="tabpanel" aria-labelledby="tabs-5-tab-2" hidden="">
+<p>基于运行时上下文（如用户角色或环境）配置输出格式：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_model_call, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_role: <span class="hljs-built_in">str</span>
+    environment: <span class="hljs-built_in">str</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">AdminResponse</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    <span class="hljs-string">"""Response with technical details for admins."""</span>
+    answer: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"Answer"</span>)
+    debug_info: <span class="hljs-built_in">dict</span> = Field(description=<span class="hljs-string">"Debug information"</span>)
+    system_status: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"System status"</span>)
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">UserResponse</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    <span class="hljs-string">"""Simple response for regular users."""</span>
+    answer: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"Answer"</span>)
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">context_based_output</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse]
+</span>) -&gt; ModelResponse:
+    <span class="hljs-string">"""Select output format based on Runtime Context."""</span>
+    <span class="hljs-comment"># Read from Runtime Context: user role and environment</span>
+    user_role = request.runtime.context.user_role
+    environment = request.runtime.context.environment
+
+    <span class="hljs-keyword">if</span> user_role == <span class="hljs-string">"admin"</span> <span class="hljs-keyword">and</span> environment == <span class="hljs-string">"production"</span>:
+        <span class="hljs-comment"># Admins in production get detailed output</span>
+        request = request.override(response_format=AdminResponse)
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-comment"># Regular users get simple output</span>
+        request = request.override(response_format=UserResponse)
+
+    <span class="hljs-keyword">return</span> handler(request)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[...],
+    middleware=[context_based_output],
+    context_schema=Context
+)</code></pre>
+</div>
+</div></div>
+</div>
+<h2 id="tool-context">工具上下文<a class="heading-anchor" href="#tool-context" aria-label="链接到本节">#</a></h2>
+<p>工具的特殊之处在于，它们既读取上下文，也写入上下文。</p>
+<p>在最基本的情况下，工具执行时会接收 LLM 的请求参数，并返回一条工具消息。工具完成自己的工作并产生结果。</p>
+<p>工具还可以为模型获取重要信息，使其能够执行并完成任务。</p>
+<h3 id="reads">读取<a class="heading-anchor" href="#reads" aria-label="链接到本节">#</a></h3>
+<p>大多数真实场景中的工具需要的不仅是 LLM 的参数。它们需要用于数据库查询的用户 ID、用于外部服务的 API 密钥，或用于决策的当前会话状态。工具从状态、Store 和运行时上下文中读取这些信息。</p>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-6-tab-0" role="tab" aria-controls="tabs-6-panel-0" aria-selected="true" tabindex="0">State</button><button class="doc-tab" type="button" id="tabs-6-tab-1" role="tab" aria-controls="tabs-6-panel-1" aria-selected="false" tabindex="-1">Store</button><button class="doc-tab" type="button" id="tabs-6-tab-2" role="tab" aria-controls="tabs-6-panel-2" aria-selected="false" tabindex="-1">Runtime Context</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-6-panel-0" role="tabpanel" aria-labelledby="tabs-6-tab-0">
+<p>从 State 读取以检查当前会话信息：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool, ToolRuntime
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">check_authentication</span>(<span class="hljs-params">
+    runtime: ToolRuntime
+</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Check if user is authenticated."""</span>
+    <span class="hljs-comment"># Read from State: check current auth status</span>
+    current_state = runtime.state
+    is_authenticated = current_state.get(<span class="hljs-string">"authenticated"</span>, <span class="hljs-literal">False</span>)
+
+    <span class="hljs-keyword">if</span> is_authenticated:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"User is authenticated"</span>
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"User is not authenticated"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[check_authentication]
+)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-6-panel-1" role="tabpanel" aria-labelledby="tabs-6-tab-1" hidden="">
+<p>从 Store 读取以访问持久化的用户偏好：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool, ToolRuntime
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langgraph.store.memory <span class="hljs-keyword">import</span> InMemoryStore
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_id: <span class="hljs-built_in">str</span>
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_preference</span>(<span class="hljs-params">
+    preference_key: <span class="hljs-built_in">str</span>,
+    runtime: ToolRuntime[Context]
+</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get user preference from Store."""</span>
+    user_id = runtime.context.user_id
+
+    <span class="hljs-comment"># Read from Store: get existing preferences</span>
+    store = runtime.store
+    existing_prefs = store.get((<span class="hljs-string">"preferences"</span>,), user_id)
+
+    <span class="hljs-keyword">if</span> existing_prefs:
+        value = existing_prefs.value.get(preference_key)
+        <span class="hljs-keyword">return</span> <span class="hljs-string">f"<span class="hljs-subst">{preference_key}</span>: <span class="hljs-subst">{value}</span>"</span> <span class="hljs-keyword">if</span> value <span class="hljs-keyword">else</span> <span class="hljs-string">f"No preference set for <span class="hljs-subst">{preference_key}</span>"</span>
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"No preferences found"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[get_preference],
+    context_schema=Context,
+    store=InMemoryStore()
+)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-6-panel-2" role="tabpanel" aria-labelledby="tabs-6-tab-2" hidden="">
+<p>从运行时上下文读取 API 密钥、用户 ID 等配置：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool, ToolRuntime
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_id: <span class="hljs-built_in">str</span>
+    api_key: <span class="hljs-built_in">str</span>
+    db_connection: <span class="hljs-built_in">str</span>
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">fetch_user_data</span>(<span class="hljs-params">
+    query: <span class="hljs-built_in">str</span>,
+    runtime: ToolRuntime[Context]
+</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Fetch data using Runtime Context configuration."""</span>
+    <span class="hljs-comment"># Read from Runtime Context: get API key and DB connection</span>
+    user_id = runtime.context.user_id
+    api_key = runtime.context.api_key
+    db_connection = runtime.context.db_connection
+
+    <span class="hljs-comment"># Use configuration to fetch data</span>
+    results = perform_database_query(db_connection, query, api_key)
+
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Found <span class="hljs-subst">{<span class="hljs-built_in">len</span>(results)}</span> results for user <span class="hljs-subst">{user_id}</span>"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[fetch_user_data],
+    context_schema=Context
+)
+
+<span class="hljs-comment"># Invoke with runtime context</span>
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Get my data"</span>}]},
+    context=Context(
+        user_id=<span class="hljs-string">"user_123"</span>,
+        api_key=<span class="hljs-string">"sk-..."</span>,
+        db_connection=<span class="hljs-string">"postgresql://..."</span>
+    )
+)</code></pre>
+</div>
+</div></div>
+</div>
+<h3 id="writes">写入<a class="heading-anchor" href="#writes" aria-label="链接到本节">#</a></h3>
+<p>工具结果可用于帮助智能体完成给定任务。工具既可以直接向模型返回结果，也可以更新智能体的记忆，使重要上下文可供后续步骤使用。</p>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-7-tab-0" role="tab" aria-controls="tabs-7-panel-0" aria-selected="true" tabindex="0">State</button><button class="doc-tab" type="button" id="tabs-7-tab-1" role="tab" aria-controls="tabs-7-panel-1" aria-selected="false" tabindex="-1">Store</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-7-panel-0" role="tabpanel" aria-labelledby="tabs-7-tab-0">
+<p>使用 Command 写入 State 以跟踪会话特定信息：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool, ToolRuntime
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langgraph.types <span class="hljs-keyword">import</span> Command
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">authenticate_user</span>(<span class="hljs-params">
+    password: <span class="hljs-built_in">str</span>,
+    runtime: ToolRuntime
+</span>) -&gt; Command:
+    <span class="hljs-string">"""Authenticate user and update State."""</span>
+    <span class="hljs-comment"># Perform authentication (simplified)</span>
+    <span class="hljs-keyword">if</span> password == <span class="hljs-string">"correct"</span>:
+        <span class="hljs-comment"># Write to State: mark as authenticated using Command</span>
+        <span class="hljs-keyword">return</span> Command(
+            update={<span class="hljs-string">"authenticated"</span>: <span class="hljs-literal">True</span>},
+        )
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-keyword">return</span> Command(update={<span class="hljs-string">"authenticated"</span>: <span class="hljs-literal">False</span>})
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[authenticate_user]
+)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-7-panel-1" role="tabpanel" aria-labelledby="tabs-7-tab-1" hidden="">
+<p>写入 Store 以跨会话持久化数据：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool, ToolRuntime
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langgraph.store.memory <span class="hljs-keyword">import</span> InMemoryStore
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_id: <span class="hljs-built_in">str</span>
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">save_preference</span>(<span class="hljs-params">
+    preference_key: <span class="hljs-built_in">str</span>,
+    preference_value: <span class="hljs-built_in">str</span>,
+    runtime: ToolRuntime[Context]
+</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Save user preference to Store."""</span>
+    user_id = runtime.context.user_id
+
+    <span class="hljs-comment"># Read existing preferences</span>
+    store = runtime.store
+    existing_prefs = store.get((<span class="hljs-string">"preferences"</span>,), user_id)
+
+    <span class="hljs-comment"># Merge with new preference</span>
+    prefs = existing_prefs.value <span class="hljs-keyword">if</span> existing_prefs <span class="hljs-keyword">else</span> {}
+    prefs[preference_key] = preference_value
+
+    <span class="hljs-comment"># Write to Store: save updated preferences</span>
+    store.put((<span class="hljs-string">"preferences"</span>,), user_id, prefs)
+
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Saved preference: <span class="hljs-subst">{preference_key}</span> = <span class="hljs-subst">{preference_value}</span>"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[save_preference],
+    context_schema=Context,
+    store=InMemoryStore()
+)</code></pre>
+</div>
+</div></div>
+</div>
+<p>工具中访问状态、Store 和运行时上下文的完整示例，请参阅<a href="tools.html">工具</a>。</p>
+<h2 id="life-cycle-context">生命周期上下文<a class="heading-anchor" href="#life-cycle-context" aria-label="链接到本节">#</a></h2>
+<p>控制核心智能体步骤<strong>之间</strong>发生的事情——拦截数据流，以实现摘要、护栏和日志记录等横切关注点。</p>
+<p>如你在<a href="#model-context">模型上下文</a>和<a href="#tool-context">工具上下文</a>中所见，<a href="https://docs.langchain.com/oss/python/langchain/middleware" target="_blank" rel="noopener noreferrer">中间件</a>是让上下文工程切实可行的机制。中间件允许你挂接到智能体生命周期中的任意步骤，并执行以下操作之一：</p>
+<ol><li><p><strong>更新上下文</strong> - 修改状态和存储以持久化变更、更新对话历史或保存洞察</p></li><li><p><strong>跳转生命周期</strong> - 根据上下文移动到智能体循环中的不同步骤（例如在满足条件时跳过工具执行，用修改后的上下文重复模型调用）</p></li></ol>
+<figure class="doc-figure"><img src="https://mintcdn.com/langchain-5e9cc07a/RAP6mjwE5G00xYsA/oss/images/middleware_final.png?fit=max&amp;auto=format&amp;n=RAP6mjwE5G00xYsA&amp;q=85&amp;s=eb4404b137edec6f6f0c8ccb8323eaf1" alt="智能体循环中的中间件钩子" loading="lazy" decoding="async" class="doc-image"><figcaption>智能体循环中的中间件钩子</figcaption></figure>
+<h3 id="example-summarization">示例：摘要<a class="heading-anchor" href="#example-summarization" aria-label="链接到本节">#</a></h3>
+<p>最常见的生命周期模式之一是在对话历史变得过长时自动压缩它。与<a href="#messages">模型上下文</a>中展示的临时消息裁剪不同，摘要会<strong>持久性地更新状态</strong>——用一份摘要永久替换旧消息，并在后续所有轮次中保留。</p>
+<p>LangChain 为此提供了内置中间件：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> SummarizationMiddleware
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[...],
+    middleware=[
+        SummarizationMiddleware(
+            model=<span class="hljs-string">"gpt-5.4-mini"</span>,
+            trigger={<span class="hljs-string">"tokens"</span>: <span class="hljs-number">4000</span>},
+            keep=(<span class="hljs-string">"messages"</span>, <span class="hljs-number">20</span>),
+        ),
+    ],
+)</code></pre>
+</div>
+<p>当对话超出 token 上限时，<code>SummarizationMiddleware</code>会自动：</p>
+<ol><li><p>使用单独的 LLM 调用为较早的消息生成摘要</p></li><li><p>在 State 中用一条摘要消息替换它们（永久）</p></li><li><p>保持近期消息不变，以提供上下文</p></li></ol>
+<p>摘要后的对话历史会被永久更新——后续轮次将看到摘要而非原始消息。</p>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>关于内置中间件的完整列表、可用钩子以及如何创建自定义中间件，请参阅<a href="https://docs.langchain.com/oss/python/langchain/middleware" target="_blank" rel="noopener noreferrer">中间件文档</a>。</p></div>
+</aside>
+<h2 id="best-practices">最佳实践<a class="heading-anchor" href="#best-practices" aria-label="链接到本节">#</a></h2>
+<ol><li><p><strong>从简单开始</strong> - 从静态提示词和工具入手，仅在需要时加入动态能力</p></li><li><p><strong>增量测试</strong> - 一次只添加一项上下文工程特性</p></li><li><p><strong>监控性能</strong> - 跟踪模型调用、token 用量和延迟</p></li><li><p><strong>使用内置中间件</strong> - 善用 <a href="https://docs.langchain.com/oss/python/langchain/middleware#summarization" target="_blank" rel="noopener noreferrer"><code>SummarizationMiddleware</code></a>、<a href="https://docs.langchain.com/oss/python/langchain/middleware#llm-tool-selector" target="_blank" rel="noopener noreferrer"><code>LLMToolSelectorMiddleware</code></a> 等</p></li><li><p><strong>记录你的上下文策略</strong> - 明确说明传递了哪些上下文以及原因</p></li><li><p><strong>理解临时与持久</strong>：模型上下文的变化是临时的（每次调用生效），而生命周期上下文的变化会持久化到状态中</p></li></ol>
+<h2 id="related-resources">相关资源<a class="heading-anchor" href="#related-resources" aria-label="链接到本节">#</a></h2>
+<ul><li><p><a href="https://docs.langchain.com/oss/python/concepts/context" target="_blank" rel="noopener noreferrer">上下文概念总览</a> - 了解上下文类型及其适用场景</p></li><li><p><a href="https://docs.langchain.com/oss/python/langchain/middleware" target="_blank" rel="noopener noreferrer">中间件</a> - 完整的中间件指南</p></li><li><p><a href="tools.html">工具</a> - 工具创建与上下文访问</p></li><li><p><a href="https://docs.langchain.com/oss/python/concepts/memory" target="_blank" rel="noopener noreferrer">记忆</a> - 短期与长期记忆模式</p></li><li><p><a href="agents.html">智能体</a> - 智能体核心概念</p></li></ul></article>
+        <nav class="pager" aria-label="翻页"><a class="prev" href="runtime.html"><span class="pager-label">上一篇</span><span class="pager-title">运行时</span></a><a class="next" href="human-in-the-loop.html"><span class="pager-label">下一篇</span><span class="pager-title">人在回路</span></a></nav>
+        <footer class="page-footer">
+          <p>本页为社区维护的简体中文翻译，不是 LangChain 官方文档。如与英文原文有出入，请以 <a href="https://docs.langchain.com/oss/python/langchain/context-engineering" target="_blank" rel="noopener noreferrer">英文原文</a> 为准。</p>
+        </footer>
+      </div>
+    </main>
+    <aside class="toc" aria-label="本页目录"><div class="toc-inner"><div class="toc-title">本页目录</div><a class="toc-link level-2" href="#overview">概述</a><a class="toc-link level-3" href="#why-do-agents-fail">智能体为什么会失败？</a><a class="toc-link level-3" href="#the-agent-loop">智能体循环</a><a class="toc-link level-3" href="#what-you-can-control">你可以控制什么</a><a class="toc-link level-3" href="#data-sources">数据源</a><a class="toc-link level-3" href="#how-it-works">工作原理</a><a class="toc-link level-2" href="#model-context">模型上下文</a><a class="toc-link level-3" href="#system-prompt">系统提示词</a><a class="toc-link level-3" href="#messages">消息</a><a class="toc-link level-3" href="#tools">工具</a><a class="toc-link level-3" href="#model">模型</a><a class="toc-link level-3" href="#response-format">响应格式</a><a class="toc-link level-2" href="#tool-context">工具上下文</a><a class="toc-link level-3" href="#reads">读取</a><a class="toc-link level-3" href="#writes">写入</a><a class="toc-link level-2" href="#life-cycle-context">生命周期上下文</a><a class="toc-link level-3" href="#example-summarization">示例：摘要</a><a class="toc-link level-2" href="#best-practices">最佳实践</a><a class="toc-link level-2" href="#related-resources">相关资源</a></div></aside>
+  </div>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p><strong>LangChain 中文文档</strong> · 社区翻译，非官方站点。内容基于 <a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener noreferrer">docs.langchain.com</a> 的 LangChain（Python）文档生成。</p>
+      <p>共 59 篇 · 代码示例保持英文原样 · 以英文原文为准</p>
+    </div>
+  </footer>
+  <button class="back-top" type="button" data-back-top aria-label="回到顶部">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script src="assets/docs.js" defer></script>
+</body>
+</html>

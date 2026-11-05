@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>子智能体 | LangChain 中文文档</title>
+  <meta name="description" content="在 子智能体 架构中，一个中心主 智能体（通常称为 监督者）通过将子智能体作为 工具 调用来协调它们。主智能体决定调用哪个子智能体、提供什么输入以及如何合并结果。默认情况下，子智能体是无状态的——它们不记得过去的交互，所有对话记忆都由主智能体维护。这提供了 上下文 隔离：每次子智能体调用都在干净的上下文窗口中工作，">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M12.5 19.5l7-7M10 22l-1 1a4 4 0 0 1-5.7-5.7l3.4-3.4a4 4 0 0 1 5.7 0M22 10l1-1a4 4 0 0 1 5.7 5.7l-3.4 3.4a4 4 0 0 1-5.7 0' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem('lc-docs-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();</script>
+  <link rel="stylesheet" href="assets/docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div id="progress" data-progress></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="打开文档导航" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="LangChain 中文文档首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9.4 14.6l5.2-5.2M7.1 16.9l-1.4 1.4a3.7 3.7 0 0 1-5.2-5.2l3.2-3.2a3.7 3.7 0 0 1 5.2 0M16.9 7.1l1.4-1.4a3.7 3.7 0 0 1 5.2 5.2l-3.2 3.2a3.7 3.7 0 0 1-5.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text">LangChain <span class="brand-sub">中文文档</span></span>
+      </a>
+      <nav class="top-nav" aria-label="主导航">
+        <a class="top-link active" href="index.html" aria-current="page">LangChain</a>
+        <a class="top-link" href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a>
+        <a class="top-link" href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener noreferrer">LangSmith</a>
+        <a class="top-link" href="https://reference.langchain.com/python/langchain/" target="_blank" rel="noopener noreferrer">API 参考</a>
+      </nav>
+      <div class="header-actions">
+        <a class="source-link" href="https://docs.langchain.com/oss/python/langchain/multi-agent/subagents" target="_blank" rel="noopener noreferrer">English <span aria-hidden="true">↗</span></a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="切换到深色模式" aria-pressed="false" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v1.6M10 16.2v1.6M2.2 10h1.6M16.2 10h1.6M4.5 4.5l1.1 1.1M14.4 14.4l1.1 1.1M15.5 4.5l-1.1 1.1M5.6 14.4l-1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.4 12.1A6.6 6.6 0 0 1 7.9 3.6 6.8 6.8 0 1 0 16.4 12.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" id="sidebar" aria-label="文档导航">
+      <div class="sidebar-head">
+        <div class="sidebar-title">文档目录</div>
+        <div class="nav-search">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.2" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="搜索页面…" aria-label="搜索文档页面" data-nav-search autocomplete="off" spellcheck="false">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+      </div>
+      <div class="sidebar-scroll"><nav class="nav" id="doc-nav" aria-label="文档页面"><div class="nav-home"><a class="nav-link" href="index.html" data-search="LangChain 概览 LangChain overview index  "><span class="nav-dot" aria-hidden="true"></span><span>LangChain 概览</span></a></div><section class="nav-section" data-nav-section><div class="nav-section-title">开始使用</div><a class="nav-link" href="install.html" data-search="安装 LangChain Install LangChain install Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>安装 LangChain</span></a><a class="nav-link" href="quickstart.html" data-search="快速开始 Quickstart quickstart Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>快速开始</span></a><a class="nav-link" href="philosophy.html" data-search="设计理念 Philosophy philosophy Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>设计理念</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">核心组件</div><a class="nav-link" href="agents.html" data-search="智能体 Agents agents Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>智能体</span></a><a class="nav-link" href="models.html" data-search="模型 Models models Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>模型</span></a><a class="nav-link" href="messages.html" data-search="消息 Messages messages Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>消息</span></a><a class="nav-link" href="tools.html" data-search="工具 Tools tools Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>工具</span></a><a class="nav-link" href="short-term-memory.html" data-search="短期记忆 Short-term memory short-term-memory Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>短期记忆</span></a><a class="nav-link" href="event-streaming.html" data-search="事件流 Event streaming event-streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>事件流</span></a><a class="nav-link" href="streaming.html" data-search="流式传输 Streaming streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>流式传输</span></a><a class="nav-link" href="structured-output.html" data-search="结构化输出 Structured output structured-output Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>结构化输出</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">中间件</div><a class="nav-link" href="middleware-overview.html" data-search="中间件概览 Middleware overview middleware-overview Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>中间件概览</span></a><a class="nav-link" href="middleware-built-in.html" data-search="预置中间件 Prebuilt middleware middleware-built-in Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>预置中间件</span></a><a class="nav-link" href="middleware-custom.html" data-search="自定义中间件 Custom middleware middleware-custom Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>自定义中间件</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">前端</div><a class="nav-link" href="frontend-overview.html" data-search="前端概览 Overview frontend-overview Frontend 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端概览</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">模式</div><a class="nav-link" href="frontend-markdown-messages.html" data-search="Markdown 消息 Markdown messages frontend-markdown-messages Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>Markdown 消息</span></a><a class="nav-link" href="frontend-tool-calling.html" data-search="工具调用 Tool calling frontend-tool-calling Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>工具调用</span></a><a class="nav-link" href="frontend-headless-tools.html" data-search="无头工具 Headless tools frontend-headless-tools Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>无头工具</span></a><a class="nav-link" href="frontend-human-in-the-loop.html" data-search="前端人在回路 Human-in-the-Loop frontend-human-in-the-loop Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端人在回路</span></a><a class="nav-link" href="frontend-branching-chat.html" data-search="分支对话 Branching chat frontend-branching-chat Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>分支对话</span></a><a class="nav-link" href="frontend-reasoning-tokens.html" data-search="推理 token Reasoning tokens frontend-reasoning-tokens Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>推理 token</span></a><a class="nav-link" href="frontend-structured-output.html" data-search="前端结构化输出 Structured output frontend-structured-output Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端结构化输出</span></a><a class="nav-link" href="frontend-message-queues.html" data-search="消息队列 Message queues frontend-message-queues Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>消息队列</span></a><a class="nav-link" href="frontend-join-rejoin.html" data-search="断开与重连流 Join &amp; rejoin streams frontend-join-rejoin Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>断开与重连流</span></a><a class="nav-link" href="frontend-time-travel.html" data-search="时间旅行 Time travel frontend-time-travel Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>时间旅行</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">生成式 UI</div><a class="nav-link" href="frontend-generative-ui-overview.html" data-search="生成式 UI 概览 Generative UI overview frontend-generative-ui-overview Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>生成式 UI 概览</span></a><a class="nav-link" href="frontend-controlled-generative-ui.html" data-search="受控生成式 UI Controlled generative UI frontend-controlled-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>受控生成式 UI</span></a><a class="nav-link" href="frontend-declarative-generative-ui.html" data-search="声明式生成式 UI Declarative generative UI frontend-declarative-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>声明式生成式 UI</span></a><a class="nav-link" href="frontend-open-ended-generative-ui.html" data-search="开放式生成式 UI Open-ended generative UI frontend-open-ended-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>开放式生成式 UI</span></a></div></div><div class="nav-subgroup"><div class="nav-subgroup-title">集成</div><a class="nav-link" href="frontend-integrations-overview.html" data-search="集成概览 Overview frontend-integrations-overview Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>集成概览</span></a><a class="nav-link" href="frontend-integrations-copilotkit.html" data-search="CopilotKit CopilotKit frontend-integrations-copilotkit Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>CopilotKit</span></a><a class="nav-link" href="frontend-integrations-ai-elements.html" data-search="AI Elements AI Elements frontend-integrations-ai-elements Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>AI Elements</span></a><a class="nav-link" href="frontend-integrations-assistant-ui.html" data-search="assistant-ui assistant-ui frontend-integrations-assistant-ui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>assistant-ui</span></a><a class="nav-link" href="frontend-integrations-openui.html" data-search="OpenUI OpenUI frontend-integrations-openui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>OpenUI</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">高级用法</div><a class="nav-link" href="guardrails.html" data-search="护栏 Guardrails guardrails Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>护栏</span></a><a class="nav-link" href="runtime.html" data-search="运行时 Runtime runtime Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>运行时</span></a><a class="nav-link" href="context-engineering.html" data-search="智能体中的上下文工程 Context engineering in agents context-engineering Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>智能体中的上下文工程</span></a><a class="nav-link" href="human-in-the-loop.html" data-search="人在回路 Human-in-the-loop human-in-the-loop Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>人在回路</span></a><a class="nav-link" href="retrieval.html" data-search="检索 Retrieval retrieval Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>检索</span></a><a class="nav-link" href="long-term-memory.html" data-search="长期记忆 Long-term memory long-term-memory Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>长期记忆</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">MCP</div><a class="nav-link" href="mcp.html" data-search="MCP 概述 Model Context Protocol (MCP) mcp Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 概述</span></a><a class="nav-link" href="mcp-tools.html" data-search="MCP 工具 Tools mcp-tools Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 工具</span></a><a class="nav-link" href="mcp-connections.html" data-search="MCP 连接 Connections mcp-connections Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 连接</span></a><a class="nav-link" href="mcp-auth.html" data-search="MCP 认证 Authentication mcp-auth Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 认证</span></a></div><div class="nav-subgroup"><div class="nav-subgroup-title">多智能体</div><a class="nav-link" href="multi-agent.html" data-search="多智能体 Multi-agent multi-agent Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>多智能体</span></a><a class="nav-link active" href="multi-agent-subagents.html" data-search="子智能体 Subagents multi-agent-subagents Advanced usage Multi-agent 高级用法 高级用法" aria-current="page"><span class="nav-dot" aria-hidden="true"></span><span>子智能体</span></a><a class="nav-link" href="multi-agent-handoffs.html" data-search="交接 Handoffs multi-agent-handoffs Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>交接</span></a><a class="nav-link" href="multi-agent-skills.html" data-search="技能 Skills multi-agent-skills Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>技能</span></a><a class="nav-link" href="multi-agent-router.html" data-search="路由器 Router multi-agent-router Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>路由器</span></a><a class="nav-link" href="multi-agent-custom-workflow.html" data-search="自定义工作流 Custom workflow multi-agent-custom-workflow Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>自定义工作流</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">智能体开发</div><a class="nav-link" href="studio.html" data-search="LangSmith Studio LangSmith Studio studio Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith Studio</span></a><a class="nav-link" href="ui.html" data-search="Agent Chat UI Agent Chat UI ui Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>Agent Chat UI</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">测试</div><a class="nav-link" href="test.html" data-search="测试 Test test Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>测试</span></a><a class="nav-link" href="test-unit-testing.html" data-search="单元测试 Unit testing test-unit-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>单元测试</span></a><a class="nav-link" href="test-integration-testing.html" data-search="集成测试 Integration testing test-integration-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>集成测试</span></a><a class="nav-link" href="test-evals.html" data-search="智能体评估 Agent Evals test-evals Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>智能体评估</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">生产</div><a class="nav-link" href="deploy.html" data-search="部署 Deployment deploy Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>部署</span></a><a class="nav-link" href="observability.html" data-search="LangSmith 可观测性 LangSmith Observability observability Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith 可观测性</span></a></section><div class="nav-empty" data-nav-empty hidden>没有匹配的页面</div></nav></div>
+      <div class="sidebar-foot"><strong>59 篇</strong> · 社区翻译</div>
+    </aside>
+    <div class="sidebar-overlay" data-sidebar-overlay></div>
+    <main class="main" id="main">
+      <div class="content-wrap">
+        <nav class="breadcrumbs" aria-label="面包屑"><a href="index.html">LangChain</a><span class="sep">/</span><span>高级用法</span><span class="sep">/</span><span>多智能体</span><span class="sep">/</span><span class="current">子智能体</span></nav>
+        <header class="page-header">
+          <h1>子智能体</h1>
+          <div class="page-lead">在 <strong>子智能体</strong> 架构中，一个中心主 <a href="agents.html">智能体</a>（通常称为 <strong>监督者</strong>）通过将子智能体作为 <a href="tools.html">工具</a> 调用来协调它们。主智能体决定调用哪个子智能体、提供什么输入以及如何合并结果。默认情况下，子智能体是无状态的——它们不记得过去的交互，所有对话记忆都由主智能体维护。这提供了 <a href="context-engineering.html">上下文</a> 隔离：每次子智能体调用都在干净的上下文窗口中工作，防止主对话中的上下文膨胀。</div>
+          <div class="page-meta">
+            <span>约 13 分钟</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>社区翻译</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <a href="https://docs.langchain.com/oss/python/langchain/multi-agent/subagents" target="_blank" rel="noopener noreferrer">查看英文原文 ↗</a>
+          </div>
+        </header>
+        <article class="content">
+<p>当子智能体需要该上下文时，你也可以将主智能体的对话历史传入子智能体。参见 <a href="#subagent-inputs">子智能体输入</a>。</p>
+<p>如需内置的子智能体支持，请参见 <a href="https://docs.langchain.com/oss/python/deepagents/subagents" target="_blank" rel="noopener noreferrer">Deep Agents</a>。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">mermaid</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-mermaid">graph LR
+    A[User] --&gt; B[Main Agent]
+    B --&gt; C[Subagent A]
+    B --&gt; D[Subagent B]
+    B --&gt; E[Subagent C]
+    C --&gt; B
+    D --&gt; B
+    E --&gt; B
+    B --&gt; F[User response]
+
+    classDef trigger fill:#F6FFDB,stroke:#6E8900,stroke-width:2px,color:#2E3900
+    classDef process fill:#E5F4FF,stroke:#006DDD,stroke-width:2px,color:#030710
+
+    class A,F trigger
+    class B,C,D,E process</code></pre>
+</div>
+<h2 id="key-characteristics">关键特征<a class="heading-anchor" href="#key-characteristics" aria-label="链接到本节">#</a></h2>
+<ul><li><p>集中控制：所有路由都经过主智能体</p></li><li><p>无直接用户交互：子智能体将结果返回给主智能体，而不是用户（不过你可以在子智能体内使用 <a href="https://docs.langchain.com/oss/python/langgraph/interrupts#pause-using-interrupt" target="_blank" rel="noopener noreferrer">中断</a> 来允许用户交互）</p></li><li><p>通过工具实现子智能体：子智能体通过工具调用</p></li><li><p>并行执行：主智能体可以在单轮中调用多个子智能体</p></li></ul>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p><strong>监督者与路由器</strong>：监督者智能体（即此模式）不同于 <a href="multi-agent-router.html">路由器</a>。监督者是一个完整的智能体，维护对话上下文，并在多轮中动态决定调用哪些子智能体。路由器通常是一个单一的分类步骤，将请求分派给各智能体，但不维护持续的对话状态。</p></div>
+</aside>
+<h2 id="when-to-use">何时使用<a class="heading-anchor" href="#when-to-use" aria-label="链接到本节">#</a></h2>
+<p>当你拥有多个不同领域（例如日历、电子邮件、CRM、数据库）、子智能体无需直接与用户对话，或你希望集中控制工作流时，使用子智能体模式。对于仅涉及少量 <a href="tools.html">工具</a> 的更简单场景，请使用 <a href="agents.html">单一智能体</a>。</p>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p><strong>需要在子智能体内进行用户交互？</strong> 虽然子智能体通常将结果返回给主智能体，而不是直接与用户对话，但你可以在子智能体内使用 <a href="https://docs.langchain.com/oss/python/langgraph/interrupts#pause-using-interrupt" target="_blank" rel="noopener noreferrer">中断</a> 来暂停执行并收集用户输入。当子智能体在继续之前需要澄清或批准时，这很有用。主智能体仍然是编排者，但子智能体可以在任务执行过程中向用户收集信息。</p></div>
+</aside>
+<h2 id="basic-implementation">基础实现<a class="heading-anchor" href="#basic-implementation" aria-label="链接到本节">#</a></h2>
+<p>核心机制是将子智能体包装成主智能体可以调用的工具：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+<span class="hljs-comment"># Create a subagent</span>
+subagent = create_agent(model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>, tools=[...])
+
+<span class="hljs-comment"># Wrap it as a tool</span>
+<span class="hljs-meta">@tool(<span class="hljs-params"><span class="hljs-string">"research"</span>, description=<span class="hljs-string">"Research a topic and return findings"</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">call_research_agent</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>):
+    result = subagent.invoke({<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: query}]})
+    <span class="hljs-keyword">return</span> result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content
+
+<span class="hljs-comment"># Main agent with subagent as a tool</span>
+main_agent = create_agent(model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>, tools=[call_research_agent])</code></pre>
+</div>
+<div class="card-grid"><a class="doc-card" href="https://docs.langchain.com/oss/python/langchain/multi-agent/subagents-personal-assistant" target="_blank" rel="noopener noreferrer"><span class="card-title">教程：使用子智能体构建个人助理</span><span class="card-body"><p>了解如何使用子智能体模式构建个人助理，其中中心主智能体（监督者）协调专门的工作智能体。</p></span></a></div>
+<h2 id="design-decisions">设计决策<a class="heading-anchor" href="#design-decisions" aria-label="链接到本节">#</a></h2>
+<p>实现子智能体模式时，你需要做出若干关键设计选择。下表汇总了这些选项——每一部分都会在下文章节中详细介绍。</p>
+<div class="table-wrap"><table><thead><tr><th>决策</th><th>选项</th></tr></thead><tbody><tr><td><a href="#sync-vs-async"><strong>同步与异步</strong></a></td><td>同步（阻塞）与异步（后台）</td></tr><tr><td><a href="#tool-patterns"><strong>工具模式</strong></a></td><td>每个智能体一个工具与单一分派工具</td></tr><tr><td><a href="#subagent-specs"><strong>子智能体规格</strong></a></td><td>系统提示词与枚举约束与基于工具的发现（仅限单一分派工具）</td></tr><tr><td><a href="#subagent-inputs"><strong>子智能体输入</strong></a></td><td>仅查询与完整上下文</td></tr><tr><td><a href="#subagent-outputs"><strong>子智能体输出</strong></a></td><td>子智能体结果与完整对话历史</td></tr></tbody></table></div>
+<h2 id="sync-vs-async">同步与异步<a class="heading-anchor" href="#sync-vs-async" aria-label="链接到本节">#</a></h2>
+<p>子智能体执行可以是 <strong>同步</strong>（阻塞）或 <strong>异步</strong>（后台）。你的选择取决于主智能体是否需要该结果才能继续。</p>
+<div class="table-wrap"><table><thead><tr><th>模式</th><th>主智能体行为</th><th>最适合</th><th>权衡</th></tr></thead><tbody><tr><td><strong>同步</strong></td><td>等待子智能体完成</td><td>主智能体需要结果才能继续</td><td>简单，但会阻塞对话</td></tr><tr><td><strong>异步</strong></td><td>子智能体在后台运行时继续执行</td><td>独立任务，用户不应等待</td><td>响应性好，但更复杂</td></tr></tbody></table></div>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>不要与 Python 的 <code>async</code>/<code>await</code> 混淆。这里的“异步”是指主智能体启动一个后台作业（通常在单独的进程或服务中）并在不阻塞的情况下继续执行。</p></div>
+</aside>
+<h3 id="synchronous-default">同步（默认）<a class="heading-anchor" href="#synchronous-default" aria-label="链接到本节">#</a></h3>
+<p>默认情况下，子智能体调用是 <strong>同步</strong> 的：主智能体等待每个子智能体完成后才继续。当主智能体的下一步操作依赖于子智能体的结果时，使用同步。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">mermaid</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-mermaid">sequenceDiagram
+    participant User
+    participant Main Agent
+    participant Research Subagent
+
+    User-&gt;&gt;Main Agent: "What's the weather in Tokyo?"
+    Main Agent-&gt;&gt;Research Subagent: research("Tokyo weather")
+    Note over Main Agent: Waiting for result...
+    Research Subagent--&gt;&gt;Main Agent: "Currently 72°F, sunny"
+    Main Agent--&gt;&gt;User: "It's 72°F and sunny in Tokyo"</code></pre>
+</div>
+<p><strong>何时使用同步：</strong></p>
+<ul><li><p>主智能体需要子智能体的结果来组织回复</p></li><li><p>任务存在顺序依赖（例如获取数据 → 分析 → 回复）</p></li><li><p>子智能体失败应阻止主智能体回复</p></li></ul>
+<p><strong>权衡：</strong></p>
+<ul><li><p>实现简单——只需调用并等待</p></li><li><p>所有子智能体完成前用户看不到任何回复</p></li><li><p>长时间运行的任务会冻结对话</p></li></ul>
+<h3 id="asynchronous">异步<a class="heading-anchor" href="#asynchronous" aria-label="链接到本节">#</a></h3>
+<p>当子智能体的工作相互独立——主智能体无需该结果即可继续与用户对话时，使用 <strong>异步执行</strong>。主智能体启动一个后台作业并保持响应。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">mermaid</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-mermaid">sequenceDiagram
+    participant User
+    participant Main Agent
+    participant Job System
+    participant Contract Reviewer
+
+    User-&gt;&gt;Main Agent: "Review this M&amp;A contract"
+    Main Agent-&gt;&gt;Job System: run_agent("legal_reviewer", task)
+    Job System-&gt;&gt;Contract Reviewer: Start agent
+    Job System--&gt;&gt;Main Agent: job_id: "job_123"
+    Main Agent--&gt;&gt;User: "Started review (job_123)"
+
+    Note over Contract Reviewer: Reviewing 150+ pages...
+
+    User-&gt;&gt;Main Agent: "What's the status?"
+    Main Agent-&gt;&gt;Job System: check_status(job_id)
+    Job System--&gt;&gt;Main Agent: "running"
+    Main Agent--&gt;&gt;User: "Still reviewing contract..."
+
+    Note over Contract Reviewer: Review completes
+
+    User-&gt;&gt;Main Agent: "Is it done yet?"
+    Main Agent-&gt;&gt;Job System: check_status(job_id)
+    Job System--&gt;&gt;Main Agent: "completed"
+    Main Agent-&gt;&gt;Job System: get_result(job_id)
+    Job System--&gt;&gt;Main Agent: Contract analysis
+    Main Agent--&gt;&gt;User: "Review complete: [findings]"</code></pre>
+</div>
+<p><strong>何时使用异步：</strong></p>
+<ul><li><p>子智能体工作与主对话流程相互独立</p></li><li><p>用户应能在工作执行期间继续聊天</p></li><li><p>你希望并行运行多个独立任务</p></li></ul>
+<p><strong>三工具模式：</strong></p>
+<ol><li><p><strong>启动作业</strong>：启动后台任务，返回作业 ID</p></li><li><p><strong>检查状态</strong>：返回当前状态（pending、running、completed、failed）</p></li><li><p><strong>获取结果</strong>：获取已完成的结果</p></li></ol>
+<p><strong>处理作业完成：</strong> 当作业完成时，你的应用需要通知用户。一种做法是：显示一条通知，用户点击后发送一条 <code>HumanMessage</code>，内容类似“检查 job_123 并汇总结果”。</p>
+<h2 id="tool-patterns">工具模式<a class="heading-anchor" href="#tool-patterns" aria-label="链接到本节">#</a></h2>
+<p>将子智能体暴露为工具主要有两种方式：</p>
+<div class="table-wrap"><table><thead><tr><th>模式</th><th>最适合</th><th>权衡</th></tr></thead><tbody><tr><td><a href="#tool-per-agent"><strong>每个智能体一个工具</strong></a></td><td>对每个子智能体的输入/输出进行细粒度控制</td><td>设置更多，但自定义能力更强</td></tr><tr><td><a href="#single-dispatch-tool"><strong>单一分派工具</strong></a></td><td>大量智能体、分布式团队、约定优于配置</td><td>组合更简单，但每个智能体的自定义能力较弱</td></tr></tbody></table></div>
+<h3 id="tool-per-agent">每个智能体一个工具<a class="heading-anchor" href="#tool-per-agent" aria-label="链接到本节">#</a></h3>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">mermaid</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-mermaid">graph LR
+    A[User] --&gt; B[Main Agent]
+    B --&gt; C[Subagent A]
+    B --&gt; D[Subagent B]
+    B --&gt; E[Subagent C]
+    C --&gt; B
+    D --&gt; B
+    E --&gt; B
+    B --&gt; F[User response]
+
+    classDef trigger fill:#F6FFDB,stroke:#6E8900,stroke-width:2px,color:#2E3900
+    classDef process fill:#E5F4FF,stroke:#006DDD,stroke-width:2px,color:#030710
+
+    class A,F trigger
+    class B,C,D,E process</code></pre>
+</div>
+<p>核心思路是将子智能体包装成主智能体可以调用的工具：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+<span class="hljs-comment"># Create a sub-agent</span>
+subagent = create_agent(model=<span class="hljs-string">"..."</span>, tools=[...])
+
+<span class="hljs-comment"># Wrap it as a tool</span>
+<span class="hljs-meta">@tool(<span class="hljs-params"><span class="hljs-string">"subagent_name"</span>, description=<span class="hljs-string">"subagent_description"</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">call_subagent</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>):
+    result = subagent.invoke({<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: query}]})
+    <span class="hljs-keyword">return</span> result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content
+
+<span class="hljs-comment"># Main agent with subagent as a tool</span>
+main_agent = create_agent(model=<span class="hljs-string">"..."</span>, tools=[call_subagent])</code></pre>
+</div>
+<p>当主智能体判断任务与子智能体的描述匹配时，它会调用该子智能体工具，接收结果并继续编排。如需细粒度控制，请参见 <a href="#context-engineering">上下文工程</a>。</p>
+<h3 id="single-dispatch-tool">单一分派工具<a class="heading-anchor" href="#single-dispatch-tool" aria-label="链接到本节">#</a></h3>
+<p>另一种方法使用单个参数化工具为独立任务调用临时子智能体。与将每个子智能体包装为单独工具的 <a href="#tool-per-agent">每个智能体一个工具</a> 方法不同，这种方法基于约定，使用单个 <code>task</code> 工具：任务描述作为人类消息传递给子智能体，子智能体的最终消息作为工具结果返回。</p>
+<p>当你想把智能体开发分派给多个团队、需要将复杂任务隔离到独立的上下文窗口、需要一种无需修改协调器即可新增智能体的可扩展方式，或者更倾向于约定优于定制时，可以采用这种方法。这种方法以牺牲上下文工程上的灵活性，换取智能体组合的简单性和强上下文隔离。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">mermaid</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-mermaid">graph LR
+    A[User] --&gt; B[Main Agent]
+    B --&gt; C{task&lt;br/&gt;agent_name, description}
+    C --&gt;|research| D[Research Agent]
+    C --&gt;|writer| E[Writer Agent]
+    C --&gt;|reviewer| F[Reviewer Agent]
+    D --&gt; C
+    E --&gt; C
+    F --&gt; C
+    C --&gt; B
+    B --&gt; G[User response]
+
+    classDef trigger fill:#F6FFDB,stroke:#6E8900,stroke-width:2px,color:#2E3900
+    classDef process fill:#E5F4FF,stroke:#006DDD,stroke-width:2px,color:#030710
+    classDef decision fill:#FDF3FF,stroke:#7E65AE,stroke-width:2px,color:#504B5F
+
+    class A,G trigger
+    class B,D,E,F process
+    class C decision</code></pre>
+</div>
+<p><strong>主要特征：</strong></p>
+<ul><li><p>单一任务工具：一个参数化工具，可按名称调用任意已注册的子智能体</p></li><li><p>基于约定的调用：按名称选择智能体，任务作为人类消息传入，最终消息作为工具结果返回</p></li><li><p>团队分工：不同团队可以独立开发和部署智能体</p></li><li><p>智能体发现：子智能体可通过系统提示词（列出可用智能体）或<a href="https://docs.langchain.com/oss/python/langchain/multi-agent/skills-sql-assistant" target="_blank" rel="noopener noreferrer">渐进式披露</a>（通过工具按需加载智能体信息）来发现</p></li></ul>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>这种方法的一个有趣之处在于，子智能体可能具备与主智能体完全相同的能力。在这种情况下，调用子智能体<strong>实际上主要就是为了上下文隔离</strong>——让复杂的多步骤任务在隔离的上下文窗口中运行，而不会膨胀主智能体的对话历史。子智能体自主完成工作，只返回一份简洁的摘要，从而让主线程保持专注和高效。</p></div>
+</aside>
+<details class="doc-accordion"><summary>带任务分派器的智能体注册表</summary><div class="accordion-body">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+<span class="hljs-comment"># Sub-agents developed by different teams</span>
+research_agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    prompt=<span class="hljs-string">"You are a research specialist..."</span>
+)
+
+writer_agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    prompt=<span class="hljs-string">"You are a writing specialist..."</span>
+)
+
+<span class="hljs-comment"># Registry of available sub-agents</span>
+SUBAGENTS = {
+    <span class="hljs-string">"research"</span>: research_agent,
+    <span class="hljs-string">"writer"</span>: writer_agent,
+}
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">task</span>(<span class="hljs-params">
+    agent_name: <span class="hljs-built_in">str</span>,
+    description: <span class="hljs-built_in">str</span>
+</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Launch an ephemeral subagent for a task.
+
+    Available agents:
+    - research: Research and fact-finding
+    - writer: Content creation and editing
+    """</span>
+    agent = SUBAGENTS[agent_name]
+    result = agent.invoke({
+        <span class="hljs-string">"messages"</span>: [
+            {<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: description}
+        ]
+    })
+    <span class="hljs-keyword">return</span> result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content
+
+<span class="hljs-comment"># Main coordinator agent</span>
+main_agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[task],
+    system_prompt=(
+        <span class="hljs-string">"You coordinate specialized sub-agents. "</span>
+        <span class="hljs-string">"Available: research (fact-finding), "</span>
+        <span class="hljs-string">"writer (content creation). "</span>
+        <span class="hljs-string">"Use the task tool to delegate work."</span>
+    ),
+)</code></pre>
+</div></div></details>
+<h2 id="context-engineering">上下文工程<a class="heading-anchor" href="#context-engineering" aria-label="链接到本节">#</a></h2>
+<p>控制上下文在主智能体与其子智能体之间的流动方式：</p>
+<div class="table-wrap"><table><thead><tr><th>类别</th><th>目的</th><th>影响</th></tr></thead><tbody><tr><td><a href="#subagent-specs"><strong>子智能体规格</strong></a></td><td>确保子智能体在应当被调用时被调用</td><td>主智能体的路由决策</td></tr><tr><td><a href="#subagent-inputs"><strong>子智能体输入</strong></a></td><td>确保子智能体能够借助优化后的上下文良好执行</td><td>子智能体性能</td></tr><tr><td><a href="#subagent-outputs"><strong>子智能体输出</strong></a></td><td>确保监督者能够基于子智能体的结果采取行动</td><td>主智能体性能</td></tr></tbody></table></div>
+<p>另请参阅我们关于智能体<a href="context-engineering.html">上下文工程</a>的综合指南。</p>
+<h3 id="subagent-specs">子智能体规格<a class="heading-anchor" href="#subagent-specs" aria-label="链接到本节">#</a></h3>
+<p>与子智能体关联的<strong>名称</strong>和<strong>描述</strong>，是主智能体判断该调用哪些子智能体的主要依据。这些都是提示词层面的调节手段——请谨慎选择。</p>
+<ul><li><p><strong>名称</strong>：主智能体指代该子智能体的方式。保持清晰且面向动作（例如 <code>research_agent</code>、<code>code_reviewer</code>）。</p></li><li><p><strong>描述</strong>：主智能体对该子智能体能力的了解。要具体说明它处理哪些任务以及何时使用它。</p></li></ul>
+<p>对于<a href="#single-dispatch-tool">单一分派工具</a>设计，你还必须向主智能体提供其可调用子智能体的信息。你可以根据智能体数量以及注册表是静态还是动态，采用不同方式提供这些信息：</p>
+<div class="table-wrap"><table><thead><tr><th>方式</th><th>最适用于</th><th>权衡</th></tr></thead><tbody><tr><td><strong>系统提示词枚举</strong></td><td>规模小且静态的智能体列表（&lt; 10 个智能体）</td><td>简单，但智能体变化时需要更新提示词</td></tr><tr><td><strong>枚举约束</strong></td><td>规模小且静态的智能体列表（&lt; 10 个智能体）</td><td>类型安全且显式，但智能体变化时需要修改代码</td></tr><tr><td><strong>基于工具的发现</strong></td><td>规模大或动态的智能体注册表</td><td>灵活且可扩展，但增加了复杂度</td></tr></tbody></table></div>
+<h4 id="system-prompt-enumeration">系统提示词枚举<a class="heading-anchor" href="#system-prompt-enumeration" aria-label="链接到本节">#</a></h4>
+<p>在主智能体的系统提示词中直接列出可用智能体。主智能体会将智能体列表及其描述作为自身指令的一部分看到。</p>
+<p><strong>适用场景：</strong></p>
+<ul><li><p>智能体集合规模小且固定（&lt; 10 个）</p></li><li><p>智能体注册表很少变化</p></li><li><p>你希望实现尽可能简单</p></li></ul>
+<p><strong>示例：</strong></p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">main_agent = create_agent(
+    model=<span class="hljs-string">"..."</span>,
+    tools=[task],
+    system_prompt=(
+        <span class="hljs-string">"You coordinate specialized sub-agents. "</span>
+        <span class="hljs-string">"Available agents:\n"</span>
+        <span class="hljs-string">"- research: Research and fact-finding\n"</span>
+        <span class="hljs-string">"- writer: Content creation and editing\n"</span>
+        <span class="hljs-string">"- reviewer: Code and document review\n"</span>
+        <span class="hljs-string">"Use the task tool to delegate work."</span>
+    ),
+)</code></pre>
+</div>
+<h4 id="enum-constraint-on-dispatch-tool">分派工具上的枚举约束<a class="heading-anchor" href="#enum-constraint-on-dispatch-tool" aria-label="链接到本节">#</a></h4>
+<p>在分派工具的<code>agent_name</code>参数上添加枚举约束。这提供了类型安全，并在工具 schema 中显式列出可用智能体。</p>
+<p><strong>适用场景：</strong></p>
+<ul><li><p>智能体集合规模小且固定（&lt; 10 个）</p></li><li><p>你希望获得类型安全和显式的智能体名称</p></li><li><p>你更倾向于基于 schema 的校验，而不是基于提示词的引导</p></li></ul>
+<p><strong>示例：</strong></p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> enum <span class="hljs-keyword">import</span> Enum
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">AgentName</span>(<span class="hljs-built_in">str</span>, Enum):
+    RESEARCH = <span class="hljs-string">"research"</span>
+    WRITER = <span class="hljs-string">"writer"</span>
+    REVIEWER = <span class="hljs-string">"reviewer"</span>
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">task</span>(<span class="hljs-params">
+    agent_name: AgentName,  <span class="hljs-comment"># Enum constraint</span>
+    description: <span class="hljs-built_in">str</span>
+</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Launch an ephemeral subagent for a task."""</span>
+    <span class="hljs-comment"># ...</span></code></pre>
+</div>
+<h4 id="tool-based-discovery">基于工具的发现<a class="heading-anchor" href="#tool-based-discovery" aria-label="链接到本节">#</a></h4>
+<p>提供一个单独的工具（例如 <code>list_agents</code> 或 <code>search_agents</code>），供主智能体按需调用以发现可用智能体。这可以实现渐进式披露，并支持动态注册表。</p>
+<p><strong>适用场景：</strong></p>
+<ul><li><p>智能体数量多（&gt; 10 个）或注册表持续增长</p></li><li><p>智能体注册表频繁变化或是动态的</p></li><li><p>你希望减小提示词体积并降低 token 用量</p></li><li><p>不同团队独立管理各自的智能体</p></li></ul>
+<p><strong>示例：</strong></p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">list_agents</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span> = <span class="hljs-string">""</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""List available subagents, optionally filtered by query."""</span>
+    agents = search_agent_registry(query)
+    <span class="hljs-keyword">return</span> format_agent_list(agents)
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">task</span>(<span class="hljs-params">agent_name: <span class="hljs-built_in">str</span>, description: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Launch an ephemeral subagent for a task."""</span>
+    <span class="hljs-comment"># ...</span>
+
+main_agent = create_agent(
+    model=<span class="hljs-string">"..."</span>,
+    tools=[task, list_agents],
+    system_prompt=<span class="hljs-string">"Use list_agents to discover available subagents, then use task to invoke them."</span>
+)</code></pre>
+</div>
+<h3 id="subagent-inputs">子智能体输入<a class="heading-anchor" href="#subagent-inputs" aria-label="链接到本节">#</a></h3>
+<p>定制子智能体执行任务时接收的上下文。通过从智能体状态中提取，补充那些不适合写入静态提示词的输入——完整消息历史、先前结果或任务元数据。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Subagent inputs example expandable</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> AgentState
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool, ToolRuntime
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">CustomState</span>(<span class="hljs-title class_ inherited__">AgentState</span>):
+    example_state_key: <span class="hljs-built_in">str</span>
+
+<span class="hljs-meta">@tool(<span class="hljs-params">
+    <span class="hljs-string">"subagent1_name"</span>,
+    description=<span class="hljs-string">"subagent1_description"</span>
+</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">call_subagent1</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span>, runtime: ToolRuntime[<span class="hljs-literal">None</span>, CustomState]</span>):
+    <span class="hljs-comment"># Apply any logic needed to transform the messages into a suitable input</span>
+    subagent_input = some_logic(query, runtime.state[<span class="hljs-string">"messages"</span>])
+    result = subagent1.invoke({
+        <span class="hljs-string">"messages"</span>: subagent_input,
+        <span class="hljs-comment"># You could also pass other state keys here as needed.</span>
+        <span class="hljs-comment"># Make sure to define these in both the main and subagent's</span>
+        <span class="hljs-comment"># state schemas.</span>
+        <span class="hljs-string">"example_state_key"</span>: runtime.state[<span class="hljs-string">"example_state_key"</span>]
+    })
+    <span class="hljs-keyword">return</span> result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content</code></pre>
+</div>
+<p><code>some_logic</code> 控制子智能体接收多少上下文。只传递任务描述（<code>query</code>）可让子智能体保持隔离；而传递父级的消息历史（<code>runtime.state["messages"]</code>）则能用先前的工作为子智能体提供起点，这在它需要延续父级已开始的工作时很有帮助，例如继续一次 PR 评审或接手一个缺陷修复。</p>
+<p><a href="https://docs.langchain.com/oss/python/deepagents/subagents#forked-subagents" target="_blank" rel="noopener noreferrer">Deep Agents</a> 将这两种模式分别命名为 <code>mode: "isolated"</code>（默认）和 <code>mode: "fork"</code>，并为你实现分叉：被分叉的子智能体会收到父级的完整消息历史（包括工具调用）和系统提示词。</p>
+<div class="table-wrap"><table><thead><tr><th>模式</th><th>子智能体接收</th><th>最适用于</th><th>权衡</th></tr></thead><tbody><tr><td><strong>隔离</strong>（默认）</td><td>仅任务描述</td><td>只需少量先前上下文即可完成的专注型工作</td><td>上下文隔离，但需要重新推导父级已完成的一切</td></tr><tr><td><strong>分叉</strong></td><td>父级的对话历史（在 Deep Agents 中还包括系统提示词）</td><td>延续父级已开始的任务</td><td>以先前上下文为起点，代价是提示词更大、隔离性更弱</td></tr></tbody></table></div>
+<h3 id="subagent-outputs">子智能体输出<a class="heading-anchor" href="#subagent-outputs" aria-label="链接到本节">#</a></h3>
+<p>定制主智能体收到的返回内容，以便它做出好的决策。有两种策略：</p>
+<ol><li><p><strong>提示子智能体</strong>：明确指定应返回什么。一种常见的失败模式是子智能体执行了工具调用或推理，却没有将结果写入最终消息——要提醒它，监督者只能看到最终输出。</p></li><li><p><strong>在代码中格式化</strong>：在返回响应之前对其进行调整或补充。例如，使用 <a href="https://docs.langchain.com/oss/python/langgraph/graph-api#command" target="_blank" rel="noopener noreferrer"><code>Command</code></a> 在最终文本之外一并返回特定的状态键。</p></li></ol>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Subagent outputs example expandable</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> Annotated
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> AgentState
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> InjectedToolCallId
+<span class="hljs-keyword">from</span> langgraph.types <span class="hljs-keyword">import</span> Command
+
+
+<span class="hljs-meta">@tool(<span class="hljs-params">
+    <span class="hljs-string">"subagent1_name"</span>,
+    description=<span class="hljs-string">"subagent1_description"</span>
+</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">call_subagent1</span>(<span class="hljs-params">
+    query: <span class="hljs-built_in">str</span>,
+    tool_call_id: Annotated[<span class="hljs-built_in">str</span>, InjectedToolCallId],
+</span>) -&gt; Command:
+    result = subagent1.invoke({
+        <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: query}]
+    })
+    <span class="hljs-keyword">return</span> Command(update={
+        <span class="hljs-comment"># Pass back additional state from the subagent</span>
+        <span class="hljs-string">"example_state_key"</span>: result[<span class="hljs-string">"example_state_key"</span>],
+        <span class="hljs-string">"messages"</span>: [
+            ToolMessage(
+                content=result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content,
+                tool_call_id=tool_call_id
+            )
+        ]
+    })</code></pre>
+</div>
+<h2 id="checkpointing-and-state-inspection">检查点与状态检查<a class="heading-anchor" href="#checkpointing-and-state-inspection" aria-label="链接到本节">#</a></h2>
+<p>默认情况下，子智能体使用<strong>继承检查点器</strong>模式——每次调用都从新的状态开始，支持<a href="https://docs.langchain.com/oss/python/langgraph/interrupts#pause-using-interrupt" target="_blank" rel="noopener noreferrer">中断</a>，并可安全地并行运行。如果需要子智能体在多次调用之间维护自己的持久对话历史，请用 <code>checkpointer=True</code> 编译它（续接模式）。有关各模式的完整对比，请参阅<a href="https://docs.langchain.com/oss/python/langgraph/use-subgraphs#subgraph-persistence" target="_blank" rel="noopener noreferrer">子图持久化</a>。</p>
+<p>由于子智能体是在工具函数内部调用的，LangGraph 无法 <a href="https://docs.langchain.com/oss/python/langgraph/use-subgraphs#view-subgraph-state" target="_blank" rel="noopener noreferrer">静态发现</a> 它们。这意味着 <a href="https://docs.langchain.com/oss/python/langgraph/use-subgraphs#view-subgraph-state" target="_blank" rel="noopener noreferrer"><code>get_state</code> 配合 <code>subgraphs</code></a> 使用时不会返回子智能体状态。如果你需要读取嵌套图的状态（例如在 <a href="https://docs.langchain.com/oss/python/langgraph/interrupts#pause-using-interrupt" target="_blank" rel="noopener noreferrer">中断</a> 期间），请改为在自定义图中从 <a href="https://docs.langchain.com/oss/python/langgraph/use-subgraphs#call-a-subgraph-inside-a-node" target="_blank" rel="noopener noreferrer">节点函数</a> 调用子智能体。关于每种模式如何影响状态可见性，请参见 <a href="https://docs.langchain.com/oss/python/langgraph/use-subgraphs#subgraph-persistence" target="_blank" rel="noopener noreferrer">子图持久化</a>。</p>
+<div class="card-grid"><a class="doc-card" href="https://docs.langchain.com/oss/python/migrate/langgraph-supervisor" target="_blank" rel="noopener noreferrer"><span class="card-title">从 langgraph-supervisor 迁移</span><span class="card-body"><p>langgraph-supervisor 包已不再积极维护。了解如何从 create_supervisor 迁移到子智能体模式，包括使用外部 API 回调的中断与恢复流程。</p></span></a></div></article>
+        <nav class="pager" aria-label="翻页"><a class="prev" href="multi-agent.html"><span class="pager-label">上一篇</span><span class="pager-title">多智能体</span></a><a class="next" href="multi-agent-handoffs.html"><span class="pager-label">下一篇</span><span class="pager-title">交接</span></a></nav>
+        <footer class="page-footer">
+          <p>本页为社区维护的简体中文翻译，不是 LangChain 官方文档。如与英文原文有出入，请以 <a href="https://docs.langchain.com/oss/python/langchain/multi-agent/subagents" target="_blank" rel="noopener noreferrer">英文原文</a> 为准。</p>
+        </footer>
+      </div>
+    </main>
+    <aside class="toc" aria-label="本页目录"><div class="toc-inner"><div class="toc-title">本页目录</div><a class="toc-link level-2" href="#key-characteristics">关键特征</a><a class="toc-link level-2" href="#when-to-use">何时使用</a><a class="toc-link level-2" href="#basic-implementation">基础实现</a><a class="toc-link level-2" href="#design-decisions">设计决策</a><a class="toc-link level-2" href="#sync-vs-async">同步与异步</a><a class="toc-link level-3" href="#synchronous-default">同步（默认）</a><a class="toc-link level-3" href="#asynchronous">异步</a><a class="toc-link level-2" href="#tool-patterns">工具模式</a><a class="toc-link level-3" href="#tool-per-agent">每个智能体一个工具</a><a class="toc-link level-3" href="#single-dispatch-tool">单一分派工具</a><a class="toc-link level-2" href="#context-engineering">上下文工程</a><a class="toc-link level-3" href="#subagent-specs">子智能体规格</a><a class="toc-link level-3" href="#subagent-inputs">子智能体输入</a><a class="toc-link level-3" href="#subagent-outputs">子智能体输出</a><a class="toc-link level-2" href="#checkpointing-and-state-inspection">检查点与状态检查</a></div></aside>
+  </div>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p><strong>LangChain 中文文档</strong> · 社区翻译，非官方站点。内容基于 <a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener noreferrer">docs.langchain.com</a> 的 LangChain（Python）文档生成。</p>
+      <p>共 59 篇 · 代码示例保持英文原样 · 以英文原文为准</p>
+    </div>
+  </footer>
+  <button class="back-top" type="button" data-back-top aria-label="回到顶部">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script src="assets/docs.js" defer></script>
+</body>
+</html>

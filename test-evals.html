@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>智能体评估 | LangChain 中文文档</title>
+  <meta name="description" content="使用 AgentEvals 和 LangSmith，通过确定性匹配或 LLM 作为评判的评估器来评估智能体轨迹。">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M12.5 19.5l7-7M10 22l-1 1a4 4 0 0 1-5.7-5.7l3.4-3.4a4 4 0 0 1 5.7 0M22 10l1-1a4 4 0 0 1 5.7 5.7l-3.4 3.4a4 4 0 0 1-5.7 0' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem('lc-docs-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();</script>
+  <link rel="stylesheet" href="assets/docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div id="progress" data-progress></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="打开文档导航" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="LangChain 中文文档首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9.4 14.6l5.2-5.2M7.1 16.9l-1.4 1.4a3.7 3.7 0 0 1-5.2-5.2l3.2-3.2a3.7 3.7 0 0 1 5.2 0M16.9 7.1l1.4-1.4a3.7 3.7 0 0 1 5.2 5.2l-3.2 3.2a3.7 3.7 0 0 1-5.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text">LangChain <span class="brand-sub">中文文档</span></span>
+      </a>
+      <nav class="top-nav" aria-label="主导航">
+        <a class="top-link active" href="index.html" aria-current="page">LangChain</a>
+        <a class="top-link" href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a>
+        <a class="top-link" href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener noreferrer">LangSmith</a>
+        <a class="top-link" href="https://reference.langchain.com/python/langchain/" target="_blank" rel="noopener noreferrer">API 参考</a>
+      </nav>
+      <div class="header-actions">
+        <a class="source-link" href="https://docs.langchain.com/oss/python/langchain/test/evals" target="_blank" rel="noopener noreferrer">English <span aria-hidden="true">↗</span></a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="切换到深色模式" aria-pressed="false" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v1.6M10 16.2v1.6M2.2 10h1.6M16.2 10h1.6M4.5 4.5l1.1 1.1M14.4 14.4l1.1 1.1M15.5 4.5l-1.1 1.1M5.6 14.4l-1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.4 12.1A6.6 6.6 0 0 1 7.9 3.6 6.8 6.8 0 1 0 16.4 12.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" id="sidebar" aria-label="文档导航">
+      <div class="sidebar-head">
+        <div class="sidebar-title">文档目录</div>
+        <div class="nav-search">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.2" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="搜索页面…" aria-label="搜索文档页面" data-nav-search autocomplete="off" spellcheck="false">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+      </div>
+      <div class="sidebar-scroll"><nav class="nav" id="doc-nav" aria-label="文档页面"><div class="nav-home"><a class="nav-link" href="index.html" data-search="LangChain 概览 LangChain overview index  "><span class="nav-dot" aria-hidden="true"></span><span>LangChain 概览</span></a></div><section class="nav-section" data-nav-section><div class="nav-section-title">开始使用</div><a class="nav-link" href="install.html" data-search="安装 LangChain Install LangChain install Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>安装 LangChain</span></a><a class="nav-link" href="quickstart.html" data-search="快速开始 Quickstart quickstart Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>快速开始</span></a><a class="nav-link" href="philosophy.html" data-search="设计理念 Philosophy philosophy Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>设计理念</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">核心组件</div><a class="nav-link" href="agents.html" data-search="智能体 Agents agents Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>智能体</span></a><a class="nav-link" href="models.html" data-search="模型 Models models Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>模型</span></a><a class="nav-link" href="messages.html" data-search="消息 Messages messages Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>消息</span></a><a class="nav-link" href="tools.html" data-search="工具 Tools tools Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>工具</span></a><a class="nav-link" href="short-term-memory.html" data-search="短期记忆 Short-term memory short-term-memory Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>短期记忆</span></a><a class="nav-link" href="event-streaming.html" data-search="事件流 Event streaming event-streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>事件流</span></a><a class="nav-link" href="streaming.html" data-search="流式传输 Streaming streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>流式传输</span></a><a class="nav-link" href="structured-output.html" data-search="结构化输出 Structured output structured-output Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>结构化输出</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">中间件</div><a class="nav-link" href="middleware-overview.html" data-search="中间件概览 Middleware overview middleware-overview Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>中间件概览</span></a><a class="nav-link" href="middleware-built-in.html" data-search="预置中间件 Prebuilt middleware middleware-built-in Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>预置中间件</span></a><a class="nav-link" href="middleware-custom.html" data-search="自定义中间件 Custom middleware middleware-custom Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>自定义中间件</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">前端</div><a class="nav-link" href="frontend-overview.html" data-search="前端概览 Overview frontend-overview Frontend 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端概览</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">模式</div><a class="nav-link" href="frontend-markdown-messages.html" data-search="Markdown 消息 Markdown messages frontend-markdown-messages Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>Markdown 消息</span></a><a class="nav-link" href="frontend-tool-calling.html" data-search="工具调用 Tool calling frontend-tool-calling Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>工具调用</span></a><a class="nav-link" href="frontend-headless-tools.html" data-search="无头工具 Headless tools frontend-headless-tools Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>无头工具</span></a><a class="nav-link" href="frontend-human-in-the-loop.html" data-search="前端人在回路 Human-in-the-Loop frontend-human-in-the-loop Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端人在回路</span></a><a class="nav-link" href="frontend-branching-chat.html" data-search="分支对话 Branching chat frontend-branching-chat Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>分支对话</span></a><a class="nav-link" href="frontend-reasoning-tokens.html" data-search="推理 token Reasoning tokens frontend-reasoning-tokens Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>推理 token</span></a><a class="nav-link" href="frontend-structured-output.html" data-search="前端结构化输出 Structured output frontend-structured-output Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端结构化输出</span></a><a class="nav-link" href="frontend-message-queues.html" data-search="消息队列 Message queues frontend-message-queues Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>消息队列</span></a><a class="nav-link" href="frontend-join-rejoin.html" data-search="断开与重连流 Join &amp; rejoin streams frontend-join-rejoin Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>断开与重连流</span></a><a class="nav-link" href="frontend-time-travel.html" data-search="时间旅行 Time travel frontend-time-travel Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>时间旅行</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">生成式 UI</div><a class="nav-link" href="frontend-generative-ui-overview.html" data-search="生成式 UI 概览 Generative UI overview frontend-generative-ui-overview Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>生成式 UI 概览</span></a><a class="nav-link" href="frontend-controlled-generative-ui.html" data-search="受控生成式 UI Controlled generative UI frontend-controlled-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>受控生成式 UI</span></a><a class="nav-link" href="frontend-declarative-generative-ui.html" data-search="声明式生成式 UI Declarative generative UI frontend-declarative-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>声明式生成式 UI</span></a><a class="nav-link" href="frontend-open-ended-generative-ui.html" data-search="开放式生成式 UI Open-ended generative UI frontend-open-ended-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>开放式生成式 UI</span></a></div></div><div class="nav-subgroup"><div class="nav-subgroup-title">集成</div><a class="nav-link" href="frontend-integrations-overview.html" data-search="集成概览 Overview frontend-integrations-overview Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>集成概览</span></a><a class="nav-link" href="frontend-integrations-copilotkit.html" data-search="CopilotKit CopilotKit frontend-integrations-copilotkit Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>CopilotKit</span></a><a class="nav-link" href="frontend-integrations-ai-elements.html" data-search="AI Elements AI Elements frontend-integrations-ai-elements Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>AI Elements</span></a><a class="nav-link" href="frontend-integrations-assistant-ui.html" data-search="assistant-ui assistant-ui frontend-integrations-assistant-ui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>assistant-ui</span></a><a class="nav-link" href="frontend-integrations-openui.html" data-search="OpenUI OpenUI frontend-integrations-openui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>OpenUI</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">高级用法</div><a class="nav-link" href="guardrails.html" data-search="护栏 Guardrails guardrails Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>护栏</span></a><a class="nav-link" href="runtime.html" data-search="运行时 Runtime runtime Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>运行时</span></a><a class="nav-link" href="context-engineering.html" data-search="智能体中的上下文工程 Context engineering in agents context-engineering Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>智能体中的上下文工程</span></a><a class="nav-link" href="human-in-the-loop.html" data-search="人在回路 Human-in-the-loop human-in-the-loop Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>人在回路</span></a><a class="nav-link" href="retrieval.html" data-search="检索 Retrieval retrieval Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>检索</span></a><a class="nav-link" href="long-term-memory.html" data-search="长期记忆 Long-term memory long-term-memory Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>长期记忆</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">MCP</div><a class="nav-link" href="mcp.html" data-search="MCP 概述 Model Context Protocol (MCP) mcp Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 概述</span></a><a class="nav-link" href="mcp-tools.html" data-search="MCP 工具 Tools mcp-tools Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 工具</span></a><a class="nav-link" href="mcp-connections.html" data-search="MCP 连接 Connections mcp-connections Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 连接</span></a><a class="nav-link" href="mcp-auth.html" data-search="MCP 认证 Authentication mcp-auth Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 认证</span></a></div><div class="nav-subgroup"><div class="nav-subgroup-title">多智能体</div><a class="nav-link" href="multi-agent.html" data-search="多智能体 Multi-agent multi-agent Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>多智能体</span></a><a class="nav-link" href="multi-agent-subagents.html" data-search="子智能体 Subagents multi-agent-subagents Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>子智能体</span></a><a class="nav-link" href="multi-agent-handoffs.html" data-search="交接 Handoffs multi-agent-handoffs Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>交接</span></a><a class="nav-link" href="multi-agent-skills.html" data-search="技能 Skills multi-agent-skills Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>技能</span></a><a class="nav-link" href="multi-agent-router.html" data-search="路由器 Router multi-agent-router Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>路由器</span></a><a class="nav-link" href="multi-agent-custom-workflow.html" data-search="自定义工作流 Custom workflow multi-agent-custom-workflow Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>自定义工作流</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">智能体开发</div><a class="nav-link" href="studio.html" data-search="LangSmith Studio LangSmith Studio studio Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith Studio</span></a><a class="nav-link" href="ui.html" data-search="Agent Chat UI Agent Chat UI ui Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>Agent Chat UI</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">测试</div><a class="nav-link" href="test.html" data-search="测试 Test test Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>测试</span></a><a class="nav-link" href="test-unit-testing.html" data-search="单元测试 Unit testing test-unit-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>单元测试</span></a><a class="nav-link" href="test-integration-testing.html" data-search="集成测试 Integration testing test-integration-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>集成测试</span></a><a class="nav-link active" href="test-evals.html" data-search="智能体评估 Agent Evals test-evals Agent development Test 智能体开发 智能体开发" aria-current="page"><span class="nav-dot" aria-hidden="true"></span><span>智能体评估</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">生产</div><a class="nav-link" href="deploy.html" data-search="部署 Deployment deploy Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>部署</span></a><a class="nav-link" href="observability.html" data-search="LangSmith 可观测性 LangSmith Observability observability Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith 可观测性</span></a></section><div class="nav-empty" data-nav-empty hidden>没有匹配的页面</div></nav></div>
+      <div class="sidebar-foot"><strong>59 篇</strong> · 社区翻译</div>
+    </aside>
+    <div class="sidebar-overlay" data-sidebar-overlay></div>
+    <main class="main" id="main">
+      <div class="content-wrap">
+        <nav class="breadcrumbs" aria-label="面包屑"><a href="index.html">LangChain</a><span class="sep">/</span><span>智能体开发</span><span class="sep">/</span><span>测试</span><span class="sep">/</span><span class="current">智能体评估</span></nav>
+        <header class="page-header">
+          <h1>智能体评估</h1>
+          <div class="page-lead">使用 AgentEvals 和 LangSmith，通过确定性匹配或 LLM 作为评判的评估器来评估智能体轨迹。</div>
+          <div class="page-meta">
+            <span>约 7 分钟</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>社区翻译</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <a href="https://docs.langchain.com/oss/python/langchain/test/evals" target="_blank" rel="noopener noreferrer">查看英文原文 ↗</a>
+          </div>
+        </header>
+        <article class="content"><p>评估（“evals”）通过考察智能体的执行轨迹，即它产生的消息和工具调用序列，来衡量智能体的表现。与验证基本正确性的 <a href="test-integration-testing.html">集成测试</a>不同，评估依据参考结果或评分标准对智能体行为打分，因此适合在你更改提示词、工具或模型时发现回归。</p>
+<p>评估器是一个函数，它接收智能体输出（以及可选的参考输出）并返回一个分数：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">evaluator</span>(<span class="hljs-params">*, outputs: <span class="hljs-built_in">dict</span>, reference_outputs: <span class="hljs-built_in">dict</span></span>):
+    output_messages = outputs[<span class="hljs-string">"messages"</span>]
+    reference_messages = reference_outputs[<span class="hljs-string">"messages"</span>]
+    score = compare_messages(output_messages, reference_messages)
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">"key"</span>: <span class="hljs-string">"evaluator_score"</span>, <span class="hljs-string">"score"</span>: score}</code></pre>
+</div>
+<p><a href="https://github.com/langchain-ai/agentevals" target="_blank" rel="noopener noreferrer"><code>agentevals</code></a> 包为智能体轨迹提供预构建的评估器。你可以通过执行 <strong>轨迹匹配</strong>（确定性比较）或使用 <strong>LLM 评判</strong>（定性评估）来进行评估：</p>
+<div class="table-wrap"><table><thead><tr><th>方法</th><th>使用场景</th></tr></thead><tbody><tr><td><a href="#trajectory-match-evaluator">轨迹匹配</a></td><td>你已知预期的工具调用，需要快速、确定性且零成本的检查</td></tr><tr><td><a href="#llm-as-judge-evaluator">LLM 作为评判</a></td><td>你想在没有严格预期的情况下评估整体质量和推理过程</td></tr></tbody></table></div>
+<h2 id="install-agentevals">安装 AgentEvals<a class="heading-anchor" href="#install-agentevals" aria-label="链接到本节">#</a></h2>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-1-tab-0" role="tab" aria-controls="codegroup-1-panel-0" aria-selected="true" tabindex="0">pip</button><button class="code-tab" type="button" id="codegroup-1-tab-1" role="tab" aria-controls="codegroup-1-panel-1" aria-selected="false" tabindex="-1">uv</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-1-panel-0" role="tabpanel" aria-labelledby="codegroup-1-tab-0">
+  <pre><code class="hljs language-bash">pip install -U agentevals</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-1" role="tabpanel" aria-labelledby="codegroup-1-tab-1" hidden="">
+  <pre><code class="hljs language-bash">uv add agentevals</code></pre>
+</div></div>
+</div>
+<p>或者，直接克隆 <a href="https://github.com/langchain-ai/agentevals" target="_blank" rel="noopener noreferrer">AgentEvals 仓库</a>。</p>
+<h2 id="trajectory-match-evaluator">轨迹匹配评估器<a class="heading-anchor" href="#trajectory-match-evaluator" aria-label="链接到本节">#</a></h2>
+<p>AgentEvals 提供 <code>create_trajectory_match_evaluator</code> 函数，用于将智能体的轨迹与参考轨迹进行匹配。共有四种模式：</p>
+<div class="table-wrap"><table><thead><tr><th>模式</th><th>说明</th><th>使用场景</th></tr></thead><tbody><tr><td><code>strict</code></td><td>消息结构和工具调用完全一致且顺序相同（消息内容可以不同）</td><td>测试特定序列（例如，在授权前先查询策略）</td></tr><tr><td><code>unordered</code></td><td>消息结构和工具调用与参考轨迹相同，但工具调用可以按任意顺序发生</td><td>在顺序无关紧要时验证信息检索</td></tr><tr><td><code>subset</code></td><td>智能体只调用参考轨迹中的工具（没有额外调用）</td><td>确保智能体不超出预期范围</td></tr><tr><td><code>superset</code></td><td>智能体至少调用参考轨迹中的工具（允许额外调用）</td><td>验证已执行最低要求的操作</td></tr></tbody></table></div>
+<p>以下示例共用同一套设置，即一个带有 <code>get_weather</code> 工具的智能体：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> HumanMessage, AIMessage, ToolMessage
+<span class="hljs-keyword">from</span> agentevals.trajectory.<span class="hljs-keyword">match</span> <span class="hljs-keyword">import</span> create_trajectory_match_evaluator
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>):
+    <span class="hljs-string">"""Get weather information for a city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's 75 degrees and sunny in <span class="hljs-subst">{city}</span>."</span>
+
+agent = create_agent(<span class="hljs-string">"claude-sonnet-4-6"</span>, tools=[get_weather])</code></pre>
+</div>
+<details class="doc-accordion"><summary>严格匹配</summary><div class="accordion-body">
+<p><code>strict</code> 模式确保轨迹包含顺序相同、工具调用相同的完全相同消息，但允许消息内容存在差异。当你需要强制特定操作顺序时，这很有用，例如要求在授权某个操作之前先查询策略。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">evaluator = create_trajectory_match_evaluator(
+    trajectory_match_mode=<span class="hljs-string">"strict"</span>,
+)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">test_weather_tool_called_strict</span>():
+    result = agent.invoke({
+        <span class="hljs-string">"messages"</span>: [HumanMessage(content=<span class="hljs-string">"What's the weather in San Francisco?"</span>)]
+    })
+
+    reference_trajectory = [
+        HumanMessage(content=<span class="hljs-string">"What's the weather in San Francisco?"</span>),
+        AIMessage(content=<span class="hljs-string">""</span>, tool_calls=[
+            {<span class="hljs-string">"id"</span>: <span class="hljs-string">"call_1"</span>, <span class="hljs-string">"name"</span>: <span class="hljs-string">"get_weather"</span>, <span class="hljs-string">"args"</span>: {<span class="hljs-string">"city"</span>: <span class="hljs-string">"San Francisco"</span>}}
+        ]),
+        ToolMessage(content=<span class="hljs-string">"It's 75 degrees and sunny in San Francisco."</span>, tool_call_id=<span class="hljs-string">"call_1"</span>),
+        AIMessage(content=<span class="hljs-string">"The weather in San Francisco is 75 degrees and sunny."</span>),
+    ]
+
+    evaluation = evaluator(
+        outputs=result[<span class="hljs-string">"messages"</span>],
+        reference_outputs=reference_trajectory
+    )
+    <span class="hljs-comment"># {</span>
+    <span class="hljs-comment">#     'key': 'trajectory_strict_match',</span>
+    <span class="hljs-comment">#     'score': True,</span>
+    <span class="hljs-comment">#     'comment': None,</span>
+    <span class="hljs-comment"># }</span>
+    <span class="hljs-keyword">assert</span> evaluation[<span class="hljs-string">"score"</span>] <span class="hljs-keyword">is</span> <span class="hljs-literal">True</span></code></pre>
+</div></div></details>
+<details class="doc-accordion"><summary>无序匹配</summary><div class="accordion-body">
+<p><code>unordered</code> 模式允许相同的工具调用以任意顺序出现。当你想验证特定信息已被检索但不关心顺序时，这会很有帮助。例如，一个智能体通过不同的工具调用查询某个城市的天气和活动。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_events</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>):
+    <span class="hljs-string">"""Get events happening in a city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Concert at the park in <span class="hljs-subst">{city}</span> tonight."</span>
+
+agent = create_agent(<span class="hljs-string">"claude-sonnet-4-6"</span>, tools=[get_weather, get_events])
+
+evaluator = create_trajectory_match_evaluator(
+    trajectory_match_mode=<span class="hljs-string">"unordered"</span>,
+)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">test_multiple_tools_any_order</span>():
+    result = agent.invoke({
+        <span class="hljs-string">"messages"</span>: [HumanMessage(content=<span class="hljs-string">"What's happening in SF today?"</span>)]
+    })
+
+    reference_trajectory = [
+        HumanMessage(content=<span class="hljs-string">"What's happening in SF today?"</span>),
+        AIMessage(content=<span class="hljs-string">""</span>, tool_calls=[
+            {<span class="hljs-string">"id"</span>: <span class="hljs-string">"call_1"</span>, <span class="hljs-string">"name"</span>: <span class="hljs-string">"get_events"</span>, <span class="hljs-string">"args"</span>: {<span class="hljs-string">"city"</span>: <span class="hljs-string">"SF"</span>}},
+            {<span class="hljs-string">"id"</span>: <span class="hljs-string">"call_2"</span>, <span class="hljs-string">"name"</span>: <span class="hljs-string">"get_weather"</span>, <span class="hljs-string">"args"</span>: {<span class="hljs-string">"city"</span>: <span class="hljs-string">"SF"</span>}},
+        ]),
+        ToolMessage(content=<span class="hljs-string">"Concert at the park in SF tonight."</span>, tool_call_id=<span class="hljs-string">"call_1"</span>),
+        ToolMessage(content=<span class="hljs-string">"It's 75 degrees and sunny in SF."</span>, tool_call_id=<span class="hljs-string">"call_2"</span>),
+        AIMessage(content=<span class="hljs-string">"Today in SF: 75 degrees and sunny with a concert at the park tonight."</span>),
+    ]
+
+    evaluation = evaluator(
+        outputs=result[<span class="hljs-string">"messages"</span>],
+        reference_outputs=reference_trajectory,
+    )
+    <span class="hljs-keyword">assert</span> evaluation[<span class="hljs-string">"score"</span>] <span class="hljs-keyword">is</span> <span class="hljs-literal">True</span></code></pre>
+</div></div></details>
+<details class="doc-accordion"><summary>子集与超集匹配</summary><div class="accordion-body">
+<p><code>superset</code> 和 <code>subset</code> 模式匹配部分轨迹。<code>superset</code> 模式验证智能体至少调用了参考轨迹中的工具，允许额外的工具调用。<code>subset</code> 模式确保智能体没有调用参考轨迹之外的任何工具。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_detailed_forecast</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>):
+    <span class="hljs-string">"""Get detailed weather forecast for a city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Detailed forecast for <span class="hljs-subst">{city}</span>: sunny all week."</span>
+
+agent = create_agent(<span class="hljs-string">"claude-sonnet-4-6"</span>, tools=[get_weather, get_detailed_forecast])
+
+evaluator = create_trajectory_match_evaluator(
+    trajectory_match_mode=<span class="hljs-string">"superset"</span>,
+)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">test_agent_calls_required_tools_plus_extra</span>():
+    result = agent.invoke({
+        <span class="hljs-string">"messages"</span>: [HumanMessage(content=<span class="hljs-string">"What's the weather in Boston?"</span>)]
+    })
+
+    <span class="hljs-comment"># Reference only requires get_weather, but agent may call additional tools</span>
+    reference_trajectory = [
+        HumanMessage(content=<span class="hljs-string">"What's the weather in Boston?"</span>),
+        AIMessage(content=<span class="hljs-string">""</span>, tool_calls=[
+            {<span class="hljs-string">"id"</span>: <span class="hljs-string">"call_1"</span>, <span class="hljs-string">"name"</span>: <span class="hljs-string">"get_weather"</span>, <span class="hljs-string">"args"</span>: {<span class="hljs-string">"city"</span>: <span class="hljs-string">"Boston"</span>}},
+        ]),
+        ToolMessage(content=<span class="hljs-string">"It's 75 degrees and sunny in Boston."</span>, tool_call_id=<span class="hljs-string">"call_1"</span>),
+        AIMessage(content=<span class="hljs-string">"The weather in Boston is 75 degrees and sunny."</span>),
+    ]
+
+    evaluation = evaluator(
+        outputs=result[<span class="hljs-string">"messages"</span>],
+        reference_outputs=reference_trajectory,
+    )
+    <span class="hljs-keyword">assert</span> evaluation[<span class="hljs-string">"score"</span>] <span class="hljs-keyword">is</span> <span class="hljs-literal">True</span></code></pre>
+</div></div></details>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>你还可以设置 <code>tool_args_match_mode</code> 属性和/或 <code>tool_args_match_overrides</code>，以自定义评估器如何判断实际轨迹与参考轨迹中的工具调用是否相等。默认情况下，只有对同一工具使用相同参数的工具调用才被视为相等。更多详情请访问 <a href="https://github.com/langchain-ai/agentevals?tab=readme-ov-file#tool-args-match-modes" target="_blank" rel="noopener noreferrer">仓库</a>。</p></div>
+</aside>
+<h2 id="llm-as-judge-evaluator">LLM 评判评估器<a class="heading-anchor" href="#llm-as-judge-evaluator" aria-label="链接到本节">#</a></h2>
+<p>你可以使用 <code>create_trajectory_llm_as_judge</code> 函数让 LLM 评估智能体的执行路径。与轨迹匹配评估器不同，它不需要参考轨迹，但如果有参考轨迹也可以提供。</p>
+<details class="doc-accordion"><summary>无参考轨迹</summary><div class="accordion-body">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> agentevals.trajectory.llm <span class="hljs-keyword">import</span> create_trajectory_llm_as_judge, TRAJECTORY_ACCURACY_PROMPT
+
+evaluator = create_trajectory_llm_as_judge(
+    model=<span class="hljs-string">"openai:gpt-5.4-mini"</span>,
+    prompt=TRAJECTORY_ACCURACY_PROMPT,
+)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">test_trajectory_quality</span>():
+    result = agent.invoke({
+        <span class="hljs-string">"messages"</span>: [HumanMessage(content=<span class="hljs-string">"What's the weather in Seattle?"</span>)]
+    })
+
+    evaluation = evaluator(
+        outputs=result[<span class="hljs-string">"messages"</span>],
+    )
+    <span class="hljs-keyword">assert</span> evaluation[<span class="hljs-string">"score"</span>] <span class="hljs-keyword">is</span> <span class="hljs-literal">True</span></code></pre>
+</div></div></details>
+<details class="doc-accordion"><summary>有参考轨迹</summary><div class="accordion-body">
+<p>如果你有参考轨迹，请使用预构建的 <code>TRAJECTORY_ACCURACY_PROMPT_WITH_REFERENCE</code> 提示词：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> agentevals.trajectory.llm <span class="hljs-keyword">import</span> create_trajectory_llm_as_judge, TRAJECTORY_ACCURACY_PROMPT_WITH_REFERENCE
+
+evaluator = create_trajectory_llm_as_judge(
+    model=<span class="hljs-string">"openai:gpt-5.4-mini"</span>,
+    prompt=TRAJECTORY_ACCURACY_PROMPT_WITH_REFERENCE,
+)
+evaluation = evaluator(
+    outputs=result[<span class="hljs-string">"messages"</span>],
+    reference_outputs=reference_trajectory,
+)</code></pre>
+</div></div></details>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>如需更灵活地配置 LLM 评估轨迹的方式，请访问 <a href="https://github.com/langchain-ai/agentevals?tab=readme-ov-file#trajectory-llm-as-judge" target="_blank" rel="noopener noreferrer">仓库</a>。</p></div>
+</aside>
+<h3 id="async-support">异步支持<a class="heading-anchor" href="#async-support" aria-label="链接到本节">#</a></h3>
+<p>所有 <code>agentevals</code> 评估器都支持 Python asyncio。在函数名中添加 <code>async</code>（位于 <code>create_</code> 之后）即可获得异步版本。</p>
+<details class="doc-accordion"><summary>异步评判与评估器示例</summary><div class="accordion-body">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> agentevals.trajectory.llm <span class="hljs-keyword">import</span> create_async_trajectory_llm_as_judge, TRAJECTORY_ACCURACY_PROMPT
+<span class="hljs-keyword">from</span> agentevals.trajectory.<span class="hljs-keyword">match</span> <span class="hljs-keyword">import</span> create_async_trajectory_match_evaluator
+
+async_judge = create_async_trajectory_llm_as_judge(
+    model=<span class="hljs-string">"openai:gpt-5.4-mini"</span>,
+    prompt=TRAJECTORY_ACCURACY_PROMPT,
+)
+
+async_evaluator = create_async_trajectory_match_evaluator(
+    trajectory_match_mode=<span class="hljs-string">"strict"</span>,
+)
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_async_evaluation</span>():
+    result = <span class="hljs-keyword">await</span> agent.ainvoke({
+        <span class="hljs-string">"messages"</span>: [HumanMessage(content=<span class="hljs-string">"What's the weather?"</span>)]
+    })
+
+    evaluation = <span class="hljs-keyword">await</span> async_judge(outputs=result[<span class="hljs-string">"messages"</span>])
+    <span class="hljs-keyword">assert</span> evaluation[<span class="hljs-string">"score"</span>] <span class="hljs-keyword">is</span> <span class="hljs-literal">True</span></code></pre>
+</div></div></details>
+<h2 id="run-evals-in-langsmith">在 LangSmith 中运行评估<a class="heading-anchor" href="#run-evals-in-langsmith" aria-label="链接到本节">#</a></h2>
+<p>如需长期跟踪实验，请将评估器结果记录到 <a href="https://smith.langchain.com/?utm_source=docs&amp;utm_medium=cta&amp;utm_campaign=langsmith-signup&amp;utm_content=oss-langchain-test-evals" target="_blank" rel="noopener noreferrer">LangSmith</a>。首先，设置所需的环境变量：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">bash</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash"><span class="hljs-built_in">export</span> LANGSMITH_API_KEY=<span class="hljs-string">"your_langsmith_api_key"</span>
+<span class="hljs-built_in">export</span> LANGSMITH_TRACING=<span class="hljs-string">"true"</span></code></pre>
+</div>
+<p>LangSmith 提供两种主要的评估运行方式：<a href="https://docs.langchain.com/langsmith/pytest" target="_blank" rel="noopener noreferrer">pytest</a> 集成和 <code>evaluate</code> 函数。</p>
+<details class="doc-accordion"><summary>使用 pytest 集成</summary><div class="accordion-body">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">import</span> pytest
+<span class="hljs-keyword">from</span> langsmith <span class="hljs-keyword">import</span> testing <span class="hljs-keyword">as</span> t
+<span class="hljs-keyword">from</span> agentevals.trajectory.llm <span class="hljs-keyword">import</span> create_trajectory_llm_as_judge, TRAJECTORY_ACCURACY_PROMPT
+
+trajectory_evaluator = create_trajectory_llm_as_judge(
+    model=<span class="hljs-string">"openai:gpt-5.4-mini"</span>,
+    prompt=TRAJECTORY_ACCURACY_PROMPT,
+)
+
+<span class="hljs-meta">@pytest.mark.langsmith</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">test_trajectory_accuracy</span>():
+    result = agent.invoke({
+        <span class="hljs-string">"messages"</span>: [HumanMessage(content=<span class="hljs-string">"What's the weather in SF?"</span>)]
+    })
+
+    reference_trajectory = [
+        HumanMessage(content=<span class="hljs-string">"What's the weather in SF?"</span>),
+        AIMessage(content=<span class="hljs-string">""</span>, tool_calls=[
+            {<span class="hljs-string">"id"</span>: <span class="hljs-string">"call_1"</span>, <span class="hljs-string">"name"</span>: <span class="hljs-string">"get_weather"</span>, <span class="hljs-string">"args"</span>: {<span class="hljs-string">"city"</span>: <span class="hljs-string">"SF"</span>}},
+        ]),
+        ToolMessage(content=<span class="hljs-string">"It's 75 degrees and sunny in SF."</span>, tool_call_id=<span class="hljs-string">"call_1"</span>),
+        AIMessage(content=<span class="hljs-string">"The weather in SF is 75 degrees and sunny."</span>),
+    ]
+
+    t.log_inputs({})
+    t.log_outputs({<span class="hljs-string">"messages"</span>: result[<span class="hljs-string">"messages"</span>]})
+    t.log_reference_outputs({<span class="hljs-string">"messages"</span>: reference_trajectory})
+
+    trajectory_evaluator(
+        outputs=result[<span class="hljs-string">"messages"</span>],
+        reference_outputs=reference_trajectory
+    )</code></pre>
+</div>
+<p>使用 pytest 运行评估：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">bash</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">pytest test_trajectory.py --langsmith-output</code></pre>
+</div></div></details>
+<details class="doc-accordion"><summary>使用 evaluate 函数</summary><div class="accordion-body">
+<p>创建一个 <a href="https://docs.langchain.com/langsmith/manage-datasets" target="_blank" rel="noopener noreferrer">LangSmith 数据集</a> 并使用 <code>evaluate</code> 函数。数据集必须具有以下结构：</p>
+<ul><li><p><strong>input</strong>：<code>{"messages": [...]}</code> 用于调用智能体的输入消息。</p></li><li><p><strong>output</strong>：<code>{"messages": [...]}</code> 智能体输出中预期的消息历史。对于轨迹评估，你可以选择只保留助手消息。</p></li></ul>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langsmith <span class="hljs-keyword">import</span> Client
+<span class="hljs-keyword">from</span> agentevals.trajectory.llm <span class="hljs-keyword">import</span> create_trajectory_llm_as_judge, TRAJECTORY_ACCURACY_PROMPT
+
+client = Client()
+
+trajectory_evaluator = create_trajectory_llm_as_judge(
+    model=<span class="hljs-string">"openai:gpt-5.4-mini"</span>,
+    prompt=TRAJECTORY_ACCURACY_PROMPT,
+)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">run_agent</span>(<span class="hljs-params">inputs</span>):
+    <span class="hljs-keyword">return</span> agent.invoke(inputs)[<span class="hljs-string">"messages"</span>]
+
+experiment_results = client.evaluate(
+    run_agent,
+    data=<span class="hljs-string">"your_dataset_name"</span>,
+    evaluators=[trajectory_evaluator]
+)</code></pre>
+</div></div></details>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>如需了解有关评估智能体的更多信息，请参阅 <a href="https://docs.langchain.com/langsmith/pytest" target="_blank" rel="noopener noreferrer">LangSmith 文档</a>。</p></div>
+</aside></article>
+        <nav class="pager" aria-label="翻页"><a class="prev" href="test-integration-testing.html"><span class="pager-label">上一篇</span><span class="pager-title">集成测试</span></a><a class="next" href="deploy.html"><span class="pager-label">下一篇</span><span class="pager-title">部署</span></a></nav>
+        <footer class="page-footer">
+          <p>本页为社区维护的简体中文翻译，不是 LangChain 官方文档。如与英文原文有出入，请以 <a href="https://docs.langchain.com/oss/python/langchain/test/evals" target="_blank" rel="noopener noreferrer">英文原文</a> 为准。</p>
+        </footer>
+      </div>
+    </main>
+    <aside class="toc" aria-label="本页目录"><div class="toc-inner"><div class="toc-title">本页目录</div><a class="toc-link level-2" href="#install-agentevals">安装 AgentEvals</a><a class="toc-link level-2" href="#trajectory-match-evaluator">轨迹匹配评估器</a><a class="toc-link level-2" href="#llm-as-judge-evaluator">LLM 评判评估器</a><a class="toc-link level-3" href="#async-support">异步支持</a><a class="toc-link level-2" href="#run-evals-in-langsmith">在 LangSmith 中运行评估</a></div></aside>
+  </div>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p><strong>LangChain 中文文档</strong> · 社区翻译，非官方站点。内容基于 <a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener noreferrer">docs.langchain.com</a> 的 LangChain（Python）文档生成。</p>
+      <p>共 59 篇 · 代码示例保持英文原样 · 以英文原文为准</p>
+    </div>
+  </footer>
+  <button class="back-top" type="button" data-back-top aria-label="回到顶部">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script src="assets/docs.js" defer></script>
+</body>
+</html>

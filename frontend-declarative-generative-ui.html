@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>声明式生成式 UI | LangChain 中文文档</title>
+  <meta name="description" content="使用 json-render 和 A2UI，从已注册的组件目录组合智能体生成的界面">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M12.5 19.5l7-7M10 22l-1 1a4 4 0 0 1-5.7-5.7l3.4-3.4a4 4 0 0 1 5.7 0M22 10l1-1a4 4 0 0 1 5.7 5.7l-3.4 3.4a4 4 0 0 1-5.7 0' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem('lc-docs-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();</script>
+  <link rel="stylesheet" href="assets/docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div id="progress" data-progress></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="打开文档导航" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="LangChain 中文文档首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9.4 14.6l5.2-5.2M7.1 16.9l-1.4 1.4a3.7 3.7 0 0 1-5.2-5.2l3.2-3.2a3.7 3.7 0 0 1 5.2 0M16.9 7.1l1.4-1.4a3.7 3.7 0 0 1 5.2 5.2l-3.2 3.2a3.7 3.7 0 0 1-5.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text">LangChain <span class="brand-sub">中文文档</span></span>
+      </a>
+      <nav class="top-nav" aria-label="主导航">
+        <a class="top-link active" href="index.html" aria-current="page">LangChain</a>
+        <a class="top-link" href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a>
+        <a class="top-link" href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener noreferrer">LangSmith</a>
+        <a class="top-link" href="https://reference.langchain.com/python/langchain/" target="_blank" rel="noopener noreferrer">API 参考</a>
+      </nav>
+      <div class="header-actions">
+        <a class="source-link" href="https://docs.langchain.com/oss/python/langchain/frontend/declarative-generative-ui" target="_blank" rel="noopener noreferrer">English <span aria-hidden="true">↗</span></a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="切换到深色模式" aria-pressed="false" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v1.6M10 16.2v1.6M2.2 10h1.6M16.2 10h1.6M4.5 4.5l1.1 1.1M14.4 14.4l1.1 1.1M15.5 4.5l-1.1 1.1M5.6 14.4l-1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.4 12.1A6.6 6.6 0 0 1 7.9 3.6 6.8 6.8 0 1 0 16.4 12.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" id="sidebar" aria-label="文档导航">
+      <div class="sidebar-head">
+        <div class="sidebar-title">文档目录</div>
+        <div class="nav-search">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.2" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="搜索页面…" aria-label="搜索文档页面" data-nav-search autocomplete="off" spellcheck="false">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+      </div>
+      <div class="sidebar-scroll"><nav class="nav" id="doc-nav" aria-label="文档页面"><div class="nav-home"><a class="nav-link" href="index.html" data-search="LangChain 概览 LangChain overview index  "><span class="nav-dot" aria-hidden="true"></span><span>LangChain 概览</span></a></div><section class="nav-section" data-nav-section><div class="nav-section-title">开始使用</div><a class="nav-link" href="install.html" data-search="安装 LangChain Install LangChain install Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>安装 LangChain</span></a><a class="nav-link" href="quickstart.html" data-search="快速开始 Quickstart quickstart Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>快速开始</span></a><a class="nav-link" href="philosophy.html" data-search="设计理念 Philosophy philosophy Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>设计理念</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">核心组件</div><a class="nav-link" href="agents.html" data-search="智能体 Agents agents Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>智能体</span></a><a class="nav-link" href="models.html" data-search="模型 Models models Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>模型</span></a><a class="nav-link" href="messages.html" data-search="消息 Messages messages Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>消息</span></a><a class="nav-link" href="tools.html" data-search="工具 Tools tools Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>工具</span></a><a class="nav-link" href="short-term-memory.html" data-search="短期记忆 Short-term memory short-term-memory Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>短期记忆</span></a><a class="nav-link" href="event-streaming.html" data-search="事件流 Event streaming event-streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>事件流</span></a><a class="nav-link" href="streaming.html" data-search="流式传输 Streaming streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>流式传输</span></a><a class="nav-link" href="structured-output.html" data-search="结构化输出 Structured output structured-output Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>结构化输出</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">中间件</div><a class="nav-link" href="middleware-overview.html" data-search="中间件概览 Middleware overview middleware-overview Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>中间件概览</span></a><a class="nav-link" href="middleware-built-in.html" data-search="预置中间件 Prebuilt middleware middleware-built-in Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>预置中间件</span></a><a class="nav-link" href="middleware-custom.html" data-search="自定义中间件 Custom middleware middleware-custom Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>自定义中间件</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">前端</div><a class="nav-link" href="frontend-overview.html" data-search="前端概览 Overview frontend-overview Frontend 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端概览</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">模式</div><a class="nav-link" href="frontend-markdown-messages.html" data-search="Markdown 消息 Markdown messages frontend-markdown-messages Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>Markdown 消息</span></a><a class="nav-link" href="frontend-tool-calling.html" data-search="工具调用 Tool calling frontend-tool-calling Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>工具调用</span></a><a class="nav-link" href="frontend-headless-tools.html" data-search="无头工具 Headless tools frontend-headless-tools Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>无头工具</span></a><a class="nav-link" href="frontend-human-in-the-loop.html" data-search="前端人在回路 Human-in-the-Loop frontend-human-in-the-loop Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端人在回路</span></a><a class="nav-link" href="frontend-branching-chat.html" data-search="分支对话 Branching chat frontend-branching-chat Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>分支对话</span></a><a class="nav-link" href="frontend-reasoning-tokens.html" data-search="推理 token Reasoning tokens frontend-reasoning-tokens Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>推理 token</span></a><a class="nav-link" href="frontend-structured-output.html" data-search="前端结构化输出 Structured output frontend-structured-output Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端结构化输出</span></a><a class="nav-link" href="frontend-message-queues.html" data-search="消息队列 Message queues frontend-message-queues Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>消息队列</span></a><a class="nav-link" href="frontend-join-rejoin.html" data-search="断开与重连流 Join &amp; rejoin streams frontend-join-rejoin Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>断开与重连流</span></a><a class="nav-link" href="frontend-time-travel.html" data-search="时间旅行 Time travel frontend-time-travel Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>时间旅行</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">生成式 UI</div><a class="nav-link" href="frontend-generative-ui-overview.html" data-search="生成式 UI 概览 Generative UI overview frontend-generative-ui-overview Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>生成式 UI 概览</span></a><a class="nav-link" href="frontend-controlled-generative-ui.html" data-search="受控生成式 UI Controlled generative UI frontend-controlled-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>受控生成式 UI</span></a><a class="nav-link active" href="frontend-declarative-generative-ui.html" data-search="声明式生成式 UI Declarative generative UI frontend-declarative-generative-ui Frontend Patterns Generative UI 前端 前端" aria-current="page"><span class="nav-dot" aria-hidden="true"></span><span>声明式生成式 UI</span></a><a class="nav-link" href="frontend-open-ended-generative-ui.html" data-search="开放式生成式 UI Open-ended generative UI frontend-open-ended-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>开放式生成式 UI</span></a></div></div><div class="nav-subgroup"><div class="nav-subgroup-title">集成</div><a class="nav-link" href="frontend-integrations-overview.html" data-search="集成概览 Overview frontend-integrations-overview Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>集成概览</span></a><a class="nav-link" href="frontend-integrations-copilotkit.html" data-search="CopilotKit CopilotKit frontend-integrations-copilotkit Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>CopilotKit</span></a><a class="nav-link" href="frontend-integrations-ai-elements.html" data-search="AI Elements AI Elements frontend-integrations-ai-elements Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>AI Elements</span></a><a class="nav-link" href="frontend-integrations-assistant-ui.html" data-search="assistant-ui assistant-ui frontend-integrations-assistant-ui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>assistant-ui</span></a><a class="nav-link" href="frontend-integrations-openui.html" data-search="OpenUI OpenUI frontend-integrations-openui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>OpenUI</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">高级用法</div><a class="nav-link" href="guardrails.html" data-search="护栏 Guardrails guardrails Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>护栏</span></a><a class="nav-link" href="runtime.html" data-search="运行时 Runtime runtime Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>运行时</span></a><a class="nav-link" href="context-engineering.html" data-search="智能体中的上下文工程 Context engineering in agents context-engineering Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>智能体中的上下文工程</span></a><a class="nav-link" href="human-in-the-loop.html" data-search="人在回路 Human-in-the-loop human-in-the-loop Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>人在回路</span></a><a class="nav-link" href="retrieval.html" data-search="检索 Retrieval retrieval Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>检索</span></a><a class="nav-link" href="long-term-memory.html" data-search="长期记忆 Long-term memory long-term-memory Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>长期记忆</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">MCP</div><a class="nav-link" href="mcp.html" data-search="MCP 概述 Model Context Protocol (MCP) mcp Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 概述</span></a><a class="nav-link" href="mcp-tools.html" data-search="MCP 工具 Tools mcp-tools Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 工具</span></a><a class="nav-link" href="mcp-connections.html" data-search="MCP 连接 Connections mcp-connections Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 连接</span></a><a class="nav-link" href="mcp-auth.html" data-search="MCP 认证 Authentication mcp-auth Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 认证</span></a></div><div class="nav-subgroup"><div class="nav-subgroup-title">多智能体</div><a class="nav-link" href="multi-agent.html" data-search="多智能体 Multi-agent multi-agent Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>多智能体</span></a><a class="nav-link" href="multi-agent-subagents.html" data-search="子智能体 Subagents multi-agent-subagents Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>子智能体</span></a><a class="nav-link" href="multi-agent-handoffs.html" data-search="交接 Handoffs multi-agent-handoffs Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>交接</span></a><a class="nav-link" href="multi-agent-skills.html" data-search="技能 Skills multi-agent-skills Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>技能</span></a><a class="nav-link" href="multi-agent-router.html" data-search="路由器 Router multi-agent-router Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>路由器</span></a><a class="nav-link" href="multi-agent-custom-workflow.html" data-search="自定义工作流 Custom workflow multi-agent-custom-workflow Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>自定义工作流</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">智能体开发</div><a class="nav-link" href="studio.html" data-search="LangSmith Studio LangSmith Studio studio Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith Studio</span></a><a class="nav-link" href="ui.html" data-search="Agent Chat UI Agent Chat UI ui Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>Agent Chat UI</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">测试</div><a class="nav-link" href="test.html" data-search="测试 Test test Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>测试</span></a><a class="nav-link" href="test-unit-testing.html" data-search="单元测试 Unit testing test-unit-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>单元测试</span></a><a class="nav-link" href="test-integration-testing.html" data-search="集成测试 Integration testing test-integration-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>集成测试</span></a><a class="nav-link" href="test-evals.html" data-search="智能体评估 Agent Evals test-evals Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>智能体评估</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">生产</div><a class="nav-link" href="deploy.html" data-search="部署 Deployment deploy Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>部署</span></a><a class="nav-link" href="observability.html" data-search="LangSmith 可观测性 LangSmith Observability observability Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith 可观测性</span></a></section><div class="nav-empty" data-nav-empty hidden>没有匹配的页面</div></nav></div>
+      <div class="sidebar-foot"><strong>59 篇</strong> · 社区翻译</div>
+    </aside>
+    <div class="sidebar-overlay" data-sidebar-overlay></div>
+    <main class="main" id="main">
+      <div class="content-wrap">
+        <nav class="breadcrumbs" aria-label="面包屑"><a href="index.html">LangChain</a><span class="sep">/</span><span>前端</span><span class="sep">/</span><span>模式</span><span class="sep">/</span><span>生成式 UI</span><span class="sep">/</span><span class="current">声明式生成式 UI</span></nav>
+        <header class="page-header">
+          <h1>声明式生成式 UI</h1>
+          <div class="page-lead">使用 json-render 和 A2UI，从已注册的组件目录组合智能体生成的界面</div>
+          <div class="page-meta">
+            <span>约 6 分钟</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>社区翻译</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <a href="https://docs.langchain.com/oss/python/langchain/frontend/declarative-generative-ui" target="_blank" rel="noopener noreferrer">查看英文原文 ↗</a>
+          </div>
+        </header>
+        <article class="content"><h2 id="overview">概览<a class="heading-anchor" href="#overview" aria-label="链接到本节">#</a></h2>
+<p>声明式生成式 UI 位于<a href="frontend-generative-ui-overview.html">生成式 UI 谱系</a>的中间位置。智能体输出一份结构化规范，前端则用你预先注册的组件目录组合出界面。智能体的输出<strong>就是</strong> UI，而不是聊天气泡中的文本回复：表单、卡片、仪表盘等。你定义哪些组件可用（即“目录”），智能体将它们组合成一棵有效的 UI 树。</p>
+<p>目录是让这一方案安全的护栏：智能体可以自由排列和组合你的组件，但无法超出你批准的组件集合。这在创造力与可预测性之间取得平衡。长尾场景正位于此处，用像素级完美换取覆盖广度，适合次要交互、内部工具和仪表盘——在这些场景中，展示有用的内容比精确控制更重要。本页介绍基于 <a href="https://json-render.dev/" target="_blank" rel="noopener noreferrer">json-render</a> 的声明式生成式 UI，这是一个生成式 UI 框架，可定义组件目录、用 AI 生成规范，并在 React、Vue、Svelte 和 Angular 中安全渲染。关于 Google 的 A2UI 规范（通过 CopilotKit 集成），请参见下文<a href="#a2ui-an-alternative-declarative-spec">A2UI</a>。</p>
+<h2 id="when-to-use-this-approach">何时使用此方案<a class="heading-anchor" href="#when-to-use-this-approach" aria-label="链接到本节">#</a></h2>
+<p>将声明式生成式 UI 用于产品的长尾部分：智能体可以组合你未能完全预料的布局，同时始终处于你批准的组件集合之内，例如次要交互、内部工具和仪表盘。当某个界面流量很高或对品牌至关重要、必须精确控制时，应转向<a href="frontend-controlled-generative-ui.html">受控生成式 UI</a>。当你希望在应用之外创建界面时，应转向<a href="frontend-open-ended-generative-ui.html">开放式生成式 UI</a>。</p>
+<h2 id="how-it-works">工作原理<a class="heading-anchor" href="#how-it-works" aria-label="链接到本节">#</a></h2>
+<ol><li><p><strong>定义目录</strong>：声明 AI 可以使用的组件及其带类型的 props</p></li><li><p><strong>提示 AI</strong>：用自然语言描述你想要的 UI</p></li><li><p><strong>AI 生成规范</strong>：一份描述组件树的 JSON 文档</p></li><li><p><strong>安全渲染</strong>：json-render 的 <code>Renderer</code> 使用你的组件渲染该规范</p></li></ol>
+<p>目录充当护栏：AI 只能使用你定义的组件，且 props 必须符合你的 schema。输出始终可预测且安全。</p>
+<h2 id="define-a-component-catalog">定义组件目录<a class="heading-anchor" href="#define-a-component-catalog" aria-label="链接到本节">#</a></h2>
+<p>目录描述了 AI 允许使用的每一个组件。每个组件都为其 props 提供一个 Zod schema，以及一段供 AI 阅读以理解何时使用该组件的描述：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">typescript</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { defineCatalog } <span class="hljs-keyword">from</span> <span class="hljs-string">"@json-render/core"</span>;
+<span class="hljs-keyword">import</span> { schema } <span class="hljs-keyword">from</span> <span class="hljs-string">"@json-render/react/schema"</span>;
+<span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">"zod"</span>;
+
+<span class="hljs-keyword">const</span> catalog = <span class="hljs-title function_">defineCatalog</span>(schema, {
+  <span class="hljs-attr">components</span>: {
+    <span class="hljs-title class_">Card</span>: {
+      <span class="hljs-attr">description</span>: <span class="hljs-string">"A card container with optional title and padding"</span>,
+      <span class="hljs-attr">props</span>: z.<span class="hljs-title function_">object</span>({
+        <span class="hljs-attr">title</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>(),
+        <span class="hljs-attr">padding</span>: z.<span class="hljs-title function_">enum</span>([<span class="hljs-string">"sm"</span>, <span class="hljs-string">"md"</span>, <span class="hljs-string">"lg"</span>]).<span class="hljs-title function_">optional</span>(),
+      }),
+    },
+    <span class="hljs-title class_">Stack</span>: {
+      <span class="hljs-attr">description</span>: <span class="hljs-string">"Layout children vertically or horizontally with consistent spacing"</span>,
+      <span class="hljs-attr">props</span>: z.<span class="hljs-title function_">object</span>({
+        <span class="hljs-attr">direction</span>: z.<span class="hljs-title function_">enum</span>([<span class="hljs-string">"vertical"</span>, <span class="hljs-string">"horizontal"</span>]).<span class="hljs-title function_">optional</span>(),
+        <span class="hljs-attr">gap</span>: z.<span class="hljs-title function_">enum</span>([<span class="hljs-string">"sm"</span>, <span class="hljs-string">"md"</span>, <span class="hljs-string">"lg"</span>]).<span class="hljs-title function_">optional</span>(),
+      }),
+    },
+    <span class="hljs-title class_">TextInput</span>: {
+      <span class="hljs-attr">description</span>: <span class="hljs-string">"A text input field with optional label and placeholder"</span>,
+      <span class="hljs-attr">props</span>: z.<span class="hljs-title function_">object</span>({
+        <span class="hljs-attr">label</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>(),
+        <span class="hljs-attr">placeholder</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>(),
+        <span class="hljs-attr">type</span>: z.<span class="hljs-title function_">enum</span>([<span class="hljs-string">"text"</span>, <span class="hljs-string">"email"</span>, <span class="hljs-string">"password"</span>, <span class="hljs-string">"number"</span>, <span class="hljs-string">"textarea"</span>]).<span class="hljs-title function_">optional</span>(),
+      }),
+    },
+    <span class="hljs-title class_">Button</span>: {
+      <span class="hljs-attr">description</span>: <span class="hljs-string">"A clickable button with label and style variants"</span>,
+      <span class="hljs-attr">props</span>: z.<span class="hljs-title function_">object</span>({
+        <span class="hljs-attr">label</span>: z.<span class="hljs-title function_">string</span>(),
+        <span class="hljs-attr">variant</span>: z.<span class="hljs-title function_">enum</span>([<span class="hljs-string">"primary"</span>, <span class="hljs-string">"secondary"</span>, <span class="hljs-string">"ghost"</span>, <span class="hljs-string">"link"</span>]).<span class="hljs-title function_">optional</span>(),
+        <span class="hljs-attr">fullWidth</span>: z.<span class="hljs-title function_">boolean</span>().<span class="hljs-title function_">optional</span>(),
+      }),
+    },
+  },
+  <span class="hljs-attr">actions</span>: {},
+});</code></pre>
+</div>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>保持目录聚焦。只包含该用例所需的组件。更小的目录比“大杂烩”式方案能产生更好的结果。</p></div>
+</aside>
+<h2 id="build-a-component-registry">构建组件注册表<a class="heading-anchor" href="#build-a-component-registry" aria-label="链接到本节">#</a></h2>
+<p>注册表将目录中的每个组件映射到其实际的渲染实现。使用 <code>defineRegistry</code> 可在目录 props 与组件函数之间获得类型安全的绑定：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">React</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { defineRegistry, <span class="hljs-title class_">Renderer</span>, <span class="hljs-title class_">JSON</span>UIProvider } <span class="hljs-keyword">from</span> <span class="hljs-string">"@json-render/react"</span>;
+
+<span class="hljs-keyword">const</span> { registry } = <span class="hljs-title function_">defineRegistry</span>(catalog, {
+  <span class="hljs-attr">components</span>: {
+    <span class="hljs-title class_">Card</span>: <span class="hljs-function">(<span class="hljs-params">{ props, children }</span>) =&gt;</span> (
+      <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"card"</span>&gt;</span>
+        {props.title &amp;&amp; <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>{props.title}<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>}
+        {children}
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+    ),
+    <span class="hljs-title class_">Stack</span>: <span class="hljs-function">(<span class="hljs-params">{ props, children }</span>) =&gt;</span> (
+      <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">{</span>`<span class="hljs-attr">stack</span> <span class="hljs-attr">stack-</span>${<span class="hljs-attr">props.direction</span> ?? "<span class="hljs-attr">vertical</span>"} <span class="hljs-attr">gap-</span>${<span class="hljs-attr">props.gap</span> ?? "<span class="hljs-attr">md</span>"}`}&gt;</span>
+        {children}
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+    ),
+    <span class="hljs-title class_">TextInput</span>: <span class="hljs-function">(<span class="hljs-params">{ props }</span>) =&gt;</span> (
+      <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        {props.label &amp;&amp; <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>{props.label}<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>}
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">{props.type</span> ?? "<span class="hljs-attr">text</span>"} <span class="hljs-attr">placeholder</span>=<span class="hljs-string">{props.placeholder}</span> /&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+    ),
+    <span class="hljs-title class_">Button</span>: <span class="hljs-function">(<span class="hljs-params">{ props }</span>) =&gt;</span> (
+      <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">className</span>=<span class="hljs-string">{props.variant</span> ?? "<span class="hljs-attr">primary</span>"}&gt;</span>
+        {props.label}
+      <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
+    ),
+  },
+});</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Vue</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-vue">&lt;script setup lang="ts"&gt;
+import { h } from "vue";
+import { defineRegistry, Renderer, JSONUIProvider } from "@json-render/vue";
+
+const { registry } = defineRegistry(catalog, {
+  components: {
+    Card: ({ props, children }) =&gt;
+      h("div", { class: "card" }, [
+        props.title ? h("h2", null, props.title) : null,
+        children,
+      ]),
+    Stack: ({ props, children }) =&gt;
+      h("div", { class: `stack stack-${props.direction ?? "vertical"} gap-${props.gap ?? "md"}` }, children),
+    TextInput: ({ props }) =&gt;
+      h("div", null, [
+        props.label ? h("label", null, props.label) : null,
+        h("input", { type: props.type ?? "text", placeholder: props.placeholder }),
+      ]),
+    Button: ({ props }) =&gt;
+      h("button", { class: props.variant ?? "primary" }, props.label),
+  },
+});
+&lt;/script&gt;</code></pre>
+</div>
+<h2 id="connect-to-the-agent">连接到智能体<a class="heading-anchor" href="#connect-to-the-agent" aria-label="链接到本节">#</a></h2>
+<p>智能体使用结构化输出返回 json-render 规范。用智能体的 assistant ID 设置 <code>useStream</code>，然后从 AI 消息的 <code>tool_calls</code> 中提取该规范：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">React</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { useStream } <span class="hljs-keyword">from</span> <span class="hljs-string">"@langchain/react"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AIMessage</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"langchain"</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">GenerativeUI</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> stream = useStream&lt;<span class="hljs-keyword">typeof</span> myAgent&gt;({
+    <span class="hljs-attr">apiUrl</span>: <span class="hljs-string">"http://localhost:2024"</span>,
+    <span class="hljs-attr">assistantId</span>: <span class="hljs-string">"generative_ui"</span>,
+  });
+
+  <span class="hljs-keyword">const</span> aiMessage = stream.<span class="hljs-property">messages</span>.<span class="hljs-title function_">find</span>(<span class="hljs-title class_">AIMessage</span>.<span class="hljs-property">isInstance</span>);
+  <span class="hljs-keyword">const</span> rawSpec = aiMessage?.<span class="hljs-property">tool_calls</span>?.[<span class="hljs-number">0</span>]?.<span class="hljs-property">args</span>;
+
+  <span class="hljs-comment">// ... filter and render (see streaming section below)</span>
+}</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Vue</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-vue">&lt;script setup lang="ts"&gt;
+import { useStream } from "@langchain/vue";
+import { AIMessage } from "langchain";
+import { computed } from "vue";
+
+const stream = useStream&lt;typeof myAgent&gt;({
+  apiUrl: "http://localhost:2024",
+  assistantId: "generative_ui",
+});
+
+const aiMessage = computed(() =&gt; stream.messages.value.find(AIMessage.isInstance));
+const rawSpec = computed(() =&gt; aiMessage.value?.tool_calls?.[0]?.args);
+&lt;/script&gt;</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Svelte</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-svelte">&lt;script lang="ts"&gt;
+  import { useStream } from "@langchain/svelte";
+  import { AIMessage } from "langchain";
+
+  const stream = useStream&lt;typeof myAgent&gt;({
+    apiUrl: "http://localhost:2024",
+    assistantId: "generative_ui",
+  });
+
+  const aiMessage = $derived(stream.messages.find((m) =&gt; AIMessage.isInstance(m)));
+  const rawSpec = $derived(aiMessage?.tool_calls?.[0]?.args);
+&lt;/script&gt;</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Angular</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@angular/core"</span>;
+<span class="hljs-keyword">import</span> { injectStream } <span class="hljs-keyword">from</span> <span class="hljs-string">"@langchain/angular"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AIMessage</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"langchain"</span>;
+
+<span class="hljs-meta">@Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">"app-generative-ui"</span>,
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`...`</span>,
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GenerativeUIComponent</span> {
+  stream = injectStream&lt;<span class="hljs-keyword">typeof</span> myAgent&gt;({
+    <span class="hljs-attr">apiUrl</span>: <span class="hljs-string">"http://localhost:2024"</span>,
+    <span class="hljs-attr">assistantId</span>: <span class="hljs-string">"generative_ui"</span>,
+  });
+
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">rawSpec</span>() {
+    <span class="hljs-keyword">const</span> ai = <span class="hljs-variable language_">this</span>.<span class="hljs-property">stream</span>.<span class="hljs-title function_">messages</span>().<span class="hljs-title function_">find</span>(<span class="hljs-title class_">AIMessage</span>.<span class="hljs-property">isInstance</span>);
+    <span class="hljs-keyword">return</span> ai?.<span class="hljs-property">tool_calls</span>?.[<span class="hljs-number">0</span>]?.<span class="hljs-property">args</span>;
+  }
+}</code></pre>
+</div>
+<h2 id="stream-and-render-progressively">流式传输并逐步渲染<a class="heading-anchor" href="#stream-and-render-progressively" aria-label="链接到本节">#</a></h2>
+<p>在流式传输过程中，规范是逐步构建的。元素逐个到达，最初可能缺少 <code>type</code> 或 <code>props</code>。筛选出完整的元素，并把 <code>loading={true}</code> 传给 <code>Renderer</code>，这会告诉它静默跳过尚未到达的子元素。UI 逐个组件地构建出来：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">tsx</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-comment">/*
+ * Filter the streamed spec to only include elements with valid type/props,
+ * enabling progressive rendering as the AI response builds up. Passing
+ * loading={true} to the Renderer tells it to skip missing children silently.
+ */</span>
+<span class="hljs-keyword">const</span> spec = (<span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">if</span> (!rawSpec?.<span class="hljs-property">root</span> || !rawSpec?.<span class="hljs-property">elements</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">const</span> rootEl = rawSpec.<span class="hljs-property">elements</span>[rawSpec.<span class="hljs-property">root</span>];
+  <span class="hljs-keyword">if</span> (!rootEl?.<span class="hljs-property">type</span> || rootEl?.<span class="hljs-property">props</span> == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+
+  <span class="hljs-keyword">const</span> safeElements = {};
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> [key, el] <span class="hljs-keyword">of</span> <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">entries</span>(rawSpec.<span class="hljs-property">elements</span>)) {
+    <span class="hljs-keyword">if</span> (el?.<span class="hljs-property">type</span> &amp;&amp; el?.<span class="hljs-property">props</span> != <span class="hljs-literal">null</span>) {
+      safeElements[key] = el;
+    }
+  }
+  <span class="hljs-keyword">return</span> { <span class="hljs-attr">root</span>: rawSpec.<span class="hljs-property">root</span>, <span class="hljs-attr">elements</span>: safeElements };
+})();
+
+<span class="hljs-keyword">return</span> (
+  <span class="language-xml"><span class="hljs-tag">&lt;&gt;</span>
+    {spec &amp;&amp; (
+      <span class="hljs-tag">&lt;<span class="hljs-name">JSONUIProvider</span> <span class="hljs-attr">registry</span>=<span class="hljs-string">{registry}</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Renderer</span> <span class="hljs-attr">spec</span>=<span class="hljs-string">{spec}</span> <span class="hljs-attr">registry</span>=<span class="hljs-string">{registry}</span> <span class="hljs-attr">loading</span>=<span class="hljs-string">{stream.isLoading}</span> /&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">JSONUIProvider</span>&gt;</span>
+    )}
+  <span class="hljs-tag">&lt;/&gt;</span></span>
+);</code></pre>
+</div>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p><code>JSONUIProvider</code> 是设置 json-render 内部上下文提供者（状态、可见性、校验、操作）所必需的。<code>Renderer</code> 组件必须渲染在它内部。</p></div>
+</aside>
+<h2 id="the-spec-format">规范格式<a class="heading-anchor" href="#the-spec-format" aria-label="链接到本节">#</a></h2>
+<p>AI 智能体生成一份扁平 JSON 规范，其中 <code>root</code> 键指向根元素，<code>elements</code> 映射包含所有组件：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">json</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"root"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"login-card"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"elements"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"login-card"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Card"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"props"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">"title"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Login"</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"children"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"login-stack"</span><span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"login-stack"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Stack"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"props"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">"direction"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"vertical"</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"gap"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"md"</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"children"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"email-input"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"password-input"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"submit-btn"</span><span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"email-input"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"TextInput"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"props"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">"label"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Email"</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"placeholder"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Enter your email"</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"email"</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"children"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"password-input"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"TextInput"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"props"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">"label"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Password"</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"placeholder"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Enter your password"</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"password"</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"children"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"submit-btn"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"type"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Button"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"props"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">"label"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Sign In"</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"variant"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"primary"</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"fullWidth"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"children"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+</div>
+<p>每个元素通过 ID 引用其子元素，而像 <code>TextInput</code> 和 <code>Button</code> 这样的叶子元素具有空的 <code>children</code> 数组。</p>
+<h2 id="a2ui-an-alternative-declarative-spec">A2UI：另一种声明式规范<a class="heading-anchor" href="#a2ui-an-alternative-declarative-spec" aria-label="链接到本节">#</a></h2>
+<p>以声明方式描述界面的一种方式是 json-render。A2UI 是另一种：Google 的声明式、流式优先的生成式 UI 规范，通过 CopilotKit 集成。与 json-render 一样，它用你注册的组件组合界面，因此智能体始终处于你定义的护栏之内。A2UI 有两种变体：</p>
+<ul><li><p><strong>动态 schema</strong>：由第二个模型根据对话生成完整界面，包括 schema、数据和布局，以实现最大的灵活性。</p></li><li><p><strong>固定 schema</strong>：组件树在前端定义，智能体只向其中流式传输数据，从而实现最快、最可预测的渲染。</p></li></ul>
+<p>详情请参见 CopilotKit 文档中关于 <a href="https://docs.copilotkit.ai/generative-ui/a2ui" target="_blank" rel="noopener noreferrer">A2UI</a>、<a href="https://docs.copilotkit.ai/generative-ui/a2ui/dynamic-schema" target="_blank" rel="noopener noreferrer">动态 schema</a> 和 <a href="https://docs.copilotkit.ai/generative-ui/a2ui/fixed-schema" target="_blank" rel="noopener noreferrer">固定 schema</a> 的内容。要将 CopilotKit 接入 LangGraph 部署，请参见 <a href="frontend-integrations-copilotkit.html">CopilotKit</a>。</p>
+<h2 id="best-practices">最佳实践<a class="heading-anchor" href="#best-practices" aria-label="链接到本节">#</a></h2>
+<ul><li><p><strong>使用描述性的组件说明</strong>：AI 依据这些说明理解何时使用每个组件。清晰的描述会带来更好的 UI 生成结果。</p></li><li><p><strong>渲染前先校验</strong>：在传给 Renderer 之前，始终检查元素是否具有有效的 <code>type</code> 和非空 <code>props</code>，因为流式传输会传递部分数据。</p></li><li><p><strong>为流式传输而设计</strong>：在流式传输期间传入 <code>loading={true}</code>，以便 Renderer 能妥善处理尚未到达的子元素。用户会实时看到 UI 逐步构建，而不必等待完整响应。</p></li><li><p><strong>使用设计令牌设置样式</strong>：使用 CSS 自定义属性，使渲染出的组件自动适应浅色和深色主题。</p></li><li><p><strong>用 JSONUIProvider 包裹</strong>：<code>Renderer</code> 必须位于 <code>JSONUIProvider</code> 之内，才能访问 json-render 用于状态、可见性和操作的内部上下文。</p></li></ul>
+<h2 id="see-also">另请参见<a class="heading-anchor" href="#see-also" aria-label="链接到本节">#</a></h2>
+<ul><li><p><a href="frontend-generative-ui-overview.html">生成式 UI 概览</a></p></li><li><p><a href="frontend-controlled-generative-ui.html">受控生成式 UI</a></p></li><li><p><a href="frontend-open-ended-generative-ui.html">开放式生成式 UI</a></p></li></ul></article>
+        <nav class="pager" aria-label="翻页"><a class="prev" href="frontend-controlled-generative-ui.html"><span class="pager-label">上一篇</span><span class="pager-title">受控生成式 UI</span></a><a class="next" href="frontend-open-ended-generative-ui.html"><span class="pager-label">下一篇</span><span class="pager-title">开放式生成式 UI</span></a></nav>
+        <footer class="page-footer">
+          <p>本页为社区维护的简体中文翻译，不是 LangChain 官方文档。如与英文原文有出入，请以 <a href="https://docs.langchain.com/oss/python/langchain/frontend/declarative-generative-ui" target="_blank" rel="noopener noreferrer">英文原文</a> 为准。</p>
+        </footer>
+      </div>
+    </main>
+    <aside class="toc" aria-label="本页目录"><div class="toc-inner"><div class="toc-title">本页目录</div><a class="toc-link level-2" href="#overview">概览</a><a class="toc-link level-2" href="#when-to-use-this-approach">何时使用此方案</a><a class="toc-link level-2" href="#how-it-works">工作原理</a><a class="toc-link level-2" href="#define-a-component-catalog">定义组件目录</a><a class="toc-link level-2" href="#build-a-component-registry">构建组件注册表</a><a class="toc-link level-2" href="#connect-to-the-agent">连接到智能体</a><a class="toc-link level-2" href="#stream-and-render-progressively">流式传输并逐步渲染</a><a class="toc-link level-2" href="#the-spec-format">规范格式</a><a class="toc-link level-2" href="#a2ui-an-alternative-declarative-spec">A2UI：另一种声明式规范</a><a class="toc-link level-2" href="#best-practices">最佳实践</a><a class="toc-link level-2" href="#see-also">另请参见</a></div></aside>
+  </div>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p><strong>LangChain 中文文档</strong> · 社区翻译，非官方站点。内容基于 <a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener noreferrer">docs.langchain.com</a> 的 LangChain（Python）文档生成。</p>
+      <p>共 59 篇 · 代码示例保持英文原样 · 以英文原文为准</p>
+    </div>
+  </footer>
+  <button class="back-top" type="button" data-back-top aria-label="回到顶部">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script src="assets/docs.js" defer></script>
+</body>
+</html>

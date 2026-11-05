@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MCP 连接 | LangChain 中文文档</title>
+  <meta name="description" content="LangChain 中 MCP 的连接生命周期、多服务器、部署扩展、协议代际与缓存。">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M12.5 19.5l7-7M10 22l-1 1a4 4 0 0 1-5.7-5.7l3.4-3.4a4 4 0 0 1 5.7 0M22 10l1-1a4 4 0 0 1 5.7 5.7l-3.4 3.4a4 4 0 0 1-5.7 0' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem('lc-docs-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();</script>
+  <link rel="stylesheet" href="assets/docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div id="progress" data-progress></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="打开文档导航" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="LangChain 中文文档首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9.4 14.6l5.2-5.2M7.1 16.9l-1.4 1.4a3.7 3.7 0 0 1-5.2-5.2l3.2-3.2a3.7 3.7 0 0 1 5.2 0M16.9 7.1l1.4-1.4a3.7 3.7 0 0 1 5.2 5.2l-3.2 3.2a3.7 3.7 0 0 1-5.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text">LangChain <span class="brand-sub">中文文档</span></span>
+      </a>
+      <nav class="top-nav" aria-label="主导航">
+        <a class="top-link active" href="index.html" aria-current="page">LangChain</a>
+        <a class="top-link" href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a>
+        <a class="top-link" href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener noreferrer">LangSmith</a>
+        <a class="top-link" href="https://reference.langchain.com/python/langchain/" target="_blank" rel="noopener noreferrer">API 参考</a>
+      </nav>
+      <div class="header-actions">
+        <a class="source-link" href="https://docs.langchain.com/oss/python/langchain/mcp/connections" target="_blank" rel="noopener noreferrer">English <span aria-hidden="true">↗</span></a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="切换到深色模式" aria-pressed="false" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v1.6M10 16.2v1.6M2.2 10h1.6M16.2 10h1.6M4.5 4.5l1.1 1.1M14.4 14.4l1.1 1.1M15.5 4.5l-1.1 1.1M5.6 14.4l-1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.4 12.1A6.6 6.6 0 0 1 7.9 3.6 6.8 6.8 0 1 0 16.4 12.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" id="sidebar" aria-label="文档导航">
+      <div class="sidebar-head">
+        <div class="sidebar-title">文档目录</div>
+        <div class="nav-search">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.2" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="搜索页面…" aria-label="搜索文档页面" data-nav-search autocomplete="off" spellcheck="false">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+      </div>
+      <div class="sidebar-scroll"><nav class="nav" id="doc-nav" aria-label="文档页面"><div class="nav-home"><a class="nav-link" href="index.html" data-search="LangChain 概览 LangChain overview index  "><span class="nav-dot" aria-hidden="true"></span><span>LangChain 概览</span></a></div><section class="nav-section" data-nav-section><div class="nav-section-title">开始使用</div><a class="nav-link" href="install.html" data-search="安装 LangChain Install LangChain install Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>安装 LangChain</span></a><a class="nav-link" href="quickstart.html" data-search="快速开始 Quickstart quickstart Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>快速开始</span></a><a class="nav-link" href="philosophy.html" data-search="设计理念 Philosophy philosophy Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>设计理念</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">核心组件</div><a class="nav-link" href="agents.html" data-search="智能体 Agents agents Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>智能体</span></a><a class="nav-link" href="models.html" data-search="模型 Models models Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>模型</span></a><a class="nav-link" href="messages.html" data-search="消息 Messages messages Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>消息</span></a><a class="nav-link" href="tools.html" data-search="工具 Tools tools Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>工具</span></a><a class="nav-link" href="short-term-memory.html" data-search="短期记忆 Short-term memory short-term-memory Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>短期记忆</span></a><a class="nav-link" href="event-streaming.html" data-search="事件流 Event streaming event-streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>事件流</span></a><a class="nav-link" href="streaming.html" data-search="流式传输 Streaming streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>流式传输</span></a><a class="nav-link" href="structured-output.html" data-search="结构化输出 Structured output structured-output Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>结构化输出</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">中间件</div><a class="nav-link" href="middleware-overview.html" data-search="中间件概览 Middleware overview middleware-overview Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>中间件概览</span></a><a class="nav-link" href="middleware-built-in.html" data-search="预置中间件 Prebuilt middleware middleware-built-in Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>预置中间件</span></a><a class="nav-link" href="middleware-custom.html" data-search="自定义中间件 Custom middleware middleware-custom Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>自定义中间件</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">前端</div><a class="nav-link" href="frontend-overview.html" data-search="前端概览 Overview frontend-overview Frontend 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端概览</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">模式</div><a class="nav-link" href="frontend-markdown-messages.html" data-search="Markdown 消息 Markdown messages frontend-markdown-messages Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>Markdown 消息</span></a><a class="nav-link" href="frontend-tool-calling.html" data-search="工具调用 Tool calling frontend-tool-calling Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>工具调用</span></a><a class="nav-link" href="frontend-headless-tools.html" data-search="无头工具 Headless tools frontend-headless-tools Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>无头工具</span></a><a class="nav-link" href="frontend-human-in-the-loop.html" data-search="前端人在回路 Human-in-the-Loop frontend-human-in-the-loop Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端人在回路</span></a><a class="nav-link" href="frontend-branching-chat.html" data-search="分支对话 Branching chat frontend-branching-chat Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>分支对话</span></a><a class="nav-link" href="frontend-reasoning-tokens.html" data-search="推理 token Reasoning tokens frontend-reasoning-tokens Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>推理 token</span></a><a class="nav-link" href="frontend-structured-output.html" data-search="前端结构化输出 Structured output frontend-structured-output Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端结构化输出</span></a><a class="nav-link" href="frontend-message-queues.html" data-search="消息队列 Message queues frontend-message-queues Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>消息队列</span></a><a class="nav-link" href="frontend-join-rejoin.html" data-search="断开与重连流 Join &amp; rejoin streams frontend-join-rejoin Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>断开与重连流</span></a><a class="nav-link" href="frontend-time-travel.html" data-search="时间旅行 Time travel frontend-time-travel Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>时间旅行</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">生成式 UI</div><a class="nav-link" href="frontend-generative-ui-overview.html" data-search="生成式 UI 概览 Generative UI overview frontend-generative-ui-overview Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>生成式 UI 概览</span></a><a class="nav-link" href="frontend-controlled-generative-ui.html" data-search="受控生成式 UI Controlled generative UI frontend-controlled-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>受控生成式 UI</span></a><a class="nav-link" href="frontend-declarative-generative-ui.html" data-search="声明式生成式 UI Declarative generative UI frontend-declarative-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>声明式生成式 UI</span></a><a class="nav-link" href="frontend-open-ended-generative-ui.html" data-search="开放式生成式 UI Open-ended generative UI frontend-open-ended-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>开放式生成式 UI</span></a></div></div><div class="nav-subgroup"><div class="nav-subgroup-title">集成</div><a class="nav-link" href="frontend-integrations-overview.html" data-search="集成概览 Overview frontend-integrations-overview Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>集成概览</span></a><a class="nav-link" href="frontend-integrations-copilotkit.html" data-search="CopilotKit CopilotKit frontend-integrations-copilotkit Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>CopilotKit</span></a><a class="nav-link" href="frontend-integrations-ai-elements.html" data-search="AI Elements AI Elements frontend-integrations-ai-elements Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>AI Elements</span></a><a class="nav-link" href="frontend-integrations-assistant-ui.html" data-search="assistant-ui assistant-ui frontend-integrations-assistant-ui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>assistant-ui</span></a><a class="nav-link" href="frontend-integrations-openui.html" data-search="OpenUI OpenUI frontend-integrations-openui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>OpenUI</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">高级用法</div><a class="nav-link" href="guardrails.html" data-search="护栏 Guardrails guardrails Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>护栏</span></a><a class="nav-link" href="runtime.html" data-search="运行时 Runtime runtime Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>运行时</span></a><a class="nav-link" href="context-engineering.html" data-search="智能体中的上下文工程 Context engineering in agents context-engineering Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>智能体中的上下文工程</span></a><a class="nav-link" href="human-in-the-loop.html" data-search="人在回路 Human-in-the-loop human-in-the-loop Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>人在回路</span></a><a class="nav-link" href="retrieval.html" data-search="检索 Retrieval retrieval Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>检索</span></a><a class="nav-link" href="long-term-memory.html" data-search="长期记忆 Long-term memory long-term-memory Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>长期记忆</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">MCP</div><a class="nav-link" href="mcp.html" data-search="MCP 概述 Model Context Protocol (MCP) mcp Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 概述</span></a><a class="nav-link" href="mcp-tools.html" data-search="MCP 工具 Tools mcp-tools Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 工具</span></a><a class="nav-link active" href="mcp-connections.html" data-search="MCP 连接 Connections mcp-connections Advanced usage MCP 高级用法 高级用法" aria-current="page"><span class="nav-dot" aria-hidden="true"></span><span>MCP 连接</span></a><a class="nav-link" href="mcp-auth.html" data-search="MCP 认证 Authentication mcp-auth Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 认证</span></a></div><div class="nav-subgroup"><div class="nav-subgroup-title">多智能体</div><a class="nav-link" href="multi-agent.html" data-search="多智能体 Multi-agent multi-agent Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>多智能体</span></a><a class="nav-link" href="multi-agent-subagents.html" data-search="子智能体 Subagents multi-agent-subagents Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>子智能体</span></a><a class="nav-link" href="multi-agent-handoffs.html" data-search="交接 Handoffs multi-agent-handoffs Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>交接</span></a><a class="nav-link" href="multi-agent-skills.html" data-search="技能 Skills multi-agent-skills Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>技能</span></a><a class="nav-link" href="multi-agent-router.html" data-search="路由器 Router multi-agent-router Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>路由器</span></a><a class="nav-link" href="multi-agent-custom-workflow.html" data-search="自定义工作流 Custom workflow multi-agent-custom-workflow Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>自定义工作流</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">智能体开发</div><a class="nav-link" href="studio.html" data-search="LangSmith Studio LangSmith Studio studio Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith Studio</span></a><a class="nav-link" href="ui.html" data-search="Agent Chat UI Agent Chat UI ui Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>Agent Chat UI</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">测试</div><a class="nav-link" href="test.html" data-search="测试 Test test Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>测试</span></a><a class="nav-link" href="test-unit-testing.html" data-search="单元测试 Unit testing test-unit-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>单元测试</span></a><a class="nav-link" href="test-integration-testing.html" data-search="集成测试 Integration testing test-integration-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>集成测试</span></a><a class="nav-link" href="test-evals.html" data-search="智能体评估 Agent Evals test-evals Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>智能体评估</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">生产</div><a class="nav-link" href="deploy.html" data-search="部署 Deployment deploy Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>部署</span></a><a class="nav-link" href="observability.html" data-search="LangSmith 可观测性 LangSmith Observability observability Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith 可观测性</span></a></section><div class="nav-empty" data-nav-empty hidden>没有匹配的页面</div></nav></div>
+      <div class="sidebar-foot"><strong>59 篇</strong> · 社区翻译</div>
+    </aside>
+    <div class="sidebar-overlay" data-sidebar-overlay></div>
+    <main class="main" id="main">
+      <div class="content-wrap">
+        <nav class="breadcrumbs" aria-label="面包屑"><a href="index.html">LangChain</a><span class="sep">/</span><span>高级用法</span><span class="sep">/</span><span>MCP</span><span class="sep">/</span><span class="current">MCP 连接</span></nav>
+        <header class="page-header">
+          <h1>MCP 连接</h1>
+          <div class="page-lead">LangChain 中 MCP 的连接生命周期、多服务器、部署扩展、协议代际与缓存。</div>
+          <div class="page-meta">
+            <span>约 8 分钟</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>社区翻译</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <a href="https://docs.langchain.com/oss/python/langchain/mcp/connections" target="_blank" rel="noopener noreferrer">查看英文原文 ↗</a>
+          </div>
+        </header>
+        <article class="content"><aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p><code>langchain.mcp</code> 命名空间需要 <code>langchain[mcp]&gt;=1.4.0</code>，且处于 beta 阶段。API 可能发生变化。</p></div>
+</aside>
+<p><a href="https://reference.langchain.com/python/langchain/mcp/adapter/MCPAdapter" target="_blank" rel="noopener noreferrer"><code>MCPAdapter</code></a> 会打开一个 MCP 连接、发现工具，并返回你的智能体可以调用的 LangChain 工具。服务器该如何传入，以及适配器需要保持打开多久，取决于你的应用形态。连接本身由 FastMCP 提供；本页介绍 LangChain 中的模式，传输与客户端细节则链接到 FastMCP 文档。</p>
+<p>除非你要连接多个服务器或部署大量并发运行，否则优先使用<a href="#connection-lifecycle">默认生命周期</a>。关于单个目标可以是什么（URL、脚本路径、进程内服务器），参见<a href="https://docs.langchain.com/oss/python/langchain/mcp#transports" target="_blank" rel="noopener noreferrer">传输</a>。</p>
+<h2 id="choose-a-pattern">选择一种模式<a class="heading-anchor" href="#choose-a-pattern" aria-label="链接到本节">#</a></h2>
+<p>从每个表格中选择一行。服务器形态与连接生命周期相互独立；任意形态都可以搭配任意生命周期。</p>
+<p><strong>服务器形态</strong></p>
+<div class="table-wrap"><table><thead><tr><th>如果你需要…</th><th>使用</th><th>参见</th></tr></thead><tbody><tr><td>单个服务器</td><td>URL、<code>Path</code> 或进程内目标</td><td><a href="https://docs.langchain.com/oss/python/langchain/mcp#transports" target="_blank" rel="noopener noreferrer">传输</a></td></tr><tr><td>多个服务器共用一条连接</td><td>一个 <code>MCPConfig</code> 字典</td><td><a href="#one-aggregate-connection-with-mcpconfig">MCPConfig</a></td></tr><tr><td>多个服务器，各自使用独立的认证、协议代际或连接池</td><td>A <a href="https://gofastmcp.com/clients/client-groups" target="_blank" rel="noopener noreferrer"><code>ClientGroup</code></a></td><td><a href="#independent-connections-with-clientgroup">ClientGroup</a></td></tr></tbody></table></div>
+<p><strong>连接生命周期</strong></p>
+<div class="table-wrap"><table><thead><tr><th>场景</th><th>模式</th><th>参见</th></tr></thead><tbody><tr><td>脚本、notebook 或大多数智能体</td><td>在 <code>async with</code> 内完成发现后退出</td><td><a href="#connection-lifecycle">连接生命周期</a></td></tr><tr><td>在一次运行的多次工具调用之间保持同一个会话</td><td>在智能体调用前后保持适配器打开</td><td><a href="#one-session-per-invocation">每次调用一个会话</a></td></tr><tr><td>部署中存在大量并发运行</td><td>每次运行都执行发现；复用<a href="#shared-connection-pool">共享连接池</a>和<a href="#caching">缓存</a></td><td><a href="#scale-a-deployment">扩展部署</a></td></tr></tbody></table></div>
+<h2 id="connection-lifecycle">连接生命周期<a class="heading-anchor" href="#connection-lifecycle" aria-label="链接到本节">#</a></h2>
+<p><a href="https://reference.langchain.com/python/langchain/mcp/adapter/MCPAdapter" target="_blank" rel="noopener noreferrer"><code>MCPAdapter</code></a> 是一个异步上下文管理器。进入它会连接底层客户端，退出它会释放连接。工具发现发生在上下文内部，但它返回的工具持有该客户端，因此在上下文退出后仍然可以调用。</p>
+<p>要发现工具并构建智能体（默认模式）：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.mcp <span class="hljs-keyword">import</span> MCPAdapter
+
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">build_agent</span>(<span class="hljs-params">target</span>):
+    <span class="hljs-comment"># Discover and build the agent inside the adapter's context. The tools hold</span>
+    <span class="hljs-comment"># the client, so the agent stays usable after the context exits.</span>
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> MCPAdapter(target) <span class="hljs-keyword">as</span> adapter:
+        tools = <span class="hljs-keyword">await</span> adapter.list_tools()
+        <span class="hljs-keyword">return</span> create_agent(<span class="hljs-string">"claude-sonnet-5"</span>, tools)</code></pre>
+</div>
+<p>你不需要在整个智能体生命周期内保持适配器打开。除非你要<a href="#one-session-per-invocation">保持会话打开</a>或<a href="#scale-a-deployment">扩展部署</a>，否则优先使用此模式。</p>
+<h3 id="one-session-per-invocation">每次调用一个会话<a class="heading-anchor" href="#one-session-per-invocation" aria-label="链接到本节">#</a></h3>
+<p><a href="https://reference.langchain.com/python/langchain/mcp/adapter/MCPAdapter" target="_blank" rel="noopener noreferrer"><code>MCPAdapter</code></a> 返回的工具是可重入的：每次调用工具时，它都会打开客户端、执行 MCP 调用并释放客户端，无论其他位置是否已经持有连接。因此一次智能体运行会为每次工具调用打开一个会话，并在调用返回时关闭它，而不是在整个运行期间保持会话打开。这可以避免长时间运行的智能体在工具调用之间一直占用空闲连接，也正是工具在发现上下文退出后仍可调用的原因。</p>
+<p>如果你希望在一次运行中的多次调用之间保持会话打开，请在调用智能体时保持适配器的上下文打开。可重入客户端会复用已有连接，而不是再打开一个连接。</p>
+<h2 id="multiple-servers">多个服务器<a class="heading-anchor" href="#multiple-servers" aria-label="链接到本节">#</a></h2>
+<p>要让一个智能体使用多个服务器的工具，当一条聚合连接就足够时选择<code>MCPConfig</code>；当每个服务器都需要自己的连接时（不同的<a href="#protocol-eras">协议代际</a>、<a href="mcp-auth.html#per-server-authentication">按服务器区分的认证</a>，或按客户端配置的<a href="#shared-connection-pool">共享连接池</a>）选择<code>ClientGroup</code>。</p>
+<h3 id="one-aggregate-connection-with-mcpconfig">使用 <code>MCPConfig</code> 建立一条聚合连接<a class="heading-anchor" href="#one-aggregate-connection-with-mcpconfig" aria-label="链接到本节">#</a></h3>
+<p>给适配器传入一个 <code>MCPConfig</code> 字典，即可通过一个聚合端点连接多个服务器。FastMCP 会为每个工具加上其配置键作为前缀，因此暴露相同工具名的两个服务器在传给模型的列表中仍可区分：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.mcp <span class="hljs-keyword">import</span> MCPAdapter
+
+CONFIG = {
+    <span class="hljs-string">"mcpServers"</span>: {
+        <span class="hljs-string">"weather"</span>: {<span class="hljs-string">"command"</span>: <span class="hljs-string">"python"</span>, <span class="hljs-string">"args"</span>: [<span class="hljs-string">"/path/to/weather_server.py"</span>]},
+        <span class="hljs-string">"calc"</span>: {<span class="hljs-string">"command"</span>: <span class="hljs-string">"python"</span>, <span class="hljs-string">"args"</span>: [<span class="hljs-string">"/path/to/calc_server.py"</span>]},
+    }
+}
+
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">fleet_agent</span>(<span class="hljs-params">config</span>):
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> MCPAdapter(config) <span class="hljs-keyword">as</span> adapter:
+        <span class="hljs-comment"># Every tool is prefixed with its config key (`weather_...`, `calc_...`),</span>
+        <span class="hljs-comment"># so two servers exposing the same tool name stay distinguishable.</span>
+        tools = <span class="hljs-keyword">await</span> adapter.list_tools()
+        <span class="hljs-keyword">return</span> create_agent(<span class="hljs-string">"claude-sonnet-5"</span>, tools)</code></pre>
+</div>
+<p>每个后端都独立寻址，因此一个服务器集群可以混用不同传输方式：一个服务器走 stdio，另一个走 HTTP。不过，<code>MCPConfig</code> 集群会在所有后端之间共享同一个协商出的<a href="#protocol-eras">协议代际</a>：一旦加入只支持旧版协议的服务器，整个集群就会降到旧版代际。</p>
+<h3 id="independent-connections-with-clientgroup">使用 <code>ClientGroup</code> 建立独立连接<a class="heading-anchor" href="#independent-connections-with-clientgroup" aria-label="链接到本节">#</a></h3>
+<p>要让每个服务器使用各自的连接，传入<a href="https://gofastmcp.com/clients/client-groups" target="_blank" rel="noopener noreferrer"><code>ClientGroup</code></a>。每个成员都保留自己协商的协议代际、认证和处理程序，该组会把每次调用路由回广播该工具的客户端。这正是旧版服务器与现代服务器可以并存的原因，它也以相同方式为工具划分命名空间，因此不同服务器上相同的工具名永远不会冲突：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> fastmcp.client <span class="hljs-keyword">import</span> Client
+<span class="hljs-keyword">from</span> fastmcp.client.group <span class="hljs-keyword">import</span> ClientGroup
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.mcp <span class="hljs-keyword">import</span> MCPAdapter
+
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">agent_from_group</span>(<span class="hljs-params">legacy_url: <span class="hljs-built_in">str</span>, modern_url: <span class="hljs-built_in">str</span></span>):
+    <span class="hljs-comment"># One connection per server: a `ClientGroup` keeps each server on its own</span>
+    <span class="hljs-comment"># negotiated protocol era, so a legacy and a modern server run side by side.</span>
+    <span class="hljs-comment"># It also namespaces every tool as `{server}_{tool}`, so two servers exposing</span>
+    <span class="hljs-comment"># the same tool name stay distinct.</span>
+    group = ClientGroup(
+        {
+            <span class="hljs-string">"weather"</span>: Client(legacy_url, mode=<span class="hljs-string">"legacy"</span>),
+            <span class="hljs-string">"calc"</span>: Client(modern_url, mode=<span class="hljs-string">"auto"</span>),
+        }
+    )
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> MCPAdapter(group) <span class="hljs-keyword">as</span> adapter:
+        tools = <span class="hljs-keyword">await</span> adapter.list_tools()
+        <span class="hljs-keyword">return</span> create_agent(<span class="hljs-string">"claude-sonnet-5"</span>, tools)</code></pre>
+</div>
+<h2 id="scale-a-deployment">扩展部署<a class="heading-anchor" href="#scale-a-deployment" aria-label="链接到本节">#</a></h2>
+<p>服务大量运行的部署应当在每次运行时执行发现，但在底层复用连接，而不是每个请求都重新连接。在 <a href="https://docs.langchain.com/oss/python/langgraph/local-server" target="_blank" rel="noopener noreferrer"><code>langgraph dev</code></a> 图工厂中构建智能体，使每次运行都能获取当前的工具目录，并让<a href="#shared-connection-pool">共享连接池</a>和<a href="#caching">响应缓存</a>来分摊开销：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">SERVERS = {
+    <span class="hljs-string">"weather"</span>: <span class="hljs-string">"http://localhost:8001/mcp"</span>,
+    <span class="hljs-string">"calc"</span>: <span class="hljs-string">"http://localhost:8002/mcp"</span>,
+}
+
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">make_graph</span>():
+    <span class="hljs-string">"""Build an agent over an MCP fleet. Called once per run by `langgraph dev`."""</span>
+    config = {<span class="hljs-string">"mcpServers"</span>: {name: {<span class="hljs-string">"url"</span>: url} <span class="hljs-keyword">for</span> name, url <span class="hljs-keyword">in</span> SERVERS.items()}}
+    <span class="hljs-comment"># A long-lived deployment discovers per run, but reuses one HTTP connection</span>
+    <span class="hljs-comment"># pool underneath. `cache_mode="use"` serves a cached tool list within the</span>
+    <span class="hljs-comment"># server's TTL instead of re-listing on every run.</span>
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> MCPAdapter(config) <span class="hljs-keyword">as</span> adapter:
+        tools = <span class="hljs-keyword">await</span> adapter.list_tools(cache_mode=<span class="hljs-string">"use"</span>)
+        <span class="hljs-keyword">return</span> create_agent(<span class="hljs-string">"claude-sonnet-5"</span>, tools)</code></pre>
+</div>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>在 <code>langgraph dev</code> 图工厂中，带注解的参数类型和返回类型必须能在运行时导入，而不能只在<code>TYPE_CHECKING</code>下可用。<code>langgraph-api</code> 使用<code>typing.get_type_hints()</code>对工厂进行分类；如果某个注解无法解析，它注入的就是 config 字典，而非运行时。</p></div>
+</aside>
+<p>在<a href="https://docs.langchain.com/langsmith/agent-server-overview" target="_blank" rel="noopener noreferrer">Agent Server</a>上，将该工厂注册到<code>langgraph.json</code>中，而不是导出一个静态编译的图。来自<code>list_tools()</code>的工具在适配器上下文退出后仍可调用，因此对大多数 MCP 配置而言，发现工具后直接返回智能体即可。当你需要在运行前后进行清理，或用<code>execution_runtime</code>在读取 schema 和状态时跳过开销较大的 MCP 工作时，请使用<a href="https://docs.langchain.com/langsmith/graph-rebuild#context-manager-factory" target="_blank" rel="noopener noreferrer">上下文管理器工厂</a>。</p>
+<p>如需完整的部署示例，包括为每个调用者签发令牌的按用户认证，请参阅<a href="mcp-auth.html#per-user-authentication">认证</a>。</p>
+<h3 id="shared-connection-pool">共享连接池<a class="heading-anchor" href="#shared-connection-pool" aria-label="链接到本节">#</a></h3>
+<p>默认情况下，每个 FastMCP 客户端管理自己的 HTTP 连接。在一个服务器集群中或存在大量并发运行时，这意味着会有许多相互独立的连接池。要共享同一个连接池，传入一个基于单一传输的 <code>httpx_client_factory</code>，并在不让任何客户端关闭它的情况下将其借出：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">import</span> httpx2
+<span class="hljs-keyword">from</span> fastmcp.client <span class="hljs-keyword">import</span> Client
+<span class="hljs-keyword">from</span> fastmcp.client.group <span class="hljs-keyword">import</span> ClientGroup
+<span class="hljs-keyword">from</span> fastmcp.client.transports <span class="hljs-keyword">import</span> StreamableHttpTransport
+<span class="hljs-keyword">from</span> langchain.mcp <span class="hljs-keyword">import</span> MCPAdapter
+
+<span class="hljs-comment"># One connection pool, shared by every server the deployment talks to.</span>
+_POOL = httpx2.AsyncHTTPTransport()
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">_SharedPool</span>(httpx2.AsyncBaseTransport):
+    <span class="hljs-string">"""Lend `_POOL` to each client without letting any client close it."""</span>
+
+    handle_async_request = _POOL.handle_async_request
+
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">aclose</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-literal">None</span>: ...
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">_client_factory</span>(<span class="hljs-params">**kwargs: <span class="hljs-built_in">object</span></span>) -&gt; httpx2.AsyncClient:
+    <span class="hljs-keyword">return</span> httpx2.AsyncClient(transport=_SharedPool(), **kwargs)
+
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">load_over_shared_pool</span>(<span class="hljs-params">servers: <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-built_in">str</span>]</span>) -&gt; <span class="hljs-built_in">list</span>:
+    <span class="hljs-comment"># Every client draws HTTP connections from the same pool, so a fleet of</span>
+    <span class="hljs-comment"># servers does not each open its own.</span>
+    group = ClientGroup(
+        {
+            name: Client(
+                StreamableHttpTransport(url, httpx_client_factory=_client_factory)
+            )
+            <span class="hljs-keyword">for</span> name, url <span class="hljs-keyword">in</span> servers.items()
+        }
+    )
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> MCPAdapter(group) <span class="hljs-keyword">as</span> adapter:
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> adapter.list_tools()</code></pre>
+</div>
+<p>由于每个客户端都从<code>_POOL</code>借用连接，部署会为整个集群打开一组 HTTP 连接，而不是为每个服务器各开一组。</p>
+<h2 id="caching">缓存<a class="heading-anchor" href="#caching" aria-label="链接到本节">#</a></h2>
+<p>FastMCP 可以缓存 <code>list_tools</code> 的结果，使重复的发现操作免去一次网络往返。缓存需要显式启用，并遵循服务器自身的缓存提示，因此只对声明了这些提示的新版协议服务器生效。</p>
+<p><code>list_tools()</code> 接受一个 <code>cache_mode</code>，用于选择发现操作如何读取已配置的缓存：</p>
+<ul><li><p><strong><code>use</code></strong>（默认值）：当已存在缓存的工具列表且仍在服务器的 TTL 提示范围内时，直接返回该列表，否则获取并存储。</p></li><li><p><strong><code>refresh</code></strong>：从服务器获取一份最新列表并重新填充缓存。</p></li><li><p><strong><code>bypass</code></strong>：完全跳过缓存。</p></li></ul>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">tools = <span class="hljs-keyword">await</span> adapter.list_tools(cache_mode=<span class="hljs-string">"refresh"</span>)</code></pre>
+</div>
+<p>缓存及其按主体隔离的配置通过 <code>Client(cache=...)</code> 在客户端本身上完成。如需在一组副本之间共享存储，或按用户划分缓存响应，请参阅 FastMCP 文档中的<a href="https://gofastmcp.com/clients/client#response-caching" target="_blank" rel="noopener noreferrer">响应缓存</a>。</p>
+<h2 id="protocol-eras">协议代际<a class="heading-anchor" href="#protocol-eras" aria-label="链接到本节">#</a></h2>
+<p>MCP 改变了客户端与服务器就各自支持的能力达成一致的方式。<strong>legacy</strong> 时代以 <code>initialize</code> 握手开启每一次连接；<strong>modern</strong> 时代（协议版本 <code>2026-07-28</code> 及之后）则通过探测服务器的 <code>server/discover</code> 端点来发现支持情况。FastMCP 会按连接协商时代，因此 LangChain 一侧无需知道某个服务器使用哪个时代。</p>
+<p>要让一个智能体同时持有来自不同时代服务器的工具，请为每个服务器分配各自的连接，使其保留服务器所支持的最佳时代，可以通过 <a href="#independent-connections-with-clientgroup"><code>ClientGroup</code></a> 或为每个服务器使用一个适配器来实现。预构建的 <code>fastmcp.Client</code> 通过其 <code>mode</code> 参数选择时代：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> fastmcp.client <span class="hljs-keyword">import</span> Client
+
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">agent_across_eras</span>(<span class="hljs-params">legacy_target, modern_target</span>):
+    <span class="hljs-comment"># MCP has two protocol eras. FastMCP negotiates per connection, so a</span>
+    <span class="hljs-comment"># separate adapter per server lets each keep the best era its own server</span>
+    <span class="hljs-comment"># supports. `mode="legacy"` pins the handshake era; `mode="auto"` (the</span>
+    <span class="hljs-comment"># default) negotiates the newest the server understands.</span>
+    legacy = Client(legacy_target, mode=<span class="hljs-string">"legacy"</span>)
+    modern = Client(modern_target, mode=<span class="hljs-string">"auto"</span>)
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> (
+        MCPAdapter(legacy) <span class="hljs-keyword">as</span> legacy_adapter,
+        MCPAdapter(modern) <span class="hljs-keyword">as</span> modern_adapter,
+    ):
+        tools = <span class="hljs-keyword">await</span> legacy_adapter.list_tools() + <span class="hljs-keyword">await</span> modern_adapter.list_tools()
+        <span class="hljs-keyword">return</span> create_agent(<span class="hljs-string">"claude-sonnet-5"</span>, tools)</code></pre>
+</div>
+<p>若改为将两个服务器作为单个 <code>MCPConfig</code> 集群传入，则会为集群中的所有内容协商出一个时代，把所有服务器降到任一成员所需的最旧时代。</p>
+<p>完整的协商规则见 FastMCP 文档中的 <a href="https://gofastmcp.com/clients/client#protocol-negotiation" target="_blank" rel="noopener noreferrer">协议协商</a>。</p>
+<h2 id="see-also">另请参阅<a class="heading-anchor" href="#see-also" aria-label="链接到本节">#</a></h2>
+<ul><li><p><a href="mcp-auth.html">身份验证</a>：Bearer、OAuth 和按用户凭据。</p></li><li><p><a href="https://docs.langchain.com/oss/python/langgraph/local-server" target="_blank" rel="noopener noreferrer">部署 LangGraph 服务器</a>：用于长期运行部署的图工厂。</p></li><li><p><a href="https://docs.langchain.com/langsmith/graph-rebuild" target="_blank" rel="noopener noreferrer">在运行时重建图</a>：Agent Server 的工厂形式，包括上下文管理器模式。</p></li><li><p><a href="https://gofastmcp.com/clients/client#connection-lifecycle" target="_blank" rel="noopener noreferrer">FastMCP 连接生命周期</a></p></li><li><p><a href="https://gofastmcp.com/integrations/mcp-json-configuration" target="_blank" rel="noopener noreferrer">MCP 配置格式</a></p></li></ul></article>
+        <nav class="pager" aria-label="翻页"><a class="prev" href="mcp-tools.html"><span class="pager-label">上一篇</span><span class="pager-title">MCP 工具</span></a><a class="next" href="mcp-auth.html"><span class="pager-label">下一篇</span><span class="pager-title">MCP 认证</span></a></nav>
+        <footer class="page-footer">
+          <p>本页为社区维护的简体中文翻译，不是 LangChain 官方文档。如与英文原文有出入，请以 <a href="https://docs.langchain.com/oss/python/langchain/mcp/connections" target="_blank" rel="noopener noreferrer">英文原文</a> 为准。</p>
+        </footer>
+      </div>
+    </main>
+    <aside class="toc" aria-label="本页目录"><div class="toc-inner"><div class="toc-title">本页目录</div><a class="toc-link level-2" href="#choose-a-pattern">选择一种模式</a><a class="toc-link level-2" href="#connection-lifecycle">连接生命周期</a><a class="toc-link level-3" href="#one-session-per-invocation">每次调用一个会话</a><a class="toc-link level-2" href="#multiple-servers">多个服务器</a><a class="toc-link level-3" href="#one-aggregate-connection-with-mcpconfig">使用 MCPConfig 建立一条聚合连接</a><a class="toc-link level-3" href="#independent-connections-with-clientgroup">使用 ClientGroup 建立独立连接</a><a class="toc-link level-2" href="#scale-a-deployment">扩展部署</a><a class="toc-link level-3" href="#shared-connection-pool">共享连接池</a><a class="toc-link level-2" href="#caching">缓存</a><a class="toc-link level-2" href="#protocol-eras">协议代际</a><a class="toc-link level-2" href="#see-also">另请参阅</a></div></aside>
+  </div>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p><strong>LangChain 中文文档</strong> · 社区翻译，非官方站点。内容基于 <a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener noreferrer">docs.langchain.com</a> 的 LangChain（Python）文档生成。</p>
+      <p>共 59 篇 · 代码示例保持英文原样 · 以英文原文为准</p>
+    </div>
+  </footer>
+  <button class="back-top" type="button" data-back-top aria-label="回到顶部">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script src="assets/docs.js" defer></script>
+</body>
+</html>

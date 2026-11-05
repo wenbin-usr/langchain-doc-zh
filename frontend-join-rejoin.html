@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>断开与重连流 | LangChain 中文文档</title>
+  <meta name="description" content="断开并重新连接到运行中的智能体流">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M12.5 19.5l7-7M10 22l-1 1a4 4 0 0 1-5.7-5.7l3.4-3.4a4 4 0 0 1 5.7 0M22 10l1-1a4 4 0 0 1 5.7 5.7l-3.4 3.4a4 4 0 0 1-5.7 0' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem('lc-docs-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();</script>
+  <link rel="stylesheet" href="assets/docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div id="progress" data-progress></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="打开文档导航" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="LangChain 中文文档首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9.4 14.6l5.2-5.2M7.1 16.9l-1.4 1.4a3.7 3.7 0 0 1-5.2-5.2l3.2-3.2a3.7 3.7 0 0 1 5.2 0M16.9 7.1l1.4-1.4a3.7 3.7 0 0 1 5.2 5.2l-3.2 3.2a3.7 3.7 0 0 1-5.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text">LangChain <span class="brand-sub">中文文档</span></span>
+      </a>
+      <nav class="top-nav" aria-label="主导航">
+        <a class="top-link active" href="index.html" aria-current="page">LangChain</a>
+        <a class="top-link" href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a>
+        <a class="top-link" href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener noreferrer">LangSmith</a>
+        <a class="top-link" href="https://reference.langchain.com/python/langchain/" target="_blank" rel="noopener noreferrer">API 参考</a>
+      </nav>
+      <div class="header-actions">
+        <a class="source-link" href="https://docs.langchain.com/oss/python/langchain/frontend/join-rejoin" target="_blank" rel="noopener noreferrer">English <span aria-hidden="true">↗</span></a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="切换到深色模式" aria-pressed="false" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v1.6M10 16.2v1.6M2.2 10h1.6M16.2 10h1.6M4.5 4.5l1.1 1.1M14.4 14.4l1.1 1.1M15.5 4.5l-1.1 1.1M5.6 14.4l-1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.4 12.1A6.6 6.6 0 0 1 7.9 3.6 6.8 6.8 0 1 0 16.4 12.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" id="sidebar" aria-label="文档导航">
+      <div class="sidebar-head">
+        <div class="sidebar-title">文档目录</div>
+        <div class="nav-search">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.2" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="搜索页面…" aria-label="搜索文档页面" data-nav-search autocomplete="off" spellcheck="false">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+      </div>
+      <div class="sidebar-scroll"><nav class="nav" id="doc-nav" aria-label="文档页面"><div class="nav-home"><a class="nav-link" href="index.html" data-search="LangChain 概览 LangChain overview index  "><span class="nav-dot" aria-hidden="true"></span><span>LangChain 概览</span></a></div><section class="nav-section" data-nav-section><div class="nav-section-title">开始使用</div><a class="nav-link" href="install.html" data-search="安装 LangChain Install LangChain install Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>安装 LangChain</span></a><a class="nav-link" href="quickstart.html" data-search="快速开始 Quickstart quickstart Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>快速开始</span></a><a class="nav-link" href="philosophy.html" data-search="设计理念 Philosophy philosophy Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>设计理念</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">核心组件</div><a class="nav-link" href="agents.html" data-search="智能体 Agents agents Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>智能体</span></a><a class="nav-link" href="models.html" data-search="模型 Models models Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>模型</span></a><a class="nav-link" href="messages.html" data-search="消息 Messages messages Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>消息</span></a><a class="nav-link" href="tools.html" data-search="工具 Tools tools Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>工具</span></a><a class="nav-link" href="short-term-memory.html" data-search="短期记忆 Short-term memory short-term-memory Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>短期记忆</span></a><a class="nav-link" href="event-streaming.html" data-search="事件流 Event streaming event-streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>事件流</span></a><a class="nav-link" href="streaming.html" data-search="流式传输 Streaming streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>流式传输</span></a><a class="nav-link" href="structured-output.html" data-search="结构化输出 Structured output structured-output Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>结构化输出</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">中间件</div><a class="nav-link" href="middleware-overview.html" data-search="中间件概览 Middleware overview middleware-overview Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>中间件概览</span></a><a class="nav-link" href="middleware-built-in.html" data-search="预置中间件 Prebuilt middleware middleware-built-in Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>预置中间件</span></a><a class="nav-link" href="middleware-custom.html" data-search="自定义中间件 Custom middleware middleware-custom Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>自定义中间件</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">前端</div><a class="nav-link" href="frontend-overview.html" data-search="前端概览 Overview frontend-overview Frontend 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端概览</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">模式</div><a class="nav-link" href="frontend-markdown-messages.html" data-search="Markdown 消息 Markdown messages frontend-markdown-messages Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>Markdown 消息</span></a><a class="nav-link" href="frontend-tool-calling.html" data-search="工具调用 Tool calling frontend-tool-calling Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>工具调用</span></a><a class="nav-link" href="frontend-headless-tools.html" data-search="无头工具 Headless tools frontend-headless-tools Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>无头工具</span></a><a class="nav-link" href="frontend-human-in-the-loop.html" data-search="前端人在回路 Human-in-the-Loop frontend-human-in-the-loop Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端人在回路</span></a><a class="nav-link" href="frontend-branching-chat.html" data-search="分支对话 Branching chat frontend-branching-chat Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>分支对话</span></a><a class="nav-link" href="frontend-reasoning-tokens.html" data-search="推理 token Reasoning tokens frontend-reasoning-tokens Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>推理 token</span></a><a class="nav-link" href="frontend-structured-output.html" data-search="前端结构化输出 Structured output frontend-structured-output Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端结构化输出</span></a><a class="nav-link" href="frontend-message-queues.html" data-search="消息队列 Message queues frontend-message-queues Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>消息队列</span></a><a class="nav-link active" href="frontend-join-rejoin.html" data-search="断开与重连流 Join &amp; rejoin streams frontend-join-rejoin Frontend Patterns 前端 前端" aria-current="page"><span class="nav-dot" aria-hidden="true"></span><span>断开与重连流</span></a><a class="nav-link" href="frontend-time-travel.html" data-search="时间旅行 Time travel frontend-time-travel Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>时间旅行</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">生成式 UI</div><a class="nav-link" href="frontend-generative-ui-overview.html" data-search="生成式 UI 概览 Generative UI overview frontend-generative-ui-overview Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>生成式 UI 概览</span></a><a class="nav-link" href="frontend-controlled-generative-ui.html" data-search="受控生成式 UI Controlled generative UI frontend-controlled-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>受控生成式 UI</span></a><a class="nav-link" href="frontend-declarative-generative-ui.html" data-search="声明式生成式 UI Declarative generative UI frontend-declarative-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>声明式生成式 UI</span></a><a class="nav-link" href="frontend-open-ended-generative-ui.html" data-search="开放式生成式 UI Open-ended generative UI frontend-open-ended-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>开放式生成式 UI</span></a></div></div><div class="nav-subgroup"><div class="nav-subgroup-title">集成</div><a class="nav-link" href="frontend-integrations-overview.html" data-search="集成概览 Overview frontend-integrations-overview Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>集成概览</span></a><a class="nav-link" href="frontend-integrations-copilotkit.html" data-search="CopilotKit CopilotKit frontend-integrations-copilotkit Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>CopilotKit</span></a><a class="nav-link" href="frontend-integrations-ai-elements.html" data-search="AI Elements AI Elements frontend-integrations-ai-elements Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>AI Elements</span></a><a class="nav-link" href="frontend-integrations-assistant-ui.html" data-search="assistant-ui assistant-ui frontend-integrations-assistant-ui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>assistant-ui</span></a><a class="nav-link" href="frontend-integrations-openui.html" data-search="OpenUI OpenUI frontend-integrations-openui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>OpenUI</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">高级用法</div><a class="nav-link" href="guardrails.html" data-search="护栏 Guardrails guardrails Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>护栏</span></a><a class="nav-link" href="runtime.html" data-search="运行时 Runtime runtime Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>运行时</span></a><a class="nav-link" href="context-engineering.html" data-search="智能体中的上下文工程 Context engineering in agents context-engineering Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>智能体中的上下文工程</span></a><a class="nav-link" href="human-in-the-loop.html" data-search="人在回路 Human-in-the-loop human-in-the-loop Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>人在回路</span></a><a class="nav-link" href="retrieval.html" data-search="检索 Retrieval retrieval Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>检索</span></a><a class="nav-link" href="long-term-memory.html" data-search="长期记忆 Long-term memory long-term-memory Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>长期记忆</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">MCP</div><a class="nav-link" href="mcp.html" data-search="MCP 概述 Model Context Protocol (MCP) mcp Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 概述</span></a><a class="nav-link" href="mcp-tools.html" data-search="MCP 工具 Tools mcp-tools Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 工具</span></a><a class="nav-link" href="mcp-connections.html" data-search="MCP 连接 Connections mcp-connections Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 连接</span></a><a class="nav-link" href="mcp-auth.html" data-search="MCP 认证 Authentication mcp-auth Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 认证</span></a></div><div class="nav-subgroup"><div class="nav-subgroup-title">多智能体</div><a class="nav-link" href="multi-agent.html" data-search="多智能体 Multi-agent multi-agent Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>多智能体</span></a><a class="nav-link" href="multi-agent-subagents.html" data-search="子智能体 Subagents multi-agent-subagents Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>子智能体</span></a><a class="nav-link" href="multi-agent-handoffs.html" data-search="交接 Handoffs multi-agent-handoffs Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>交接</span></a><a class="nav-link" href="multi-agent-skills.html" data-search="技能 Skills multi-agent-skills Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>技能</span></a><a class="nav-link" href="multi-agent-router.html" data-search="路由器 Router multi-agent-router Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>路由器</span></a><a class="nav-link" href="multi-agent-custom-workflow.html" data-search="自定义工作流 Custom workflow multi-agent-custom-workflow Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>自定义工作流</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">智能体开发</div><a class="nav-link" href="studio.html" data-search="LangSmith Studio LangSmith Studio studio Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith Studio</span></a><a class="nav-link" href="ui.html" data-search="Agent Chat UI Agent Chat UI ui Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>Agent Chat UI</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">测试</div><a class="nav-link" href="test.html" data-search="测试 Test test Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>测试</span></a><a class="nav-link" href="test-unit-testing.html" data-search="单元测试 Unit testing test-unit-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>单元测试</span></a><a class="nav-link" href="test-integration-testing.html" data-search="集成测试 Integration testing test-integration-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>集成测试</span></a><a class="nav-link" href="test-evals.html" data-search="智能体评估 Agent Evals test-evals Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>智能体评估</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">生产</div><a class="nav-link" href="deploy.html" data-search="部署 Deployment deploy Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>部署</span></a><a class="nav-link" href="observability.html" data-search="LangSmith 可观测性 LangSmith Observability observability Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith 可观测性</span></a></section><div class="nav-empty" data-nav-empty hidden>没有匹配的页面</div></nav></div>
+      <div class="sidebar-foot"><strong>59 篇</strong> · 社区翻译</div>
+    </aside>
+    <div class="sidebar-overlay" data-sidebar-overlay></div>
+    <main class="main" id="main">
+      <div class="content-wrap">
+        <nav class="breadcrumbs" aria-label="面包屑"><a href="index.html">LangChain</a><span class="sep">/</span><span>前端</span><span class="sep">/</span><span>模式</span><span class="sep">/</span><span class="current">断开与重连流</span></nav>
+        <header class="page-header">
+          <h1>断开与重连流</h1>
+          <div class="page-lead">断开并重新连接到运行中的智能体流</div>
+          <div class="page-meta">
+            <span>约 5 分钟</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>社区翻译</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <a href="https://docs.langchain.com/oss/python/langchain/frontend/join-rejoin" target="_blank" rel="noopener noreferrer">查看英文原文 ↗</a>
+          </div>
+        </header>
+        <article class="content"><p>加入与重新加入让你可以在不停止智能体的情况下断开与运行中的智能体流的连接，之后再重新连接。客户端离开期间，智能体仍在服务端继续执行，而你则可以从上次中断的地方精确地继续接收流。</p>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>此功能需要 <a href="https://docs.langchain.com/oss/python/langgraph/local-server" target="_blank" rel="noopener noreferrer">LangGraph Agent Server</a>。要使用此模式，可在本地用 <code>langgraph dev</code> 运行智能体，或<a href="https://docs.langchain.com/langsmith/deployment" target="_blank" rel="noopener noreferrer">将其部署到 LangSmith</a>。</p></div>
+</aside>
+<h2 id="why-join-and-rejoin">为什么需要加入与重新加入？<a class="heading-anchor" href="#why-join-and-rejoin" aria-label="链接到本节">#</a></h2>
+<p>传统的流式传输 API 将客户端与服务端紧密耦合：客户端一旦断开，流就会丢失。加入与重新加入打破了这种耦合，从而支持几种重要的模式：</p>
+<ul><li><p><strong>网络中断</strong>：移动用户在蜂窝基站或 Wi-Fi 网络之间切换时可以无缝恢复</p></li><li><p><strong>页面导航</strong>：用户离开聊天页面后再返回，不会丢失进度</p></li><li><p><strong>移动端进入后台</strong>：被操作系统挂起的应用在回到前台时可以重新加入流</p></li><li><p><strong>长时间运行的任务</strong>：智能体执行耗时数分钟的操作（研究、代码生成、数据分析）时，用户无需一直保持页面打开</p></li><li><p><strong>多设备交接</strong>：在手机上开始对话，在桌面端重新加入</p></li></ul>
+<h2 id="core-concepts">核心概念<a class="heading-anchor" href="#core-concepts" aria-label="链接到本节">#</a></h2>
+<p>加入/重新加入模式涉及三个关键机制：</p>
+<div class="table-wrap"><table><thead><tr><th>方法 / 选项</th><th>用途</th></tr></thead><tbody><tr><td><code>threadId</code></td><td>将流绑定到要观测的 LangGraph 线程</td></tr><tr><td><code>onThreadId</code></td><td>持久化新建的线程 ID，以便重新挂载时可以重新连接</td></tr><tr><td><code>stream.disconnect()</code></td><td>在客户端离开流，同时智能体继续在服务端运行</td></tr><tr><td>使用相同的 <code>threadId</code> 重新挂载</td><td>重新附加到该线程正在进行中的工作</td></tr></tbody></table></div>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p><strong>加入/重新加入使用 <code>stream.disconnect()</code>，而不是 <code>stream.stop()</code>。</strong>默认情况下，<code>stream.stop()</code> <strong>会取消当前活动运行</strong>：它既断开客户端<em>又</em>在服务端取消该运行。要进行加入/重新加入，请调用 <code>stream.disconnect()</code>（<code>stop({ cancel: false })</code> 的别名），这样在你离开期间智能体仍会继续处理。</p>
+<p>要从应用代码中显式取消执行，请使用 <code>stream.stop()</code> 或 <a href="https://reference.langchain.com/python/langgraph-sdk/_async/runs/RunsClient/cancel" target="_blank" rel="noopener noreferrer"><code>client.runs.cancel</code></a>。</p></div>
+</aside>
+<h2 id="setting-up-usestream">设置 <code>useStream</code><a class="heading-anchor" href="#setting-up-usestream" aria-label="链接到本节">#</a></h2>
+<p>关键的设置步骤是持久化 <code>threadId</code>。当组件使用相同的线程 ID 重新挂载时，流会附加到该线程的当前状态以及任何正在进行的运行。</p>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>代码示例使用 <code>useStream&lt;typeof myAgent&gt;</code> 实现类型安全的流状态。参见针对 <a href="frontend-overview.html#type-inference">Python</a> 或 <a href="https://docs.langchain.com/oss/javascript/langchain/frontend/overview#type-inference" target="_blank" rel="noopener noreferrer">JavaScript</a> 后端的类型推断。</p></div>
+</aside>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">React</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { useStream } <span class="hljs-keyword">from</span> <span class="hljs-string">"@langchain/react"</span>;
+<span class="hljs-keyword">import</span> { useCallback, useState } <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">Chat</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> [connected, setConnected] = <span class="hljs-title function_">useState</span>(<span class="hljs-literal">true</span>);
+  <span class="hljs-keyword">const</span> [mountKey, setMountKey] = <span class="hljs-title function_">useState</span>(<span class="hljs-number">0</span>);
+  <span class="hljs-keyword">const</span> [threadId, setThreadId] = useState&lt;<span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>&gt;(
+    <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">sessionStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">"activeThreadId"</span>),
+  );
+
+  <span class="hljs-keyword">const</span> stream = useStream&lt;<span class="hljs-keyword">typeof</span> myAgent&gt;({
+    <span class="hljs-attr">apiUrl</span>: <span class="hljs-string">"http://localhost:2024"</span>,
+    <span class="hljs-attr">assistantId</span>: <span class="hljs-string">"join_rejoin"</span>,
+    threadId,
+    <span class="hljs-title function_">onThreadId</span>(<span class="hljs-params">id</span>) {
+      <span class="hljs-title function_">setThreadId</span>(id);
+      <span class="hljs-keyword">if</span> (id) <span class="hljs-variable language_">sessionStorage</span>.<span class="hljs-title function_">setItem</span>(<span class="hljs-string">"activeThreadId"</span>, id);
+    },
+  });
+
+  <span class="hljs-keyword">const</span> disconnect = <span class="hljs-title function_">useCallback</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-built_in">void</span> stream.<span class="hljs-title function_">disconnect</span>();
+    <span class="hljs-title function_">setConnected</span>(<span class="hljs-literal">false</span>);
+  }, [stream]);
+
+  <span class="hljs-keyword">const</span> rejoin = <span class="hljs-title function_">useCallback</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">setMountKey</span>(<span class="hljs-function">(<span class="hljs-params">key</span>) =&gt;</span> key + <span class="hljs-number">1</span>);
+    <span class="hljs-title function_">setConnected</span>(<span class="hljs-literal">true</span>);
+  }, []);
+
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{mountKey}</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">ConnectionStatus</span> <span class="hljs-attr">connected</span>=<span class="hljs-string">{connected}</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">MessageList</span> <span class="hljs-attr">messages</span>=<span class="hljs-string">{stream.messages}</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">ChatControls</span>
+        <span class="hljs-attr">stream</span>=<span class="hljs-string">{stream}</span>
+        <span class="hljs-attr">threadId</span>=<span class="hljs-string">{threadId}</span>
+        <span class="hljs-attr">connected</span>=<span class="hljs-string">{connected}</span>
+        <span class="hljs-attr">onDisconnect</span>=<span class="hljs-string">{disconnect}</span>
+        <span class="hljs-attr">onRejoin</span>=<span class="hljs-string">{rejoin}</span>
+      /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Vue</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-vue">&lt;script setup lang="ts"&gt;
+import { useStream } from "@langchain/vue";
+import { ref } from "vue";
+
+const connected = ref(true);
+const mountKey = ref(0);
+const threadId = ref&lt;string | null&gt;(sessionStorage.getItem("activeThreadId"));
+
+const stream = useStream&lt;typeof myAgent&gt;({
+  apiUrl: "http://localhost:2024",
+  assistantId: "join_rejoin",
+  threadId,
+  onThreadId(id) {
+    threadId.value = id;
+    if (id) sessionStorage.setItem("activeThreadId", id);
+  },
+});
+
+function disconnect() {
+  void stream.disconnect();
+  connected.value = false;
+}
+
+function rejoin() {
+  mountKey.value += 1;
+  connected.value = true;
+}
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;div :key="mountKey"&gt;
+    &lt;ConnectionStatus :connected="connected" /&gt;
+    &lt;MessageList :messages="stream.messages" /&gt;
+    &lt;ChatControls
+      :stream="stream"
+      :threadId="threadId"
+      :connected="connected"
+      @disconnect="disconnect"
+      @rejoin="rejoin"
+    /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Svelte</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-svelte">&lt;script lang="ts"&gt;
+  import { useStream } from "@langchain/svelte";
+
+  let connected = $state(true);
+  let mountKey = $state(0);
+  let threadId = $state&lt;string | null&gt;(sessionStorage.getItem("activeThreadId"));
+
+  const stream = useStream&lt;typeof myAgent&gt;({
+    apiUrl: "http://localhost:2024",
+    assistantId: "join_rejoin",
+    threadId: () =&gt; threadId,
+    onThreadId(id) {
+      threadId = id;
+      if (id) sessionStorage.setItem("activeThreadId", id);
+    },
+  });
+
+  function disconnect() {
+    void stream.disconnect();
+    connected = false;
+  }
+
+  function rejoin() {
+    mountKey += 1;
+    connected = true;
+  }
+&lt;/script&gt;
+
+&lt;div key={mountKey}&gt;
+  &lt;ConnectionStatus {connected} /&gt;
+  &lt;MessageList messages={stream.messages} /&gt;
+  &lt;ChatControls
+    {threadId}
+    {connected}
+    onDisconnect={disconnect}
+    onRejoin={rejoin}
+  /&gt;
+&lt;/div&gt;</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Angular</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span>, signal } <span class="hljs-keyword">from</span> <span class="hljs-string">"@angular/core"</span>;
+<span class="hljs-keyword">import</span> { injectStream } <span class="hljs-keyword">from</span> <span class="hljs-string">"@langchain/angular"</span>;
+
+<span class="hljs-meta">@Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">"app-chat"</span>,
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
+    &lt;connection-status [connected]="connected()" /&gt;
+    &lt;message-list [messages]="stream.messages()" /&gt;
+    &lt;chat-controls
+      [stream]="stream"
+      [threadId]="threadId()"
+      [connected]="connected()"
+      (disconnect)="disconnect()"
+      (rejoin)="rejoin()"
+    /&gt;
+  `</span>,
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ChatComponent</span> {
+  threadId = signal&lt;<span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>&gt;(<span class="hljs-variable language_">sessionStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">"activeThreadId"</span>));
+  connected = <span class="hljs-title function_">signal</span>(<span class="hljs-literal">true</span>);
+  mountKey = <span class="hljs-title function_">signal</span>(<span class="hljs-number">0</span>);
+
+  stream = injectStream&lt;<span class="hljs-keyword">typeof</span> myAgent&gt;({
+    <span class="hljs-attr">apiUrl</span>: <span class="hljs-string">"http://localhost:2024"</span>,
+    <span class="hljs-attr">assistantId</span>: <span class="hljs-string">"join_rejoin"</span>,
+    <span class="hljs-attr">threadId</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">threadId</span>,
+    <span class="hljs-attr">onThreadId</span>: <span class="hljs-function">(<span class="hljs-params">id</span>) =&gt;</span> {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">threadId</span>.<span class="hljs-title function_">set</span>(id);
+      <span class="hljs-keyword">if</span> (id) <span class="hljs-variable language_">sessionStorage</span>.<span class="hljs-title function_">setItem</span>(<span class="hljs-string">"activeThreadId"</span>, id);
+    },
+  });
+
+  <span class="hljs-title function_">disconnect</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-built_in">void</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">stream</span>.<span class="hljs-title function_">disconnect</span>();
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">connected</span>.<span class="hljs-title function_">set</span>(<span class="hljs-literal">false</span>);
+  }
+
+  <span class="hljs-title function_">rejoin</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">mountKey</span>.<span class="hljs-title function_">update</span>(<span class="hljs-function">(<span class="hljs-params">key</span>) =&gt;</span> key + <span class="hljs-number">1</span>);
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">connected</span>.<span class="hljs-title function_">set</span>(<span class="hljs-literal">true</span>);
+  }
+}</code></pre>
+</div>
+<h2 id="submitting-messages">提交消息<a class="heading-anchor" href="#submitting-messages" aria-label="链接到本节">#</a></h2>
+<p>正常提交消息即可。正是线程 ID 的绑定，使后续的重新挂载能够重新连接到同一对话：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">typescript</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript">stream.<span class="hljs-title function_">submit</span>({ <span class="hljs-attr">messages</span>: [{ <span class="hljs-attr">type</span>: <span class="hljs-string">"human"</span>, <span class="hljs-attr">content</span>: text }] });</code></pre>
+</div>
+<h2 id="disconnecting-from-a-stream">断开与流的连接<a class="heading-anchor" href="#disconnecting-from-a-stream" aria-label="链接到本节">#</a></h2>
+<p>调用 <code>stream.disconnect()</code> 离开流而不取消运行。智能体会继续在服务端处理。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">typescript</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript"><span class="hljs-keyword">await</span> stream.<span class="hljs-title function_">disconnect</span>();
+<span class="hljs-comment">// equivalent to: await stream.stop({ cancel: false })</span></code></pre>
+</div>
+<p>此处<strong>不要</strong>使用 <code>stream.stop()</code> —— 它默认会在服务端取消运行。</p>
+<p>调用 <code>disconnect()</code> 之后：</p>
+<ul><li><p><code>stream.isLoading</code> 变为 <code>false</code></p></li><li><p>你自己的 <code>connected</code> 标志也应变为 <code>false</code></p></li><li><p>消息列表会保留截至断开时刻收到的所有消息</p></li><li><p>智能体继续在服务端运行</p></li><li><p>在重新加入之前不会收到新消息</p></li></ul>
+<h2 id="rejoining-a-stream">重新加入流<a class="heading-anchor" href="#rejoining-a-stream" aria-label="链接到本节">#</a></h2>
+<p>使用保存的线程 ID 重新挂载流消费组件即可重新连接。在 React 中，示例会递增一个 <code>mountKey</code>；在其他框架中，请使用等效的重新挂载或条件渲染模式：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">typescript</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript"><span class="hljs-title function_">setMountKey</span>(<span class="hljs-function">(<span class="hljs-params">key</span>) =&gt;</span> key + <span class="hljs-number">1</span>);
+<span class="hljs-title function_">setConnected</span>(<span class="hljs-literal">true</span>);</code></pre>
+</div>
+<p>重新加入之后：</p>
+<ul><li><p><code>connected</code> 变为 <code>true</code></p></li><li><p>断开期间生成的任何消息都会被送达</p></li><li><p>新的流式消息恢复实时传输</p></li><li><p>如果智能体仍在运行，<code>stream.isLoading</code> 会变为 <code>true</code>；如果它已经结束，你会立即收到最终状态</p></li></ul>
+<h2 id="best-practices">最佳实践<a class="heading-anchor" href="#best-practices" aria-label="链接到本节">#</a></h2>
+<ul><li><p><strong>加入/重新加入用 <code>disconnect()</code>，取消用 <code>stop()</code></strong>：离开页面或应用进入后台时应调用 <code>stream.disconnect()</code>。面向用户的“停止”或“取消”按钮应调用 <code>stream.stop()</code>（或 <a href="https://reference.langchain.com/python/langgraph-sdk/_async/runs/RunsClient/cancel" target="_blank" rel="noopener noreferrer"><code>client.runs.cancel</code></a>）。</p></li><li><p><strong>始终保存线程 ID</strong>：没有它就无法重新加入。为增强可靠性，请同时使用组件状态和持久化存储。</p></li><li><p><strong>显示清晰的连接状态</strong>：用户应始终知道自己是正在接收实时更新，还是在查看快照。</p></li><li><p><strong>在可见性变化时自动重新加入</strong>：使用 Page Visibility API 在用户返回到标签页时自动重新加入。</p></li><li><p><strong>设置合理的超时</strong>：如果重新加入尝试耗时过长，则回退为获取线程历史记录。</p></li><li><p><strong>清理过期线程</strong>：当用户重新开始或后端报告该线程不可用时，移除已持久化的线程 ID。</p></li></ul></article>
+        <nav class="pager" aria-label="翻页"><a class="prev" href="frontend-message-queues.html"><span class="pager-label">上一篇</span><span class="pager-title">消息队列</span></a><a class="next" href="frontend-time-travel.html"><span class="pager-label">下一篇</span><span class="pager-title">时间旅行</span></a></nav>
+        <footer class="page-footer">
+          <p>本页为社区维护的简体中文翻译，不是 LangChain 官方文档。如与英文原文有出入，请以 <a href="https://docs.langchain.com/oss/python/langchain/frontend/join-rejoin" target="_blank" rel="noopener noreferrer">英文原文</a> 为准。</p>
+        </footer>
+      </div>
+    </main>
+    <aside class="toc" aria-label="本页目录"><div class="toc-inner"><div class="toc-title">本页目录</div><a class="toc-link level-2" href="#why-join-and-rejoin">为什么需要加入与重新加入？</a><a class="toc-link level-2" href="#core-concepts">核心概念</a><a class="toc-link level-2" href="#setting-up-usestream">设置 useStream</a><a class="toc-link level-2" href="#submitting-messages">提交消息</a><a class="toc-link level-2" href="#disconnecting-from-a-stream">断开与流的连接</a><a class="toc-link level-2" href="#rejoining-a-stream">重新加入流</a><a class="toc-link level-2" href="#best-practices">最佳实践</a></div></aside>
+  </div>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p><strong>LangChain 中文文档</strong> · 社区翻译，非官方站点。内容基于 <a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener noreferrer">docs.langchain.com</a> 的 LangChain（Python）文档生成。</p>
+      <p>共 59 篇 · 代码示例保持英文原样 · 以英文原文为准</p>
+    </div>
+  </footer>
+  <button class="back-top" type="button" data-back-top aria-label="回到顶部">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script src="assets/docs.js" defer></script>
+</body>
+</html>

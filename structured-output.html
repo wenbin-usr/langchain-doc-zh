@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>结构化输出 | LangChain 中文文档</title>
+  <meta name="description" content="结构化输出让智能体能够以特定且可预测的格式返回数据。你无需解析自然语言响应，而是直接获得 JSON 对象、Pydantic 模型或数据类形式的结构化数据，应用程序可以直接使用。">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M12.5 19.5l7-7M10 22l-1 1a4 4 0 0 1-5.7-5.7l3.4-3.4a4 4 0 0 1 5.7 0M22 10l1-1a4 4 0 0 1 5.7 5.7l-3.4 3.4a4 4 0 0 1-5.7 0' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem('lc-docs-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();</script>
+  <link rel="stylesheet" href="assets/docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div id="progress" data-progress></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="打开文档导航" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="LangChain 中文文档首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9.4 14.6l5.2-5.2M7.1 16.9l-1.4 1.4a3.7 3.7 0 0 1-5.2-5.2l3.2-3.2a3.7 3.7 0 0 1 5.2 0M16.9 7.1l1.4-1.4a3.7 3.7 0 0 1 5.2 5.2l-3.2 3.2a3.7 3.7 0 0 1-5.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text">LangChain <span class="brand-sub">中文文档</span></span>
+      </a>
+      <nav class="top-nav" aria-label="主导航">
+        <a class="top-link active" href="index.html" aria-current="page">LangChain</a>
+        <a class="top-link" href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a>
+        <a class="top-link" href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener noreferrer">LangSmith</a>
+        <a class="top-link" href="https://reference.langchain.com/python/langchain/" target="_blank" rel="noopener noreferrer">API 参考</a>
+      </nav>
+      <div class="header-actions">
+        <a class="source-link" href="https://docs.langchain.com/oss/python/langchain/structured-output" target="_blank" rel="noopener noreferrer">English <span aria-hidden="true">↗</span></a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="切换到深色模式" aria-pressed="false" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v1.6M10 16.2v1.6M2.2 10h1.6M16.2 10h1.6M4.5 4.5l1.1 1.1M14.4 14.4l1.1 1.1M15.5 4.5l-1.1 1.1M5.6 14.4l-1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.4 12.1A6.6 6.6 0 0 1 7.9 3.6 6.8 6.8 0 1 0 16.4 12.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" id="sidebar" aria-label="文档导航">
+      <div class="sidebar-head">
+        <div class="sidebar-title">文档目录</div>
+        <div class="nav-search">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.2" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="搜索页面…" aria-label="搜索文档页面" data-nav-search autocomplete="off" spellcheck="false">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+      </div>
+      <div class="sidebar-scroll"><nav class="nav" id="doc-nav" aria-label="文档页面"><div class="nav-home"><a class="nav-link" href="index.html" data-search="LangChain 概览 LangChain overview index  "><span class="nav-dot" aria-hidden="true"></span><span>LangChain 概览</span></a></div><section class="nav-section" data-nav-section><div class="nav-section-title">开始使用</div><a class="nav-link" href="install.html" data-search="安装 LangChain Install LangChain install Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>安装 LangChain</span></a><a class="nav-link" href="quickstart.html" data-search="快速开始 Quickstart quickstart Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>快速开始</span></a><a class="nav-link" href="philosophy.html" data-search="设计理念 Philosophy philosophy Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>设计理念</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">核心组件</div><a class="nav-link" href="agents.html" data-search="智能体 Agents agents Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>智能体</span></a><a class="nav-link" href="models.html" data-search="模型 Models models Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>模型</span></a><a class="nav-link" href="messages.html" data-search="消息 Messages messages Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>消息</span></a><a class="nav-link" href="tools.html" data-search="工具 Tools tools Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>工具</span></a><a class="nav-link" href="short-term-memory.html" data-search="短期记忆 Short-term memory short-term-memory Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>短期记忆</span></a><a class="nav-link" href="event-streaming.html" data-search="事件流 Event streaming event-streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>事件流</span></a><a class="nav-link" href="streaming.html" data-search="流式传输 Streaming streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>流式传输</span></a><a class="nav-link active" href="structured-output.html" data-search="结构化输出 Structured output structured-output Core components 核心组件 核心组件" aria-current="page"><span class="nav-dot" aria-hidden="true"></span><span>结构化输出</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">中间件</div><a class="nav-link" href="middleware-overview.html" data-search="中间件概览 Middleware overview middleware-overview Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>中间件概览</span></a><a class="nav-link" href="middleware-built-in.html" data-search="预置中间件 Prebuilt middleware middleware-built-in Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>预置中间件</span></a><a class="nav-link" href="middleware-custom.html" data-search="自定义中间件 Custom middleware middleware-custom Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>自定义中间件</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">前端</div><a class="nav-link" href="frontend-overview.html" data-search="前端概览 Overview frontend-overview Frontend 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端概览</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">模式</div><a class="nav-link" href="frontend-markdown-messages.html" data-search="Markdown 消息 Markdown messages frontend-markdown-messages Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>Markdown 消息</span></a><a class="nav-link" href="frontend-tool-calling.html" data-search="工具调用 Tool calling frontend-tool-calling Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>工具调用</span></a><a class="nav-link" href="frontend-headless-tools.html" data-search="无头工具 Headless tools frontend-headless-tools Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>无头工具</span></a><a class="nav-link" href="frontend-human-in-the-loop.html" data-search="前端人在回路 Human-in-the-Loop frontend-human-in-the-loop Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端人在回路</span></a><a class="nav-link" href="frontend-branching-chat.html" data-search="分支对话 Branching chat frontend-branching-chat Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>分支对话</span></a><a class="nav-link" href="frontend-reasoning-tokens.html" data-search="推理 token Reasoning tokens frontend-reasoning-tokens Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>推理 token</span></a><a class="nav-link" href="frontend-structured-output.html" data-search="前端结构化输出 Structured output frontend-structured-output Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端结构化输出</span></a><a class="nav-link" href="frontend-message-queues.html" data-search="消息队列 Message queues frontend-message-queues Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>消息队列</span></a><a class="nav-link" href="frontend-join-rejoin.html" data-search="断开与重连流 Join &amp; rejoin streams frontend-join-rejoin Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>断开与重连流</span></a><a class="nav-link" href="frontend-time-travel.html" data-search="时间旅行 Time travel frontend-time-travel Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>时间旅行</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">生成式 UI</div><a class="nav-link" href="frontend-generative-ui-overview.html" data-search="生成式 UI 概览 Generative UI overview frontend-generative-ui-overview Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>生成式 UI 概览</span></a><a class="nav-link" href="frontend-controlled-generative-ui.html" data-search="受控生成式 UI Controlled generative UI frontend-controlled-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>受控生成式 UI</span></a><a class="nav-link" href="frontend-declarative-generative-ui.html" data-search="声明式生成式 UI Declarative generative UI frontend-declarative-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>声明式生成式 UI</span></a><a class="nav-link" href="frontend-open-ended-generative-ui.html" data-search="开放式生成式 UI Open-ended generative UI frontend-open-ended-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>开放式生成式 UI</span></a></div></div><div class="nav-subgroup"><div class="nav-subgroup-title">集成</div><a class="nav-link" href="frontend-integrations-overview.html" data-search="集成概览 Overview frontend-integrations-overview Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>集成概览</span></a><a class="nav-link" href="frontend-integrations-copilotkit.html" data-search="CopilotKit CopilotKit frontend-integrations-copilotkit Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>CopilotKit</span></a><a class="nav-link" href="frontend-integrations-ai-elements.html" data-search="AI Elements AI Elements frontend-integrations-ai-elements Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>AI Elements</span></a><a class="nav-link" href="frontend-integrations-assistant-ui.html" data-search="assistant-ui assistant-ui frontend-integrations-assistant-ui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>assistant-ui</span></a><a class="nav-link" href="frontend-integrations-openui.html" data-search="OpenUI OpenUI frontend-integrations-openui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>OpenUI</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">高级用法</div><a class="nav-link" href="guardrails.html" data-search="护栏 Guardrails guardrails Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>护栏</span></a><a class="nav-link" href="runtime.html" data-search="运行时 Runtime runtime Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>运行时</span></a><a class="nav-link" href="context-engineering.html" data-search="智能体中的上下文工程 Context engineering in agents context-engineering Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>智能体中的上下文工程</span></a><a class="nav-link" href="human-in-the-loop.html" data-search="人在回路 Human-in-the-loop human-in-the-loop Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>人在回路</span></a><a class="nav-link" href="retrieval.html" data-search="检索 Retrieval retrieval Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>检索</span></a><a class="nav-link" href="long-term-memory.html" data-search="长期记忆 Long-term memory long-term-memory Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>长期记忆</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">MCP</div><a class="nav-link" href="mcp.html" data-search="MCP 概述 Model Context Protocol (MCP) mcp Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 概述</span></a><a class="nav-link" href="mcp-tools.html" data-search="MCP 工具 Tools mcp-tools Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 工具</span></a><a class="nav-link" href="mcp-connections.html" data-search="MCP 连接 Connections mcp-connections Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 连接</span></a><a class="nav-link" href="mcp-auth.html" data-search="MCP 认证 Authentication mcp-auth Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 认证</span></a></div><div class="nav-subgroup"><div class="nav-subgroup-title">多智能体</div><a class="nav-link" href="multi-agent.html" data-search="多智能体 Multi-agent multi-agent Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>多智能体</span></a><a class="nav-link" href="multi-agent-subagents.html" data-search="子智能体 Subagents multi-agent-subagents Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>子智能体</span></a><a class="nav-link" href="multi-agent-handoffs.html" data-search="交接 Handoffs multi-agent-handoffs Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>交接</span></a><a class="nav-link" href="multi-agent-skills.html" data-search="技能 Skills multi-agent-skills Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>技能</span></a><a class="nav-link" href="multi-agent-router.html" data-search="路由器 Router multi-agent-router Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>路由器</span></a><a class="nav-link" href="multi-agent-custom-workflow.html" data-search="自定义工作流 Custom workflow multi-agent-custom-workflow Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>自定义工作流</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">智能体开发</div><a class="nav-link" href="studio.html" data-search="LangSmith Studio LangSmith Studio studio Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith Studio</span></a><a class="nav-link" href="ui.html" data-search="Agent Chat UI Agent Chat UI ui Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>Agent Chat UI</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">测试</div><a class="nav-link" href="test.html" data-search="测试 Test test Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>测试</span></a><a class="nav-link" href="test-unit-testing.html" data-search="单元测试 Unit testing test-unit-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>单元测试</span></a><a class="nav-link" href="test-integration-testing.html" data-search="集成测试 Integration testing test-integration-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>集成测试</span></a><a class="nav-link" href="test-evals.html" data-search="智能体评估 Agent Evals test-evals Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>智能体评估</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">生产</div><a class="nav-link" href="deploy.html" data-search="部署 Deployment deploy Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>部署</span></a><a class="nav-link" href="observability.html" data-search="LangSmith 可观测性 LangSmith Observability observability Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith 可观测性</span></a></section><div class="nav-empty" data-nav-empty hidden>没有匹配的页面</div></nav></div>
+      <div class="sidebar-foot"><strong>59 篇</strong> · 社区翻译</div>
+    </aside>
+    <div class="sidebar-overlay" data-sidebar-overlay></div>
+    <main class="main" id="main">
+      <div class="content-wrap">
+        <nav class="breadcrumbs" aria-label="面包屑"><a href="index.html">LangChain</a><span class="sep">/</span><span>核心组件</span><span class="sep">/</span><span class="current">结构化输出</span></nav>
+        <header class="page-header">
+          <h1>结构化输出</h1>
+          <div class="page-lead">结构化输出让智能体能够以特定且可预测的格式返回数据。你无需解析自然语言响应，而是直接获得 JSON 对象、<a href="https://docs.pydantic.dev/latest/concepts/models/#basic-model-usage" target="_blank" rel="noopener noreferrer">Pydantic 模型</a>或数据类形式的结构化数据，应用程序可以直接使用。</div>
+          <div class="page-meta">
+            <span>约 14 分钟</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>社区翻译</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <a href="https://docs.langchain.com/oss/python/langchain/structured-output" target="_blank" rel="noopener noreferrer">查看英文原文 ↗</a>
+          </div>
+        </header>
+        <article class="content">
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>本页介绍使用 <code>create_agent</code> 的智能体中的结构化输出。如需直接在模型上使用结构化输出（在智能体之外），请参阅 <a href="models.html#structured-output">模型 - 结构化输出</a>。</p></div>
+</aside>
+<p>LangChain 的 <a href="https://reference.langchain.com/python/langchain/agents/factory/create_agent" target="_blank" rel="noopener noreferrer"><code>create_agent</code></a> 会自动处理结构化输出。你设置好所需的结构化输出 schema，当模型生成结构化数据时，该数据会被捕获、校验，并返回到智能体状态的 <code>'structured_response'</code> 键中。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">create_agent</span>(<span class="hljs-params">
+    ...
+    response_format: <span class="hljs-type">Union</span>[
+        ToolStrategy[StructuredResponseT],
+        ProviderStrategy[StructuredResponseT],
+        <span class="hljs-built_in">type</span>[StructuredResponseT],
+        <span class="hljs-literal">None</span>,
+    ]
+</span>)</code></pre>
+</div>
+<h2 id="response-format">响应格式<a class="heading-anchor" href="#response-format" aria-label="链接到本节">#</a></h2>
+<p>使用 <code>response_format</code> 控制智能体返回结构化数据的方式：</p>
+<ul><li><p><strong><code>ToolStrategy[StructuredResponseT]</code></strong>：通过工具调用实现结构化输出</p></li><li><p><strong><code>ProviderStrategy[StructuredResponseT]</code></strong>：使用提供商原生的结构化输出</p></li><li><p><strong><code>type[StructuredResponseT]</code></strong>：schema 类型，根据模型能力自动选择最佳策略</p></li><li><p><strong><code>None</code></strong>：未显式请求结构化输出</p></li></ul>
+<p>直接提供 schema 类型时，LangChain 会自动选择：</p>
+<ul><li><p>如果所选模型和提供商支持原生结构化输出（例如 <a href="https://docs.langchain.com/oss/python/integrations/providers/openai" target="_blank" rel="noopener noreferrer">OpenAI</a>、<a href="https://docs.langchain.com/oss/python/integrations/providers/anthropic" target="_blank" rel="noopener noreferrer">Anthropic (Claude)</a> 或 <a href="https://docs.langchain.com/oss/python/integrations/providers/xai" target="_blank" rel="noopener noreferrer">xAI (Grok)</a>），则使用 <code>ProviderStrategy</code>。</p></li><li><p>对于其他所有模型，使用 <code>ToolStrategy</code>。</p></li></ul>
+<aside class="callout callout-warning">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>警告</span></div>
+  <div class="callout-body"><p>JSON Schema 字典必须用显式策略（<code>ProviderStrategy</code> 或 <code>ToolStrategy</code>）包装。直接传给 <code>response_format</code> 时不会自动识别。</p></div>
+</aside>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>使用 <code>langchain&gt;=1.1</code> 时，对原生结构化输出特性的支持情况会从模型的 <a href="models.html#model-profiles">profile 数据</a> 中动态读取。如果数据不可用，请改用其他条件或手动指定：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">custom_profile = {
+    <span class="hljs-string">"structured_output"</span>: <span class="hljs-literal">True</span>,
+    <span class="hljs-comment"># ...</span>
+}
+model = init_chat_model(<span class="hljs-string">"..."</span>, profile=custom_profile)</code></pre>
+</div>
+<p>如果指定了工具，模型必须支持同时使用工具和结构化输出。</p></div>
+</aside>
+<p>结构化响应会返回到智能体最终状态的 <code>structured_response</code> 键中。</p>
+<h2 id="provider-strategy">提供商策略<a class="heading-anchor" href="#provider-strategy" aria-label="链接到本节">#</a></h2>
+<p>部分模型提供商通过其 API 原生支持结构化输出（例如 OpenAI、xAI (Grok)、Gemini、Anthropic (Claude)）。在可用的情况下，这是最可靠的方法。</p>
+<p>要使用此策略，请配置 <code>ProviderStrategy</code>：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ProviderStrategy</span>(<span class="hljs-type">Generic</span>[SchemaT]):
+    schema: <span class="hljs-built_in">type</span>[SchemaT]
+    strict: <span class="hljs-built_in">bool</span> | <span class="hljs-literal">None</span> = <span class="hljs-literal">None</span></code></pre>
+</div>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p><code>strict</code> 参数需要 <code>langchain&gt;=1.2</code>。</p></div>
+</aside>
+<p><strong>schema</strong> <em>必填</em></p>
+<p>定义结构化输出格式的 schema。支持：</p>
+<ul><li><p><strong>Pydantic 模型</strong>：带字段校验的 <code>BaseModel</code> 子类。返回校验后的 Pydantic 实例。</p></li><li><p><strong>数据类</strong>：带类型注解的 Python 数据类。返回 dict。</p></li><li><p><strong>TypedDict</strong>：类型化字典类。返回 dict。</p></li><li><p><strong>JSON Schema</strong>：包含 JSON schema 规范的字典。必须包含顶层 <code>title</code> 和 <code>description</code> 键。返回 dict。</p></li></ul>
+<p><strong>strict</strong></p>
+<p>可选布尔参数，用于启用严格的 schema 遵循。部分提供商支持（例如 <a href="https://docs.langchain.com/oss/python/integrations/chat/openai" target="_blank" rel="noopener noreferrer">OpenAI</a> 和 <a href="https://docs.langchain.com/oss/python/integrations/chat/xai" target="_blank" rel="noopener noreferrer">xAI</a>）。默认为 <code>None</code>（禁用）。</p>
+<p>当你将 schema 类型直接传给 <a href="https://reference.langchain.com/python/langchain/agents/factory/create_agent" target="_blank" rel="noopener noreferrer"><code>create_agent.response_format</code></a> 且模型支持原生结构化输出时，LangChain 会自动使用 <code>ProviderStrategy</code>：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-1-tab-0" role="tab" aria-controls="codegroup-1-panel-0" aria-selected="true" tabindex="0">Pydantic Model</button><button class="code-tab" type="button" id="codegroup-1-tab-1" role="tab" aria-controls="codegroup-1-panel-1" aria-selected="false" tabindex="-1">Dataclass</button><button class="code-tab" type="button" id="codegroup-1-tab-2" role="tab" aria-controls="codegroup-1-panel-2" aria-selected="false" tabindex="-1">TypedDict</button><button class="code-tab" type="button" id="codegroup-1-tab-3" role="tab" aria-controls="codegroup-1-panel-3" aria-selected="false" tabindex="-1">JSON Schema</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-1-panel-0" role="tabpanel" aria-labelledby="codegroup-1-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ContactInfo</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    <span class="hljs-string">"""Contact information for a person."""</span>
+    name: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"The name of the person"</span>)
+    email: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"The email address of the person"</span>)
+    phone: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"The phone number of the person"</span>)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    response_format=ContactInfo  <span class="hljs-comment"># Auto-selects ProviderStrategy</span>
+)
+
+result = agent.invoke({
+    <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Extract contact info from: John Doe, john@example.com, (555) 123-4567"</span>}]
+})
+
+<span class="hljs-built_in">print</span>(result[<span class="hljs-string">"structured_response"</span>])
+<span class="hljs-comment"># ContactInfo(name='John Doe', email='john@example.com', phone='(555) 123-4567')</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-1" role="tabpanel" aria-labelledby="codegroup-1-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ContactInfo</span>:
+    <span class="hljs-string">"""Contact information for a person."""</span>
+    name: <span class="hljs-built_in">str</span> <span class="hljs-comment"># The name of the person</span>
+    email: <span class="hljs-built_in">str</span> <span class="hljs-comment"># The email address of the person</span>
+    phone: <span class="hljs-built_in">str</span> <span class="hljs-comment"># The phone number of the person</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[],
+    response_format=ContactInfo  <span class="hljs-comment"># Auto-selects ProviderStrategy</span>
+)
+
+result = agent.invoke({
+    <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Extract contact info from: John Doe, john@example.com, (555) 123-4567"</span>}]
+})
+
+result[<span class="hljs-string">"structured_response"</span>]
+<span class="hljs-comment"># {'name': 'John Doe', 'email': 'john@example.com', 'phone': '(555) 123-4567'}</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-2" role="tabpanel" aria-labelledby="codegroup-1-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> typing_extensions <span class="hljs-keyword">import</span> TypedDict
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ContactInfo</span>(<span class="hljs-title class_ inherited__">TypedDict</span>):
+    <span class="hljs-string">"""Contact information for a person."""</span>
+    name: <span class="hljs-built_in">str</span> <span class="hljs-comment"># The name of the person</span>
+    email: <span class="hljs-built_in">str</span> <span class="hljs-comment"># The email address of the person</span>
+    phone: <span class="hljs-built_in">str</span> <span class="hljs-comment"># The phone number of the person</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[],
+    response_format=ContactInfo  <span class="hljs-comment"># Auto-selects ProviderStrategy</span>
+)
+
+result = agent.invoke({
+    <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Extract contact info from: John Doe, john@example.com, (555) 123-4567"</span>}]
+})
+
+result[<span class="hljs-string">"structured_response"</span>]
+<span class="hljs-comment"># {'name': 'John Doe', 'email': 'john@example.com', 'phone': '(555) 123-4567'}</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-3" role="tabpanel" aria-labelledby="codegroup-1-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.structured_output <span class="hljs-keyword">import</span> ProviderStrategy
+
+
+contact_info_schema = {
+    <span class="hljs-string">"title"</span>: <span class="hljs-string">"ContactInfo"</span>,
+    <span class="hljs-string">"type"</span>: <span class="hljs-string">"object"</span>,
+    <span class="hljs-string">"description"</span>: <span class="hljs-string">"Contact information for a person."</span>,
+    <span class="hljs-string">"properties"</span>: {
+        <span class="hljs-string">"name"</span>: {<span class="hljs-string">"type"</span>: <span class="hljs-string">"string"</span>, <span class="hljs-string">"description"</span>: <span class="hljs-string">"The name of the person"</span>},
+        <span class="hljs-string">"email"</span>: {<span class="hljs-string">"type"</span>: <span class="hljs-string">"string"</span>, <span class="hljs-string">"description"</span>: <span class="hljs-string">"The email address of the person"</span>},
+        <span class="hljs-string">"phone"</span>: {<span class="hljs-string">"type"</span>: <span class="hljs-string">"string"</span>, <span class="hljs-string">"description"</span>: <span class="hljs-string">"The phone number of the person"</span>}
+    },
+    <span class="hljs-string">"required"</span>: [<span class="hljs-string">"name"</span>, <span class="hljs-string">"email"</span>, <span class="hljs-string">"phone"</span>]
+}
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[],
+    response_format=ProviderStrategy(contact_info_schema)
+)
+
+result = agent.invoke({
+    <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Extract contact info from: John Doe, john@example.com, (555) 123-4567"</span>}]
+})
+
+result[<span class="hljs-string">"structured_response"</span>]
+<span class="hljs-comment"># {'name': 'John Doe', 'email': 'john@example.com', 'phone': '(555) 123-4567'}</span></code></pre>
+</div></div>
+</div>
+<p>提供商原生结构化输出具有高可靠性和严格校验，因为 schema 由模型提供商强制执行。在可用时应使用它。</p>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>如果提供商对你所选的模型原生支持结构化输出，那么写 <code>response_format=ProductReview</code> 而不是 <code>response_format=ProviderStrategy(ProductReview)</code> 在功能上是等价的。</p>
+<p>无论哪种情况，如果不支持结构化输出，智能体都会回退到工具调用策略。</p></div>
+</aside>
+<h2 id="tool-calling-strategy">工具调用策略<a class="heading-anchor" href="#tool-calling-strategy" aria-label="链接到本节">#</a></h2>
+<p>对于不支持原生结构化输出的模型，LangChain 使用工具调用来实现相同的结果。这适用于所有支持工具调用的模型（大多数现代模型）。</p>
+<p>要使用此策略，请配置 <code>ToolStrategy</code>：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ToolStrategy</span>(<span class="hljs-type">Generic</span>[SchemaT]):
+    schema: <span class="hljs-built_in">type</span>[SchemaT]
+    tool_message_content: <span class="hljs-built_in">str</span> | <span class="hljs-literal">None</span>
+    handle_errors: <span class="hljs-type">Union</span>[
+        <span class="hljs-built_in">bool</span>,
+        <span class="hljs-built_in">str</span>,
+        <span class="hljs-built_in">type</span>[Exception],
+        <span class="hljs-built_in">tuple</span>[<span class="hljs-built_in">type</span>[Exception], ...],
+        <span class="hljs-type">Callable</span>[[Exception], <span class="hljs-built_in">str</span>],
+    ]</code></pre>
+</div>
+<p><strong>schema</strong> <em>必填</em></p>
+<p>定义结构化输出格式的 schema。支持：</p>
+<ul><li><p><strong>Pydantic 模型</strong>：带字段校验的 <code>BaseModel</code> 子类。返回校验后的 Pydantic 实例。</p></li><li><p><strong>数据类</strong>：带类型注解的 Python 数据类。返回 dict。</p></li><li><p><strong>TypedDict</strong>：类型化字典类。返回 dict。</p></li><li><p><strong>JSON Schema</strong>：包含 JSON schema 规范的字典。必须包含顶层 <code>title</code> 和 <code>description</code> 键。返回 dict。</p></li><li><p><strong>联合类型</strong>：多个 schema 选项。模型会根据上下文选择最合适的 schema。</p></li></ul>
+<p><strong>tool_message_content</strong></p>
+<p>生成结构化输出时返回的工具消息的自定义内容。如果未提供，默认显示结构化响应数据的消息。</p>
+<p><strong>handle_errors</strong></p>
+<p>结构化输出校验失败时的错误处理策略。默认为 <code>True</code>。</p>
+<ul><li><p><strong><code>True</code></strong>：使用默认错误模板捕获所有错误</p></li><li><p><strong><code>str</code></strong>：使用此自定义消息捕获所有错误</p></li><li><p><strong><code>type[Exception]</code></strong>：仅捕获该异常类型，使用默认消息</p></li><li><p><strong><code>tuple[type[Exception], ...]</code></strong>：仅捕获这些异常类型，使用默认消息</p></li><li><p><strong><code>Callable[[Exception], str]</code></strong>：返回错误消息的自定义函数</p></li><li><p><strong><code>False</code></strong>：不重试，让异常向外传播</p></li></ul>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-2-tab-0" role="tab" aria-controls="codegroup-2-panel-0" aria-selected="true" tabindex="0">Pydantic Model</button><button class="code-tab" type="button" id="codegroup-2-tab-1" role="tab" aria-controls="codegroup-2-panel-1" aria-selected="false" tabindex="-1">Dataclass</button><button class="code-tab" type="button" id="codegroup-2-tab-2" role="tab" aria-controls="codegroup-2-panel-2" aria-selected="false" tabindex="-1">TypedDict</button><button class="code-tab" type="button" id="codegroup-2-tab-3" role="tab" aria-controls="codegroup-2-panel-3" aria-selected="false" tabindex="-1">JSON Schema</button><button class="code-tab" type="button" id="codegroup-2-tab-4" role="tab" aria-controls="codegroup-2-panel-4" aria-selected="false" tabindex="-1">Union Types</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-2-panel-0" role="tabpanel" aria-labelledby="codegroup-2-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Literal</span>
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.structured_output <span class="hljs-keyword">import</span> ToolStrategy
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductReview</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    <span class="hljs-string">"""Analysis of a product review."""</span>
+    rating: <span class="hljs-built_in">int</span> | <span class="hljs-literal">None</span> = Field(description=<span class="hljs-string">"The rating of the product"</span>, ge=<span class="hljs-number">1</span>, le=<span class="hljs-number">5</span>)
+    sentiment: <span class="hljs-type">Literal</span>[<span class="hljs-string">"positive"</span>, <span class="hljs-string">"negative"</span>] = Field(description=<span class="hljs-string">"The sentiment of the review"</span>)
+    key_points: <span class="hljs-built_in">list</span>[<span class="hljs-built_in">str</span>] = Field(description=<span class="hljs-string">"The key points of the review. Lowercase, 1-3 words each."</span>)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[],
+    response_format=ToolStrategy(ProductReview)
+)
+
+result = agent.invoke({
+    <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"</span>}]
+})
+result[<span class="hljs-string">"structured_response"</span>]
+<span class="hljs-comment"># ProductReview(rating=5, sentiment='positive', key_points=['fast shipping', 'expensive'])</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-1" role="tabpanel" aria-labelledby="codegroup-2-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Literal</span>
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.structured_output <span class="hljs-keyword">import</span> ToolStrategy
+
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductReview</span>:
+    <span class="hljs-string">"""Analysis of a product review."""</span>
+    rating: <span class="hljs-built_in">int</span> | <span class="hljs-literal">None</span>  <span class="hljs-comment"># The rating of the product (1-5)</span>
+    sentiment: <span class="hljs-type">Literal</span>[<span class="hljs-string">"positive"</span>, <span class="hljs-string">"negative"</span>]  <span class="hljs-comment"># The sentiment of the review</span>
+    key_points: <span class="hljs-built_in">list</span>[<span class="hljs-built_in">str</span>]  <span class="hljs-comment"># The key points of the review</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[],
+    response_format=ToolStrategy(ProductReview)
+)
+
+result = agent.invoke({
+    <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"</span>}]
+})
+result[<span class="hljs-string">"structured_response"</span>]
+<span class="hljs-comment"># {'rating': 5, 'sentiment': 'positive', 'key_points': ['fast shipping', 'expensive']}</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-2" role="tabpanel" aria-labelledby="codegroup-2-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Literal</span>
+<span class="hljs-keyword">from</span> typing_extensions <span class="hljs-keyword">import</span> TypedDict
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.structured_output <span class="hljs-keyword">import</span> ToolStrategy
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductReview</span>(<span class="hljs-title class_ inherited__">TypedDict</span>):
+    <span class="hljs-string">"""Analysis of a product review."""</span>
+    rating: <span class="hljs-built_in">int</span> | <span class="hljs-literal">None</span>  <span class="hljs-comment"># The rating of the product (1-5)</span>
+    sentiment: <span class="hljs-type">Literal</span>[<span class="hljs-string">"positive"</span>, <span class="hljs-string">"negative"</span>]  <span class="hljs-comment"># The sentiment of the review</span>
+    key_points: <span class="hljs-built_in">list</span>[<span class="hljs-built_in">str</span>]  <span class="hljs-comment"># The key points of the review</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[],
+    response_format=ToolStrategy(ProductReview)
+)
+
+result = agent.invoke({
+    <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"</span>}]
+})
+result[<span class="hljs-string">"structured_response"</span>]
+<span class="hljs-comment"># {'rating': 5, 'sentiment': 'positive', 'key_points': ['fast shipping', 'expensive']}</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-3" role="tabpanel" aria-labelledby="codegroup-2-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.structured_output <span class="hljs-keyword">import</span> ToolStrategy
+
+
+product_review_schema = {
+    <span class="hljs-string">"title"</span>: <span class="hljs-string">"ProductReview"</span>,
+    <span class="hljs-string">"type"</span>: <span class="hljs-string">"object"</span>,
+    <span class="hljs-string">"description"</span>: <span class="hljs-string">"Analysis of a product review."</span>,
+    <span class="hljs-string">"properties"</span>: {
+        <span class="hljs-string">"rating"</span>: {
+            <span class="hljs-string">"type"</span>: [<span class="hljs-string">"integer"</span>, <span class="hljs-string">"null"</span>],
+            <span class="hljs-string">"description"</span>: <span class="hljs-string">"The rating of the product (1-5)"</span>,
+            <span class="hljs-string">"minimum"</span>: <span class="hljs-number">1</span>,
+            <span class="hljs-string">"maximum"</span>: <span class="hljs-number">5</span>
+        },
+        <span class="hljs-string">"sentiment"</span>: {
+            <span class="hljs-string">"type"</span>: <span class="hljs-string">"string"</span>,
+            <span class="hljs-string">"enum"</span>: [<span class="hljs-string">"positive"</span>, <span class="hljs-string">"negative"</span>],
+            <span class="hljs-string">"description"</span>: <span class="hljs-string">"The sentiment of the review"</span>
+        },
+        <span class="hljs-string">"key_points"</span>: {
+            <span class="hljs-string">"type"</span>: <span class="hljs-string">"array"</span>,
+            <span class="hljs-string">"items"</span>: {<span class="hljs-string">"type"</span>: <span class="hljs-string">"string"</span>},
+            <span class="hljs-string">"description"</span>: <span class="hljs-string">"The key points of the review"</span>
+        }
+    },
+    <span class="hljs-string">"required"</span>: [<span class="hljs-string">"sentiment"</span>, <span class="hljs-string">"key_points"</span>]
+}
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[],
+    response_format=ToolStrategy(product_review_schema)
+)
+
+result = agent.invoke({
+    <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"</span>}]
+})
+result[<span class="hljs-string">"structured_response"</span>]
+<span class="hljs-comment"># {'rating': 5, 'sentiment': 'positive', 'key_points': ['fast shipping', 'expensive']}</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-4" role="tabpanel" aria-labelledby="codegroup-2-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Literal</span>, <span class="hljs-type">Union</span>
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.structured_output <span class="hljs-keyword">import</span> ToolStrategy
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductReview</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    <span class="hljs-string">"""Analysis of a product review."""</span>
+    rating: <span class="hljs-built_in">int</span> | <span class="hljs-literal">None</span> = Field(description=<span class="hljs-string">"The rating of the product"</span>, ge=<span class="hljs-number">1</span>, le=<span class="hljs-number">5</span>)
+    sentiment: <span class="hljs-type">Literal</span>[<span class="hljs-string">"positive"</span>, <span class="hljs-string">"negative"</span>] = Field(description=<span class="hljs-string">"The sentiment of the review"</span>)
+    key_points: <span class="hljs-built_in">list</span>[<span class="hljs-built_in">str</span>] = Field(description=<span class="hljs-string">"The key points of the review. Lowercase, 1-3 words each."</span>)
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">CustomerComplaint</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    <span class="hljs-string">"""A customer complaint about a product or service."""</span>
+    issue_type: <span class="hljs-type">Literal</span>[<span class="hljs-string">"product"</span>, <span class="hljs-string">"service"</span>, <span class="hljs-string">"shipping"</span>, <span class="hljs-string">"billing"</span>] = Field(description=<span class="hljs-string">"The type of issue"</span>)
+    severity: <span class="hljs-type">Literal</span>[<span class="hljs-string">"low"</span>, <span class="hljs-string">"medium"</span>, <span class="hljs-string">"high"</span>] = Field(description=<span class="hljs-string">"The severity of the complaint"</span>)
+    description: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"Brief description of the complaint"</span>)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[],
+    response_format=ToolStrategy(<span class="hljs-type">Union</span>[ProductReview, CustomerComplaint])
+)
+
+result = agent.invoke({
+    <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Analyze this review: 'Great product: 5 out of 5 stars. Fast shipping, but expensive'"</span>}]
+})
+result[<span class="hljs-string">"structured_response"</span>]
+<span class="hljs-comment"># ProductReview(rating=5, sentiment='positive', key_points=['fast shipping', 'expensive'])</span></code></pre>
+</div></div>
+</div>
+<h3 id="custom-tool-message-content">自定义工具消息内容<a class="heading-anchor" href="#custom-tool-message-content" aria-label="链接到本节">#</a></h3>
+<p><code>tool_message_content</code> 参数允许你自定义生成结构化输出时出现在对话历史中的消息：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Literal</span>
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.structured_output <span class="hljs-keyword">import</span> ToolStrategy
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MeetingAction</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    <span class="hljs-string">"""Action items extracted from a meeting transcript."""</span>
+    task: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"The specific task to be completed"</span>)
+    assignee: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"Person responsible for the task"</span>)
+    priority: <span class="hljs-type">Literal</span>[<span class="hljs-string">"low"</span>, <span class="hljs-string">"medium"</span>, <span class="hljs-string">"high"</span>] = Field(description=<span class="hljs-string">"Priority level"</span>)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[],
+    response_format=ToolStrategy(
+        schema=MeetingAction,
+        tool_message_content=<span class="hljs-string">"Action item captured and added to meeting notes!"</span>
+    )
+)
+
+agent.invoke({
+    <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"From our meeting: Sarah needs to update the project timeline as soon as possible"</span>}]
+})</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">text</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-text">================================ Human Message =================================
+
+From our meeting: Sarah needs to update the project timeline as soon as possible
+================================== Ai Message ==================================
+Tool Calls:
+  MeetingAction (call_1)
+ Call ID: call_1
+  Args:
+    task: Update the project timeline
+    assignee: Sarah
+    priority: high
+================================= Tool Message =================================
+Name: MeetingAction
+
+Action item captured and added to meeting notes!</code></pre>
+</div>
+<p>如果不设置 <code>tool_message_content</code>，我们最终的 <a href="https://reference.langchain.com/python/langchain-core/messages/tool/ToolMessage" target="_blank" rel="noopener noreferrer"><code>ToolMessage</code></a> 会是：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">text</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-text">================================= Tool Message =================================
+Name: MeetingAction
+
+Returning structured response: {'task': 'update the project timeline', 'assignee': 'Sarah', 'priority': 'high'}</code></pre>
+</div>
+<h3 id="error-handling">错误处理<a class="heading-anchor" href="#error-handling" aria-label="链接到本节">#</a></h3>
+<p>模型在通过工具调用生成结构化输出时可能会出错。LangChain 提供智能重试机制来自动处理这些错误。</p>
+<h4 id="multiple-structured-outputs-error">多个结构化输出错误<a class="heading-anchor" href="#multiple-structured-outputs-error" aria-label="链接到本节">#</a></h4>
+<p>当模型错误地调用多个结构化输出工具时，智能体会在 <a href="https://reference.langchain.com/python/langchain-core/messages/tool/ToolMessage" target="_blank" rel="noopener noreferrer"><code>ToolMessage</code></a> 中提供错误反馈，并提示模型重试：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Union</span>
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.structured_output <span class="hljs-keyword">import</span> ToolStrategy
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ContactInfo</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    name: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"Person's name"</span>)
+    email: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"Email address"</span>)
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">EventDetails</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    event_name: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"Name of the event"</span>)
+    date: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"Event date"</span>)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[],
+    response_format=ToolStrategy(<span class="hljs-type">Union</span>[ContactInfo, EventDetails])  <span class="hljs-comment"># Default: handle_errors=True</span>
+)
+
+agent.invoke({
+    <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Extract info: John Doe (john@email.com) is organizing Tech Conference on March 15th"</span>}]
+})</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">text</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-text">================================ Human Message =================================
+
+Extract info: John Doe (john@email.com) is organizing Tech Conference on March 15th
+None
+================================== Ai Message ==================================
+Tool Calls:
+  ContactInfo (call_1)
+ Call ID: call_1
+  Args:
+    name: John Doe
+    email: john@email.com
+  EventDetails (call_2)
+ Call ID: call_2
+  Args:
+    event_name: Tech Conference
+    date: March 15th
+================================= Tool Message =================================
+Name: ContactInfo
+
+Error: Model incorrectly returned multiple structured responses (ContactInfo, EventDetails) when only one is expected.
+ Please fix your mistakes.
+================================= Tool Message =================================
+Name: EventDetails
+
+Error: Model incorrectly returned multiple structured responses (ContactInfo, EventDetails) when only one is expected.
+ Please fix your mistakes.
+================================== Ai Message ==================================
+Tool Calls:
+  ContactInfo (call_3)
+ Call ID: call_3
+  Args:
+    name: John Doe
+    email: john@email.com
+================================= Tool Message =================================
+Name: ContactInfo
+
+Returning structured response: {'name': 'John Doe', 'email': 'john@email.com'}</code></pre>
+</div>
+<h4 id="schema-validation-error">schema 校验错误<a class="heading-anchor" href="#schema-validation-error" aria-label="链接到本节">#</a></h4>
+<p>当结构化输出与预期 schema 不匹配时，智能体会提供具体的错误反馈：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.structured_output <span class="hljs-keyword">import</span> ToolStrategy
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductRating</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    rating: <span class="hljs-built_in">int</span> | <span class="hljs-literal">None</span> = Field(description=<span class="hljs-string">"Rating from 1-5"</span>, ge=<span class="hljs-number">1</span>, le=<span class="hljs-number">5</span>)
+    comment: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"Review comment"</span>)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[],
+    response_format=ToolStrategy(ProductRating),  <span class="hljs-comment"># Default: handle_errors=True</span>
+    system_prompt=<span class="hljs-string">"You are a helpful assistant that parses product reviews. Do not make any field or value up."</span>
+)
+
+agent.invoke({
+    <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Parse this: Amazing product, 10/10!"</span>}]
+})</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">text</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-text">================================ Human Message =================================
+
+Parse this: Amazing product, 10/10!
+================================== Ai Message ==================================
+Tool Calls:
+  ProductRating (call_1)
+ Call ID: call_1
+  Args:
+    rating: 10
+    comment: Amazing product
+================================= Tool Message =================================
+Name: ProductRating
+
+Error: Failed to parse structured output for tool 'ProductRating': 1 validation error for ProductRating.rating
+  Input should be less than or equal to 5 [type=less_than_equal, input_value=10, input_type=int].
+ Please fix your mistakes.
+================================== Ai Message ==================================
+Tool Calls:
+  ProductRating (call_2)
+ Call ID: call_2
+  Args:
+    rating: 5
+    comment: Amazing product
+================================= Tool Message =================================
+Name: ProductRating
+
+Returning structured response: {'rating': 5, 'comment': 'Amazing product'}</code></pre>
+</div>
+<h4 id="error-handling-strategies">错误处理策略<a class="heading-anchor" href="#error-handling-strategies" aria-label="链接到本节">#</a></h4>
+<p>你可以使用 <code>handle_errors</code> 参数自定义错误的处理方式：</p>
+<p><strong>自定义错误消息：</strong></p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">ToolStrategy(
+    schema=ProductRating,
+    handle_errors=<span class="hljs-string">"Please provide a valid rating between 1-5 and include a comment."</span>
+)</code></pre>
+</div>
+<p>如果 <code>handle_errors</code> 是字符串，智能体 <em>始终</em> 会用固定的工具消息提示模型重试：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">text</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-text">================================= Tool Message =================================
+Name: ProductRating
+
+Please provide a valid rating between 1-5 and include a comment.</code></pre>
+</div>
+<p><strong>仅处理特定异常：</strong></p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">ToolStrategy(
+    schema=ProductRating,
+    handle_errors=ValueError  <span class="hljs-comment"># Only retry on ValueError, raise others</span>
+)</code></pre>
+</div>
+<p>如果 <code>handle_errors</code> 是异常类型，则仅在抛出的异常是指定类型时，智能体才会重试（使用默认错误消息）。其他所有情况下，异常都会向外抛出。</p>
+<p><strong>处理多种异常类型：</strong></p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">ToolStrategy(
+    schema=ProductRating,
+    handle_errors=(ValueError, TypeError)  <span class="hljs-comment"># Retry on ValueError and TypeError</span>
+)</code></pre>
+</div>
+<p>如果 <code>handle_errors</code> 是异常元组，则仅在抛出的异常属于指定类型之一时，智能体才会重试（使用默认错误消息）。其他所有情况下，异常都会向外抛出。</p>
+<p><strong>自定义错误处理函数：</strong></p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">
+<span class="hljs-keyword">from</span> langchain.agents.structured_output <span class="hljs-keyword">import</span> StructuredOutputValidationError
+<span class="hljs-keyword">from</span> langchain.agents.structured_output <span class="hljs-keyword">import</span> MultipleStructuredOutputsError
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">custom_error_handler</span>(<span class="hljs-params">error: Exception</span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(error, StructuredOutputValidationError):
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"There was an issue with the format. Try again."</span>
+    <span class="hljs-keyword">elif</span> <span class="hljs-built_in">isinstance</span>(error, MultipleStructuredOutputsError):
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"Multiple structured outputs were returned. Pick the most relevant one."</span>
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">f"Error: <span class="hljs-subst">{<span class="hljs-built_in">str</span>(error)}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=[],
+    response_format=ToolStrategy(
+                        schema=<span class="hljs-type">Union</span>[ContactInfo, EventDetails],
+                        handle_errors=custom_error_handler
+                    )  <span class="hljs-comment"># Default: handle_errors=True</span>
+)
+
+result = agent.invoke({
+    <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Extract info: John Doe (john@email.com) is organizing Tech Conference on March 15th"</span>}]
+})
+
+<span class="hljs-keyword">for</span> msg <span class="hljs-keyword">in</span> result[<span class="hljs-string">'messages'</span>]:
+    <span class="hljs-comment"># If message is actually a ToolMessage object (not a dict), check its class name</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">type</span>(msg).__name__ == <span class="hljs-string">"ToolMessage"</span>:
+        <span class="hljs-built_in">print</span>(msg.content)
+    <span class="hljs-comment"># If message is a dictionary or you want a fallback</span>
+    <span class="hljs-keyword">elif</span> <span class="hljs-built_in">isinstance</span>(msg, <span class="hljs-built_in">dict</span>) <span class="hljs-keyword">and</span> msg.get(<span class="hljs-string">'tool_call_id'</span>):
+        <span class="hljs-built_in">print</span>(msg[<span class="hljs-string">'content'</span>])</code></pre>
+</div>
+<p>出现 <code>StructuredOutputValidationError</code> 时：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">text</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-text">================================= Tool Message =================================
+Name: ToolStrategy
+
+There was an issue with the format. Try again.</code></pre>
+</div>
+<p>出现 <code>MultipleStructuredOutputsError</code> 时：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">text</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-text">================================= Tool Message =================================
+Name: ToolStrategy
+
+Multiple structured outputs were returned. Pick the most relevant one.</code></pre>
+</div>
+<p>出现其他错误时：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">text</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-text">================================= Tool Message =================================
+Name: ToolStrategy
+
+Error: &lt;error message&gt;</code></pre>
+</div>
+<p><strong>不进行错误处理：</strong></p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">response_format = ToolStrategy(
+    schema=ProductRating,
+    handle_errors=<span class="hljs-literal">False</span>  <span class="hljs-comment"># All errors raised</span>
+)</code></pre>
+</div>
+<h2 id="handle-parsing-errors-in-chains">处理链中的解析错误<a class="heading-anchor" href="#handle-parsing-errors-in-chains" aria-label="链接到本节">#</a></h2>
+<p>上述策略（包括 <code>handle_errors</code> 重试）适用于使用 <a href="https://reference.langchain.com/python/langchain/agents/factory/create_agent" target="_blank" rel="noopener noreferrer"><code>create_agent</code></a> 创建的智能体。用管道操作符组合的链（例如 <code>prompt | model | parser</code>）没有针对输出解析失败的内置重试机制。要处理链中格式错误的模型输出，请使用以下方法之一：</p>
+<ul><li><p><strong>模型级结构化输出</strong>：使用 <a href="https://reference.langchain.com/python/langchain-core/language_models/chat_models/BaseChatModel/with_structured_output" target="_blank" rel="noopener noreferrer"><code>with_structured_output</code></a> 将 schema 绑定到模型。当提供商支持原生结构化输出时，它会强制执行 schema 并避免大多数解析失败。参见 <a href="models.html#structured-output">模型 - 结构化输出</a>。当模型支持时，请使用此方法。</p></li><li><p><strong>使用模型修复格式错误的输出</strong>：将输出解析器包装在来自 <a href="https://pypi.org/project/langchain-classic" target="_blank" rel="noopener noreferrer"><code>langchain-classic</code></a> 的 <code>OutputFixingParser</code> 中。解析失败时，包装器会将格式错误的输出、解析器的格式说明和错误消息发送给模型，并解析修正后的响应。</p></li></ul>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p><code>OutputFixingParser</code> 需要 <code>langchain-classic</code> 包。在 v1 之前，它以 <code>langchain.output_parsers.OutputFixingParser</code> 的形式提供。</p></div>
+</aside>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+<span class="hljs-keyword">from</span> langchain_classic.output_parsers <span class="hljs-keyword">import</span> OutputFixingParser
+<span class="hljs-keyword">from</span> langchain_core.output_parsers <span class="hljs-keyword">import</span> PydanticOutputParser
+<span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate
+<span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductReview</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    <span class="hljs-string">"""Analysis of a product review."""</span>
+
+    rating: <span class="hljs-built_in">int</span> = Field(description=<span class="hljs-string">"The rating of the product (1-5)"</span>, ge=<span class="hljs-number">1</span>, le=<span class="hljs-number">5</span>)
+    sentiment: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">"The sentiment of the review"</span>)
+
+
+model = init_chat_model(<span class="hljs-string">"gpt-5.4"</span>)
+
+base_parser = PydanticOutputParser(pydantic_object=ProductReview)
+fixing_parser = OutputFixingParser.from_llm(
+    parser=base_parser,
+    llm=model,
+    max_retries=<span class="hljs-number">3</span>,
+)
+
+prompt = ChatPromptTemplate.from_messages([
+    (<span class="hljs-string">"system"</span>, <span class="hljs-string">"Analyze the product review.\n{format_instructions}"</span>),
+    (<span class="hljs-string">"user"</span>, <span class="hljs-string">"{review}"</span>),
+]).partial(format_instructions=base_parser.get_format_instructions())
+
+chain = prompt | model | fixing_parser
+
+result = chain.invoke({<span class="hljs-string">"review"</span>: <span class="hljs-string">"Great product, 5 stars! Fast shipping, but expensive."</span>})
+<span class="hljs-comment"># ProductReview(rating=5, sentiment='positive')</span></code></pre>
+</div>
+<p>被包装的解析器仅在初始解析失败时才调用修复模型，因此格式正确的输出不会产生额外的模型调用。<code>max_retries</code> 控制在引发原始 <code>OutputParserException</code> 之前进行多少次修复尝试。同步（<code>invoke</code>）和异步（<code>ainvoke</code>）执行均受支持。</p>
+<p><code>OutputFixingParser</code> 会发送格式错误的补全、解析器的格式说明和错误。它不包含原始提示词。如果修正输出需要原始提示词作为上下文，请改用来自 <code>langchain-classic</code> 的 <code>RetryOutputParser</code>。它通过其 <code>parse_with_prompt(completion, prompt_value)</code> 方法而不是 <code>parse</code> 调用，因此不能直接作为链的最后一步进行管道连接。</p></article>
+        <nav class="pager" aria-label="翻页"><a class="prev" href="streaming.html"><span class="pager-label">上一篇</span><span class="pager-title">流式传输</span></a><a class="next" href="middleware-overview.html"><span class="pager-label">下一篇</span><span class="pager-title">中间件概览</span></a></nav>
+        <footer class="page-footer">
+          <p>本页为社区维护的简体中文翻译，不是 LangChain 官方文档。如与英文原文有出入，请以 <a href="https://docs.langchain.com/oss/python/langchain/structured-output" target="_blank" rel="noopener noreferrer">英文原文</a> 为准。</p>
+        </footer>
+      </div>
+    </main>
+    <aside class="toc" aria-label="本页目录"><div class="toc-inner"><div class="toc-title">本页目录</div><a class="toc-link level-2" href="#response-format">响应格式</a><a class="toc-link level-2" href="#provider-strategy">提供商策略</a><a class="toc-link level-2" href="#tool-calling-strategy">工具调用策略</a><a class="toc-link level-3" href="#custom-tool-message-content">自定义工具消息内容</a><a class="toc-link level-3" href="#error-handling">错误处理</a><a class="toc-link level-2" href="#handle-parsing-errors-in-chains">处理链中的解析错误</a></div></aside>
+  </div>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p><strong>LangChain 中文文档</strong> · 社区翻译，非官方站点。内容基于 <a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener noreferrer">docs.langchain.com</a> 的 LangChain（Python）文档生成。</p>
+      <p>共 59 篇 · 代码示例保持英文原样 · 以英文原文为准</p>
+    </div>
+  </footer>
+  <button class="back-top" type="button" data-back-top aria-label="回到顶部">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script src="assets/docs.js" defer></script>
+</body>
+</html>

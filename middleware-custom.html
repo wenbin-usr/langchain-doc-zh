@@ -1,0 +1,1004 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>自定义中间件 | LangChain 中文文档</title>
+  <meta name="description" content="通过实现会在智能体执行流程中特定节点运行的钩子，构建自定义中间件。">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M12.5 19.5l7-7M10 22l-1 1a4 4 0 0 1-5.7-5.7l3.4-3.4a4 4 0 0 1 5.7 0M22 10l1-1a4 4 0 0 1 5.7 5.7l-3.4 3.4a4 4 0 0 1-5.7 0' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem('lc-docs-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();</script>
+  <link rel="stylesheet" href="assets/docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div id="progress" data-progress></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="打开文档导航" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="LangChain 中文文档首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9.4 14.6l5.2-5.2M7.1 16.9l-1.4 1.4a3.7 3.7 0 0 1-5.2-5.2l3.2-3.2a3.7 3.7 0 0 1 5.2 0M16.9 7.1l1.4-1.4a3.7 3.7 0 0 1 5.2 5.2l-3.2 3.2a3.7 3.7 0 0 1-5.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text">LangChain <span class="brand-sub">中文文档</span></span>
+      </a>
+      <nav class="top-nav" aria-label="主导航">
+        <a class="top-link active" href="index.html" aria-current="page">LangChain</a>
+        <a class="top-link" href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a>
+        <a class="top-link" href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener noreferrer">LangSmith</a>
+        <a class="top-link" href="https://reference.langchain.com/python/langchain/" target="_blank" rel="noopener noreferrer">API 参考</a>
+      </nav>
+      <div class="header-actions">
+        <a class="source-link" href="https://docs.langchain.com/oss/python/langchain/middleware/custom" target="_blank" rel="noopener noreferrer">English <span aria-hidden="true">↗</span></a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="切换到深色模式" aria-pressed="false" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v1.6M10 16.2v1.6M2.2 10h1.6M16.2 10h1.6M4.5 4.5l1.1 1.1M14.4 14.4l1.1 1.1M15.5 4.5l-1.1 1.1M5.6 14.4l-1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.4 12.1A6.6 6.6 0 0 1 7.9 3.6 6.8 6.8 0 1 0 16.4 12.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" id="sidebar" aria-label="文档导航">
+      <div class="sidebar-head">
+        <div class="sidebar-title">文档目录</div>
+        <div class="nav-search">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.2" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="搜索页面…" aria-label="搜索文档页面" data-nav-search autocomplete="off" spellcheck="false">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+      </div>
+      <div class="sidebar-scroll"><nav class="nav" id="doc-nav" aria-label="文档页面"><div class="nav-home"><a class="nav-link" href="index.html" data-search="LangChain 概览 LangChain overview index  "><span class="nav-dot" aria-hidden="true"></span><span>LangChain 概览</span></a></div><section class="nav-section" data-nav-section><div class="nav-section-title">开始使用</div><a class="nav-link" href="install.html" data-search="安装 LangChain Install LangChain install Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>安装 LangChain</span></a><a class="nav-link" href="quickstart.html" data-search="快速开始 Quickstart quickstart Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>快速开始</span></a><a class="nav-link" href="philosophy.html" data-search="设计理念 Philosophy philosophy Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>设计理念</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">核心组件</div><a class="nav-link" href="agents.html" data-search="智能体 Agents agents Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>智能体</span></a><a class="nav-link" href="models.html" data-search="模型 Models models Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>模型</span></a><a class="nav-link" href="messages.html" data-search="消息 Messages messages Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>消息</span></a><a class="nav-link" href="tools.html" data-search="工具 Tools tools Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>工具</span></a><a class="nav-link" href="short-term-memory.html" data-search="短期记忆 Short-term memory short-term-memory Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>短期记忆</span></a><a class="nav-link" href="event-streaming.html" data-search="事件流 Event streaming event-streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>事件流</span></a><a class="nav-link" href="streaming.html" data-search="流式传输 Streaming streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>流式传输</span></a><a class="nav-link" href="structured-output.html" data-search="结构化输出 Structured output structured-output Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>结构化输出</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">中间件</div><a class="nav-link" href="middleware-overview.html" data-search="中间件概览 Middleware overview middleware-overview Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>中间件概览</span></a><a class="nav-link" href="middleware-built-in.html" data-search="预置中间件 Prebuilt middleware middleware-built-in Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>预置中间件</span></a><a class="nav-link active" href="middleware-custom.html" data-search="自定义中间件 Custom middleware middleware-custom Middleware 中间件 中间件" aria-current="page"><span class="nav-dot" aria-hidden="true"></span><span>自定义中间件</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">前端</div><a class="nav-link" href="frontend-overview.html" data-search="前端概览 Overview frontend-overview Frontend 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端概览</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">模式</div><a class="nav-link" href="frontend-markdown-messages.html" data-search="Markdown 消息 Markdown messages frontend-markdown-messages Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>Markdown 消息</span></a><a class="nav-link" href="frontend-tool-calling.html" data-search="工具调用 Tool calling frontend-tool-calling Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>工具调用</span></a><a class="nav-link" href="frontend-headless-tools.html" data-search="无头工具 Headless tools frontend-headless-tools Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>无头工具</span></a><a class="nav-link" href="frontend-human-in-the-loop.html" data-search="前端人在回路 Human-in-the-Loop frontend-human-in-the-loop Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端人在回路</span></a><a class="nav-link" href="frontend-branching-chat.html" data-search="分支对话 Branching chat frontend-branching-chat Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>分支对话</span></a><a class="nav-link" href="frontend-reasoning-tokens.html" data-search="推理 token Reasoning tokens frontend-reasoning-tokens Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>推理 token</span></a><a class="nav-link" href="frontend-structured-output.html" data-search="前端结构化输出 Structured output frontend-structured-output Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端结构化输出</span></a><a class="nav-link" href="frontend-message-queues.html" data-search="消息队列 Message queues frontend-message-queues Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>消息队列</span></a><a class="nav-link" href="frontend-join-rejoin.html" data-search="断开与重连流 Join &amp; rejoin streams frontend-join-rejoin Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>断开与重连流</span></a><a class="nav-link" href="frontend-time-travel.html" data-search="时间旅行 Time travel frontend-time-travel Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>时间旅行</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">生成式 UI</div><a class="nav-link" href="frontend-generative-ui-overview.html" data-search="生成式 UI 概览 Generative UI overview frontend-generative-ui-overview Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>生成式 UI 概览</span></a><a class="nav-link" href="frontend-controlled-generative-ui.html" data-search="受控生成式 UI Controlled generative UI frontend-controlled-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>受控生成式 UI</span></a><a class="nav-link" href="frontend-declarative-generative-ui.html" data-search="声明式生成式 UI Declarative generative UI frontend-declarative-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>声明式生成式 UI</span></a><a class="nav-link" href="frontend-open-ended-generative-ui.html" data-search="开放式生成式 UI Open-ended generative UI frontend-open-ended-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>开放式生成式 UI</span></a></div></div><div class="nav-subgroup"><div class="nav-subgroup-title">集成</div><a class="nav-link" href="frontend-integrations-overview.html" data-search="集成概览 Overview frontend-integrations-overview Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>集成概览</span></a><a class="nav-link" href="frontend-integrations-copilotkit.html" data-search="CopilotKit CopilotKit frontend-integrations-copilotkit Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>CopilotKit</span></a><a class="nav-link" href="frontend-integrations-ai-elements.html" data-search="AI Elements AI Elements frontend-integrations-ai-elements Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>AI Elements</span></a><a class="nav-link" href="frontend-integrations-assistant-ui.html" data-search="assistant-ui assistant-ui frontend-integrations-assistant-ui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>assistant-ui</span></a><a class="nav-link" href="frontend-integrations-openui.html" data-search="OpenUI OpenUI frontend-integrations-openui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>OpenUI</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">高级用法</div><a class="nav-link" href="guardrails.html" data-search="护栏 Guardrails guardrails Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>护栏</span></a><a class="nav-link" href="runtime.html" data-search="运行时 Runtime runtime Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>运行时</span></a><a class="nav-link" href="context-engineering.html" data-search="智能体中的上下文工程 Context engineering in agents context-engineering Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>智能体中的上下文工程</span></a><a class="nav-link" href="human-in-the-loop.html" data-search="人在回路 Human-in-the-loop human-in-the-loop Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>人在回路</span></a><a class="nav-link" href="retrieval.html" data-search="检索 Retrieval retrieval Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>检索</span></a><a class="nav-link" href="long-term-memory.html" data-search="长期记忆 Long-term memory long-term-memory Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>长期记忆</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">MCP</div><a class="nav-link" href="mcp.html" data-search="MCP 概述 Model Context Protocol (MCP) mcp Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 概述</span></a><a class="nav-link" href="mcp-tools.html" data-search="MCP 工具 Tools mcp-tools Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 工具</span></a><a class="nav-link" href="mcp-connections.html" data-search="MCP 连接 Connections mcp-connections Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 连接</span></a><a class="nav-link" href="mcp-auth.html" data-search="MCP 认证 Authentication mcp-auth Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 认证</span></a></div><div class="nav-subgroup"><div class="nav-subgroup-title">多智能体</div><a class="nav-link" href="multi-agent.html" data-search="多智能体 Multi-agent multi-agent Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>多智能体</span></a><a class="nav-link" href="multi-agent-subagents.html" data-search="子智能体 Subagents multi-agent-subagents Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>子智能体</span></a><a class="nav-link" href="multi-agent-handoffs.html" data-search="交接 Handoffs multi-agent-handoffs Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>交接</span></a><a class="nav-link" href="multi-agent-skills.html" data-search="技能 Skills multi-agent-skills Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>技能</span></a><a class="nav-link" href="multi-agent-router.html" data-search="路由器 Router multi-agent-router Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>路由器</span></a><a class="nav-link" href="multi-agent-custom-workflow.html" data-search="自定义工作流 Custom workflow multi-agent-custom-workflow Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>自定义工作流</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">智能体开发</div><a class="nav-link" href="studio.html" data-search="LangSmith Studio LangSmith Studio studio Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith Studio</span></a><a class="nav-link" href="ui.html" data-search="Agent Chat UI Agent Chat UI ui Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>Agent Chat UI</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">测试</div><a class="nav-link" href="test.html" data-search="测试 Test test Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>测试</span></a><a class="nav-link" href="test-unit-testing.html" data-search="单元测试 Unit testing test-unit-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>单元测试</span></a><a class="nav-link" href="test-integration-testing.html" data-search="集成测试 Integration testing test-integration-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>集成测试</span></a><a class="nav-link" href="test-evals.html" data-search="智能体评估 Agent Evals test-evals Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>智能体评估</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">生产</div><a class="nav-link" href="deploy.html" data-search="部署 Deployment deploy Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>部署</span></a><a class="nav-link" href="observability.html" data-search="LangSmith 可观测性 LangSmith Observability observability Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith 可观测性</span></a></section><div class="nav-empty" data-nav-empty hidden>没有匹配的页面</div></nav></div>
+      <div class="sidebar-foot"><strong>59 篇</strong> · 社区翻译</div>
+    </aside>
+    <div class="sidebar-overlay" data-sidebar-overlay></div>
+    <main class="main" id="main">
+      <div class="content-wrap">
+        <nav class="breadcrumbs" aria-label="面包屑"><a href="index.html">LangChain</a><span class="sep">/</span><span>中间件</span><span class="sep">/</span><span class="current">自定义中间件</span></nav>
+        <header class="page-header">
+          <h1>自定义中间件</h1>
+          <div class="page-lead">通过实现会在智能体执行流程中特定节点运行的钩子，构建自定义中间件。</div>
+          <div class="page-meta">
+            <span>约 16 分钟</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>社区翻译</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <a href="https://docs.langchain.com/oss/python/langchain/middleware/custom" target="_blank" rel="noopener noreferrer">查看英文原文 ↗</a>
+          </div>
+        </header>
+        <article class="content">
+<h2 id="hooks">钩子<a class="heading-anchor" href="#hooks" aria-label="链接到本节">#</a></h2>
+<p>中间件提供两种风格的钩子来拦截智能体执行：</p>
+<div class="card-grid"><a class="doc-card" href="#node-style-hooks"><span class="card-title">节点式钩子</span><span class="card-body"><p>在特定的执行节点按顺序运行。</p></span></a><a class="doc-card" href="#wrap-style-hooks"><span class="card-title">包裹式钩子</span><span class="card-body"><p>围绕每次模型或工具调用运行。</p></span></a></div>
+<h3 id="node-style-hooks">节点式钩子<a class="heading-anchor" href="#node-style-hooks" aria-label="链接到本节">#</a></h3>
+<p>在特定的执行节点按顺序运行。用于日志记录、校验和状态更新。</p>
+<p>选择中间件所需的钩子。你可以在节点式钩子和包裹式钩子之间选择。</p>
+<p><strong>节点式钩子</strong>在特定的执行节点运行：</p>
+<div class="table-wrap"><table><thead><tr><th>钩子</th><th>运行时机</th></tr></thead><tbody><tr><td><code>before_agent</code></td><td>智能体启动前（每次调用一次）</td></tr><tr><td><code>before_model</code></td><td>每次模型调用前</td></tr><tr><td><code>after_model</code></td><td>每次模型响应后</td></tr><tr><td><code>after_agent</code></td><td>智能体完成后（每次调用一次）</td></tr></tbody></table></div>
+<p><strong>包裹式钩子</strong>围绕每次调用运行，让你可以控制执行过程：</p>
+<div class="table-wrap"><table><thead><tr><th>钩子</th><th>运行时机</th></tr></thead><tbody><tr><td><code>wrap_model_call</code></td><td>围绕每次模型调用</td></tr><tr><td><code>wrap_tool_call</code></td><td>围绕每次工具调用</td></tr></tbody></table></div>
+<p><strong>示例：</strong></p>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-1-tab-0" role="tab" aria-controls="tabs-1-panel-0" aria-selected="true" tabindex="0">Decorator</button><button class="doc-tab" type="button" id="tabs-1-tab-1" role="tab" aria-controls="tabs-1-panel-1" aria-selected="false" tabindex="-1">Class</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-1-panel-0" role="tabpanel" aria-labelledby="tabs-1-tab-0">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> before_model, after_model, AgentState
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> AIMessage
+<span class="hljs-keyword">from</span> langgraph.runtime <span class="hljs-keyword">import</span> Runtime
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Any</span>
+
+
+<span class="hljs-meta">@before_model(<span class="hljs-params">can_jump_to=[<span class="hljs-string">"end"</span>]</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">check_message_limit</span>(<span class="hljs-params">state: AgentState, runtime: Runtime</span>) -&gt; <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>] | <span class="hljs-literal">None</span>:
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(state[<span class="hljs-string">"messages"</span>]) &gt;= <span class="hljs-number">50</span>:
+        <span class="hljs-keyword">return</span> {
+            <span class="hljs-string">"messages"</span>: [AIMessage(<span class="hljs-string">"Conversation limit reached."</span>)],
+            <span class="hljs-string">"jump_to"</span>: <span class="hljs-string">"end"</span>
+        }
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+
+<span class="hljs-meta">@after_model</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">log_response</span>(<span class="hljs-params">state: AgentState, runtime: Runtime</span>) -&gt; <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>] | <span class="hljs-literal">None</span>:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Model returned: <span class="hljs-subst">{state[<span class="hljs-string">'messages'</span>][-<span class="hljs-number">1</span>].content}</span>"</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span></code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-1-panel-1" role="tabpanel" aria-labelledby="tabs-1-tab-1" hidden="">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> AgentMiddleware, AgentState, hook_config
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> AIMessage
+<span class="hljs-keyword">from</span> langgraph.runtime <span class="hljs-keyword">import</span> Runtime
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Any</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MessageLimitMiddleware</span>(<span class="hljs-title class_ inherited__">AgentMiddleware</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, max_messages: <span class="hljs-built_in">int</span> = <span class="hljs-number">50</span></span>):
+        <span class="hljs-built_in">super</span>().__init__()
+        <span class="hljs-variable language_">self</span>.max_messages = max_messages
+
+<span class="hljs-meta">    @hook_config(<span class="hljs-params">can_jump_to=[<span class="hljs-string">"end"</span>]</span>)</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">before_model</span>(<span class="hljs-params">self, state: AgentState, runtime: Runtime</span>) -&gt; <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>] | <span class="hljs-literal">None</span>:
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(state[<span class="hljs-string">"messages"</span>]) &gt;= <span class="hljs-variable language_">self</span>.max_messages:
+            <span class="hljs-keyword">return</span> {
+                <span class="hljs-string">"messages"</span>: [AIMessage(<span class="hljs-string">"Conversation limit reached."</span>)],
+                <span class="hljs-string">"jump_to"</span>: <span class="hljs-string">"end"</span>
+            }
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">after_model</span>(<span class="hljs-params">self, state: AgentState, runtime: Runtime</span>) -&gt; <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>] | <span class="hljs-literal">None</span>:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Model returned: <span class="hljs-subst">{state[<span class="hljs-string">'messages'</span>][-<span class="hljs-number">1</span>].content}</span>"</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span></code></pre>
+</div>
+</div></div>
+</div>
+<h3 id="wrap-style-hooks">包裹式钩子<a class="heading-anchor" href="#wrap-style-hooks" aria-label="链接到本节">#</a></h3>
+<p>拦截执行，并控制何时调用处理器。用于重试、缓存和转换。</p>
+<p>由你决定处理器被调用零次（短路）、一次（正常流程）还是多次（重试逻辑）。</p>
+<p><strong>可用钩子：</strong></p>
+<ul><li><p><code>wrap_model_call</code> - 围绕每次模型调用</p></li><li><p><code>wrap_tool_call</code> - 围绕每次工具调用</p></li></ul>
+<p><strong>示例：</strong></p>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-2-tab-0" role="tab" aria-controls="tabs-2-panel-0" aria-selected="true" tabindex="0">Decorator</button><button class="doc-tab" type="button" id="tabs-2-tab-1" role="tab" aria-controls="tabs-2-panel-1" aria-selected="false" tabindex="-1">Class</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-2-panel-0" role="tabpanel" aria-labelledby="tabs-2-tab-0">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_model_call, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">retry_model</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse],
+</span>) -&gt; ModelResponse:
+    <span class="hljs-keyword">for</span> attempt <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):
+        <span class="hljs-keyword">try</span>:
+            <span class="hljs-keyword">return</span> handler(request)
+        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+            <span class="hljs-keyword">if</span> attempt == <span class="hljs-number">2</span>:
+                <span class="hljs-keyword">raise</span>
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Retry <span class="hljs-subst">{attempt + <span class="hljs-number">1</span>}</span>/3 after error: <span class="hljs-subst">{e}</span>"</span>)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-2-panel-1" role="tabpanel" aria-labelledby="tabs-2-tab-1" hidden="">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> AgentMiddleware, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">RetryMiddleware</span>(<span class="hljs-title class_ inherited__">AgentMiddleware</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, max_retries: <span class="hljs-built_in">int</span> = <span class="hljs-number">3</span></span>):
+        <span class="hljs-built_in">super</span>().__init__()
+        <span class="hljs-variable language_">self</span>.max_retries = max_retries
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">wrap_model_call</span>(<span class="hljs-params">
+        self,
+        request: ModelRequest,
+        handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse],
+    </span>) -&gt; ModelResponse:
+        <span class="hljs-keyword">for</span> attempt <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-variable language_">self</span>.max_retries):
+            <span class="hljs-keyword">try</span>:
+                <span class="hljs-keyword">return</span> handler(request)
+            <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+                <span class="hljs-keyword">if</span> attempt == <span class="hljs-variable language_">self</span>.max_retries - <span class="hljs-number">1</span>:
+                    <span class="hljs-keyword">raise</span>
+                <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Retry <span class="hljs-subst">{attempt + <span class="hljs-number">1</span>}</span>/<span class="hljs-subst">{self.max_retries}</span> after error: <span class="hljs-subst">{e}</span>"</span>)</code></pre>
+</div>
+</div></div>
+</div>
+<h2 id="state-updates">状态更新<a class="heading-anchor" href="#state-updates" aria-label="链接到本节">#</a></h2>
+<p>节点式钩子和包裹式钩子都可以更新智能体状态，但机制不同：</p>
+<ul><li><p><strong>节点式钩子</strong>（<code>before_agent</code>、<code>before_model</code>、<code>after_model</code>、<code>after_agent</code>）：直接返回字典。该字典会通过图的 reducer 应用到智能体状态。</p></li><li><p><strong>包裹式钩子</strong>（<code>wrap_model_call</code>、<code>wrap_tool_call</code>）：对于模型调用，返回带有 <a href="https://reference.langchain.com/python/langgraph/types/Command" target="_blank" rel="noopener noreferrer"><code>Command</code></a> 的 <a href="https://reference.langchain.com/python/langchain/agents/middleware/types/ExtendedModelResponse" target="_blank" rel="noopener noreferrer"><code>ExtendedModelResponse</code></a>，以便在模型响应的同时注入状态更新。对于工具调用，直接返回 <a href="https://reference.langchain.com/python/langgraph/types/Command" target="_blank" rel="noopener noreferrer"><code>Command</code></a>。当你需要根据模型或工具调用期间运行的逻辑来跟踪或更新状态时（例如摘要触发点、用量元数据，或根据请求或响应计算出的自定义字段），请使用这些方式。</p></li></ul>
+<h3 id="node-style-hooks-2">节点式钩子<a class="heading-anchor" href="#node-style-hooks-2" aria-label="链接到本节">#</a></h3>
+<p>从节点式钩子返回字典，即可把更新合并到智能体状态。字典的键对应状态字段。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> after_model, AgentState
+<span class="hljs-keyword">from</span> langgraph.runtime <span class="hljs-keyword">import</span> Runtime
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Any</span>
+<span class="hljs-keyword">from</span> typing_extensions <span class="hljs-keyword">import</span> NotRequired
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">TrackingState</span>(<span class="hljs-title class_ inherited__">AgentState</span>):
+    model_call_count: NotRequired[<span class="hljs-built_in">int</span>]
+
+
+<span class="hljs-meta">@after_model(<span class="hljs-params">state_schema=TrackingState</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">increment_after_model</span>(<span class="hljs-params">state: TrackingState, runtime: Runtime</span>) -&gt; <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>] | <span class="hljs-literal">None</span>:
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">"model_call_count"</span>: state.get(<span class="hljs-string">"model_call_count"</span>, <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>}</code></pre>
+</div>
+<h3 id="wrap-style-hooks-2">包裹式钩子<a class="heading-anchor" href="#wrap-style-hooks-2" aria-label="链接到本节">#</a></h3>
+<p>从 <code>wrap_model_call</code> 返回带有 <a href="https://reference.langchain.com/python/langgraph/types/Command" target="_blank" rel="noopener noreferrer"><code>Command</code></a> 的 <a href="https://reference.langchain.com/python/langchain/agents/middleware/types/ExtendedModelResponse" target="_blank" rel="noopener noreferrer"><code>ExtendedModelResponse</code></a>，以便从模型调用层注入状态更新：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> (
+    wrap_model_call,
+    ModelRequest,
+    ModelResponse,
+    AgentState,
+    ExtendedModelResponse
+)
+<span class="hljs-keyword">from</span> langgraph.types <span class="hljs-keyword">import</span> Command
+<span class="hljs-keyword">from</span> typing_extensions <span class="hljs-keyword">import</span> NotRequired
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">UsageTrackingState</span>(<span class="hljs-title class_ inherited__">AgentState</span>):
+    <span class="hljs-string">"""Agent state with token usage tracking."""</span>
+
+    last_model_call_tokens: NotRequired[<span class="hljs-built_in">int</span>]
+
+
+<span class="hljs-meta">@wrap_model_call(<span class="hljs-params">state_schema=UsageTrackingState</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">track_usage</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse],
+</span>) -&gt; ExtendedModelResponse:
+    response = handler(request)
+    <span class="hljs-keyword">return</span> ExtendedModelResponse(
+        model_response=response,
+        command=Command(update={<span class="hljs-string">"last_model_call_tokens"</span>: <span class="hljs-number">150</span>}),
+    )</code></pre>
+</div>
+<p><a href="https://reference.langchain.com/python/langgraph/types/Command" target="_blank" rel="noopener noreferrer"><code>Command</code></a> 会流经图的 reducer，因此更新会被正确应用，消息是追加式的，而不是替换现有状态。</p>
+<h4 id="composition-with-multiple-middleware">多个中间件的组合<a class="heading-anchor" href="#composition-with-multiple-middleware" aria-label="链接到本节">#</a></h4>
+<p>当多个中间件层都返回 <code>ExtendedModelResponse</code> 时，它们的命令会组合起来：</p>
+<ul><li><p><strong>命令通过 reducer 应用：</strong>每个 <code>Command</code> 都会成为一次独立的状态更新。对于消息而言，这意味着它们是追加式的。</p></li><li><p><strong>冲突时外层优先：</strong>对于非 reducer 状态字段，命令先由内层应用，再由外层应用。发生键冲突时，最外层中间件的值优先。</p></li><li><p><strong>重试安全：</strong>如果外层中间件实现了可能导致 <code>handler()</code> 被再次多次调用的逻辑（例如重试逻辑），那么先前调用的命令会被丢弃。</p></li></ul>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> Annotated, <span class="hljs-type">Callable</span>
+
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> (
+    AgentMiddleware,
+    AgentState,
+    ExtendedModelResponse,
+    ModelRequest,
+    ModelResponse,
+)
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> SystemMessage
+<span class="hljs-keyword">from</span> langgraph.types <span class="hljs-keyword">import</span> Command
+<span class="hljs-keyword">from</span> typing_extensions <span class="hljs-keyword">import</span> NotRequired
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">_last_wins</span>(<span class="hljs-params">_a: <span class="hljs-built_in">str</span>, b: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Reducer: last writer wins (outer overwrites inner)."""</span>
+    <span class="hljs-keyword">return</span> b
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">CustomMiddlewareState</span>(<span class="hljs-title class_ inherited__">AgentState</span>):
+    <span class="hljs-string">"""Agent state: trace_layer uses last-wins (outer wins), messages use additive reducer."""</span>
+
+    <span class="hljs-comment"># Non-reducer field with last-wins: both middleware write; outermost value wins</span>
+    trace_layer: NotRequired[Annotated[<span class="hljs-built_in">str</span>, _last_wins]]
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">OuterMiddleware</span>(<span class="hljs-title class_ inherited__">AgentMiddleware</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">wrap_model_call</span>(<span class="hljs-params">
+        self,
+        request: ModelRequest,
+        handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse],
+    </span>) -&gt; ExtendedModelResponse:
+        response = handler(request)
+        <span class="hljs-keyword">return</span> ExtendedModelResponse(
+            model_response=response,
+            command=Command(update={
+                <span class="hljs-string">"trace_layer"</span>: <span class="hljs-string">"outer"</span>,
+                <span class="hljs-string">"messages"</span>: [SystemMessage(content=<span class="hljs-string">"[Outer ran]"</span>)],
+            }),
+        )
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">InnerMiddleware</span>(<span class="hljs-title class_ inherited__">AgentMiddleware</span>):
+    <span class="hljs-string">"""Adds trace_layer and message. Outer adds to same keys; trace_layer: outer wins, messages: additive."""</span>
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">wrap_model_call</span>(<span class="hljs-params">
+        self,
+        request: ModelRequest,
+        handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse],
+    </span>):
+        response = handler(request)
+        <span class="hljs-keyword">return</span> ExtendedModelResponse(
+            model_response=response,
+            command=Command(update={
+                <span class="hljs-string">"trace_layer"</span>: <span class="hljs-string">"inner"</span>,
+                <span class="hljs-string">"messages"</span>: [SystemMessage(content=<span class="hljs-string">"[Inner ran]"</span>)],
+            }),
+        )</code></pre>
+</div>
+<h2 id="create-middleware">创建中间件<a class="heading-anchor" href="#create-middleware" aria-label="链接到本节">#</a></h2>
+<p>你可以通过两种方式创建中间件：</p>
+<div class="card-grid"><a class="doc-card" href="#decorator-based-middleware"><span class="card-title">基于装饰器的中间件</span><span class="card-body"><p>简单快捷，适用于单钩子中间件。使用装饰器包裹单个函数。</p></span></a><a class="doc-card" href="#class-based-middleware"><span class="card-title">基于类的中间件</span><span class="card-body"><p>功能更强，适用于包含多个钩子或需要配置的复杂中间件。</p></span></a></div>
+<h3 id="decorator-based-middleware">基于装饰器的中间件<a class="heading-anchor" href="#decorator-based-middleware" aria-label="链接到本节">#</a></h3>
+<p>简单快捷，适用于单钩子中间件。使用装饰器包裹单个函数。</p>
+<p><strong>可用装饰器：</strong></p>
+<p><strong>节点式：</strong></p>
+<ul><li><p><a href="https://reference.langchain.com/python/langchain/agents/middleware/types/before_agent" target="_blank" rel="noopener noreferrer"><code>@before_agent</code></a> - 在智能体启动前运行（每次调用一次）</p></li><li><p><a href="https://reference.langchain.com/python/langchain/agents/middleware/types/before_model" target="_blank" rel="noopener noreferrer"><code>@before_model</code></a> - 在每次模型调用前运行</p></li><li><p><a href="https://reference.langchain.com/python/langchain/agents/middleware/types/after_model" target="_blank" rel="noopener noreferrer"><code>@after_model</code></a> - 在每次模型响应后运行</p></li><li><p><a href="https://reference.langchain.com/python/langchain/agents/middleware/types/after_agent" target="_blank" rel="noopener noreferrer"><code>@after_agent</code></a> - 在智能体完成后运行（每次调用一次）</p></li></ul>
+<p><strong>包裹式：</strong></p>
+<ul><li><p><a href="https://reference.langchain.com/python/langchain/agents/middleware/types/wrap_model_call" target="_blank" rel="noopener noreferrer"><code>@wrap_model_call</code></a> - 用自定义逻辑包裹每次模型调用</p></li><li><p><a href="https://reference.langchain.com/python/langchain/agents/middleware/types/wrap_tool_call" target="_blank" rel="noopener noreferrer"><code>@wrap_tool_call</code></a> - 用自定义逻辑包裹每次工具调用</p></li></ul>
+<p><strong>便捷功能：</strong></p>
+<ul><li><p><a href="https://reference.langchain.com/python/langchain/agents/middleware/types/dynamic_prompt" target="_blank" rel="noopener noreferrer"><code>@dynamic_prompt</code></a> - 生成动态系统提示词</p></li></ul>
+<p><strong>示例：</strong></p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> (
+    before_model,
+    wrap_model_call,
+    AgentState,
+    ModelRequest,
+    ModelResponse,
+)
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langgraph.runtime <span class="hljs-keyword">import</span> Runtime
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Any</span>, <span class="hljs-type">Callable</span>
+
+
+<span class="hljs-meta">@before_model</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">log_before_model</span>(<span class="hljs-params">state: AgentState, runtime: Runtime</span>) -&gt; <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>] | <span class="hljs-literal">None</span>:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"About to call model with <span class="hljs-subst">{<span class="hljs-built_in">len</span>(state[<span class="hljs-string">'messages'</span>])}</span> messages"</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">retry_model</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse],
+</span>) -&gt; ModelResponse:
+    <span class="hljs-keyword">for</span> attempt <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):
+        <span class="hljs-keyword">try</span>:
+            <span class="hljs-keyword">return</span> handler(request)
+        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+            <span class="hljs-keyword">if</span> attempt == <span class="hljs-number">2</span>:
+                <span class="hljs-keyword">raise</span>
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Retry <span class="hljs-subst">{attempt + <span class="hljs-number">1</span>}</span>/3 after error: <span class="hljs-subst">{e}</span>"</span>)
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    middleware=[log_before_model, retry_model],
+    tools=[...],
+)</code></pre>
+</div>
+<p><strong>何时使用装饰器：</strong></p>
+<ul><li><p>只需要单个钩子</p></li><li><p>没有复杂配置</p></li><li><p>快速原型开发</p></li></ul>
+<h3 id="class-based-middleware">基于类的中间件<a class="heading-anchor" href="#class-based-middleware" aria-label="链接到本节">#</a></h3>
+<p>功能更强，适用于包含多个钩子或需要配置的复杂中间件。当你需要为同一个钩子同时定义同步和异步实现，或想把多个钩子组合到单个中间件中时，请使用类。</p>
+<p><code>AgentMiddleware</code> 的子类可以声明三个类属性，智能体工厂会在编译时读取它们：</p>
+<ul><li><p><code>state_schema</code> —— 用自定义字段扩展智能体状态。参见 <a href="#custom-state-schema">自定义状态模式</a>。</p></li><li><p><code>tools</code> —— 注册随中间件一起提供的额外工具（例如待办清单中间件上的 <code>write_todos</code>）。</p></li><li><p><code>transformers</code> —— 注册作用域感知的流转换器工厂。参见 <a href="#custom-stream-transformers">自定义流转换器</a>。</p></li></ul>
+<p><strong>示例：</strong></p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> (
+    AgentMiddleware,
+    AgentState,
+    ModelRequest,
+    ModelResponse,
+)
+<span class="hljs-keyword">from</span> langgraph.runtime <span class="hljs-keyword">import</span> Runtime
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Any</span>, <span class="hljs-type">Callable</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">LoggingMiddleware</span>(<span class="hljs-title class_ inherited__">AgentMiddleware</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">before_model</span>(<span class="hljs-params">self, state: AgentState, runtime: Runtime</span>) -&gt; <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>] | <span class="hljs-literal">None</span>:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"About to call model with <span class="hljs-subst">{<span class="hljs-built_in">len</span>(state[<span class="hljs-string">'messages'</span>])}</span> messages"</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">after_model</span>(<span class="hljs-params">self, state: AgentState, runtime: Runtime</span>) -&gt; <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>] | <span class="hljs-literal">None</span>:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Model returned: <span class="hljs-subst">{state[<span class="hljs-string">'messages'</span>][-<span class="hljs-number">1</span>].content}</span>"</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">abefore_model</span>(<span class="hljs-params">
+        self, state: AgentState, runtime: Runtime
+    </span>) -&gt; <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>] | <span class="hljs-literal">None</span>:
+        <span class="hljs-comment"># Async version of before_model</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">aafter_model</span>(<span class="hljs-params">
+        self, state: AgentState, runtime: Runtime
+    </span>) -&gt; <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>] | <span class="hljs-literal">None</span>:
+        <span class="hljs-comment"># Async version of after_model</span>
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Model returned: <span class="hljs-subst">{state[<span class="hljs-string">'messages'</span>][-<span class="hljs-number">1</span>].content}</span>"</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    middleware=[LoggingMiddleware()],
+    tools=[...],
+)</code></pre>
+</div>
+<p><strong>何时使用类：</strong></p>
+<ul><li><p>为同一个钩子同时定义同步和异步实现</p></li><li><p>在单个中间件中需要多个钩子</p></li><li><p>需要复杂配置（例如可配置的阈值、自定义模型）</p></li><li><p>通过初始化时配置在多个项目间复用</p></li></ul>
+<h2 id="custom-state-schema">自定义状态模式<a class="heading-anchor" href="#custom-state-schema" aria-label="链接到本节">#</a></h2>
+<p>如果你的中间件需要跨钩子跟踪状态，中间件可以用自定义属性扩展智能体的状态。这使中间件能够：</p>
+<ul><li><p><strong>跨执行跟踪状态</strong>：维护在智能体整个执行生命周期中持续存在的计数器、标志或其他值</p></li><li><p><strong>在钩子之间共享数据</strong>：把信息从 <code>before_model</code> 传递到 <code>after_model</code>，或在不同的中间件实例之间传递</p></li><li><p><strong>实现横切关注点</strong>：在不修改智能体核心逻辑的情况下添加速率限制、用量跟踪、用户上下文或审计日志等功能</p></li><li><p><strong>做出条件判断</strong>：利用累积的状态来决定是否继续执行、跳转到不同节点，或动态修改行为</p></li></ul>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-3-tab-0" role="tab" aria-controls="tabs-3-panel-0" aria-selected="true" tabindex="0">Decorator</button><button class="doc-tab" type="button" id="tabs-3-tab-1" role="tab" aria-controls="tabs-3-panel-1" aria-selected="false" tabindex="-1">Class</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-3-panel-0" role="tabpanel" aria-labelledby="tabs-3-tab-0">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> HumanMessage
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> AgentState, before_model, after_model
+<span class="hljs-keyword">from</span> typing_extensions <span class="hljs-keyword">import</span> NotRequired
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Any</span>
+<span class="hljs-keyword">from</span> langgraph.runtime <span class="hljs-keyword">import</span> Runtime
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">CustomState</span>(<span class="hljs-title class_ inherited__">AgentState</span>):
+    model_call_count: NotRequired[<span class="hljs-built_in">int</span>]
+    user_id: NotRequired[<span class="hljs-built_in">str</span>]
+
+
+<span class="hljs-meta">@before_model(<span class="hljs-params">state_schema=CustomState, can_jump_to=[<span class="hljs-string">"end"</span>]</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">check_call_limit</span>(<span class="hljs-params">state: CustomState, runtime: Runtime</span>) -&gt; <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>] | <span class="hljs-literal">None</span>:
+    count = state.get(<span class="hljs-string">"model_call_count"</span>, <span class="hljs-number">0</span>)
+    <span class="hljs-keyword">if</span> count &gt; <span class="hljs-number">10</span>:
+        <span class="hljs-keyword">return</span> {<span class="hljs-string">"jump_to"</span>: <span class="hljs-string">"end"</span>}
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+
+
+<span class="hljs-meta">@after_model(<span class="hljs-params">state_schema=CustomState</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">increment_counter</span>(<span class="hljs-params">state: CustomState, runtime: Runtime</span>) -&gt; <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>] | <span class="hljs-literal">None</span>:
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">"model_call_count"</span>: state.get(<span class="hljs-string">"model_call_count"</span>, <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>}
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    middleware=[check_call_limit, increment_counter],
+    tools=[],
+)
+
+<span class="hljs-comment"># Invoke with custom state</span>
+result = agent.invoke({
+    <span class="hljs-string">"messages"</span>: [HumanMessage(<span class="hljs-string">"Hello"</span>)],
+    <span class="hljs-string">"model_call_count"</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-string">"user_id"</span>: <span class="hljs-string">"user-123"</span>,
+})</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-3-panel-1" role="tabpanel" aria-labelledby="tabs-3-tab-1" hidden="">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> HumanMessage
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> AgentState, AgentMiddleware
+<span class="hljs-keyword">from</span> typing_extensions <span class="hljs-keyword">import</span> NotRequired
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Any</span>
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">CustomState</span>(<span class="hljs-title class_ inherited__">AgentState</span>):
+    model_call_count: NotRequired[<span class="hljs-built_in">int</span>]
+    user_id: NotRequired[<span class="hljs-built_in">str</span>]
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">CallCounterMiddleware</span>(AgentMiddleware[CustomState]):
+    state_schema = CustomState
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">before_model</span>(<span class="hljs-params">self, state: CustomState, runtime</span>) -&gt; <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>] | <span class="hljs-literal">None</span>:
+        count = state.get(<span class="hljs-string">"model_call_count"</span>, <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">if</span> count &gt; <span class="hljs-number">10</span>:
+            <span class="hljs-keyword">return</span> {<span class="hljs-string">"jump_to"</span>: <span class="hljs-string">"end"</span>}
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">after_model</span>(<span class="hljs-params">self, state: CustomState, runtime</span>) -&gt; <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>] | <span class="hljs-literal">None</span>:
+        <span class="hljs-keyword">return</span> {<span class="hljs-string">"model_call_count"</span>: state.get(<span class="hljs-string">"model_call_count"</span>, <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>}
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    middleware=[CallCounterMiddleware()],
+    tools=[],
+)
+
+<span class="hljs-comment"># Invoke with custom state</span>
+result = agent.invoke({
+    <span class="hljs-string">"messages"</span>: [HumanMessage(<span class="hljs-string">"Hello"</span>)],
+    <span class="hljs-string">"model_call_count"</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-string">"user_id"</span>: <span class="hljs-string">"user-123"</span>,
+})</code></pre>
+</div>
+</div></div>
+</div>
+<h2 id="custom-stream-transformers">自定义流转换器<a class="heading-anchor" href="#custom-stream-transformers" aria-label="链接到本节">#</a></h2>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>中间件注册的转换器需要 <code>langchain&gt;=1.3.2</code>。</p></div>
+</aside>
+<p>中间件可以注册流转换器工厂，把实时智能体流中的事件投射到带类型的扩展通道上。这适用于呈现计数器、旁路产物、部分输出或线路级脱敏，而无需耦合到框架内置的投影。</p>
+<p>在编译时，中间件注册的工厂会与调用方直接传给智能体工厂的内容合并。<a href="event-streaming.html#register-transformers-on-middleware">最终排序规则</a>会保持内置的 <code>ToolCallTransformer</code> 在前，并让调用方提供的条目排在最后。</p>
+<p>将 <code>transformers</code> 类属性设为一个工厂可调用对象的元组。每个工厂的形状为 <code>Callable[[tuple[str, ...]], StreamTransformer]</code>，并以 <code>factory(scope)</code> 的形式被调用，其中 <code>scope</code> 是 mini-mux 作用域元组（根为 <code>()</code>，子图为非空）；每次调用都返回新的转换器可让每个子图保持隔离。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> AgentMiddleware
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ToolActivityMiddleware</span>(<span class="hljs-title class_ inherited__">AgentMiddleware</span>):
+    transformers = (ToolActivityTransformer,)
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5-nano"</span>,
+    tools=[...],
+    middleware=[ToolActivityMiddleware()],
+)</code></pre>
+</div>
+<p>完整的排序规则和 PII 脱敏示例参见 <a href="event-streaming.html#register-transformers-on-middleware">在中间件上注册转换器</a>。</p>
+<h2 id="execution-order">执行顺序<a class="heading-anchor" href="#execution-order" aria-label="链接到本节">#</a></h2>
+<p>使用多个中间件时，需要了解它们的执行方式：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    middleware=[middleware1, middleware2, middleware3],
+    tools=[...],
+)</code></pre>
+</div>
+<details class="doc-accordion"><summary>执行流程</summary><div class="accordion-body">
+<p><strong>Before 钩子按顺序运行：</strong></p>
+<ol><li><p><code>middleware1.before_agent()</code></p></li><li><p><code>middleware2.before_agent()</code></p></li><li><p><code>middleware3.before_agent()</code></p></li></ol>
+<p><strong>智能体循环开始</strong></p>
+<ol start="4"><li><p><code>middleware1.before_model()</code></p></li><li><p><code>middleware2.before_model()</code></p></li><li><p><code>middleware3.before_model()</code></p></li></ol>
+<p><strong>Wrap 钩子像函数调用一样嵌套：</strong></p>
+<ol start="7"><li><p><code>middleware1.wrap_model_call()</code> → <code>middleware2.wrap_model_call()</code> → <code>middleware3.wrap_model_call()</code> → 模型</p></li></ol>
+<p><strong>After 钩子按相反顺序运行：</strong></p>
+<ol start="8"><li><p><code>middleware3.after_model()</code></p></li><li><p><code>middleware2.after_model()</code></p></li><li><p><code>middleware1.after_model()</code></p></li></ol>
+<p><strong>智能体循环结束</strong></p>
+<ol start="11"><li><p><code>middleware3.after_agent()</code></p></li><li><p><code>middleware2.after_agent()</code></p></li><li><p><code>middleware1.after_agent()</code></p></li></ol></div></details>
+<p><strong>关键规则：</strong></p>
+<ul><li><p><code>before_*</code> 钩子：从第一个到最后一个</p></li><li><p><code>after_*</code> 钩子：从最后一个到第一个（逆序）</p></li><li><p><code>wrap_*</code> 钩子：嵌套（第一个中间件包裹其余所有中间件）</p></li></ul>
+<h2 id="agent-jumps">智能体跳转<a class="heading-anchor" href="#agent-jumps" aria-label="链接到本节">#</a></h2>
+<p>要从中间件提前退出，请返回一个包含 <code>jump_to</code> 的字典：</p>
+<p><strong>可用的跳转目标：</strong></p>
+<ul><li><p><code>'end'</code>：跳转到智能体执行的末尾（或第一个 <code>after_agent</code> 钩子）</p></li><li><p><code>'tools'</code>：跳转到工具节点</p></li><li><p><code>'model'</code>：跳转到模型节点（或第一个 <code>before_model</code> 钩子）</p></li></ul>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-4-tab-0" role="tab" aria-controls="tabs-4-panel-0" aria-selected="true" tabindex="0">Decorator</button><button class="doc-tab" type="button" id="tabs-4-tab-1" role="tab" aria-controls="tabs-4-panel-1" aria-selected="false" tabindex="-1">Class</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-4-panel-0" role="tabpanel" aria-labelledby="tabs-4-tab-0">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> after_model, hook_config, AgentState
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> AIMessage
+<span class="hljs-keyword">from</span> langgraph.runtime <span class="hljs-keyword">import</span> Runtime
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Any</span>
+
+
+<span class="hljs-meta">@after_model</span>
+<span class="hljs-meta">@hook_config(<span class="hljs-params">can_jump_to=[<span class="hljs-string">"end"</span>]</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">check_for_blocked</span>(<span class="hljs-params">state: AgentState, runtime: Runtime</span>) -&gt; <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>] | <span class="hljs-literal">None</span>:
+    last_message = state[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>]
+    <span class="hljs-keyword">if</span> <span class="hljs-string">"BLOCKED"</span> <span class="hljs-keyword">in</span> last_message.content:
+        <span class="hljs-keyword">return</span> {
+            <span class="hljs-string">"messages"</span>: [AIMessage(<span class="hljs-string">"I cannot respond to that request."</span>)],
+            <span class="hljs-string">"jump_to"</span>: <span class="hljs-string">"end"</span>
+        }
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span></code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-4-panel-1" role="tabpanel" aria-labelledby="tabs-4-tab-1" hidden="">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> AgentMiddleware, hook_config, AgentState
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> AIMessage
+<span class="hljs-keyword">from</span> langgraph.runtime <span class="hljs-keyword">import</span> Runtime
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Any</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">BlockedContentMiddleware</span>(<span class="hljs-title class_ inherited__">AgentMiddleware</span>):
+<span class="hljs-meta">    @hook_config(<span class="hljs-params">can_jump_to=[<span class="hljs-string">"end"</span>]</span>)</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">after_model</span>(<span class="hljs-params">self, state: AgentState, runtime: Runtime</span>) -&gt; <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>] | <span class="hljs-literal">None</span>:
+        last_message = state[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>]
+        <span class="hljs-keyword">if</span> <span class="hljs-string">"BLOCKED"</span> <span class="hljs-keyword">in</span> last_message.content:
+            <span class="hljs-keyword">return</span> {
+                <span class="hljs-string">"messages"</span>: [AIMessage(<span class="hljs-string">"I cannot respond to that request."</span>)],
+                <span class="hljs-string">"jump_to"</span>: <span class="hljs-string">"end"</span>
+            }
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span></code></pre>
+</div>
+</div></div>
+</div>
+<h2 id="configure-tracing">配置追踪<a class="heading-anchor" href="#configure-tracing" aria-label="链接到本节">#</a></h2>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>需要 <code>langchain&gt;=1.3.15</code>。</p></div>
+</aside>
+<p>中间件钩子的 span 默认会追踪其输入和输出。设置 <code>trace_policy</code> 可以控制它们记录的内容。<code>TracePolicy</code> 接受可调用对象，例如 <code>process_inputs</code> 和 <code>process_outputs</code>，用于转换被追踪的值；<code>omit_payload</code> 则完全丢弃该值。当完整的消息历史对中间件的功能没有参考价值时，这可作为一种优化手段。</p>
+<p>要从中间件的追踪中省略输入载荷：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> AgentMiddleware, TracePolicy, omit_payload
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MyMiddleware</span>(<span class="hljs-title class_ inherited__">AgentMiddleware</span>):
+    trace_policy = TracePolicy(process_inputs=omit_payload)</code></pre>
+</div>
+<p>要将策略应用于所有中间件，请配置全局默认值：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> configure_trace_policy, TracePolicy, omit_payload
+
+configure_trace_policy(TracePolicy(process_inputs=omit_payload))  <span class="hljs-comment"># pass None to clear</span></code></pre>
+</div>
+<p>中间件自身的 <code>trace_policy</code> 会覆盖全局默认值。</p>
+<h2 id="best-practices">最佳实践<a class="heading-anchor" href="#best-practices" aria-label="链接到本节">#</a></h2>
+<ol><li><p>让中间件保持专注 —— 每个中间件应只做好一件事</p></li><li><p>妥善处理错误 —— 不要让中间件的错误导致智能体崩溃</p></li><li><p><strong>使用合适的钩子类型</strong>：</p><ul><li><p>节点式适用于顺序逻辑（日志记录、校验）</p></li><li><p>包裹式适用于控制流（重试、回退、缓存）</p></li></ul></li><li><p>清晰地记录任何自定义状态属性</p></li><li><p>在集成之前，先独立地对中间件进行单元测试</p></li><li><p>考虑执行顺序 —— 把关键中间件放在列表最前面</p></li><li><p>尽可能使用内置中间件</p></li></ol>
+<h2 id="examples">示例<a class="heading-anchor" href="#examples" aria-label="链接到本节">#</a></h2>
+<h3 id="dynamic-prompt">动态提示词<a class="heading-anchor" href="#dynamic-prompt" aria-label="链接到本节">#</a></h3>
+<p>在运行时动态修改系统提示词，以便在每次模型调用前注入上下文、用户特定的指令或其他信息。这是最常见的中间件用例之一。</p>
+<p>使用 <code>ModelRequest</code> 上的 <code>system_message</code> 字段读取和修改系统提示词。它包含一个 <a href="https://reference.langchain.com/python/langchain-core/messages/system/SystemMessage" target="_blank" rel="noopener noreferrer"><code>SystemMessage</code></a> 对象（即使智能体创建时使用的是字符串 <code>system_prompt</code>）。</p>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-5-tab-0" role="tab" aria-controls="tabs-5-panel-0" aria-selected="true" tabindex="0">Decorator</button><button class="doc-tab" type="button" id="tabs-5-tab-1" role="tab" aria-controls="tabs-5-panel-1" aria-selected="false" tabindex="-1">Class</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-5-panel-0" role="tabpanel" aria-labelledby="tabs-5-tab-0">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> collections.abc <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> ModelRequest, ModelResponse, wrap_model_call
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> SystemMessage
+
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">add_context</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse],
+</span>) -&gt; ModelResponse:
+    new_content = <span class="hljs-built_in">list</span>(request.system_message.content_blocks) + [
+        {<span class="hljs-string">"type"</span>: <span class="hljs-string">"text"</span>, <span class="hljs-string">"text"</span>: <span class="hljs-string">"Additional context."</span>}
+    ]
+    new_system_message = SystemMessage(content=new_content)
+    <span class="hljs-keyword">return</span> handler(request.override(system_message=new_system_message))</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-5-panel-1" role="tabpanel" aria-labelledby="tabs-5-tab-1" hidden="">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> collections.abc <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> AgentMiddleware, ModelRequest, ModelResponse
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ContextMiddleware</span>(<span class="hljs-title class_ inherited__">AgentMiddleware</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">wrap_model_call</span>(<span class="hljs-params">
+        self,
+        request: ModelRequest,
+        handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse],
+    </span>) -&gt; ModelResponse:
+        new_content = <span class="hljs-built_in">list</span>(request.system_message.content_blocks) + [
+            {<span class="hljs-string">"type"</span>: <span class="hljs-string">"text"</span>, <span class="hljs-string">"text"</span>: <span class="hljs-string">"Additional context."</span>}
+        ]
+        new_system_message = SystemMessage(content=new_content)
+        <span class="hljs-keyword">return</span> handler(request.override(system_message=new_system_message))</code></pre>
+</div>
+</div></div>
+</div>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><ul><li><p><code>ModelRequest.system_message</code> 始终是一个 <a href="https://reference.langchain.com/python/langchain-core/messages/system/SystemMessage" target="_blank" rel="noopener noreferrer"><code>SystemMessage</code></a> 对象，即使智能体创建时使用的是 <code>system_prompt="string"</code></p></li><li><p>使用 <code>SystemMessage.content_blocks</code> 以内容块列表的形式访问内容，无论原始内容是字符串还是列表</p></li><li><p>修改系统消息时，请使用 <code>content_blocks</code> 并追加新的内容块，以保留现有结构</p></li><li><p>你可以将 <a href="https://reference.langchain.com/python/langchain-core/messages/system/SystemMessage" target="_blank" rel="noopener noreferrer"><code>SystemMessage</code></a> 对象直接传给 <code>create_agent</code> 的 <code>system_prompt</code> 参数，用于缓存控制等高级用例</p></li></ul></div>
+</aside>
+<h3 id="dynamic-model-selection">动态模型选择<a class="heading-anchor" href="#dynamic-model-selection" aria-label="链接到本节">#</a></h3>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-6-tab-0" role="tab" aria-controls="tabs-6-panel-0" aria-selected="true" tabindex="0">Decorator</button><button class="doc-tab" type="button" id="tabs-6-tab-1" role="tab" aria-controls="tabs-6-panel-1" aria-selected="false" tabindex="-1">Class</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-6-panel-0" role="tabpanel" aria-labelledby="tabs-6-tab-0">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> collections.abc <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> ModelRequest, ModelResponse, wrap_model_call
+<span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+
+complex_model = init_chat_model(<span class="hljs-string">"claude-sonnet-4-6"</span>)
+simple_model = init_chat_model(<span class="hljs-string">"claude-haiku-4-5-20251001"</span>)
+
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">dynamic_model</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse],
+</span>) -&gt; ModelResponse:
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(request.messages) &gt; <span class="hljs-number">10</span>:
+        model = complex_model
+    <span class="hljs-keyword">else</span>:
+        model = simple_model
+    <span class="hljs-keyword">return</span> handler(request.override(model=model))</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-6-panel-1" role="tabpanel" aria-labelledby="tabs-6-tab-1" hidden="">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> collections.abc <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> AgentMiddleware, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+
+complex_model = init_chat_model(<span class="hljs-string">"claude-sonnet-4-6"</span>)
+simple_model = init_chat_model(<span class="hljs-string">"claude-haiku-4-5-20251001"</span>)
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">DynamicModelMiddleware</span>(<span class="hljs-title class_ inherited__">AgentMiddleware</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">wrap_model_call</span>(<span class="hljs-params">
+        self,
+        request: ModelRequest,
+        handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse],
+    </span>) -&gt; ModelResponse:
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(request.messages) &gt; <span class="hljs-number">10</span>:
+            model = complex_model
+        <span class="hljs-keyword">else</span>:
+            model = simple_model
+        <span class="hljs-keyword">return</span> handler(request.override(model=model))</code></pre>
+</div>
+</div></div>
+</div>
+<h3 id="dynamically-selecting-tools">动态选择工具<a class="heading-anchor" href="#dynamically-selecting-tools" aria-label="链接到本节">#</a></h3>
+<p>在运行时选择相关工具，以提升性能和准确性。本节介绍如何过滤预先注册的工具。关于注册在运行时发现的工具（例如来自 MCP 服务器），请参阅 <a href="tools.html#dynamic-tool-selection">运行时工具注册</a>。</p>
+<p><strong>优势：</strong></p>
+<ul><li><p><strong>更短的提示词</strong> —— 只暴露相关工具，从而降低复杂度</p></li><li><p><strong>更高的准确性</strong> —— 可选项更少时，模型能做出正确选择</p></li><li><p><strong>权限控制</strong> —— 根据用户访问权限动态过滤工具</p></li></ul>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-7-tab-0" role="tab" aria-controls="tabs-7-panel-0" aria-selected="true" tabindex="0">Decorator</button><button class="doc-tab" type="button" id="tabs-7-tab-1" role="tab" aria-controls="tabs-7-panel-1" aria-selected="false" tabindex="-1">Class</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-7-panel-0" role="tabpanel" aria-labelledby="tabs-7-tab-0">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_model_call, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">select_tools</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse],
+</span>) -&gt; ModelResponse:
+    <span class="hljs-string">"""Middleware to select relevant tools based on state/context."""</span>
+    <span class="hljs-comment"># Select a small, relevant subset of tools based on state/context</span>
+    relevant_tools = select_relevant_tools(request.state, request.runtime)
+    <span class="hljs-keyword">return</span> handler(request.override(tools=relevant_tools))
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=all_tools,  <span class="hljs-comment"># All available tools need to be registered upfront</span>
+    middleware=[select_tools],
+)</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-7-panel-1" role="tabpanel" aria-labelledby="tabs-7-tab-1" hidden="">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> AgentMiddleware, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ToolSelectorMiddleware</span>(<span class="hljs-title class_ inherited__">AgentMiddleware</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">wrap_model_call</span>(<span class="hljs-params">
+        self,
+        request: ModelRequest,
+        handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse],
+    </span>) -&gt; ModelResponse:
+        <span class="hljs-string">"""Middleware to select relevant tools based on state/context."""</span>
+        <span class="hljs-comment"># Select a small, relevant subset of tools based on state/context</span>
+        relevant_tools = select_relevant_tools(request.state, request.runtime)
+        <span class="hljs-keyword">return</span> handler(request.override(tools=relevant_tools))
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    tools=all_tools,  <span class="hljs-comment"># All available tools need to be registered upfront</span>
+    middleware=[ToolSelectorMiddleware()],
+)</code></pre>
+</div>
+</div></div>
+</div>
+<h3 id="tool-call-monitoring">工具调用监控<a class="heading-anchor" href="#tool-call-monitoring" aria-label="链接到本节">#</a></h3>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-8-tab-0" role="tab" aria-controls="tabs-8-panel-0" aria-selected="true" tabindex="0">Decorator</button><button class="doc-tab" type="button" id="tabs-8-tab-1" role="tab" aria-controls="tabs-8-panel-1" aria-selected="false" tabindex="-1">Class</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-8-panel-0" role="tabpanel" aria-labelledby="tabs-8-tab-0">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> collections.abc <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_tool_call
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> ToolMessage
+<span class="hljs-keyword">from</span> langchain.tools.tool_node <span class="hljs-keyword">import</span> ToolCallRequest
+<span class="hljs-keyword">from</span> langgraph.types <span class="hljs-keyword">import</span> Command
+
+
+<span class="hljs-meta">@wrap_tool_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">monitor_tool</span>(<span class="hljs-params">
+    request: ToolCallRequest,
+    handler: <span class="hljs-type">Callable</span>[[ToolCallRequest], ToolMessage | Command],
+</span>) -&gt; ToolMessage | Command:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Executing tool: <span class="hljs-subst">{request.tool_call[<span class="hljs-string">'name'</span>]}</span>"</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Arguments: <span class="hljs-subst">{request.tool_call[<span class="hljs-string">'args'</span>]}</span>"</span>)
+    <span class="hljs-keyword">try</span>:
+        result = handler(request)
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">"Tool completed successfully"</span>)
+        <span class="hljs-keyword">return</span> result
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Tool failed: <span class="hljs-subst">{e}</span>"</span>)
+        <span class="hljs-keyword">raise</span></code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-8-panel-1" role="tabpanel" aria-labelledby="tabs-8-tab-1" hidden="">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> collections.abc <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> AgentMiddleware
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> ToolMessage
+<span class="hljs-keyword">from</span> langchain.tools.tool_node <span class="hljs-keyword">import</span> ToolCallRequest
+<span class="hljs-keyword">from</span> langgraph.types <span class="hljs-keyword">import</span> Command
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ToolMonitoringMiddleware</span>(<span class="hljs-title class_ inherited__">AgentMiddleware</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">wrap_tool_call</span>(<span class="hljs-params">
+        self,
+        request: ToolCallRequest,
+        handler: <span class="hljs-type">Callable</span>[[ToolCallRequest], ToolMessage | Command],
+    </span>) -&gt; ToolMessage | Command:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Executing tool: <span class="hljs-subst">{request.tool_call[<span class="hljs-string">'name'</span>]}</span>"</span>)
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Arguments: <span class="hljs-subst">{request.tool_call[<span class="hljs-string">'args'</span>]}</span>"</span>)
+        <span class="hljs-keyword">try</span>:
+            result = handler(request)
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">"Tool completed successfully"</span>)
+            <span class="hljs-keyword">return</span> result
+        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Tool failed: <span class="hljs-subst">{e}</span>"</span>)
+            <span class="hljs-keyword">raise</span></code></pre>
+</div>
+</div></div>
+</div>
+<h3 id="prompt-caching-anthropic">提示词缓存（Anthropic）<a class="heading-anchor" href="#prompt-caching-anthropic" aria-label="链接到本节">#</a></h3>
+<p>在使用 Anthropic 模型时，使用带有缓存控制指令的结构化内容块来缓存大型系统提示词：</p>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-9-tab-0" role="tab" aria-controls="tabs-9-panel-0" aria-selected="true" tabindex="0">Decorator</button><button class="doc-tab" type="button" id="tabs-9-tab-1" role="tab" aria-controls="tabs-9-panel-1" aria-selected="false" tabindex="-1">Class</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-9-panel-0" role="tabpanel" aria-labelledby="tabs-9-tab-0">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> wrap_model_call, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> SystemMessage
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">add_cached_context</span>(<span class="hljs-params">
+    request: ModelRequest,
+    handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse],
+</span>) -&gt; ModelResponse:
+    <span class="hljs-comment"># Always work with content blocks</span>
+    new_content = <span class="hljs-built_in">list</span>(request.system_message.content_blocks) + [
+        {
+            <span class="hljs-string">"type"</span>: <span class="hljs-string">"text"</span>,
+            <span class="hljs-string">"text"</span>: <span class="hljs-string">"Here is a large document to analyze:\n\n&lt;document&gt;...&lt;/document&gt;"</span>,
+            <span class="hljs-comment"># content up until this point is cached</span>
+            <span class="hljs-string">"cache_control"</span>: {<span class="hljs-string">"type"</span>: <span class="hljs-string">"ephemeral"</span>}
+        }
+    ]
+
+    new_system_message = SystemMessage(content=new_content)
+    <span class="hljs-keyword">return</span> handler(request.override(system_message=new_system_message))</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-9-panel-1" role="tabpanel" aria-labelledby="tabs-9-tab-1" hidden="">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> AgentMiddleware, ModelRequest, ModelResponse
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> SystemMessage
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">CachedContextMiddleware</span>(<span class="hljs-title class_ inherited__">AgentMiddleware</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">wrap_model_call</span>(<span class="hljs-params">
+        self,
+        request: ModelRequest,
+        handler: <span class="hljs-type">Callable</span>[[ModelRequest], ModelResponse],
+    </span>) -&gt; ModelResponse:
+        <span class="hljs-comment"># Always work with content blocks</span>
+        new_content = <span class="hljs-built_in">list</span>(request.system_message.content_blocks) + [
+            {
+                <span class="hljs-string">"type"</span>: <span class="hljs-string">"text"</span>,
+                <span class="hljs-string">"text"</span>: <span class="hljs-string">"Here is a large document to analyze:\n\n&lt;document&gt;...&lt;/document&gt;"</span>,
+                <span class="hljs-string">"cache_control"</span>: {<span class="hljs-string">"type"</span>: <span class="hljs-string">"ephemeral"</span>}  <span class="hljs-comment"># This content will be cached</span>
+            }
+        ]
+
+        new_system_message = SystemMessage(content=new_content)
+        <span class="hljs-keyword">return</span> handler(request.override(system_message=new_system_message))</code></pre>
+</div>
+</div></div>
+</div>
+<p><strong>说明：</strong></p>
+<ul><li><p><code>ModelRequest.system_message</code> 始终是一个 <a href="https://reference.langchain.com/python/langchain-core/messages/system/SystemMessage" target="_blank" rel="noopener noreferrer"><code>SystemMessage</code></a> 对象，即使智能体创建时使用的是 <code>system_prompt="string"</code></p></li><li><p>使用 <code>SystemMessage.content_blocks</code> 以内容块列表的形式访问内容，无论原始内容是字符串还是列表</p></li><li><p>修改系统消息时，请使用 <code>content_blocks</code> 并追加新的内容块，以保留现有结构</p></li><li><p>你可以将 <a href="https://reference.langchain.com/python/langchain-core/messages/system/SystemMessage" target="_blank" rel="noopener noreferrer"><code>SystemMessage</code></a> 对象直接传给 <code>create_agent</code> 的 <code>system_prompt</code> 参数，用于缓存控制等高级用例</p></li></ul>
+<h2 id="additional-resources">更多资源<a class="heading-anchor" href="#additional-resources" aria-label="链接到本节">#</a></h2>
+<ul><li><p><a href="https://reference.langchain.com/python/langchain/middleware/" target="_blank" rel="noopener noreferrer">中间件 API 参考</a></p></li><li><p><a href="middleware-built-in.html">内置中间件</a></p></li><li><p><a href="https://docs.langchain.com/oss/python/langchain/test" target="_blank" rel="noopener noreferrer">测试智能体</a></p></li></ul></article>
+        <nav class="pager" aria-label="翻页"><a class="prev" href="middleware-built-in.html"><span class="pager-label">上一篇</span><span class="pager-title">预置中间件</span></a><a class="next" href="frontend-overview.html"><span class="pager-label">下一篇</span><span class="pager-title">前端概览</span></a></nav>
+        <footer class="page-footer">
+          <p>本页为社区维护的简体中文翻译，不是 LangChain 官方文档。如与英文原文有出入，请以 <a href="https://docs.langchain.com/oss/python/langchain/middleware/custom" target="_blank" rel="noopener noreferrer">英文原文</a> 为准。</p>
+        </footer>
+      </div>
+    </main>
+    <aside class="toc" aria-label="本页目录"><div class="toc-inner"><div class="toc-title">本页目录</div><a class="toc-link level-2" href="#hooks">钩子</a><a class="toc-link level-3" href="#node-style-hooks">节点式钩子</a><a class="toc-link level-3" href="#wrap-style-hooks">包裹式钩子</a><a class="toc-link level-2" href="#state-updates">状态更新</a><a class="toc-link level-3" href="#node-style-hooks-2">节点式钩子</a><a class="toc-link level-3" href="#wrap-style-hooks-2">包裹式钩子</a><a class="toc-link level-2" href="#create-middleware">创建中间件</a><a class="toc-link level-3" href="#decorator-based-middleware">基于装饰器的中间件</a><a class="toc-link level-3" href="#class-based-middleware">基于类的中间件</a><a class="toc-link level-2" href="#custom-state-schema">自定义状态模式</a><a class="toc-link level-2" href="#custom-stream-transformers">自定义流转换器</a><a class="toc-link level-2" href="#execution-order">执行顺序</a><a class="toc-link level-2" href="#agent-jumps">智能体跳转</a><a class="toc-link level-2" href="#configure-tracing">配置追踪</a><a class="toc-link level-2" href="#best-practices">最佳实践</a><a class="toc-link level-2" href="#examples">示例</a><a class="toc-link level-3" href="#dynamic-prompt">动态提示词</a><a class="toc-link level-3" href="#dynamic-model-selection">动态模型选择</a><a class="toc-link level-3" href="#dynamically-selecting-tools">动态选择工具</a><a class="toc-link level-3" href="#tool-call-monitoring">工具调用监控</a><a class="toc-link level-3" href="#prompt-caching-anthropic">提示词缓存（Anthropic）</a><a class="toc-link level-2" href="#additional-resources">更多资源</a></div></aside>
+  </div>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p><strong>LangChain 中文文档</strong> · 社区翻译，非官方站点。内容基于 <a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener noreferrer">docs.langchain.com</a> 的 LangChain（Python）文档生成。</p>
+      <p>共 59 篇 · 代码示例保持英文原样 · 以英文原文为准</p>
+    </div>
+  </footer>
+  <button class="back-top" type="button" data-back-top aria-label="回到顶部">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script src="assets/docs.js" defer></script>
+</body>
+</html>

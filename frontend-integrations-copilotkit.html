@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CopilotKit | LangChain 中文文档</title>
+  <meta name="description" content="结合自定义端点、Python AG-UI 桥接层、结构化生成式 UI 和消息平台渠道，将 CopilotKit 与 LangGraph、Deep Agents 和 React 一起使用">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M12.5 19.5l7-7M10 22l-1 1a4 4 0 0 1-5.7-5.7l3.4-3.4a4 4 0 0 1 5.7 0M22 10l1-1a4 4 0 0 1 5.7 5.7l-3.4 3.4a4 4 0 0 1-5.7 0' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem('lc-docs-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();</script>
+  <link rel="stylesheet" href="assets/docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div id="progress" data-progress></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="打开文档导航" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="LangChain 中文文档首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9.4 14.6l5.2-5.2M7.1 16.9l-1.4 1.4a3.7 3.7 0 0 1-5.2-5.2l3.2-3.2a3.7 3.7 0 0 1 5.2 0M16.9 7.1l1.4-1.4a3.7 3.7 0 0 1 5.2 5.2l-3.2 3.2a3.7 3.7 0 0 1-5.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text">LangChain <span class="brand-sub">中文文档</span></span>
+      </a>
+      <nav class="top-nav" aria-label="主导航">
+        <a class="top-link active" href="index.html" aria-current="page">LangChain</a>
+        <a class="top-link" href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a>
+        <a class="top-link" href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener noreferrer">LangSmith</a>
+        <a class="top-link" href="https://reference.langchain.com/python/langchain/" target="_blank" rel="noopener noreferrer">API 参考</a>
+      </nav>
+      <div class="header-actions">
+        <a class="source-link" href="https://docs.langchain.com/oss/python/langchain/frontend/integrations/copilotkit" target="_blank" rel="noopener noreferrer">English <span aria-hidden="true">↗</span></a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="切换到深色模式" aria-pressed="false" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v1.6M10 16.2v1.6M2.2 10h1.6M16.2 10h1.6M4.5 4.5l1.1 1.1M14.4 14.4l1.1 1.1M15.5 4.5l-1.1 1.1M5.6 14.4l-1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.4 12.1A6.6 6.6 0 0 1 7.9 3.6 6.8 6.8 0 1 0 16.4 12.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" id="sidebar" aria-label="文档导航">
+      <div class="sidebar-head">
+        <div class="sidebar-title">文档目录</div>
+        <div class="nav-search">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.2" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="搜索页面…" aria-label="搜索文档页面" data-nav-search autocomplete="off" spellcheck="false">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+      </div>
+      <div class="sidebar-scroll"><nav class="nav" id="doc-nav" aria-label="文档页面"><div class="nav-home"><a class="nav-link" href="index.html" data-search="LangChain 概览 LangChain overview index  "><span class="nav-dot" aria-hidden="true"></span><span>LangChain 概览</span></a></div><section class="nav-section" data-nav-section><div class="nav-section-title">开始使用</div><a class="nav-link" href="install.html" data-search="安装 LangChain Install LangChain install Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>安装 LangChain</span></a><a class="nav-link" href="quickstart.html" data-search="快速开始 Quickstart quickstart Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>快速开始</span></a><a class="nav-link" href="philosophy.html" data-search="设计理念 Philosophy philosophy Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>设计理念</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">核心组件</div><a class="nav-link" href="agents.html" data-search="智能体 Agents agents Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>智能体</span></a><a class="nav-link" href="models.html" data-search="模型 Models models Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>模型</span></a><a class="nav-link" href="messages.html" data-search="消息 Messages messages Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>消息</span></a><a class="nav-link" href="tools.html" data-search="工具 Tools tools Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>工具</span></a><a class="nav-link" href="short-term-memory.html" data-search="短期记忆 Short-term memory short-term-memory Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>短期记忆</span></a><a class="nav-link" href="event-streaming.html" data-search="事件流 Event streaming event-streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>事件流</span></a><a class="nav-link" href="streaming.html" data-search="流式传输 Streaming streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>流式传输</span></a><a class="nav-link" href="structured-output.html" data-search="结构化输出 Structured output structured-output Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>结构化输出</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">中间件</div><a class="nav-link" href="middleware-overview.html" data-search="中间件概览 Middleware overview middleware-overview Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>中间件概览</span></a><a class="nav-link" href="middleware-built-in.html" data-search="预置中间件 Prebuilt middleware middleware-built-in Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>预置中间件</span></a><a class="nav-link" href="middleware-custom.html" data-search="自定义中间件 Custom middleware middleware-custom Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>自定义中间件</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">前端</div><a class="nav-link" href="frontend-overview.html" data-search="前端概览 Overview frontend-overview Frontend 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端概览</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">模式</div><a class="nav-link" href="frontend-markdown-messages.html" data-search="Markdown 消息 Markdown messages frontend-markdown-messages Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>Markdown 消息</span></a><a class="nav-link" href="frontend-tool-calling.html" data-search="工具调用 Tool calling frontend-tool-calling Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>工具调用</span></a><a class="nav-link" href="frontend-headless-tools.html" data-search="无头工具 Headless tools frontend-headless-tools Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>无头工具</span></a><a class="nav-link" href="frontend-human-in-the-loop.html" data-search="前端人在回路 Human-in-the-Loop frontend-human-in-the-loop Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端人在回路</span></a><a class="nav-link" href="frontend-branching-chat.html" data-search="分支对话 Branching chat frontend-branching-chat Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>分支对话</span></a><a class="nav-link" href="frontend-reasoning-tokens.html" data-search="推理 token Reasoning tokens frontend-reasoning-tokens Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>推理 token</span></a><a class="nav-link" href="frontend-structured-output.html" data-search="前端结构化输出 Structured output frontend-structured-output Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端结构化输出</span></a><a class="nav-link" href="frontend-message-queues.html" data-search="消息队列 Message queues frontend-message-queues Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>消息队列</span></a><a class="nav-link" href="frontend-join-rejoin.html" data-search="断开与重连流 Join &amp; rejoin streams frontend-join-rejoin Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>断开与重连流</span></a><a class="nav-link" href="frontend-time-travel.html" data-search="时间旅行 Time travel frontend-time-travel Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>时间旅行</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">生成式 UI</div><a class="nav-link" href="frontend-generative-ui-overview.html" data-search="生成式 UI 概览 Generative UI overview frontend-generative-ui-overview Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>生成式 UI 概览</span></a><a class="nav-link" href="frontend-controlled-generative-ui.html" data-search="受控生成式 UI Controlled generative UI frontend-controlled-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>受控生成式 UI</span></a><a class="nav-link" href="frontend-declarative-generative-ui.html" data-search="声明式生成式 UI Declarative generative UI frontend-declarative-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>声明式生成式 UI</span></a><a class="nav-link" href="frontend-open-ended-generative-ui.html" data-search="开放式生成式 UI Open-ended generative UI frontend-open-ended-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>开放式生成式 UI</span></a></div></div><div class="nav-subgroup"><div class="nav-subgroup-title">集成</div><a class="nav-link" href="frontend-integrations-overview.html" data-search="集成概览 Overview frontend-integrations-overview Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>集成概览</span></a><a class="nav-link active" href="frontend-integrations-copilotkit.html" data-search="CopilotKit CopilotKit frontend-integrations-copilotkit Frontend Integrations 前端 前端" aria-current="page"><span class="nav-dot" aria-hidden="true"></span><span>CopilotKit</span></a><a class="nav-link" href="frontend-integrations-ai-elements.html" data-search="AI Elements AI Elements frontend-integrations-ai-elements Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>AI Elements</span></a><a class="nav-link" href="frontend-integrations-assistant-ui.html" data-search="assistant-ui assistant-ui frontend-integrations-assistant-ui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>assistant-ui</span></a><a class="nav-link" href="frontend-integrations-openui.html" data-search="OpenUI OpenUI frontend-integrations-openui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>OpenUI</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">高级用法</div><a class="nav-link" href="guardrails.html" data-search="护栏 Guardrails guardrails Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>护栏</span></a><a class="nav-link" href="runtime.html" data-search="运行时 Runtime runtime Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>运行时</span></a><a class="nav-link" href="context-engineering.html" data-search="智能体中的上下文工程 Context engineering in agents context-engineering Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>智能体中的上下文工程</span></a><a class="nav-link" href="human-in-the-loop.html" data-search="人在回路 Human-in-the-loop human-in-the-loop Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>人在回路</span></a><a class="nav-link" href="retrieval.html" data-search="检索 Retrieval retrieval Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>检索</span></a><a class="nav-link" href="long-term-memory.html" data-search="长期记忆 Long-term memory long-term-memory Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>长期记忆</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">MCP</div><a class="nav-link" href="mcp.html" data-search="MCP 概述 Model Context Protocol (MCP) mcp Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 概述</span></a><a class="nav-link" href="mcp-tools.html" data-search="MCP 工具 Tools mcp-tools Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 工具</span></a><a class="nav-link" href="mcp-connections.html" data-search="MCP 连接 Connections mcp-connections Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 连接</span></a><a class="nav-link" href="mcp-auth.html" data-search="MCP 认证 Authentication mcp-auth Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 认证</span></a></div><div class="nav-subgroup"><div class="nav-subgroup-title">多智能体</div><a class="nav-link" href="multi-agent.html" data-search="多智能体 Multi-agent multi-agent Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>多智能体</span></a><a class="nav-link" href="multi-agent-subagents.html" data-search="子智能体 Subagents multi-agent-subagents Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>子智能体</span></a><a class="nav-link" href="multi-agent-handoffs.html" data-search="交接 Handoffs multi-agent-handoffs Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>交接</span></a><a class="nav-link" href="multi-agent-skills.html" data-search="技能 Skills multi-agent-skills Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>技能</span></a><a class="nav-link" href="multi-agent-router.html" data-search="路由器 Router multi-agent-router Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>路由器</span></a><a class="nav-link" href="multi-agent-custom-workflow.html" data-search="自定义工作流 Custom workflow multi-agent-custom-workflow Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>自定义工作流</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">智能体开发</div><a class="nav-link" href="studio.html" data-search="LangSmith Studio LangSmith Studio studio Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith Studio</span></a><a class="nav-link" href="ui.html" data-search="Agent Chat UI Agent Chat UI ui Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>Agent Chat UI</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">测试</div><a class="nav-link" href="test.html" data-search="测试 Test test Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>测试</span></a><a class="nav-link" href="test-unit-testing.html" data-search="单元测试 Unit testing test-unit-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>单元测试</span></a><a class="nav-link" href="test-integration-testing.html" data-search="集成测试 Integration testing test-integration-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>集成测试</span></a><a class="nav-link" href="test-evals.html" data-search="智能体评估 Agent Evals test-evals Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>智能体评估</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">生产</div><a class="nav-link" href="deploy.html" data-search="部署 Deployment deploy Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>部署</span></a><a class="nav-link" href="observability.html" data-search="LangSmith 可观测性 LangSmith Observability observability Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith 可观测性</span></a></section><div class="nav-empty" data-nav-empty hidden>没有匹配的页面</div></nav></div>
+      <div class="sidebar-foot"><strong>59 篇</strong> · 社区翻译</div>
+    </aside>
+    <div class="sidebar-overlay" data-sidebar-overlay></div>
+    <main class="main" id="main">
+      <div class="content-wrap">
+        <nav class="breadcrumbs" aria-label="面包屑"><a href="index.html">LangChain</a><span class="sep">/</span><span>前端</span><span class="sep">/</span><span>集成</span><span class="sep">/</span><span class="current">CopilotKit</span></nav>
+        <header class="page-header">
+          <h1>CopilotKit</h1>
+          <div class="page-lead">结合自定义端点、Python AG-UI 桥接层、结构化生成式 UI 和消息平台渠道，将 CopilotKit 与 LangGraph、Deep Agents 和 React 一起使用</div>
+          <div class="page-meta">
+            <span>约 19 分钟</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>社区翻译</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <a href="https://docs.langchain.com/oss/python/langchain/frontend/integrations/copilotkit" target="_blank" rel="noopener noreferrer">查看英文原文 ↗</a>
+          </div>
+        </header>
+        <article class="content"><p><a href="https://www.copilotkit.ai/" target="_blank" rel="noopener noreferrer">CopilotKit</a> 提供完整的 React 聊天运行时，当你希望智能体返回 <strong>结构化 UI 载荷</strong> 而不只是纯文本时，它与 LangGraph 尤其契合。前端与 CopilotKit 运行时 URL 通信，并把助手消息解析为动态 React 组件。</p>
+<p>在这种模式中，你的 LangGraph 部署同时提供图 API 和一个 AG-UI FastAPI 桥接层。一个轻量的 Node CopilotKit 运行时位于该桥接层之前，由 React 客户端调用。</p>
+<p>在服务端，<a href="https://pypi.org/project/copilotkit/" target="_blank" rel="noopener noreferrer">copilotkit</a> 包提供 <a href="https://docs.copilotkit.ai/" target="_blank" rel="noopener noreferrer"><code>CopilotKitMiddleware</code></a>，使 LangGraph 图、LangChain 智能体或 <a href="https://docs.langchain.com/oss/python/deepagents/overview" target="_blank" rel="noopener noreferrer">Deep Agent</a> 能够使用 <a href="https://docs.ag-ui.com/" target="_blank" rel="noopener noreferrer">Agent UI (AG-UI)</a> 线路协议，向聊天 UI 流式传输工具和消息事件，并读写共享的 <strong>CopilotKit</strong> 状态切片。TypeScript 方案通常把 CopilotKit 运行时挂载在图 API 旁边。Python 方案在部署上挂载 AG-UI FastAPI 桥接层，并在其前面以 Node 运行 CopilotKit 运行时。</p>
+<p>当你需要以下能力时，这种方法很有用：</p>
+<ul><li><p>现成的聊天运行时，无需自己接入 <code>stream.messages</code></p></li><li><p>自定义服务端端点，可在已部署的图旁边添加特定于提供商的行为</p></li><li><p>由受限组件注册表渲染的结构化生成式 UI</p></li></ul>
+<p><a href="https://docs.copilotkit.ai/langgraph" target="_blank" rel="noopener noreferrer">CopilotKit for LangGraph</a> 还在相同的中间件和客户端之上介绍了 <a href="https://docs.copilotkit.ai/langgraph/generative-ui" target="_blank" rel="noopener noreferrer">生成式 UI</a>、<a href="https://docs.copilotkit.ai/langgraph/human-in-the-loop" target="_blank" rel="noopener noreferrer">人在回路</a>（HITL）和 <a href="https://docs.copilotkit.ai/langgraph/shared-state" target="_blank" rel="noopener noreferrer">共享状态</a>。</p>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>关于 CopilotKit 特有的 API、UI 模式和运行时配置，请参阅 <a href="https://docs.copilotkit.ai/langgraph" target="_blank" rel="noopener noreferrer">CopilotKit 文档</a>。关于 Deep Agent 的完整演练，请参阅 CopilotKit 文档中的 <a href="https://docs.copilotkit.ai/langgraph/deep-agents" target="_blank" rel="noopener noreferrer">Deep Agents and CopilotKit</a>。</p></div>
+</aside>
+<h2 id="how-it-works">工作原理<a class="heading-anchor" href="#how-it-works" aria-label="链接到本节">#</a></h2>
+<p>从高层来看，CopilotKit 位于你的 React 应用与 LangGraph 部署之间。</p>
+<p>前端把对话状态发送给 Node CopilotKit 运行时。该运行时调用你 LangGraph 部署上的 AG-UI FastAPI 桥接层，响应中同时返回助手消息和你的组件注册表能够渲染的任何结构化 UI 载荷。</p>
+<ol><li><p><strong>像往常一样部署图</strong>，可以使用 LangSmith，也可以使用 LangGraph 开发服务器。</p></li><li><p><strong>用 HTTP 应用扩展部署</strong>，在图 API 旁边挂载 AG-UI FastAPI 桥接层。</p></li><li><p><strong>运行一个 Node CopilotKit 运行时</strong>，让 <code>HttpAgent</code> 指向该桥接层，然后用 <code>CopilotKit</code> 包裹前端并指向运行时 URL。</p></li><li><p><strong>注册动态 UI 组件</strong>，并在渲染时把助手响应解析为这些组件。</p></li></ol>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">mermaid</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-mermaid">%%{
+  init: {
+    "fontFamily": "monospace",
+    "flowchart": {
+      "curve": "curve"
+    }
+  }
+}%%
+graph LR
+  USER["User input"]
+  UI["CopilotKit React app"]
+  ENDPOINT["/api/copilotkit"]
+  GRAPH["LangGraph deployment"]
+  RENDER["Hashbrown UI kit"]
+
+  USER --&gt; UI
+  UI --&gt; RUNTIME
+  RUNTIME --&gt; GRAPH
+  GRAPH --&gt; RUNTIME
+  RUNTIME --&gt; UI
+  UI --&gt; RENDER</code></pre>
+</div>
+<p>在 Python 方案中，CopilotKit 运行时是一个独立的 Node 进程。LangGraph 部署只托管图 API 和 AG-UI FastAPI 桥接层。参见 <a href="#add-the-copilotkit-runtime">添加 CopilotKit 运行时</a>。</p>
+<h2 id="what-you-get-on-the-python-server">Python 服务端提供的能力<a class="heading-anchor" href="#what-you-get-on-the-python-server" aria-label="链接到本节">#</a></h2>
+<p><a href="https://pypi.org/project/copilotkit/" target="_blank" rel="noopener noreferrer">copilotkit</a> 及相关包在 LangGraph 部署与 CopilotKit 客户端之间架起桥梁。</p>
+<div class="table-wrap"><table><thead><tr><th>组件</th><th>作用</th></tr></thead><tbody><tr><td><code>CopilotKitMiddleware</code></td><td>把 CopilotKit 和 AG-UI 的状态与请求合并进你的智能体，包括前端的 <a href="agents.html#tools">工具调用</a> 和上下文。将其加入 <a href="https://reference.langchain.com/python/langchain/agents/factory/create_agent" target="_blank" rel="noopener noreferrer">create_agent</a> 或 <a href="https://reference.langchain.com/python/deepagents/graph/create_deep_agent" target="_blank" rel="noopener noreferrer">create_deep_agent</a> 的 <code>middleware</code> 列表。</td></tr><tr><td><code>CopilotKitState</code>（子类）</td><td><a href="short-term-memory.html">自定义状态</a>：扩展 <code>CopilotKitState</code>，使 CopilotKit 键成为图状态的一部分。</td></tr><tr><td><code>LangGraphAGUIAgent</code></td><td>将已编译的图连同名称和描述打包，供运行时使用。</td></tr><tr><td><code>add_langgraph_fastapi_endpoint</code>（来自 <a href="https://pypi.org/project/ag-ui-langgraph/" target="_blank" rel="noopener noreferrer">ag-ui-langgraph</a>）</td><td>在你的图所在的同一个 <a href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a> 进程中接入 <strong>FastAPI</strong> AG-UI 桥接层。用 <a href="#extend-the-langgraph-deployment-with-a-custom-endpoint">custom <code>http</code> 应用在 <code>langgraph.json</code></a> 中挂载它。React 客户端仍需要一个独立的 Node <a href="#add-the-copilotkit-runtime">CopilotKit 运行时</a>，通过 AG-UI 调用该桥接层。</td></tr></tbody></table></div>
+<p><code>CopilotKitMiddleware</code> 是同一个中间件，既适用于 <a href="https://reference.langchain.com/python/deepagents/graph/create_deep_agent" target="_blank" rel="noopener noreferrer">create_deep_agent</a>，也适用于来自 <a href="https://reference.langchain.com/python/langchain/agents/factory/create_agent" target="_blank" rel="noopener noreferrer">create_agent</a> 的图（当你把它加入 <code>middleware</code> 列表时）。对于 <code>create_agent</code> 图（带有 <code>CopilotKitState</code> 和 FastAPI 桥接层），请参照下面的 <a href="#extend-the-langgraph-deployment-with-a-custom-endpoint">Python <code>main.py</code> 示例</a>。结构化生成式 UI（例如 <code>useAgentContext</code> 以及客户端传入的 <code>output_schema</code>）需要额外的中间件，把 Copilot 状态映射为 <a href="agents.html#structured-output">结构化输出</a> 策略，如同一节中可展开的 <code>src/middleware.py</code> 示例所示。</p>
+<p>在 <code>langgraph.json</code> 中把 <code>app</code> 挂载到 <code>http</code> 键上，遵循通常的 <a href="https://docs.langchain.com/oss/python/langgraph/deploy" target="_blank" rel="noopener noreferrer">LangGraph 或 LangSmith 部署</a> 方式：一个进程同时提供图 API 和 AG-UI FastAPI 桥接层。CopilotKit React 客户端与 Node 运行时通信，再由运行时调用该桥接层。</p>
+<h2 id="installation">安装<a class="heading-anchor" href="#installation" aria-label="链接到本节">#</a></h2>
+<p>后端端点：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">bash</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">uv add copilotkit ag-ui-langgraph fastapi uvicorn</code></pre>
+</div>
+<p>该中间件包与 Deep Agents 技术栈配套使用。请连同你的 <a href="https://docs.langchain.com/oss/python/integrations/chat" target="_blank" rel="noopener noreferrer">聊天模型</a> 包一起安装（本示例使用 OpenAI）：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-1-tab-0" role="tab" aria-controls="codegroup-1-panel-0" aria-selected="true" tabindex="0">pip</button><button class="code-tab" type="button" id="codegroup-1-tab-1" role="tab" aria-controls="codegroup-1-panel-1" aria-selected="false" tabindex="-1">uv</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-1-panel-0" role="tabpanel" aria-labelledby="codegroup-1-tab-0">
+  <pre><code class="hljs language-python">pip install -U deepagents copilotkit langchain-openai</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-1" role="tabpanel" aria-labelledby="codegroup-1-tab-1" hidden="">
+  <pre><code class="hljs language-python">uv add deepagents copilotkit langchain-openai</code></pre>
+</div></div>
+</div>
+<p>前端所调用的 CopilotKit 运行时是一个 Node 包，因此 Python 方案还需要一个小型 Node 服务器。下面的版本固定组合是经过验证可用的搭配。如果你升级 <code>@copilotkit/runtime</code>，请安装该版本所列依赖对应的 <code>@ag-ui/client</code> 版本，以保证 <code>HttpAgent</code> 类型匹配：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">bash</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">bun add @copilotkit/runtime@1.73.3 @ag-ui/client@0.0.59</code></pre>
+</div>
+<p>前端应用：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">bash</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">bun add @copilotkit/react-core @copilotkit/react-ui @hashbrownai/core @hashbrownai/react</code></pre>
+</div>
+<h2 id="use-copilotkit-with-a-deep-agent">将 CopilotKit 与 Deep Agent 配合使用<a class="heading-anchor" href="#use-copilotkit-with-a-deep-agent" aria-label="链接到本节">#</a></h2>
+<p>把 <code>CopilotKitMiddleware</code> 加入传给 <a href="https://reference.langchain.com/python/deepagents/graph/create_deep_agent" target="_blank" rel="noopener noreferrer">create_deep_agent</a> 的 <code>middleware</code> 列表。该中间件使 CopilotKit 能够路由前端工具调用，并使聊天状态与图保持一致。你配置的其他 <a href="https://docs.langchain.com/oss/python/deepagents/customization#middleware" target="_blank" rel="noopener noreferrer">中间件</a> 也应保留在同一列表中。</p>
+<p>随后，已编译的图即可接入支持 CopilotKit 或 AG-UI 的进程（例如下面的 <a href="#extend-the-langgraph-deployment-with-a-custom-endpoint">FastAPI 模式</a>），或参照 CopilotKit 文档中的 <a href="https://docs.copilotkit.ai/langgraph/deep-agents" target="_blank" rel="noopener noreferrer">Deep Agents and CopilotKit</a> 指南。如果你在 <code>langgraph.json</code> 的 <code>graphs</code> 下列出导出的智能体，不要在其上传入检查点保存器。下面的 <a href="#extend-the-langgraph-deployment-with-a-custom-endpoint">FastAPI 示例</a> 只在 AG-UI 路由所用的副本上附加检查点保存器。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> deepagents <span class="hljs-keyword">import</span> create_deep_agent
+<span class="hljs-keyword">from</span> copilotkit <span class="hljs-keyword">import</span> CopilotKitMiddleware
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">location: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Return a simple weather string for a location."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"The weather in <span class="hljs-subst">{location}</span> is sunny."</span>
+
+
+agent = create_deep_agent(
+    model=<span class="hljs-string">"openai:gpt-5.5"</span>,
+    tools=[get_weather],
+    middleware=[CopilotKitMiddleware()],  <span class="hljs-comment"># AG-UI, frontend tools, and context</span>
+    system_prompt=<span class="hljs-string">"You are a helpful research assistant."</span>,
+)</code></pre>
+</div>
+<h2 id="extend-the-langgraph-deployment-with-a-custom-endpoint">用自定义端点扩展 LangGraph 部署<a class="heading-anchor" href="#extend-the-langgraph-deployment-with-a-custom-endpoint" aria-label="链接到本节">#</a></h2>
+<p>关键思路在于，LangGraph 部署不仅仅提供图服务，它还能加载 HTTP 应用，从而让你在部署本身之外挂载额外路由。</p>
+<p>在 <code>langgraph.json</code> 中，把 <code>http.app</code> 指向你的自定义应用入口：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">json</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"dependencies"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"."</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"graphs"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"copilotkit_shadify"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"./main.py:agent"</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"http"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"app"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"./main.py:app"</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+</div>
+<p>在 Python 中，创建一个 <code>FastAPI</code> 应用，并通过 CopilotKit 的 AG-UI 桥接层暴露 LangGraph 智能体：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">main.py</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Any</span>, TypedDict
+
+<span class="hljs-keyword">from</span> ag_ui_langgraph <span class="hljs-keyword">import</span> add_langgraph_fastapi_endpoint
+<span class="hljs-keyword">from</span> copilotkit <span class="hljs-keyword">import</span> CopilotKitMiddleware, CopilotKitState, LangGraphAGUIAgent
+<span class="hljs-keyword">from</span> fastapi <span class="hljs-keyword">import</span> FastAPI
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> MemorySaver
+
+<span class="hljs-keyword">from</span> src.middleware <span class="hljs-keyword">import</span> apply_structured_output_schema, normalize_context
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">AgentState</span>(<span class="hljs-title class_ inherited__">CopilotKitState</span>):
+    <span class="hljs-keyword">pass</span>
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">AgentContext</span>(TypedDict, total=<span class="hljs-literal">False</span>):
+    output_schema: <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>]
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"openai:gpt-5.5"</span>,
+    middleware=[
+        normalize_context,
+        CopilotKitMiddleware(),
+        apply_structured_output_schema,
+    ],
+    context_schema=AgentContext,
+    state_schema=AgentState,
+    system_prompt=(
+        <span class="hljs-string">"You are a helpful UI assistant. Build visual responses using the "</span>
+        <span class="hljs-string">"available components."</span>
+    ),
+)
+
+app = FastAPI()
+
+add_langgraph_fastapi_endpoint(
+    app=app,
+    agent=LangGraphAGUIAgent(
+        name=<span class="hljs-string">"copilotkit_shadify"</span>,
+        description=<span class="hljs-string">"A UI assistant that returns structured component payloads."</span>,
+        <span class="hljs-comment"># The AG-UI bridge reads graph state, so this route needs a checkpointer.</span>
+        graph=agent.copy(update={<span class="hljs-string">"checkpointer"</span>: MemorySaver()}),
+    ),
+    path=<span class="hljs-string">"/"</span>,
+)</code></pre>
+</div>
+<p>AG-UI 桥接层在每次运行时都会读取图的状态，因此 FastAPI 路由背后的图需要检查点保存器。不要把检查点保存器放在 <code>agent</code> 本身上：<code>agent</code> 同时也列在 <code>graphs</code> 下，而 <code>langgraph dev</code> 会拒绝加载自带检查点保存器的已列出图，因为 LangGraph API 会为已列出的图处理持久化。带 <code>MemorySaver</code> 的副本只服务 FastAPI 路由。它的线程存在于进程内存中，因此重启后不会保留，也不会跨副本共享，更不会出现在部署的线程 API 中。若该路由要承载生产流量，请改为传入持久化的 <a href="https://docs.langchain.com/oss/python/langgraph/persistence" target="_blank" rel="noopener noreferrer">检查点保存器</a>。</p>
+<p>这个自定义应用是关键的扩展点：它挂载 AG-UI FastAPI 桥接层，而不会替换底层的 LangGraph 部署。Node CopilotKit 运行时保持独立；参见 <a href="#add-the-copilotkit-runtime">添加 CopilotKit 运行时</a>。</p>
+<p>在 Python 中，等效的工作在中间件中完成：规范化 CopilotKit 上下文，并将 <code>output_schema</code> 中的 <code>useAgentContext(...)</code> 转发到模型的结构化输出配置中。Hashbrown 生成的 schema 没有顶层 <code>title</code>，而 OpenAI 集成需要它来命名结构化输出 schema，因此中间件会在缺少时填充 <code>title</code> 和 <code>description</code>。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">expandable src/middleware.py</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">import</span> json
+<span class="hljs-keyword">from</span> collections.abc <span class="hljs-keyword">import</span> Mapping
+
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> before_agent, wrap_model_call
+<span class="hljs-keyword">from</span> langchain.agents.structured_output <span class="hljs-keyword">import</span> ProviderStrategy
+
+
+<span class="hljs-meta">@wrap_model_call</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">apply_structured_output_schema</span>(<span class="hljs-params">request, handler</span>):
+    schema = <span class="hljs-literal">None</span>
+    runtime = <span class="hljs-built_in">getattr</span>(request, <span class="hljs-string">"runtime"</span>, <span class="hljs-literal">None</span>)
+    runtime_context = <span class="hljs-built_in">getattr</span>(runtime, <span class="hljs-string">"context"</span>, <span class="hljs-literal">None</span>)
+
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(runtime_context, Mapping):
+        schema = runtime_context.get(<span class="hljs-string">"output_schema"</span>)
+
+    <span class="hljs-keyword">if</span> schema <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> <span class="hljs-built_in">isinstance</span>(<span class="hljs-built_in">getattr</span>(request, <span class="hljs-string">"state"</span>, <span class="hljs-literal">None</span>), <span class="hljs-built_in">dict</span>):
+        copilot_context = request.state.get(<span class="hljs-string">"copilotkit"</span>, {}).get(<span class="hljs-string">"context"</span>)
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(copilot_context, <span class="hljs-built_in">list</span>):
+            <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> copilot_context:
+                <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(item, <span class="hljs-built_in">dict</span>) <span class="hljs-keyword">and</span> item.get(<span class="hljs-string">"description"</span>) == <span class="hljs-string">"output_schema"</span>:
+                    schema = item.get(<span class="hljs-string">"value"</span>)
+                    <span class="hljs-keyword">break</span>
+
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(schema, <span class="hljs-built_in">str</span>):
+        <span class="hljs-keyword">try</span>:
+            schema = json.loads(schema)
+        <span class="hljs-keyword">except</span> json.JSONDecodeError:
+            schema = <span class="hljs-literal">None</span>
+
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(schema, <span class="hljs-built_in">dict</span>):
+        <span class="hljs-comment"># OpenAI uses the top-level title as the structured output name.</span>
+        schema = {
+            **schema,
+            <span class="hljs-string">"title"</span>: schema.get(<span class="hljs-string">"title"</span>) <span class="hljs-keyword">or</span> <span class="hljs-string">"CopilotKitStructuredOutput"</span>,
+            <span class="hljs-string">"description"</span>: schema.get(<span class="hljs-string">"description"</span>)
+            <span class="hljs-keyword">or</span> <span class="hljs-string">"Structured response schema for the CopilotKit preview."</span>,
+        }
+        request = request.override(
+            response_format=ProviderStrategy(schema=schema, strict=<span class="hljs-literal">True</span>),
+        )
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> handler(request)
+
+
+<span class="hljs-meta">@before_agent</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">normalize_context</span>(<span class="hljs-params">state, runtime</span>):
+    copilotkit_state = state.get(<span class="hljs-string">"copilotkit"</span>, {})
+    context = copilotkit_state.get(<span class="hljs-string">"context"</span>)
+
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(context, <span class="hljs-built_in">list</span>):
+        normalized = [
+            item.model_dump() <span class="hljs-keyword">if</span> <span class="hljs-built_in">hasattr</span>(item, <span class="hljs-string">"model_dump"</span>) <span class="hljs-keyword">else</span> item
+            <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> context
+        ]
+        <span class="hljs-keyword">return</span> {<span class="hljs-string">"copilotkit"</span>: {**copilotkit_state, <span class="hljs-string">"context"</span>: normalized}}
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span></code></pre>
+</div>
+<p>这样就实现了清晰的关注点分离：</p>
+<ul><li><p>LangGraph 仍负责图执行与持久化</p></li><li><p>CopilotKit 负责面向对话的运行时契约</p></li><li><p>你的自定义端点在一个部署中将两者粘合起来</p></li></ul>
+<h3 id="add-the-copilotkit-runtime">添加 CopilotKit 运行时<a class="heading-anchor" href="#add-the-copilotkit-runtime" aria-label="链接到本节">#</a></h3>
+<p>FastAPI 路由使用 AG-UI 协议，而不是 CopilotKit 运行时协议，因此前端无法直接调用它：将 <code>runtimeUrl</code> 指向 FastAPI 路由会以 <code>runtime_info_fetch_failed</code> 失败。请在一个小型 Node 服务器中运行 <a href="https://docs.copilotkit.ai/langgraph" target="_blank" rel="noopener noreferrer">CopilotKit 运行时</a>，并将 <code>HttpAgent</code> 指向 FastAPI 路由。Python 图和中间件仍然定义工具行为与智能体逻辑。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">server.ts</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { createServer } <span class="hljs-keyword">from</span> <span class="hljs-string">"node:http"</span>;
+
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">HttpAgent</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@ag-ui/client"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">CopilotRuntime</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@copilotkit/runtime/v2"</span>;
+<span class="hljs-keyword">import</span> { createCopilotNodeListener } <span class="hljs-keyword">from</span> <span class="hljs-string">"@copilotkit/runtime/v2/node"</span>;
+
+<span class="hljs-comment">// The FastAPI route is mounted at the root of the LangGraph deployment.</span>
+<span class="hljs-keyword">const</span> agentUrl = process.<span class="hljs-property">env</span>.<span class="hljs-property">LANGGRAPH_DEPLOYMENT_URL</span> || <span class="hljs-string">"http://127.0.0.1:2024"</span>;
+
+<span class="hljs-keyword">const</span> runtime = <span class="hljs-keyword">new</span> <span class="hljs-title class_">CopilotRuntime</span>({
+  <span class="hljs-attr">agents</span>: {
+    <span class="hljs-attr">default</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpAgent</span>({ <span class="hljs-attr">url</span>: agentUrl }),
+  },
+});
+
+<span class="hljs-title function_">createServer</span>(
+  <span class="hljs-title function_">createCopilotNodeListener</span>({
+    runtime,
+    <span class="hljs-attr">basePath</span>: <span class="hljs-string">"/api/copilotkit"</span>,
+    <span class="hljs-attr">cors</span>: <span class="hljs-literal">true</span>,
+  }),
+).<span class="hljs-title function_">listen</span>(<span class="hljs-number">4000</span>);</code></pre>
+</div>
+<p>在 LangGraph 部署旁边启动运行时：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">bash</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">bun server.ts</code></pre>
+</div>
+<p>该运行时在 4000 端口提供 <code>/api/copilotkit</code>。将前端指向它，可以通过设置 <code>VITE_RUNTIME_URL=http://localhost:4000/api/copilotkit</code>，或从你的开发服务器将 <code>/api/copilotkit</code> 代理到 4000 端口。</p>
+<p>此运行时是基本的应用内集成。<a href="#channels">Channels</a> 不使用 FastAPI 路由：它通过部署的 graph API 使用 <code>LangGraphAgent</code> 连接到图。</p>
+<h2 id="structure-the-frontend-app">组织前端应用结构<a class="heading-anchor" href="#structure-the-frontend-app" aria-label="链接到本节">#</a></h2>
+<p>在前端，用 <code>CopilotKit</code> 包裹你的应用，并将其指向自定义运行时 URL：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">tsx</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">CopilotKit</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@copilotkit/react-core"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">CopilotChat</span>, useAgentContext } <span class="hljs-keyword">from</span> <span class="hljs-string">"@copilotkit/react-core/v2"</span>;
+<span class="hljs-keyword">import</span> { s } <span class="hljs-keyword">from</span> <span class="hljs-string">"@hashbrownai/core"</span>;
+
+<span class="hljs-keyword">import</span> { useChatKit } <span class="hljs-keyword">from</span> <span class="hljs-string">"@/components/chat/chat-kit"</span>;
+<span class="hljs-keyword">import</span> { chatTheme } <span class="hljs-keyword">from</span> <span class="hljs-string">"@/lib/chat-theme"</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">CopilotKit</span> <span class="hljs-attr">runtimeUrl</span>=<span class="hljs-string">{import.meta.env.VITE_RUNTIME_URL</span> ?? "/<span class="hljs-attr">api</span>/<span class="hljs-attr">copilotkit</span>"}&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Page</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">CopilotKit</span>&gt;</span></span>
+  );
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">Page</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> chatKit = <span class="hljs-title function_">useChatKit</span>();
+
+  <span class="hljs-title function_">useAgentContext</span>({
+    <span class="hljs-attr">description</span>: <span class="hljs-string">"output_schema"</span>,
+    <span class="hljs-attr">value</span>: s.<span class="hljs-title function_">toJsonSchema</span>(chatKit.<span class="hljs-property">schema</span>),
+  });
+
+  <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">CopilotChat</span> {<span class="hljs-attr">...chatTheme</span>} /&gt;</span></span>;
+}</code></pre>
+</div>
+<p>这里有两个重要部分：</p>
+<ul><li><p><code>runtimeUrl="/api/copilotkit"</code> 将聊天发送到你的自定义后端路由，而不是直接发送到原始的 LangGraph API</p></li><li><p><code>useAgentContext(...)</code> 将 UI schema 发送给智能体，使模型知道应生成哪种结构化输出格式</p></li></ul>
+<h2 id="register-the-dynamic-components">注册动态组件<a class="heading-anchor" href="#register-the-dynamic-components" aria-label="链接到本节">#</a></h2>
+<p>组件注册表位于 <code>useChatKit()</code> 中。你可以在这里定义智能体允许输出的组件集合，例如卡片、行、列、图表、代码块和按钮。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">tsx</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { s } <span class="hljs-keyword">from</span> <span class="hljs-string">"@hashbrownai/core"</span>;
+<span class="hljs-keyword">import</span> { exposeComponent, exposeMarkdown, useUiKit } <span class="hljs-keyword">from</span> <span class="hljs-string">"@hashbrownai/react"</span>;
+
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Button</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@/components/ui/button"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Card</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@/components/ui/card"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">CodeBlock</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@/components/ui/code-block"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Row</span>, <span class="hljs-title class_">Column</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@/components/ui/layout"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">SimpleChart</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@/components/ui/simple-chart"</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">useChatKit</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">useUiKit</span>({
+    <span class="hljs-attr">components</span>: [
+      <span class="hljs-title function_">exposeMarkdown</span>(),
+      <span class="hljs-title function_">exposeComponent</span>(<span class="hljs-title class_">Card</span>, {
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"card"</span>,
+        <span class="hljs-attr">description</span>: <span class="hljs-string">"Card to wrap generative UI content."</span>,
+        <span class="hljs-attr">children</span>: <span class="hljs-string">"any"</span>,
+      }),
+      <span class="hljs-title function_">exposeComponent</span>(<span class="hljs-title class_">Row</span>, {
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"row"</span>,
+        <span class="hljs-attr">props</span>: {
+          <span class="hljs-attr">gap</span>: s.<span class="hljs-title function_">string</span>(<span class="hljs-string">"Tailwind gap size"</span>) <span class="hljs-keyword">as</span> <span class="hljs-built_in">never</span>,
+        },
+        <span class="hljs-attr">children</span>: <span class="hljs-string">"any"</span>,
+      }),
+      <span class="hljs-title function_">exposeComponent</span>(<span class="hljs-title class_">Column</span>, {
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"column"</span>,
+        <span class="hljs-attr">children</span>: <span class="hljs-string">"any"</span>,
+      }),
+      <span class="hljs-title function_">exposeComponent</span>(<span class="hljs-title class_">SimpleChart</span>, {
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"chart"</span>,
+        <span class="hljs-attr">props</span>: {
+          <span class="hljs-attr">labels</span>: s.<span class="hljs-title function_">array</span>(<span class="hljs-string">"Category labels"</span>, s.<span class="hljs-title function_">string</span>(<span class="hljs-string">"A label"</span>)),
+          <span class="hljs-attr">values</span>: s.<span class="hljs-title function_">array</span>(<span class="hljs-string">"Numeric values"</span>, s.<span class="hljs-title function_">number</span>(<span class="hljs-string">"A value"</span>)),
+        },
+        <span class="hljs-attr">children</span>: <span class="hljs-literal">false</span>,
+      }),
+      <span class="hljs-title function_">exposeComponent</span>(<span class="hljs-title class_">CodeBlock</span>, {
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"code_block"</span>,
+        <span class="hljs-attr">props</span>: {
+          <span class="hljs-attr">code</span>: s.<span class="hljs-property">streaming</span>.<span class="hljs-title function_">string</span>(<span class="hljs-string">"The code to display"</span>),
+          <span class="hljs-attr">language</span>: s.<span class="hljs-title function_">string</span>(<span class="hljs-string">"Programming language"</span>) <span class="hljs-keyword">as</span> <span class="hljs-built_in">never</span>,
+        },
+        <span class="hljs-attr">children</span>: <span class="hljs-literal">false</span>,
+      }),
+      <span class="hljs-title function_">exposeComponent</span>(<span class="hljs-title class_">Button</span>, {
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"button"</span>,
+        <span class="hljs-attr">children</span>: <span class="hljs-string">"text"</span>,
+      }),
+    ],
+  });
+}</code></pre>
+</div>
+<p>该注册表成为智能体与 UI 之间的契约。模型并不是在生成任意的 JSX，而是在生成必须通过你所暴露的组件和 props 校验的结构化数据。</p>
+<h2 id="render-assistant-messages-as-dynamic-ui">将助手消息渲染为动态 UI<a class="heading-anchor" href="#render-assistant-messages-as-dynamic-ui" aria-label="链接到本节">#</a></h2>
+<p>助手响应到达后，由自定义消息渲染器决定如何显示它。在本示例中：</p>
+<ul><li><p>助手消息会按照 UI kit schema 被解析为结构化 JSON</p></li><li><p>有效的结构化输出会渲染为真实的 React 组件</p></li><li><p>用户消息会渲染为普通聊天气泡</p></li></ul>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">tsx</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">AssistantMessage</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@ag-ui/core"</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">RenderMessageProps</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@copilotkit/react-ui"</span>;
+<span class="hljs-keyword">import</span> { useJsonParser } <span class="hljs-keyword">from</span> <span class="hljs-string">"@hashbrownai/react"</span>;
+<span class="hljs-keyword">import</span> { memo } <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+
+<span class="hljs-keyword">import</span> { useChatKit } <span class="hljs-keyword">from</span> <span class="hljs-string">"@/components/chat/chat-kit"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Squircle</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@/components/squircle"</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">AssistantMessageRenderer</span> = <span class="hljs-title function_">memo</span>(<span class="hljs-keyword">function</span> <span class="hljs-title function_">AssistantMessageRenderer</span>(<span class="hljs-params">{
+  message,
+}: {
+  message: AssistantMessage;
+}</span>) {
+  <span class="hljs-keyword">const</span> kit = <span class="hljs-title function_">useChatKit</span>();
+  <span class="hljs-keyword">const</span> { value } = <span class="hljs-title function_">useJsonParser</span>(message.<span class="hljs-property">content</span> ?? <span class="hljs-string">""</span>, kit.<span class="hljs-property">schema</span>);
+
+  <span class="hljs-keyword">if</span> (!value) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"group/msg mt-2 flex w-full justify-start"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"magic-text-output w-full px-1 py-1"</span>&gt;</span>{kit.render(value)}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+});
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">CustomMessageRenderer</span>(<span class="hljs-params">{ message }: <span class="hljs-title class_">RenderMessageProps</span></span>) {
+  <span class="hljs-keyword">if</span> (message.<span class="hljs-property">role</span> === <span class="hljs-string">"assistant"</span>) {
+    <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AssistantMessageRenderer</span> <span class="hljs-attr">message</span>=<span class="hljs-string">{message}</span> /&gt;</span></span>;
+  }
+
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"flex w-full justify-end"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Squircle</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"w-full max-w-[64ch] px-4 py-3"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">pre</span>&gt;</span>{typeof message.content === "string" ? message.content : JSON.stringify(message.content, null, 2)}<span class="hljs-tag">&lt;/<span class="hljs-name">pre</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">Squircle</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}</code></pre>
+</div>
+<p>这种渲染器模式正是该集成显得原生自然的原因：</p>
+<ul><li><p>CopilotKit 处理聊天状态与传输</p></li><li><p>自定义渲染器决定助手负载如何变成 UI</p></li><li><p><a href="https://hashbrown.dev/" target="_blank" rel="noopener noreferrer">Hashbrown</a> 将已校验的结构化数据转换为具体的 React 元素</p></li></ul>
+<h2 id="channels">Channels<a class="heading-anchor" href="#channels" aria-label="链接到本节">#</a></h2>
+<p>为应用内 copilot 提供支持的同一个智能体，也可以作为 Slack 及其他消息平台中的机器人运行。<a href="https://docs.copilotkit.ai/channels" target="_blank" rel="noopener noreferrer">CopilotKit Channels</a> 通过托管的 CopilotKit Intelligence 连接，将你的 LangChain 智能体连接到消息平台：Intelligence 持有平台凭证与消息投递，而你的进程负责运行智能体。</p>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>Channels 需要 <code>@copilotkit/channels</code> 0.6.1 和 <code>@copilotkit/runtime</code> 1.65.0（作为经过测试的一对一起安装），以及运行在长时间主机上的 Node.js 22 或更高版本。该 Channel 所连接的 LangChain 部署可以是 Python 或 TypeScript。</p></div>
+</aside>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>本页展示 Channels 如何与 LangChain 智能体配合。若需以 LangGraph 为后端的完整 Slack 演练，请参阅 <a href="https://docs.copilotkit.ai/slack/langgraph-typescript/connect" target="_blank" rel="noopener noreferrer">在 Slack 中连接并运行你的智能体</a>。其他智能体后端与平台覆盖情况，请参阅 <a href="https://docs.copilotkit.ai/channels" target="_blank" rel="noopener noreferrer">Channels 概览</a>。</p></div>
+</aside>
+<h3 id="how-it-fits-together">各部分如何协同<a class="heading-anchor" href="#how-it-fits-together" aria-label="链接到本节">#</a></h3>
+<p>CopilotKit Intelligence 持有平台连接（Slack、Microsoft Teams 等）及其凭证。你长期运行的 Channels 监听器持有智能体、工具与应用逻辑。每一轮都遵循相同的路径：</p>
+<ol><li><p>某人在 Slack 中向你的应用发送消息。</p></li><li><p>Intelligence 使用为该 Channel 配置的凭证接收平台事件。</p></li><li><p>持久的 Intelligence 网关连接将该轮次投递到你的 Channels 监听器。</p></li><li><p>监听器通过 <a href="https://docs.ag-ui.com/" target="_blank" rel="noopener noreferrer">AG-UI</a> 运行你的 LangChain 智能体并渲染回复。</p></li><li><p>Intelligence 将结果以原生 Slack Block Kit 形式发回。</p></li></ol>
+<p>平台凭证永远不会进入智能体进程。在 <a href="https://docs.copilotkit.ai/slack/intelligence" target="_blank" rel="noopener noreferrer">CopilotKit Intelligence</a> 中创建托管 Channel 并连接 Slack：Intelligence 会存储 Slack 凭证，并为你提供 <strong>Channel code</strong>（<code>CHANNEL_CODE</code>）和项目级的 <strong>Intelligence API key</strong>（<code>INTELLIGENCE_API_KEY</code>）供监听器使用。</p>
+<h3 id="install">安装<a class="heading-anchor" href="#install" aria-label="链接到本节">#</a></h3>
+<p>安装经过测试的 SDK 对，然后安装 TypeScript 工具链：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-2-tab-0" role="tab" aria-controls="codegroup-2-panel-0" aria-selected="true" tabindex="0">npm</button><button class="code-tab" type="button" id="codegroup-2-tab-1" role="tab" aria-controls="codegroup-2-panel-1" aria-selected="false" tabindex="-1">pnpm</button><button class="code-tab" type="button" id="codegroup-2-tab-2" role="tab" aria-controls="codegroup-2-panel-2" aria-selected="false" tabindex="-1">yarn</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-2-panel-0" role="tabpanel" aria-labelledby="codegroup-2-tab-0">
+  <pre><code class="hljs language-bash">npm install --save-exact @copilotkit/channels@0.6.1 @copilotkit/runtime@1.65.0
+npm install -D tsx typescript @types/node</code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-1" role="tabpanel" aria-labelledby="codegroup-2-tab-1" hidden="">
+  <pre><code class="hljs language-bash">pnpm add --save-exact @copilotkit/channels@0.6.1 @copilotkit/runtime@1.65.0
+pnpm add -D tsx typescript @types/node</code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-2" role="tabpanel" aria-labelledby="codegroup-2-tab-2" hidden="">
+  <pre><code class="hljs language-bash">yarn add --exact @copilotkit/channels@0.6.1 @copilotkit/runtime@1.65.0
+yarn add -D tsx typescript @types/node</code></pre>
+</div></div>
+</div>
+<p>使用 NodeNext 的 TypeScript 配置：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">icon="settings" title="tsconfig.json"</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"compilerOptions"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"target"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"ES2022"</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"module"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"NodeNext"</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"moduleResolution"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"NodeNext"</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"strict"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"skipLibCheck"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"noEmit"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"types"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"node"</span><span class="hljs-punctuation">]</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"include"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"*.ts"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"*.tsx"</span><span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span></code></pre>
+</div>
+<h3 id="connect-your-langchain-agent">连接你的 LangChain 智能体<a class="heading-anchor" href="#connect-your-langchain-agent" aria-label="链接到本节">#</a></h3>
+<p>为每个会话返回一个新的智能体，以线程为键，避免状态在 Slack 线程之间泄漏。LangGraph Server 使用 LangGraph API，因此请使用 <code>@copilotkit/runtime/langgraph</code> 中的 <code>LangGraphAgent</code>，而不是 <code>HttpAgent</code>。将其指向你已运行的 <a href="#extend-the-langgraph-deployment-with-a-custom-endpoint">部署</a>：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">icon="robot" title="agent.ts"</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">LangGraphAgent</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@copilotkit/runtime/langgraph"</span>;
+
+<span class="hljs-comment">// A fresh agent per conversation, keyed by thread.</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">makeAgent</span>(<span class="hljs-params"><span class="hljs-attr">threadId</span>: <span class="hljs-built_in">string</span></span>) {
+  <span class="hljs-keyword">const</span> agent = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LangGraphAgent</span>({
+    <span class="hljs-attr">deploymentUrl</span>: process.<span class="hljs-property">env</span>.<span class="hljs-property">LANGGRAPH_DEPLOYMENT_URL</span>!,
+    <span class="hljs-attr">graphId</span>: <span class="hljs-string">"copilotkit_shadify"</span>, <span class="hljs-comment">// the graph you deployed above</span>
+  });
+  agent.<span class="hljs-property">threadId</span> = threadId;
+  <span class="hljs-keyword">return</span> agent;
+}</code></pre>
+</div>
+<h3 id="run-the-channel-listener">运行 Channel 监听器<a class="heading-anchor" href="#run-the-channel-listener" aria-label="链接到本节">#</a></h3>
+<p>使用来自 Intelligence 的 <code>Code</code> 声明 Channel，并将每条消息转发给智能体。创建 Node 监听器就是连接 Channel 的操作。请在创建监听器之前注册进程清理逻辑，这样在连接窗口期间按下 Ctrl-C 仍能干净地停止 Channel。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">icon="server" title="channel.ts"</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { createServer } <span class="hljs-keyword">from</span> <span class="hljs-string">"node:http"</span>;
+
+<span class="hljs-keyword">import</span> { createChannel } <span class="hljs-keyword">from</span> <span class="hljs-string">"@copilotkit/channels"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">CopilotKitIntelligence</span>, <span class="hljs-title class_">CopilotRuntime</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@copilotkit/runtime/v2"</span>;
+<span class="hljs-keyword">import</span> { createCopilotNodeListener } <span class="hljs-keyword">from</span> <span class="hljs-string">"@copilotkit/runtime/v2/node"</span>;
+
+<span class="hljs-keyword">import</span> { makeAgent } <span class="hljs-keyword">from</span> <span class="hljs-string">"./agent.js"</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">required</span>(<span class="hljs-params"><span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span></span>): <span class="hljs-built_in">string</span> {
+  <span class="hljs-keyword">const</span> value = process.<span class="hljs-property">env</span>[name];
+  <span class="hljs-keyword">if</span> (!value) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">`Missing required environment variable: <span class="hljs-subst">${name}</span>`</span>);
+  <span class="hljs-keyword">return</span> value;
+}
+
+<span class="hljs-comment">// `name` must match the Channel Code shown in CopilotKit Intelligence.</span>
+<span class="hljs-keyword">const</span> channel = <span class="hljs-title function_">createChannel</span>({
+  <span class="hljs-attr">name</span>: <span class="hljs-title function_">required</span>(<span class="hljs-string">"CHANNEL_CODE"</span>),
+  <span class="hljs-attr">identifyUser</span>: <span class="hljs-string">"platform"</span>,
+  <span class="hljs-attr">agent</span>: makeAgent,
+});
+
+<span class="hljs-comment">// Each incoming message starts a turn; runAgent streams the reply back.</span>
+channel.<span class="hljs-title function_">onMessage</span>(<span class="hljs-title function_">async</span> ({ thread, message }) =&gt; {
+  <span class="hljs-keyword">await</span> thread.<span class="hljs-title function_">runAgent</span>({
+    <span class="hljs-attr">prompt</span>: message.<span class="hljs-property">contentParts</span>?.<span class="hljs-property">length</span>
+      ? [
+          ...(message.<span class="hljs-property">text</span> ? [{ <span class="hljs-attr">type</span>: <span class="hljs-string">"text"</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>, <span class="hljs-attr">text</span>: message.<span class="hljs-property">text</span> }] : []),
+          ...message.<span class="hljs-property">contentParts</span>,
+        ]
+      : message.<span class="hljs-property">text</span>,
+    <span class="hljs-attr">context</span>: [{ <span class="hljs-attr">description</span>: <span class="hljs-string">"Originating platform"</span>, <span class="hljs-attr">value</span>: message.<span class="hljs-property">platform</span> }],
+  });
+});
+
+<span class="hljs-keyword">const</span> intelligence = <span class="hljs-keyword">new</span> <span class="hljs-title class_">CopilotKitIntelligence</span>({
+  <span class="hljs-attr">apiKey</span>: <span class="hljs-title function_">required</span>(<span class="hljs-string">"INTELLIGENCE_API_KEY"</span>),
+});
+
+<span class="hljs-keyword">const</span> runtime = <span class="hljs-keyword">new</span> <span class="hljs-title class_">CopilotRuntime</span>({
+  <span class="hljs-attr">agents</span>: {},
+  intelligence,
+  <span class="hljs-attr">channels</span>: [channel],
+});
+
+<span class="hljs-comment">// Wire teardown before the listener exists, because creating it starts the</span>
+<span class="hljs-comment">// Channel. A Ctrl-C during the connect window then still tears it down.</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">teardown</span>: (<span class="hljs-function">() =&gt;</span> <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt;) | <span class="hljs-literal">undefined</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">shutdown</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-keyword">await</span> teardown?.();
+};
+process.<span class="hljs-title function_">once</span>(<span class="hljs-string">"SIGINT"</span>, shutdown);
+process.<span class="hljs-title function_">once</span>(<span class="hljs-string">"SIGTERM"</span>, shutdown);
+
+<span class="hljs-keyword">const</span> listener = <span class="hljs-title function_">createCopilotNodeListener</span>({
+  runtime,
+  <span class="hljs-attr">basePath</span>: <span class="hljs-string">"/api/copilotkit"</span>,
+});
+<span class="hljs-keyword">const</span> channels = listener.<span class="hljs-property">channels</span>;
+<span class="hljs-keyword">const</span> server = <span class="hljs-title function_">createServer</span>(listener);
+teardown = <span class="hljs-title function_">async</span> () =&gt; {
+  <span class="hljs-keyword">await</span> channels.<span class="hljs-title function_">stop</span>();
+  <span class="hljs-keyword">if</span> (server.<span class="hljs-property">listening</span>) server.<span class="hljs-title function_">close</span>();
+};
+
+<span class="hljs-comment">// Creating the listener starts the Channel; there is no `channel.start()`.</span>
+<span class="hljs-comment">// `ready()` is optional; inspect `status()` before reporting the Channel online.</span>
+<span class="hljs-keyword">await</span> channels.<span class="hljs-title function_">ready</span>({ <span class="hljs-attr">timeoutMs</span>: <span class="hljs-number">30_000</span> });
+<span class="hljs-keyword">if</span> (channels.<span class="hljs-title function_">status</span>().<span class="hljs-property">overall</span> !== <span class="hljs-string">"online"</span>) {
+  <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">"Slack Channel is not online"</span>);
+}
+
+<span class="hljs-keyword">const</span> port = <span class="hljs-title class_">Number</span>(process.<span class="hljs-property">env</span>.<span class="hljs-property">PORT</span> ?? <span class="hljs-number">3000</span>);
+server.<span class="hljs-title function_">listen</span>(port, <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Slack Channel online; listening on :<span class="hljs-subst">${port}</span>`</span>);
+});</code></pre>
+</div>
+<p>设置运行时密钥，然后启动进程：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-3-tab-0" role="tab" aria-controls="codegroup-3-panel-0" aria-selected="true" tabindex="0">.env</button><button class="code-tab" type="button" id="codegroup-3-tab-1" role="tab" aria-controls="codegroup-3-panel-1" aria-selected="false" tabindex="-1">Terminal</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-3-panel-0" role="tabpanel" aria-labelledby="codegroup-3-tab-0">
+  <pre><code class="hljs language-bash">INTELLIGENCE_API_KEY=&lt;project-api-key&gt;
+CHANNEL_CODE=support-slack
+LANGGRAPH_DEPLOYMENT_URL=http://127.0.0.1:2024
+PORT=3000</code></pre>
+</div>
+<div class="code-panel" id="codegroup-3-panel-1" role="tabpanel" aria-labelledby="codegroup-3-tab-1" hidden="">
+  <pre><code class="hljs language-bash">node --env-file=.<span class="hljs-built_in">env</span> --import tsx channel.ts</code></pre>
+</div></div>
+</div>
+<p>进程连接后，Channel 在 Intelligence 中会从 <strong>Waiting for runtime</strong> 变为 <strong>Online</strong>。</p>
+<h3 id="other-platforms">其他平台<a class="heading-anchor" href="#other-platforms" aria-label="链接到本节">#</a></h3>
+<p>托管 Slack 已正式可用。托管 Teams 是受控的集成目标。Channels SDK 还提供面向 Teams、Discord、Telegram 和 WhatsApp 的直接适配器。当前的平台列表与各平台设置，请参阅 <a href="https://docs.copilotkit.ai/slack" target="_blank" rel="noopener noreferrer">Channels 概览</a>。</p>
+<h2 id="resources">资源<a class="heading-anchor" href="#resources" aria-label="链接到本节">#</a></h2>
+<ul><li><p>CopilotKit 文档中的 <a href="https://docs.copilotkit.ai/langgraph/deep-agents" target="_blank" rel="noopener noreferrer">Deep Agents 与 CopilotKit</a> — 端到端的 Next.js、开发服务器以及 <strong>Deep Agent</strong> 路径</p></li><li><p><a href="https://docs.copilotkit.ai/langgraph" target="_blank" rel="noopener noreferrer">CopilotKit：LangGraph 功能</a> — 生成式 UI、HITL、共享状态</p></li><li><p><a href="https://docs.langchain.com/oss/python/langgraph/deploy" target="_blank" rel="noopener noreferrer">LangGraph 部署</a> — 生产环境与开发服务器</p></li></ul>
+<h2 id="best-practices">最佳实践<a class="heading-anchor" href="#best-practices" aria-label="链接到本节">#</a></h2>
+<ul><li><p><strong>保持自定义端点轻量：</strong> 用它来适配 CopilotKit 与你的图部署，而不是复制图内部已有的业务逻辑</p></li><li><p><strong>显式发送 schema：</strong> 每次页面挂载时，<code>useAgentContext</code> 都应描述 UI 契约</p></li><li><p><strong>注册受限的组件集合：</strong> 只暴露你确实希望模型使用的组件和 props</p></li><li><p><strong>将渲染视为解析步骤：</strong> 在渲染前按照 schema 解析助手内容</p></li><li><p><strong>保持用户消息简单：</strong> 只有助手消息需要结构化渲染器；用户消息可以保持普通聊天气泡</p></li></ul></article>
+        <nav class="pager" aria-label="翻页"><a class="prev" href="frontend-integrations-overview.html"><span class="pager-label">上一篇</span><span class="pager-title">集成概览</span></a><a class="next" href="frontend-integrations-ai-elements.html"><span class="pager-label">下一篇</span><span class="pager-title">AI Elements</span></a></nav>
+        <footer class="page-footer">
+          <p>本页为社区维护的简体中文翻译，不是 LangChain 官方文档。如与英文原文有出入，请以 <a href="https://docs.langchain.com/oss/python/langchain/frontend/integrations/copilotkit" target="_blank" rel="noopener noreferrer">英文原文</a> 为准。</p>
+        </footer>
+      </div>
+    </main>
+    <aside class="toc" aria-label="本页目录"><div class="toc-inner"><div class="toc-title">本页目录</div><a class="toc-link level-2" href="#how-it-works">工作原理</a><a class="toc-link level-2" href="#what-you-get-on-the-python-server">Python 服务端提供的能力</a><a class="toc-link level-2" href="#installation">安装</a><a class="toc-link level-2" href="#use-copilotkit-with-a-deep-agent">将 CopilotKit 与 Deep Agent 配合使用</a><a class="toc-link level-2" href="#extend-the-langgraph-deployment-with-a-custom-endpoint">用自定义端点扩展 LangGraph 部署</a><a class="toc-link level-3" href="#add-the-copilotkit-runtime">添加 CopilotKit 运行时</a><a class="toc-link level-2" href="#structure-the-frontend-app">组织前端应用结构</a><a class="toc-link level-2" href="#register-the-dynamic-components">注册动态组件</a><a class="toc-link level-2" href="#render-assistant-messages-as-dynamic-ui">将助手消息渲染为动态 UI</a><a class="toc-link level-2" href="#channels">Channels</a><a class="toc-link level-3" href="#how-it-fits-together">各部分如何协同</a><a class="toc-link level-3" href="#install">安装</a><a class="toc-link level-3" href="#connect-your-langchain-agent">连接你的 LangChain 智能体</a><a class="toc-link level-3" href="#run-the-channel-listener">运行 Channel 监听器</a><a class="toc-link level-3" href="#other-platforms">其他平台</a><a class="toc-link level-2" href="#resources">资源</a><a class="toc-link level-2" href="#best-practices">最佳实践</a></div></aside>
+  </div>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p><strong>LangChain 中文文档</strong> · 社区翻译，非官方站点。内容基于 <a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener noreferrer">docs.langchain.com</a> 的 LangChain（Python）文档生成。</p>
+      <p>共 59 篇 · 代码示例保持英文原样 · 以英文原文为准</p>
+    </div>
+  </footer>
+  <button class="back-top" type="button" data-back-top aria-label="回到顶部">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script src="assets/docs.js" defer></script>
+</body>
+</html>

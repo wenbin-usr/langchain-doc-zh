@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>工具调用 | LangChain 中文文档</title>
+  <meta name="description" content="使用丰富且类型安全的 UI 卡片展示智能体的工具调用">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M12.5 19.5l7-7M10 22l-1 1a4 4 0 0 1-5.7-5.7l3.4-3.4a4 4 0 0 1 5.7 0M22 10l1-1a4 4 0 0 1 5.7 5.7l-3.4 3.4a4 4 0 0 1-5.7 0' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem('lc-docs-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();</script>
+  <link rel="stylesheet" href="assets/docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div id="progress" data-progress></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="打开文档导航" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="LangChain 中文文档首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9.4 14.6l5.2-5.2M7.1 16.9l-1.4 1.4a3.7 3.7 0 0 1-5.2-5.2l3.2-3.2a3.7 3.7 0 0 1 5.2 0M16.9 7.1l1.4-1.4a3.7 3.7 0 0 1 5.2 5.2l-3.2 3.2a3.7 3.7 0 0 1-5.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text">LangChain <span class="brand-sub">中文文档</span></span>
+      </a>
+      <nav class="top-nav" aria-label="主导航">
+        <a class="top-link active" href="index.html" aria-current="page">LangChain</a>
+        <a class="top-link" href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a>
+        <a class="top-link" href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener noreferrer">LangSmith</a>
+        <a class="top-link" href="https://reference.langchain.com/python/langchain/" target="_blank" rel="noopener noreferrer">API 参考</a>
+      </nav>
+      <div class="header-actions">
+        <a class="source-link" href="https://docs.langchain.com/oss/python/langchain/frontend/tool-calling" target="_blank" rel="noopener noreferrer">English <span aria-hidden="true">↗</span></a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="切换到深色模式" aria-pressed="false" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v1.6M10 16.2v1.6M2.2 10h1.6M16.2 10h1.6M4.5 4.5l1.1 1.1M14.4 14.4l1.1 1.1M15.5 4.5l-1.1 1.1M5.6 14.4l-1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.4 12.1A6.6 6.6 0 0 1 7.9 3.6 6.8 6.8 0 1 0 16.4 12.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" id="sidebar" aria-label="文档导航">
+      <div class="sidebar-head">
+        <div class="sidebar-title">文档目录</div>
+        <div class="nav-search">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.2" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="搜索页面…" aria-label="搜索文档页面" data-nav-search autocomplete="off" spellcheck="false">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+      </div>
+      <div class="sidebar-scroll"><nav class="nav" id="doc-nav" aria-label="文档页面"><div class="nav-home"><a class="nav-link" href="index.html" data-search="LangChain 概览 LangChain overview index  "><span class="nav-dot" aria-hidden="true"></span><span>LangChain 概览</span></a></div><section class="nav-section" data-nav-section><div class="nav-section-title">开始使用</div><a class="nav-link" href="install.html" data-search="安装 LangChain Install LangChain install Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>安装 LangChain</span></a><a class="nav-link" href="quickstart.html" data-search="快速开始 Quickstart quickstart Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>快速开始</span></a><a class="nav-link" href="philosophy.html" data-search="设计理念 Philosophy philosophy Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>设计理念</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">核心组件</div><a class="nav-link" href="agents.html" data-search="智能体 Agents agents Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>智能体</span></a><a class="nav-link" href="models.html" data-search="模型 Models models Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>模型</span></a><a class="nav-link" href="messages.html" data-search="消息 Messages messages Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>消息</span></a><a class="nav-link" href="tools.html" data-search="工具 Tools tools Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>工具</span></a><a class="nav-link" href="short-term-memory.html" data-search="短期记忆 Short-term memory short-term-memory Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>短期记忆</span></a><a class="nav-link" href="event-streaming.html" data-search="事件流 Event streaming event-streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>事件流</span></a><a class="nav-link" href="streaming.html" data-search="流式传输 Streaming streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>流式传输</span></a><a class="nav-link" href="structured-output.html" data-search="结构化输出 Structured output structured-output Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>结构化输出</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">中间件</div><a class="nav-link" href="middleware-overview.html" data-search="中间件概览 Middleware overview middleware-overview Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>中间件概览</span></a><a class="nav-link" href="middleware-built-in.html" data-search="预置中间件 Prebuilt middleware middleware-built-in Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>预置中间件</span></a><a class="nav-link" href="middleware-custom.html" data-search="自定义中间件 Custom middleware middleware-custom Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>自定义中间件</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">前端</div><a class="nav-link" href="frontend-overview.html" data-search="前端概览 Overview frontend-overview Frontend 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端概览</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">模式</div><a class="nav-link" href="frontend-markdown-messages.html" data-search="Markdown 消息 Markdown messages frontend-markdown-messages Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>Markdown 消息</span></a><a class="nav-link active" href="frontend-tool-calling.html" data-search="工具调用 Tool calling frontend-tool-calling Frontend Patterns 前端 前端" aria-current="page"><span class="nav-dot" aria-hidden="true"></span><span>工具调用</span></a><a class="nav-link" href="frontend-headless-tools.html" data-search="无头工具 Headless tools frontend-headless-tools Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>无头工具</span></a><a class="nav-link" href="frontend-human-in-the-loop.html" data-search="前端人在回路 Human-in-the-Loop frontend-human-in-the-loop Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端人在回路</span></a><a class="nav-link" href="frontend-branching-chat.html" data-search="分支对话 Branching chat frontend-branching-chat Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>分支对话</span></a><a class="nav-link" href="frontend-reasoning-tokens.html" data-search="推理 token Reasoning tokens frontend-reasoning-tokens Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>推理 token</span></a><a class="nav-link" href="frontend-structured-output.html" data-search="前端结构化输出 Structured output frontend-structured-output Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端结构化输出</span></a><a class="nav-link" href="frontend-message-queues.html" data-search="消息队列 Message queues frontend-message-queues Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>消息队列</span></a><a class="nav-link" href="frontend-join-rejoin.html" data-search="断开与重连流 Join &amp; rejoin streams frontend-join-rejoin Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>断开与重连流</span></a><a class="nav-link" href="frontend-time-travel.html" data-search="时间旅行 Time travel frontend-time-travel Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>时间旅行</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">生成式 UI</div><a class="nav-link" href="frontend-generative-ui-overview.html" data-search="生成式 UI 概览 Generative UI overview frontend-generative-ui-overview Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>生成式 UI 概览</span></a><a class="nav-link" href="frontend-controlled-generative-ui.html" data-search="受控生成式 UI Controlled generative UI frontend-controlled-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>受控生成式 UI</span></a><a class="nav-link" href="frontend-declarative-generative-ui.html" data-search="声明式生成式 UI Declarative generative UI frontend-declarative-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>声明式生成式 UI</span></a><a class="nav-link" href="frontend-open-ended-generative-ui.html" data-search="开放式生成式 UI Open-ended generative UI frontend-open-ended-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>开放式生成式 UI</span></a></div></div><div class="nav-subgroup"><div class="nav-subgroup-title">集成</div><a class="nav-link" href="frontend-integrations-overview.html" data-search="集成概览 Overview frontend-integrations-overview Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>集成概览</span></a><a class="nav-link" href="frontend-integrations-copilotkit.html" data-search="CopilotKit CopilotKit frontend-integrations-copilotkit Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>CopilotKit</span></a><a class="nav-link" href="frontend-integrations-ai-elements.html" data-search="AI Elements AI Elements frontend-integrations-ai-elements Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>AI Elements</span></a><a class="nav-link" href="frontend-integrations-assistant-ui.html" data-search="assistant-ui assistant-ui frontend-integrations-assistant-ui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>assistant-ui</span></a><a class="nav-link" href="frontend-integrations-openui.html" data-search="OpenUI OpenUI frontend-integrations-openui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>OpenUI</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">高级用法</div><a class="nav-link" href="guardrails.html" data-search="护栏 Guardrails guardrails Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>护栏</span></a><a class="nav-link" href="runtime.html" data-search="运行时 Runtime runtime Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>运行时</span></a><a class="nav-link" href="context-engineering.html" data-search="智能体中的上下文工程 Context engineering in agents context-engineering Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>智能体中的上下文工程</span></a><a class="nav-link" href="human-in-the-loop.html" data-search="人在回路 Human-in-the-loop human-in-the-loop Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>人在回路</span></a><a class="nav-link" href="retrieval.html" data-search="检索 Retrieval retrieval Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>检索</span></a><a class="nav-link" href="long-term-memory.html" data-search="长期记忆 Long-term memory long-term-memory Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>长期记忆</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">MCP</div><a class="nav-link" href="mcp.html" data-search="MCP 概述 Model Context Protocol (MCP) mcp Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 概述</span></a><a class="nav-link" href="mcp-tools.html" data-search="MCP 工具 Tools mcp-tools Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 工具</span></a><a class="nav-link" href="mcp-connections.html" data-search="MCP 连接 Connections mcp-connections Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 连接</span></a><a class="nav-link" href="mcp-auth.html" data-search="MCP 认证 Authentication mcp-auth Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 认证</span></a></div><div class="nav-subgroup"><div class="nav-subgroup-title">多智能体</div><a class="nav-link" href="multi-agent.html" data-search="多智能体 Multi-agent multi-agent Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>多智能体</span></a><a class="nav-link" href="multi-agent-subagents.html" data-search="子智能体 Subagents multi-agent-subagents Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>子智能体</span></a><a class="nav-link" href="multi-agent-handoffs.html" data-search="交接 Handoffs multi-agent-handoffs Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>交接</span></a><a class="nav-link" href="multi-agent-skills.html" data-search="技能 Skills multi-agent-skills Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>技能</span></a><a class="nav-link" href="multi-agent-router.html" data-search="路由器 Router multi-agent-router Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>路由器</span></a><a class="nav-link" href="multi-agent-custom-workflow.html" data-search="自定义工作流 Custom workflow multi-agent-custom-workflow Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>自定义工作流</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">智能体开发</div><a class="nav-link" href="studio.html" data-search="LangSmith Studio LangSmith Studio studio Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith Studio</span></a><a class="nav-link" href="ui.html" data-search="Agent Chat UI Agent Chat UI ui Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>Agent Chat UI</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">测试</div><a class="nav-link" href="test.html" data-search="测试 Test test Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>测试</span></a><a class="nav-link" href="test-unit-testing.html" data-search="单元测试 Unit testing test-unit-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>单元测试</span></a><a class="nav-link" href="test-integration-testing.html" data-search="集成测试 Integration testing test-integration-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>集成测试</span></a><a class="nav-link" href="test-evals.html" data-search="智能体评估 Agent Evals test-evals Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>智能体评估</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">生产</div><a class="nav-link" href="deploy.html" data-search="部署 Deployment deploy Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>部署</span></a><a class="nav-link" href="observability.html" data-search="LangSmith 可观测性 LangSmith Observability observability Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith 可观测性</span></a></section><div class="nav-empty" data-nav-empty hidden>没有匹配的页面</div></nav></div>
+      <div class="sidebar-foot"><strong>59 篇</strong> · 社区翻译</div>
+    </aside>
+    <div class="sidebar-overlay" data-sidebar-overlay></div>
+    <main class="main" id="main">
+      <div class="content-wrap">
+        <nav class="breadcrumbs" aria-label="面包屑"><a href="index.html">LangChain</a><span class="sep">/</span><span>前端</span><span class="sep">/</span><span>模式</span><span class="sep">/</span><span class="current">工具调用</span></nav>
+        <header class="page-header">
+          <h1>工具调用</h1>
+          <div class="page-lead">使用丰富且类型安全的 UI 卡片展示智能体的工具调用</div>
+          <div class="page-meta">
+            <span>约 6 分钟</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>社区翻译</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <a href="https://docs.langchain.com/oss/python/langchain/frontend/tool-calling" target="_blank" rel="noopener noreferrer">查看英文原文 ↗</a>
+          </div>
+        </header>
+        <article class="content"><p>智能体可以调用外部工具，例如天气 API、计算器、网页搜索、数据库查询等。其结果以原始 JSON 形式返回。本模式展示如何为智能体的每一次工具调用渲染结构化、类型安全的 UI 卡片，并完整处理加载状态与错误。</p>
+<h2 id="how-tool-calling-works">工具调用的工作方式<a class="heading-anchor" href="#how-tool-calling-works" aria-label="链接到本节">#</a></h2>
+<p>当 LangGraph 智能体判断需要外部数据时，它会在一条 AI 消息中发出一个或多个 <strong>工具调用</strong>。每次工具调用都包含：</p>
+<ul><li><p><strong>name</strong>：被调用的工具（例如 <code>"get_weather"</code>、<code>"calculator"</code>）</p></li><li><p><strong>args</strong>：传给该工具的结构化参数</p></li><li><p><strong>id</strong>：用于把调用与其结果关联起来的唯一标识符</p></li></ul>
+<p>智能体运行时执行该工具，结果以 <code>ToolMessage</code> 的形式返回。<a href="https://reference.langchain.com/javascript/langchain-react/index/useStream" target="_blank" rel="noopener noreferrer"><code>useStream</code></a> hook 将这一切统一为一个可直接渲染的 <code>toolCalls</code> 数组。</p>
+<h2 id="setting-up-usestream">配置 <code>useStream</code><a class="heading-anchor" href="#setting-up-usestream" aria-label="链接到本节">#</a></h2>
+<p>第一步是把 <a href="https://reference.langchain.com/javascript/langchain-react/index/useStream" target="_blank" rel="noopener noreferrer"><code>useStream</code></a> 接入你的智能体后端。该 hook 返回响应式状态，其中包含一个 <code>toolCalls</code> 数组，会随智能体流式输出实时更新。</p>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>代码示例使用 <code>useStream&lt;typeof myAgent&gt;</code> 来实现类型安全的流状态。参见针对 <a href="frontend-overview.html#type-inference">Python</a> 或 <a href="https://docs.langchain.com/oss/javascript/langchain/frontend/overview#type-inference" target="_blank" rel="noopener noreferrer">JavaScript</a> 后端的类型推断。</p></div>
+</aside>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">React</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { useStream } <span class="hljs-keyword">from</span> <span class="hljs-string">"@langchain/react"</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">AGENT_URL</span> = <span class="hljs-string">"http://localhost:2024"</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">Chat</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> stream = useStream&lt;<span class="hljs-keyword">typeof</span> myAgent&gt;({
+    <span class="hljs-attr">apiUrl</span>: <span class="hljs-variable constant_">AGENT_URL</span>,
+    <span class="hljs-attr">assistantId</span>: <span class="hljs-string">"tool_calling"</span>,
+  });
+
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      {stream.messages.map((msg) =&gt; (
+        <span class="hljs-tag">&lt;<span class="hljs-name">Message</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{msg.id}</span> <span class="hljs-attr">message</span>=<span class="hljs-string">{msg}</span> <span class="hljs-attr">toolCalls</span>=<span class="hljs-string">{stream.toolCalls}</span> /&gt;</span>
+      ))}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Vue</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-vue">&lt;script setup lang="ts"&gt;
+import { useStream } from "@langchain/vue";
+
+const AGENT_URL = "http://localhost:2024";
+
+const stream = useStream&lt;typeof myAgent&gt;({
+  apiUrl: AGENT_URL,
+  assistantId: "tool_calling",
+});
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;Message
+      v-for="msg in stream.messages.value"
+      :key="msg.id"
+      :message="msg"
+      :tool-calls="stream.toolCalls.value"
+    /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Svelte</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-svelte">&lt;script lang="ts"&gt;
+  import { useStream } from "@langchain/svelte";
+
+  const AGENT_URL = "http://localhost:2024";
+
+  const stream = useStream&lt;typeof myAgent&gt;({
+    apiUrl: AGENT_URL,
+    assistantId: "tool_calling",
+  });
+&lt;/script&gt;
+
+&lt;div&gt;
+  {#each stream.messages as msg (msg.id)}
+    &lt;Message message={msg} toolCalls={stream.toolCalls} /&gt;
+  {/each}
+&lt;/div&gt;</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">Angular</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@angular/core"</span>;
+<span class="hljs-keyword">import</span> { injectStream } <span class="hljs-keyword">from</span> <span class="hljs-string">"@langchain/angular"</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">AGENT_URL</span> = <span class="hljs-string">"http://localhost:2024"</span>;
+
+<span class="hljs-meta">@Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">"app-chat"</span>,
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
+    @for (msg of stream.messages(); track msg.id) {
+      &lt;app-message [message]="msg" [toolCalls]="stream.toolCalls()" /&gt;
+    }
+  `</span>,
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ChatComponent</span> {
+  stream = injectStream&lt;<span class="hljs-keyword">typeof</span> myAgent&gt;({
+    <span class="hljs-attr">apiUrl</span>: <span class="hljs-variable constant_">AGENT_URL</span>,
+    <span class="hljs-attr">assistantId</span>: <span class="hljs-string">"tool_calling"</span>,
+  });
+}</code></pre>
+</div>
+<h2 id="the-assembledtoolcall-type">AssembledToolCall 类型<a class="heading-anchor" href="#the-assembledtoolcall-type" aria-label="链接到本节">#</a></h2>
+<p><code>toolCalls</code> 数组中的每一项都是一个 <code>AssembledToolCall</code> 对象：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">typescript</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">AssembledToolCall</span>&lt;
+  <span class="hljs-title class_">TName</span> <span class="hljs-keyword">extends</span> <span class="hljs-built_in">string</span> = <span class="hljs-built_in">string</span>,
+  <span class="hljs-title class_">TInput</span> = <span class="hljs-built_in">unknown</span>,
+  <span class="hljs-title class_">TOutput</span> = <span class="hljs-built_in">unknown</span>,
+&gt; {
+  <span class="hljs-attr">name</span>: <span class="hljs-title class_">TName</span>;
+  <span class="hljs-attr">callId</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">namespace</span>: <span class="hljs-built_in">string</span>[];
+  <span class="hljs-attr">input</span>: <span class="hljs-title class_">TInput</span>;
+  <span class="hljs-attr">args</span>: <span class="hljs-title class_">TInput</span>;
+  <span class="hljs-attr">output</span>: <span class="hljs-title class_">TOutput</span> | <span class="hljs-literal">null</span>;
+  <span class="hljs-attr">status</span>: <span class="hljs-string">"running"</span> | <span class="hljs-string">"finished"</span> | <span class="hljs-string">"error"</span>;
+  <span class="hljs-attr">error</span>: <span class="hljs-built_in">string</span> | <span class="hljs-literal">undefined</span>;
+}</code></pre>
+</div>
+<div class="table-wrap"><table><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><code>name</code></td><td>工具的名称（例如 <code>"get_weather"</code>）</td></tr><tr><td><code>callId</code></td><td>与该 AI 消息中 <code>tool_calls</code> 条目匹配的唯一 ID</td></tr><tr><td><code>id</code></td><td><code>callId</code> 的别名，与消息级工具调用相匹配</td></tr><tr><td><code>namespace</code></td><td>发出该工具调用的命名空间</td></tr><tr><td><code>input</code></td><td>智能体传给该工具的结构化参数</td></tr><tr><td><code>args</code></td><td><code>input</code> 的别名，与消息级工具调用相匹配</td></tr><tr><td><code>output</code></td><td>调用成功后的工具输出；运行中或出错后为 <code>null</code></td></tr><tr><td><code>status</code></td><td>生命周期状态：<code>"running"</code>、<code>"finished"</code> 或 <code>"error"</code></td></tr><tr><td><code>error</code></td><td>工具调用失败时的错误详情</td></tr></tbody></table></div>
+<h2 id="filtering-tool-calls-per-message">按消息过滤工具调用<a class="heading-anchor" href="#filtering-tool-calls-per-message" aria-label="链接到本节">#</a></h2>
+<p>一条 AI 消息可能触发多次工具调用，而你的对话中也可能包含多条 AI 消息。要在每条消息下渲染正确的工具卡片，可将 <code>callId</code> 与该消息的 <code>tool_calls</code> 数组进行匹配来过滤：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">tsx</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Message</span>(<span class="hljs-params">{
+  message,
+  toolCalls,
+}: {
+  message: AIMessage;
+  toolCalls: AssembledToolCall[];
+}</span>) {
+  <span class="hljs-keyword">const</span> messageToolCalls = toolCalls.<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">tc</span>) =&gt;</span>
+    message.<span class="hljs-property">tool_calls</span>?.<span class="hljs-title function_">find</span>(<span class="hljs-function">(<span class="hljs-params">t</span>) =&gt;</span> t.<span class="hljs-property">id</span> === tc.<span class="hljs-property">callId</span>)
+  );
+
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{message.text}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      {messageToolCalls.map((tc) =&gt; (
+        <span class="hljs-tag">&lt;<span class="hljs-name">ToolCard</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{tc.callId}</span> <span class="hljs-attr">toolCall</span>=<span class="hljs-string">{tc}</span> /&gt;</span>
+      ))}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}</code></pre>
+</div>
+<h2 id="building-specialized-tool-cards">构建专用工具卡片<a class="heading-anchor" href="#building-specialized-tool-cards" aria-label="链接到本节">#</a></h2>
+<p>与其直接抛出原始 JSON，不如为每个工具构建专用的 UI 组件。使用 <code>name</code> 来选择正确的卡片：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">tsx</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-keyword">function</span> <span class="hljs-title function_">ToolCard</span>(<span class="hljs-params">{ toolCall }: { toolCall: AssembledToolCall }</span>) {
+  <span class="hljs-keyword">if</span> (toolCall.<span class="hljs-property">status</span> === <span class="hljs-string">"running"</span>) {
+    <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">LoadingCard</span> <span class="hljs-attr">name</span>=<span class="hljs-string">{toolCall.name}</span> /&gt;</span></span>;
+  }
+
+  <span class="hljs-keyword">if</span> (toolCall.<span class="hljs-property">status</span> === <span class="hljs-string">"error"</span>) {
+    <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ErrorCard</span> <span class="hljs-attr">name</span>=<span class="hljs-string">{toolCall.name}</span> <span class="hljs-attr">error</span>=<span class="hljs-string">{toolCall.error}</span> /&gt;</span></span>;
+  }
+
+  <span class="hljs-keyword">switch</span> (toolCall.<span class="hljs-property">name</span>) {
+    <span class="hljs-keyword">case</span> <span class="hljs-string">"get_weather"</span>:
+      <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">WeatherCard</span> <span class="hljs-attr">input</span>=<span class="hljs-string">{toolCall.input}</span> <span class="hljs-attr">output</span>=<span class="hljs-string">{toolCall.output}</span> /&gt;</span></span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-string">"calculator"</span>:
+      <span class="hljs-keyword">return</span> (
+        <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">CalculatorCard</span> <span class="hljs-attr">input</span>=<span class="hljs-string">{toolCall.input}</span> <span class="hljs-attr">output</span>=<span class="hljs-string">{toolCall.output}</span> /&gt;</span></span>
+      );
+    <span class="hljs-keyword">case</span> <span class="hljs-string">"web_search"</span>:
+      <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">SearchCard</span> <span class="hljs-attr">input</span>=<span class="hljs-string">{toolCall.input}</span> <span class="hljs-attr">output</span>=<span class="hljs-string">{toolCall.output}</span> /&gt;</span></span>;
+    <span class="hljs-attr">default</span>:
+      <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">GenericToolCard</span> <span class="hljs-attr">toolCall</span>=<span class="hljs-string">{toolCall}</span> /&gt;</span></span>;
+  }
+}</code></pre>
+</div>
+<h3 id="weather-card-example">天气卡片示例<a class="heading-anchor" href="#weather-card-example" aria-label="链接到本节">#</a></h3>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">tsx</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-keyword">function</span> <span class="hljs-title function_">WeatherCard</span>(<span class="hljs-params">{
+  input,
+  output,
+}: {
+  input: { location: <span class="hljs-built_in">string</span> };
+  output: { temperature: <span class="hljs-built_in">number</span>; condition: <span class="hljs-built_in">string</span> };
+}</span>) {
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"rounded-lg border p-4"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"flex items-center gap-2"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">CloudIcon</span> /&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"font-semibold"</span>&gt;</span>{input.location}<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"mt-2 text-3xl font-bold"</span>&gt;</span>{output.temperature}°F<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"text-muted-foreground"</span>&gt;</span>{output.condition}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}</code></pre>
+</div>
+<h3 id="loading-and-error-states">加载与错误状态<a class="heading-anchor" href="#loading-and-error-states" aria-label="链接到本节">#</a></h3>
+<p>始终处理 pending 和 error 状态，为用户提供清晰的反馈：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">tsx</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-keyword">function</span> <span class="hljs-title function_">LoadingCard</span>(<span class="hljs-params">{ name }: { name: <span class="hljs-built_in">string</span> }</span>) {
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"flex items-center gap-2 rounded-lg border p-4 animate-pulse"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Spinner</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>Running {name}...<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">ErrorCard</span>(<span class="hljs-params">{ name, error }: { name: <span class="hljs-built_in">string</span>; error?: <span class="hljs-built_in">unknown</span> }</span>) {
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"rounded-lg border border-red-300 bg-red-50 p-4"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"font-semibold text-red-700"</span>&gt;</span>Error in {name}<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"text-sm text-red-600"</span>&gt;</span>
+        {String(error ?? "Tool execution failed")}
+      <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}</code></pre>
+</div>
+<h2 id="type-safe-tool-arguments">类型安全的工具参数<a class="heading-anchor" href="#type-safe-tool-arguments" aria-label="链接到本节">#</a></h2>
+<p>如果你的工具使用结构化 schema 定义，就可以使用 <code>ToolCallFromTool</code> 工具类型获得完全类型化的 <code>args</code>：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">typescript</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { tool } <span class="hljs-keyword">from</span> <span class="hljs-string">"@langchain/core/tools"</span>;
+<span class="hljs-keyword">import</span> { z } <span class="hljs-keyword">from</span> <span class="hljs-string">"zod"</span>;
+
+<span class="hljs-keyword">const</span> getWeather = <span class="hljs-title function_">tool</span>(<span class="hljs-title function_">async</span> ({ location }) =&gt; { <span class="hljs-comment">/* ... */</span> }, {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">"get_weather"</span>,
+  <span class="hljs-attr">description</span>: <span class="hljs-string">"Get the current weather for a location"</span>,
+  <span class="hljs-attr">schema</span>: z.<span class="hljs-title function_">object</span>({
+    <span class="hljs-attr">location</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">describe</span>(<span class="hljs-string">"City name"</span>),
+  }),
+});
+
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">WeatherToolCall</span> = <span class="hljs-title class_">ToolCallFromTool</span>&lt;<span class="hljs-keyword">typeof</span> getWeather&gt;;
+<span class="hljs-comment">// WeatherToolCall.input and WeatherToolCall.args are now { location: string }</span></code></pre>
+</div>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>使用 <code>ToolCallFromTool</code> 可获得编译期安全。一旦工具 schema 发生变化，你的 UI 组件会立即标出类型错误。</p></div>
+</aside>
+<h2 id="rendering-tool-calls-inline-with-streaming-text">将工具调用与流式文本内联渲染<a class="heading-anchor" href="#rendering-tool-calls-inline-with-streaming-text" aria-label="链接到本节">#</a></h2>
+<p>工具调用常常与流式文本交错到达。<a href="https://reference.langchain.com/javascript/langchain-react/index/useStream" target="_blank" rel="noopener noreferrer"><code>useStream</code></a> hook 会让 <code>toolCalls</code> 与流保持同步，因此智能体一发出调用、工具尚未执行完成时，加载中的卡片就会立即出现。</p>
+<p>这意味着用户会看到：</p>
+<ol><li><p>AI 的文本随流式输出逐步呈现</p></li><li><p>工具调用一发出就出现的加载卡片</p></li><li><p>工具完成后卡片更新并显示结果</p></li></ol>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>工具调用就地更新。同一个 <code>callId</code> 会从 <code>"running"</code> 变为 <code>"finished"</code>（或 <code>"error"</code>），因此你的 UI 会用新状态重新渲染同一个组件。</p></div>
+</aside>
+<h2 id="handling-multiple-concurrent-tool-calls">处理多个并发工具调用<a class="heading-anchor" href="#handling-multiple-concurrent-tool-calls" aria-label="链接到本节">#</a></h2>
+<p>智能体可以并行调用多个工具。<code>toolCalls</code> 数组中会同时包含多个带有 <code>status: "running"</code> 的条目。每一项独立完成，因此你的 UI 应妥善处理部分完成的情况：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">tsx</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-tsx"><span class="hljs-keyword">function</span> <span class="hljs-title function_">ToolCallList</span>(<span class="hljs-params">{ toolCalls }: { toolCalls: AssembledToolCall[] }</span>) {
+  <span class="hljs-keyword">const</span> pending = toolCalls.<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">tc</span>) =&gt;</span> tc.<span class="hljs-property">status</span> === <span class="hljs-string">"running"</span>);
+  <span class="hljs-keyword">const</span> completed = toolCalls.<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">tc</span>) =&gt;</span> tc.<span class="hljs-property">status</span> === <span class="hljs-string">"finished"</span>);
+
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"space-y-2"</span>&gt;</span>
+      {completed.map((tc) =&gt; (
+        <span class="hljs-tag">&lt;<span class="hljs-name">ToolCard</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{tc.callId}</span> <span class="hljs-attr">toolCall</span>=<span class="hljs-string">{tc}</span> /&gt;</span>
+      ))}
+      {pending.map((tc) =&gt; (
+        <span class="hljs-tag">&lt;<span class="hljs-name">LoadingCard</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{tc.callId}</span> <span class="hljs-attr">name</span>=<span class="hljs-string">{tc.name}</span> /&gt;</span>
+      ))}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}</code></pre>
+</div>
+<h2 id="best-practices">最佳实践<a class="heading-anchor" href="#best-practices" aria-label="链接到本节">#</a></h2>
+<p>构建工具调用 UI 时请遵循以下准则：</p>
+<ul><li><p><strong>始终处理全部三种状态</strong>：<code>running</code>、<code>finished</code> 和 <code>error</code>。用户绝不应看到空白卡片。</p></li><li><p><strong>安全地校验结果</strong>。在针对特定卡片收窄类型之前，工具输出的类型为 <code>unknown</code>。</p></li><li><p><strong>提供通用回退方案</strong>。并非每个工具都需要专属卡片。对于未知的工具名称，渲染一个可折叠的 JSON 视图。</p></li><li><p><strong>在加载时显示工具名称与参数</strong>。即使在结果返回之前，用户也希望知道智能体<em>在做</em>什么。</p></li><li><p><strong>保持卡片紧凑</strong>。工具卡片与聊天消息内联排列。避免使用过大的组件让对话内容显得拥挤。</p></li></ul></article>
+        <nav class="pager" aria-label="翻页"><a class="prev" href="frontend-markdown-messages.html"><span class="pager-label">上一篇</span><span class="pager-title">Markdown 消息</span></a><a class="next" href="frontend-headless-tools.html"><span class="pager-label">下一篇</span><span class="pager-title">无头工具</span></a></nav>
+        <footer class="page-footer">
+          <p>本页为社区维护的简体中文翻译，不是 LangChain 官方文档。如与英文原文有出入，请以 <a href="https://docs.langchain.com/oss/python/langchain/frontend/tool-calling" target="_blank" rel="noopener noreferrer">英文原文</a> 为准。</p>
+        </footer>
+      </div>
+    </main>
+    <aside class="toc" aria-label="本页目录"><div class="toc-inner"><div class="toc-title">本页目录</div><a class="toc-link level-2" href="#how-tool-calling-works">工具调用的工作方式</a><a class="toc-link level-2" href="#setting-up-usestream">配置 useStream</a><a class="toc-link level-2" href="#the-assembledtoolcall-type">AssembledToolCall 类型</a><a class="toc-link level-2" href="#filtering-tool-calls-per-message">按消息过滤工具调用</a><a class="toc-link level-2" href="#building-specialized-tool-cards">构建专用工具卡片</a><a class="toc-link level-3" href="#weather-card-example">天气卡片示例</a><a class="toc-link level-3" href="#loading-and-error-states">加载与错误状态</a><a class="toc-link level-2" href="#type-safe-tool-arguments">类型安全的工具参数</a><a class="toc-link level-2" href="#rendering-tool-calls-inline-with-streaming-text">将工具调用与流式文本内联渲染</a><a class="toc-link level-2" href="#handling-multiple-concurrent-tool-calls">处理多个并发工具调用</a><a class="toc-link level-2" href="#best-practices">最佳实践</a></div></aside>
+  </div>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p><strong>LangChain 中文文档</strong> · 社区翻译，非官方站点。内容基于 <a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener noreferrer">docs.langchain.com</a> 的 LangChain（Python）文档生成。</p>
+      <p>共 59 篇 · 代码示例保持英文原样 · 以英文原文为准</p>
+    </div>
+  </footer>
+  <button class="back-top" type="button" data-back-top aria-label="回到顶部">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script src="assets/docs.js" defer></script>
+</body>
+</html>

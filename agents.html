@@ -1,0 +1,1991 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>智能体 | LangChain 中文文档</title>
+  <meta name="description" content="构建一个 LangChain 智能体：由模型在循环中调用工具直至任务完成，并由提示词、工具和中间件组成的运行框架加以塑造。">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M12.5 19.5l7-7M10 22l-1 1a4 4 0 0 1-5.7-5.7l3.4-3.4a4 4 0 0 1 5.7 0M22 10l1-1a4 4 0 0 1 5.7 5.7l-3.4 3.4a4 4 0 0 1-5.7 0' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem('lc-docs-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();</script>
+  <link rel="stylesheet" href="assets/docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div id="progress" data-progress></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="打开文档导航" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="LangChain 中文文档首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9.4 14.6l5.2-5.2M7.1 16.9l-1.4 1.4a3.7 3.7 0 0 1-5.2-5.2l3.2-3.2a3.7 3.7 0 0 1 5.2 0M16.9 7.1l1.4-1.4a3.7 3.7 0 0 1 5.2 5.2l-3.2 3.2a3.7 3.7 0 0 1-5.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text">LangChain <span class="brand-sub">中文文档</span></span>
+      </a>
+      <nav class="top-nav" aria-label="主导航">
+        <a class="top-link active" href="index.html" aria-current="page">LangChain</a>
+        <a class="top-link" href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a>
+        <a class="top-link" href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener noreferrer">LangSmith</a>
+        <a class="top-link" href="https://reference.langchain.com/python/langchain/" target="_blank" rel="noopener noreferrer">API 参考</a>
+      </nav>
+      <div class="header-actions">
+        <a class="source-link" href="https://docs.langchain.com/oss/python/langchain/agents" target="_blank" rel="noopener noreferrer">English <span aria-hidden="true">↗</span></a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="切换到深色模式" aria-pressed="false" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v1.6M10 16.2v1.6M2.2 10h1.6M16.2 10h1.6M4.5 4.5l1.1 1.1M14.4 14.4l1.1 1.1M15.5 4.5l-1.1 1.1M5.6 14.4l-1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.4 12.1A6.6 6.6 0 0 1 7.9 3.6 6.8 6.8 0 1 0 16.4 12.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" id="sidebar" aria-label="文档导航">
+      <div class="sidebar-head">
+        <div class="sidebar-title">文档目录</div>
+        <div class="nav-search">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.2" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="搜索页面…" aria-label="搜索文档页面" data-nav-search autocomplete="off" spellcheck="false">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+      </div>
+      <div class="sidebar-scroll"><nav class="nav" id="doc-nav" aria-label="文档页面"><div class="nav-home"><a class="nav-link" href="index.html" data-search="LangChain 概览 LangChain overview index  "><span class="nav-dot" aria-hidden="true"></span><span>LangChain 概览</span></a></div><section class="nav-section" data-nav-section><div class="nav-section-title">开始使用</div><a class="nav-link" href="install.html" data-search="安装 LangChain Install LangChain install Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>安装 LangChain</span></a><a class="nav-link" href="quickstart.html" data-search="快速开始 Quickstart quickstart Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>快速开始</span></a><a class="nav-link" href="philosophy.html" data-search="设计理念 Philosophy philosophy Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>设计理念</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">核心组件</div><a class="nav-link active" href="agents.html" data-search="智能体 Agents agents Core components 核心组件 核心组件" aria-current="page"><span class="nav-dot" aria-hidden="true"></span><span>智能体</span></a><a class="nav-link" href="models.html" data-search="模型 Models models Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>模型</span></a><a class="nav-link" href="messages.html" data-search="消息 Messages messages Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>消息</span></a><a class="nav-link" href="tools.html" data-search="工具 Tools tools Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>工具</span></a><a class="nav-link" href="short-term-memory.html" data-search="短期记忆 Short-term memory short-term-memory Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>短期记忆</span></a><a class="nav-link" href="event-streaming.html" data-search="事件流 Event streaming event-streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>事件流</span></a><a class="nav-link" href="streaming.html" data-search="流式传输 Streaming streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>流式传输</span></a><a class="nav-link" href="structured-output.html" data-search="结构化输出 Structured output structured-output Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>结构化输出</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">中间件</div><a class="nav-link" href="middleware-overview.html" data-search="中间件概览 Middleware overview middleware-overview Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>中间件概览</span></a><a class="nav-link" href="middleware-built-in.html" data-search="预置中间件 Prebuilt middleware middleware-built-in Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>预置中间件</span></a><a class="nav-link" href="middleware-custom.html" data-search="自定义中间件 Custom middleware middleware-custom Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>自定义中间件</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">前端</div><a class="nav-link" href="frontend-overview.html" data-search="前端概览 Overview frontend-overview Frontend 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端概览</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">模式</div><a class="nav-link" href="frontend-markdown-messages.html" data-search="Markdown 消息 Markdown messages frontend-markdown-messages Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>Markdown 消息</span></a><a class="nav-link" href="frontend-tool-calling.html" data-search="工具调用 Tool calling frontend-tool-calling Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>工具调用</span></a><a class="nav-link" href="frontend-headless-tools.html" data-search="无头工具 Headless tools frontend-headless-tools Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>无头工具</span></a><a class="nav-link" href="frontend-human-in-the-loop.html" data-search="前端人在回路 Human-in-the-Loop frontend-human-in-the-loop Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端人在回路</span></a><a class="nav-link" href="frontend-branching-chat.html" data-search="分支对话 Branching chat frontend-branching-chat Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>分支对话</span></a><a class="nav-link" href="frontend-reasoning-tokens.html" data-search="推理 token Reasoning tokens frontend-reasoning-tokens Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>推理 token</span></a><a class="nav-link" href="frontend-structured-output.html" data-search="前端结构化输出 Structured output frontend-structured-output Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端结构化输出</span></a><a class="nav-link" href="frontend-message-queues.html" data-search="消息队列 Message queues frontend-message-queues Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>消息队列</span></a><a class="nav-link" href="frontend-join-rejoin.html" data-search="断开与重连流 Join &amp; rejoin streams frontend-join-rejoin Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>断开与重连流</span></a><a class="nav-link" href="frontend-time-travel.html" data-search="时间旅行 Time travel frontend-time-travel Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>时间旅行</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">生成式 UI</div><a class="nav-link" href="frontend-generative-ui-overview.html" data-search="生成式 UI 概览 Generative UI overview frontend-generative-ui-overview Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>生成式 UI 概览</span></a><a class="nav-link" href="frontend-controlled-generative-ui.html" data-search="受控生成式 UI Controlled generative UI frontend-controlled-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>受控生成式 UI</span></a><a class="nav-link" href="frontend-declarative-generative-ui.html" data-search="声明式生成式 UI Declarative generative UI frontend-declarative-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>声明式生成式 UI</span></a><a class="nav-link" href="frontend-open-ended-generative-ui.html" data-search="开放式生成式 UI Open-ended generative UI frontend-open-ended-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>开放式生成式 UI</span></a></div></div><div class="nav-subgroup"><div class="nav-subgroup-title">集成</div><a class="nav-link" href="frontend-integrations-overview.html" data-search="集成概览 Overview frontend-integrations-overview Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>集成概览</span></a><a class="nav-link" href="frontend-integrations-copilotkit.html" data-search="CopilotKit CopilotKit frontend-integrations-copilotkit Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>CopilotKit</span></a><a class="nav-link" href="frontend-integrations-ai-elements.html" data-search="AI Elements AI Elements frontend-integrations-ai-elements Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>AI Elements</span></a><a class="nav-link" href="frontend-integrations-assistant-ui.html" data-search="assistant-ui assistant-ui frontend-integrations-assistant-ui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>assistant-ui</span></a><a class="nav-link" href="frontend-integrations-openui.html" data-search="OpenUI OpenUI frontend-integrations-openui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>OpenUI</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">高级用法</div><a class="nav-link" href="guardrails.html" data-search="护栏 Guardrails guardrails Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>护栏</span></a><a class="nav-link" href="runtime.html" data-search="运行时 Runtime runtime Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>运行时</span></a><a class="nav-link" href="context-engineering.html" data-search="智能体中的上下文工程 Context engineering in agents context-engineering Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>智能体中的上下文工程</span></a><a class="nav-link" href="human-in-the-loop.html" data-search="人在回路 Human-in-the-loop human-in-the-loop Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>人在回路</span></a><a class="nav-link" href="retrieval.html" data-search="检索 Retrieval retrieval Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>检索</span></a><a class="nav-link" href="long-term-memory.html" data-search="长期记忆 Long-term memory long-term-memory Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>长期记忆</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">MCP</div><a class="nav-link" href="mcp.html" data-search="MCP 概述 Model Context Protocol (MCP) mcp Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 概述</span></a><a class="nav-link" href="mcp-tools.html" data-search="MCP 工具 Tools mcp-tools Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 工具</span></a><a class="nav-link" href="mcp-connections.html" data-search="MCP 连接 Connections mcp-connections Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 连接</span></a><a class="nav-link" href="mcp-auth.html" data-search="MCP 认证 Authentication mcp-auth Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 认证</span></a></div><div class="nav-subgroup"><div class="nav-subgroup-title">多智能体</div><a class="nav-link" href="multi-agent.html" data-search="多智能体 Multi-agent multi-agent Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>多智能体</span></a><a class="nav-link" href="multi-agent-subagents.html" data-search="子智能体 Subagents multi-agent-subagents Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>子智能体</span></a><a class="nav-link" href="multi-agent-handoffs.html" data-search="交接 Handoffs multi-agent-handoffs Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>交接</span></a><a class="nav-link" href="multi-agent-skills.html" data-search="技能 Skills multi-agent-skills Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>技能</span></a><a class="nav-link" href="multi-agent-router.html" data-search="路由器 Router multi-agent-router Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>路由器</span></a><a class="nav-link" href="multi-agent-custom-workflow.html" data-search="自定义工作流 Custom workflow multi-agent-custom-workflow Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>自定义工作流</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">智能体开发</div><a class="nav-link" href="studio.html" data-search="LangSmith Studio LangSmith Studio studio Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith Studio</span></a><a class="nav-link" href="ui.html" data-search="Agent Chat UI Agent Chat UI ui Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>Agent Chat UI</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">测试</div><a class="nav-link" href="test.html" data-search="测试 Test test Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>测试</span></a><a class="nav-link" href="test-unit-testing.html" data-search="单元测试 Unit testing test-unit-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>单元测试</span></a><a class="nav-link" href="test-integration-testing.html" data-search="集成测试 Integration testing test-integration-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>集成测试</span></a><a class="nav-link" href="test-evals.html" data-search="智能体评估 Agent Evals test-evals Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>智能体评估</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">生产</div><a class="nav-link" href="deploy.html" data-search="部署 Deployment deploy Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>部署</span></a><a class="nav-link" href="observability.html" data-search="LangSmith 可观测性 LangSmith Observability observability Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith 可观测性</span></a></section><div class="nav-empty" data-nav-empty hidden>没有匹配的页面</div></nav></div>
+      <div class="sidebar-foot"><strong>59 篇</strong> · 社区翻译</div>
+    </aside>
+    <div class="sidebar-overlay" data-sidebar-overlay></div>
+    <main class="main" id="main">
+      <div class="content-wrap">
+        <nav class="breadcrumbs" aria-label="面包屑"><a href="index.html">LangChain</a><span class="sep">/</span><span>核心组件</span><span class="sep">/</span><span class="current">智能体</span></nav>
+        <header class="page-header">
+          <h1>智能体</h1>
+          <div class="page-lead">构建一个 LangChain 智能体：由模型在循环中调用工具直至任务完成，并由提示词、工具和中间件组成的运行框架加以塑造。</div>
+          <div class="page-meta">
+            <span>约 30 分钟</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>社区翻译</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <a href="https://docs.langchain.com/oss/python/langchain/agents" target="_blank" rel="noopener noreferrer">查看英文原文 ↗</a>
+          </div>
+        </header>
+        <article class="content"><p>智能体是一个在循环中调用工具、直至完成给定任务的模型。</p>
+<figure class="doc-figure"><img src="https://mintcdn.com/langchain-5e9cc07a/jtty0O--UJOKG0nK/oss/images/core_agent_loop.svg?fit=max&amp;auto=format&amp;n=jtty0O--UJOKG0nK&amp;q=85&amp;s=4b4cbb497b6273758a565de1bc90ece0" alt="核心智能体循环示意图" loading="lazy" decoding="async" class="doc-image"><figcaption>核心智能体循环示意图</figcaption></figure>
+<p>运行框架是该循环周围的一切：提示词、工具，以及任何塑造模型行为的中间件。</p>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p><strong>智能体 = 模型 + 运行框架</strong></p>
+<p>运行框架的职责：在恰当的时机为模型提供完成给定任务所需的正确上下文。</p></div>
+</aside>
+<p><a href="https://reference.langchain.com/python/langchain/agents/factory/create_agent" target="_blank" rel="noopener noreferrer"><code>create_agent</code></a> 是一个高度可配置的运行框架。最简单的创建方式如下：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-1-tab-0" role="tab" aria-controls="codegroup-1-panel-0" aria-selected="true" tabindex="0">Google</button><button class="code-tab" type="button" id="codegroup-1-tab-1" role="tab" aria-controls="codegroup-1-panel-1" aria-selected="false" tabindex="-1">OpenAI</button><button class="code-tab" type="button" id="codegroup-1-tab-2" role="tab" aria-controls="codegroup-1-panel-2" aria-selected="false" tabindex="-1">Anthropic</button><button class="code-tab" type="button" id="codegroup-1-tab-3" role="tab" aria-controls="codegroup-1-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-1-tab-4" role="tab" aria-controls="codegroup-1-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-1-tab-5" role="tab" aria-controls="codegroup-1-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-1-tab-6" role="tab" aria-controls="codegroup-1-panel-6" aria-selected="false" tabindex="-1">Ollama</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-1-panel-0" role="tabpanel" aria-labelledby="codegroup-1-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+agent = create_agent(model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>, tools=tools)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-1" role="tabpanel" aria-labelledby="codegroup-1-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+agent = create_agent(model=<span class="hljs-string">"openai:gpt-5.5"</span>, tools=tools)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-2" role="tabpanel" aria-labelledby="codegroup-1-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+agent = create_agent(model=<span class="hljs-string">"anthropic:claude-sonnet-5"</span>, tools=tools)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-3" role="tabpanel" aria-labelledby="codegroup-1-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+agent = create_agent(model=<span class="hljs-string">"openrouter:z-ai/glm-5.2"</span>, tools=tools)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-4" role="tabpanel" aria-labelledby="codegroup-1-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+agent = create_agent(model=<span class="hljs-string">"fireworks:accounts/fireworks/models/glm-5p2"</span>, tools=tools)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-5" role="tabpanel" aria-labelledby="codegroup-1-tab-5" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+agent = create_agent(model=<span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>, tools=tools)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-6" role="tabpanel" aria-labelledby="codegroup-1-tab-6" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+agent = create_agent(model=<span class="hljs-string">"ollama:north-mini-code-1.0"</span>, tools=tools)</code></pre>
+</div></div>
+</div>
+<p>在此基础上，你可以直接通过 <code>model=</code>、<code>tools=</code> 和 <code>system_prompt=</code> 参数配置基础项。如需更高级的能力，可用<a href="#configure-the-harness">中间件</a>扩展运行框架。</p>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p><a href="https://docs.langchain.com/langsmith/python/managed-deep-agents-overview" target="_blank" rel="noopener noreferrer">托管的 Deep Agents</a> 构建于 <code>create_agent</code> 之上，并已预置常用的能力，例如规划、文件系统工具、子智能体和记忆。若要在使用同一 Deep Agents 运行框架的同时获得最大灵活性，可使用 <a href="https://docs.langchain.com/oss/python/deepagents/overview" target="_blank" rel="noopener noreferrer">Deep Agents</a> 自行托管智能体，或运行自定义的 <a href="https://docs.langchain.com/langsmith/deployment" target="_blank" rel="noopener noreferrer">LangSmith Deployment</a>。当你需要自行配置更小的运行框架时，使用 <code>create_agent</code>。</p></div>
+</aside>
+<h2 id="core-components">核心组件<a class="heading-anchor" href="#core-components" aria-label="链接到本节">#</a></h2>
+<figure class="doc-figure"><img src="https://mintcdn.com/langchain-5e9cc07a/jtty0O--UJOKG0nK/oss/images/agent_model_harness.svg?fit=max&amp;auto=format&amp;n=jtty0O--UJOKG0nK&amp;q=85&amp;s=5ac6a7e0343af7cb5ba3ca632e2224af" alt="智能体模型与运行框架组件示意图" loading="lazy" decoding="async" class="doc-image"><figcaption>智能体模型与运行框架组件示意图</figcaption></figure>
+<h3 id="model">模型<a class="heading-anchor" href="#model" aria-label="链接到本节">#</a></h3>
+<p>传入模型标识符字符串（<code>"provider:model"</code>）或已初始化的模型实例，即可为智能体选择模型。有关参数、提供商设置和动态模型选择，请参阅 <a href="models.html">模型</a>。</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-2-tab-0" role="tab" aria-controls="codegroup-2-panel-0" aria-selected="true" tabindex="0">Google</button><button class="code-tab" type="button" id="codegroup-2-tab-1" role="tab" aria-controls="codegroup-2-panel-1" aria-selected="false" tabindex="-1">OpenAI</button><button class="code-tab" type="button" id="codegroup-2-tab-2" role="tab" aria-controls="codegroup-2-panel-2" aria-selected="false" tabindex="-1">Anthropic</button><button class="code-tab" type="button" id="codegroup-2-tab-3" role="tab" aria-controls="codegroup-2-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-2-tab-4" role="tab" aria-controls="codegroup-2-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-2-tab-5" role="tab" aria-controls="codegroup-2-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-2-tab-6" role="tab" aria-controls="codegroup-2-panel-6" aria-selected="false" tabindex="-1">Ollama</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-2-panel-0" role="tabpanel" aria-labelledby="codegroup-2-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+agent = create_agent(model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>, tools=tools)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-1" role="tabpanel" aria-labelledby="codegroup-2-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+agent = create_agent(model=<span class="hljs-string">"openai:gpt-5.5"</span>, tools=tools)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-2" role="tabpanel" aria-labelledby="codegroup-2-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+agent = create_agent(model=<span class="hljs-string">"anthropic:claude-sonnet-5"</span>, tools=tools)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-3" role="tabpanel" aria-labelledby="codegroup-2-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+agent = create_agent(model=<span class="hljs-string">"openrouter:z-ai/glm-5.2"</span>, tools=tools)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-4" role="tabpanel" aria-labelledby="codegroup-2-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+agent = create_agent(model=<span class="hljs-string">"fireworks:accounts/fireworks/models/glm-5p2"</span>, tools=tools)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-5" role="tabpanel" aria-labelledby="codegroup-2-tab-5" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+agent = create_agent(model=<span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>, tools=tools)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-6" role="tabpanel" aria-labelledby="codegroup-2-tab-6" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+agent = create_agent(model=<span class="hljs-string">"ollama:north-mini-code-1.0"</span>, tools=tools)</code></pre>
+</div></div>
+</div>
+<h3 id="tools">工具<a class="heading-anchor" href="#tools" aria-label="链接到本节">#</a></h3>
+<p>要为智能体提供工具，可传入任意 Python 可调用对象、LangChain 工具或工具字典。有关工具定义、上下文访问和动态工具选择，请参阅 <a href="tools.html">工具</a>。</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-3-tab-0" role="tab" aria-controls="codegroup-3-panel-0" aria-selected="true" tabindex="0">Google</button><button class="code-tab" type="button" id="codegroup-3-tab-1" role="tab" aria-controls="codegroup-3-panel-1" aria-selected="false" tabindex="-1">OpenAI</button><button class="code-tab" type="button" id="codegroup-3-tab-2" role="tab" aria-controls="codegroup-3-panel-2" aria-selected="false" tabindex="-1">Anthropic</button><button class="code-tab" type="button" id="codegroup-3-tab-3" role="tab" aria-controls="codegroup-3-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-3-tab-4" role="tab" aria-controls="codegroup-3-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-3-tab-5" role="tab" aria-controls="codegroup-3-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-3-tab-6" role="tab" aria-controls="codegroup-3-panel-6" aria-selected="false" tabindex="-1">Ollama</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-3-panel-0" role="tabpanel" aria-labelledby="codegroup-3-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for information."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>, tools=[search])</code></pre>
+</div>
+<div class="code-panel" id="codegroup-3-panel-1" role="tabpanel" aria-labelledby="codegroup-3-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for information."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(model=<span class="hljs-string">"openai:gpt-5.5"</span>, tools=[search])</code></pre>
+</div>
+<div class="code-panel" id="codegroup-3-panel-2" role="tabpanel" aria-labelledby="codegroup-3-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for information."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(model=<span class="hljs-string">"anthropic:claude-sonnet-5"</span>, tools=[search])</code></pre>
+</div>
+<div class="code-panel" id="codegroup-3-panel-3" role="tabpanel" aria-labelledby="codegroup-3-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for information."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(model=<span class="hljs-string">"openrouter:z-ai/glm-5.2"</span>, tools=[search])</code></pre>
+</div>
+<div class="code-panel" id="codegroup-3-panel-4" role="tabpanel" aria-labelledby="codegroup-3-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for information."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(model=<span class="hljs-string">"fireworks:accounts/fireworks/models/glm-5p2"</span>, tools=[search])</code></pre>
+</div>
+<div class="code-panel" id="codegroup-3-panel-5" role="tabpanel" aria-labelledby="codegroup-3-tab-5" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for information."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(model=<span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>, tools=[search])</code></pre>
+</div>
+<div class="code-panel" id="codegroup-3-panel-6" role="tabpanel" aria-labelledby="codegroup-3-tab-6" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for information."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(model=<span class="hljs-string">"ollama:north-mini-code-1.0"</span>, tools=[search])</code></pre>
+</div></div>
+</div>
+<h3 id="system-prompt">系统提示词<a class="heading-anchor" href="#system-prompt" aria-label="链接到本节">#</a></h3>
+<p>用于塑造智能体处理任务的方式。系统提示词参数接受字符串或 <code>SystemMessage</code>。若要在运行时使用动态提示词，请使用<a href="https://docs.langchain.com/oss/python/langchain/middleware" target="_blank" rel="noopener noreferrer">中间件</a>。</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-4-tab-0" role="tab" aria-controls="codegroup-4-panel-0" aria-selected="true" tabindex="0">Google</button><button class="code-tab" type="button" id="codegroup-4-tab-1" role="tab" aria-controls="codegroup-4-panel-1" aria-selected="false" tabindex="-1">OpenAI</button><button class="code-tab" type="button" id="codegroup-4-tab-2" role="tab" aria-controls="codegroup-4-panel-2" aria-selected="false" tabindex="-1">Anthropic</button><button class="code-tab" type="button" id="codegroup-4-tab-3" role="tab" aria-controls="codegroup-4-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-4-tab-4" role="tab" aria-controls="codegroup-4-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-4-tab-5" role="tab" aria-controls="codegroup-4-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-4-tab-6" role="tab" aria-controls="codegroup-4-panel-6" aria-selected="false" tabindex="-1">Ollama</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-4-panel-0" role="tabpanel" aria-labelledby="codegroup-4-tab-0">
+  <pre><code class="hljs language-python">agent = create_agent(
+    model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>,
+    tools=tools,
+    system_prompt=<span class="hljs-string">"You are a helpful assistant. Be concise and accurate."</span>,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-4-panel-1" role="tabpanel" aria-labelledby="codegroup-4-tab-1" hidden="">
+  <pre><code class="hljs language-python">agent = create_agent(
+    model=<span class="hljs-string">"openai:gpt-5.5"</span>,
+    tools=tools,
+    system_prompt=<span class="hljs-string">"You are a helpful assistant. Be concise and accurate."</span>,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-4-panel-2" role="tabpanel" aria-labelledby="codegroup-4-tab-2" hidden="">
+  <pre><code class="hljs language-python">agent = create_agent(
+    model=<span class="hljs-string">"anthropic:claude-sonnet-5"</span>,
+    tools=tools,
+    system_prompt=<span class="hljs-string">"You are a helpful assistant. Be concise and accurate."</span>,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-4-panel-3" role="tabpanel" aria-labelledby="codegroup-4-tab-3" hidden="">
+  <pre><code class="hljs language-python">agent = create_agent(
+    model=<span class="hljs-string">"openrouter:z-ai/glm-5.2"</span>,
+    tools=tools,
+    system_prompt=<span class="hljs-string">"You are a helpful assistant. Be concise and accurate."</span>,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-4-panel-4" role="tabpanel" aria-labelledby="codegroup-4-tab-4" hidden="">
+  <pre><code class="hljs language-python">agent = create_agent(
+    model=<span class="hljs-string">"fireworks:accounts/fireworks/models/glm-5p2"</span>,
+    tools=tools,
+    system_prompt=<span class="hljs-string">"You are a helpful assistant. Be concise and accurate."</span>,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-4-panel-5" role="tabpanel" aria-labelledby="codegroup-4-tab-5" hidden="">
+  <pre><code class="hljs language-python">agent = create_agent(
+    model=<span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>,
+    tools=tools,
+    system_prompt=<span class="hljs-string">"You are a helpful assistant. Be concise and accurate."</span>,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-4-panel-6" role="tabpanel" aria-labelledby="codegroup-4-tab-6" hidden="">
+  <pre><code class="hljs language-python">agent = create_agent(
+    model=<span class="hljs-string">"ollama:north-mini-code-1.0"</span>,
+    tools=tools,
+    system_prompt=<span class="hljs-string">"You are a helpful assistant. Be concise and accurate."</span>,
+)</code></pre>
+</div></div>
+</div>
+<h3 id="structured-output">结构化输出<a class="heading-anchor" href="#structured-output" aria-label="链接到本节">#</a></h3>
+<p>使用 <code>response_format=</code> 让智能体返回经过校验的模式。有关策略和示例，请参阅 <a href="structured-output.html">结构化输出</a>。</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-5-tab-0" role="tab" aria-controls="codegroup-5-panel-0" aria-selected="true" tabindex="0">Google</button><button class="code-tab" type="button" id="codegroup-5-tab-1" role="tab" aria-controls="codegroup-5-panel-1" aria-selected="false" tabindex="-1">OpenAI</button><button class="code-tab" type="button" id="codegroup-5-tab-2" role="tab" aria-controls="codegroup-5-panel-2" aria-selected="false" tabindex="-1">Anthropic</button><button class="code-tab" type="button" id="codegroup-5-tab-3" role="tab" aria-controls="codegroup-5-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-5-tab-4" role="tab" aria-controls="codegroup-5-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-5-tab-5" role="tab" aria-controls="codegroup-5-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-5-tab-6" role="tab" aria-controls="codegroup-5-panel-6" aria-selected="false" tabindex="-1">Ollama</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-5-panel-0" role="tabpanel" aria-labelledby="codegroup-5-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Answer</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    summary: <span class="hljs-built_in">str</span>
+    confidence: <span class="hljs-built_in">float</span>
+
+
+agent = create_agent(model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>, tools=tools, response_format=Answer)
+result = agent.invoke({<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Summarize AI trends"</span>}]})
+result[<span class="hljs-string">"structured_response"</span>]  <span class="hljs-comment"># Answer(summary=..., confidence=...)</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-5-panel-1" role="tabpanel" aria-labelledby="codegroup-5-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Answer</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    summary: <span class="hljs-built_in">str</span>
+    confidence: <span class="hljs-built_in">float</span>
+
+
+agent = create_agent(model=<span class="hljs-string">"openai:gpt-5.5"</span>, tools=tools, response_format=Answer)
+result = agent.invoke({<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Summarize AI trends"</span>}]})
+result[<span class="hljs-string">"structured_response"</span>]  <span class="hljs-comment"># Answer(summary=..., confidence=...)</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-5-panel-2" role="tabpanel" aria-labelledby="codegroup-5-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Answer</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    summary: <span class="hljs-built_in">str</span>
+    confidence: <span class="hljs-built_in">float</span>
+
+
+agent = create_agent(model=<span class="hljs-string">"anthropic:claude-sonnet-5"</span>, tools=tools, response_format=Answer)
+result = agent.invoke({<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Summarize AI trends"</span>}]})
+result[<span class="hljs-string">"structured_response"</span>]  <span class="hljs-comment"># Answer(summary=..., confidence=...)</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-5-panel-3" role="tabpanel" aria-labelledby="codegroup-5-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Answer</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    summary: <span class="hljs-built_in">str</span>
+    confidence: <span class="hljs-built_in">float</span>
+
+
+agent = create_agent(model=<span class="hljs-string">"openrouter:z-ai/glm-5.2"</span>, tools=tools, response_format=Answer)
+result = agent.invoke({<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Summarize AI trends"</span>}]})
+result[<span class="hljs-string">"structured_response"</span>]  <span class="hljs-comment"># Answer(summary=..., confidence=...)</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-5-panel-4" role="tabpanel" aria-labelledby="codegroup-5-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Answer</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    summary: <span class="hljs-built_in">str</span>
+    confidence: <span class="hljs-built_in">float</span>
+
+
+agent = create_agent(model=<span class="hljs-string">"fireworks:accounts/fireworks/models/glm-5p2"</span>, tools=tools, response_format=Answer)
+result = agent.invoke({<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Summarize AI trends"</span>}]})
+result[<span class="hljs-string">"structured_response"</span>]  <span class="hljs-comment"># Answer(summary=..., confidence=...)</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-5-panel-5" role="tabpanel" aria-labelledby="codegroup-5-tab-5" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Answer</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    summary: <span class="hljs-built_in">str</span>
+    confidence: <span class="hljs-built_in">float</span>
+
+
+agent = create_agent(model=<span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>, tools=tools, response_format=Answer)
+result = agent.invoke({<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Summarize AI trends"</span>}]})
+result[<span class="hljs-string">"structured_response"</span>]  <span class="hljs-comment"># Answer(summary=..., confidence=...)</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-5-panel-6" role="tabpanel" aria-labelledby="codegroup-5-tab-6" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Answer</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    summary: <span class="hljs-built_in">str</span>
+    confidence: <span class="hljs-built_in">float</span>
+
+
+agent = create_agent(model=<span class="hljs-string">"ollama:north-mini-code-1.0"</span>, tools=tools, response_format=Answer)
+result = agent.invoke({<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Summarize AI trends"</span>}]})
+result[<span class="hljs-string">"structured_response"</span>]  <span class="hljs-comment"># Answer(summary=..., confidence=...)</span></code></pre>
+</div></div>
+</div>
+<h3 id="agent-state">智能体状态<a class="heading-anchor" href="#agent-state" aria-label="链接到本节">#</a></h3>
+<p>每个智能体都通过 <a href="https://reference.langchain.com/python/langchain/agents/middleware/types/AgentState" target="_blank" rel="noopener noreferrer"><code>AgentState</code></a> 管理其执行上下文，这是一个类型化字典，保存当前对话历史以及你的工具和中间件所需的任意自定义字段。</p>
+<p>内置字段如下：</p>
+<div class="table-wrap"><table><thead><tr><th>字段</th><th>类型</th><th>描述</th></tr></thead><tbody><tr><td><code>messages</code></td><td><code>list[BaseMessage]</code></td><td>当前线程的完整对话历史。仅追加：新消息只会被添加，不会被替换。</td></tr></tbody></table></div>
+<p><code>AgentState</code> 也是每个节点式中间件钩子（<code>before_model</code>、<code>after_model</code> 等）的类型签名。钩子接收当前状态，并可返回一个更新字典以合并回该状态。</p>
+<p>要添加自定义字段（例如 <code>user_id</code> 或计数器），请继承 <code>AgentState</code>，并通过 <code>state_schema=</code> 将该子类传给 <code>create_agent</code>：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-6-tab-0" role="tab" aria-controls="codegroup-6-panel-0" aria-selected="true" tabindex="0">Google</button><button class="code-tab" type="button" id="codegroup-6-tab-1" role="tab" aria-controls="codegroup-6-panel-1" aria-selected="false" tabindex="-1">OpenAI</button><button class="code-tab" type="button" id="codegroup-6-tab-2" role="tab" aria-controls="codegroup-6-panel-2" aria-selected="false" tabindex="-1">Anthropic</button><button class="code-tab" type="button" id="codegroup-6-tab-3" role="tab" aria-controls="codegroup-6-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-6-tab-4" role="tab" aria-controls="codegroup-6-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-6-tab-5" role="tab" aria-controls="codegroup-6-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-6-tab-6" role="tab" aria-controls="codegroup-6-panel-6" aria-selected="false" tabindex="-1">Ollama</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-6-panel-0" role="tabpanel" aria-labelledby="codegroup-6-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> AgentState, create_agent
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MyState</span>(<span class="hljs-title class_ inherited__">AgentState</span>):
+    user_id: <span class="hljs-built_in">str</span>
+    call_count: <span class="hljs-built_in">int</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>,
+    tools=[],
+    state_schema=MyState,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-6-panel-1" role="tabpanel" aria-labelledby="codegroup-6-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> AgentState, create_agent
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MyState</span>(<span class="hljs-title class_ inherited__">AgentState</span>):
+    user_id: <span class="hljs-built_in">str</span>
+    call_count: <span class="hljs-built_in">int</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"openai:gpt-5.5"</span>,
+    tools=[],
+    state_schema=MyState,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-6-panel-2" role="tabpanel" aria-labelledby="codegroup-6-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> AgentState, create_agent
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MyState</span>(<span class="hljs-title class_ inherited__">AgentState</span>):
+    user_id: <span class="hljs-built_in">str</span>
+    call_count: <span class="hljs-built_in">int</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"anthropic:claude-sonnet-5"</span>,
+    tools=[],
+    state_schema=MyState,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-6-panel-3" role="tabpanel" aria-labelledby="codegroup-6-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> AgentState, create_agent
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MyState</span>(<span class="hljs-title class_ inherited__">AgentState</span>):
+    user_id: <span class="hljs-built_in">str</span>
+    call_count: <span class="hljs-built_in">int</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"openrouter:z-ai/glm-5.2"</span>,
+    tools=[],
+    state_schema=MyState,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-6-panel-4" role="tabpanel" aria-labelledby="codegroup-6-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> AgentState, create_agent
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MyState</span>(<span class="hljs-title class_ inherited__">AgentState</span>):
+    user_id: <span class="hljs-built_in">str</span>
+    call_count: <span class="hljs-built_in">int</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"fireworks:accounts/fireworks/models/glm-5p2"</span>,
+    tools=[],
+    state_schema=MyState,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-6-panel-5" role="tabpanel" aria-labelledby="codegroup-6-tab-5" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> AgentState, create_agent
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MyState</span>(<span class="hljs-title class_ inherited__">AgentState</span>):
+    user_id: <span class="hljs-built_in">str</span>
+    call_count: <span class="hljs-built_in">int</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>,
+    tools=[],
+    state_schema=MyState,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-6-panel-6" role="tabpanel" aria-labelledby="codegroup-6-tab-6" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> AgentState, create_agent
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MyState</span>(<span class="hljs-title class_ inherited__">AgentState</span>):
+    user_id: <span class="hljs-built_in">str</span>
+    call_count: <span class="hljs-built_in">int</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"ollama:north-mini-code-1.0"</span>,
+    tools=[],
+    state_schema=MyState,
+)</code></pre>
+</div></div>
+</div>
+<p>有关完整细节、示例以及中间件级状态模式，请参阅 <a href="short-term-memory.html#customizing-agent-memory">短期记忆</a> 和 <a href="middleware-custom.html#state-updates">自定义中间件</a>。</p>
+<h2 id="invocation">调用<a class="heading-anchor" href="#invocation" aria-label="链接到本节">#</a></h2>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>使用 <a href="https://smith.langchain.com/?utm_source=docs&amp;utm_medium=cta&amp;utm_campaign=langsmith-signup&amp;utm_content=oss-langchain-agents" target="_blank" rel="noopener noreferrer">LangSmith</a> 追踪该循环的每一步、调试工具调用并评估智能体输出。按照 <a href="https://docs.langchain.com/langsmith/trace-with-langchain" target="_blank" rel="noopener noreferrer">追踪快速入门</a> 完成设置。我们还建议你配置 <a href="https://docs.langchain.com/langsmith/engine" target="_blank" rel="noopener noreferrer">LangSmith Engine</a>，它会监控你的追踪记录、检测问题并提出修复建议。</p></div>
+</aside>
+<p>你可以用一条消息调用智能体。在内部，这会向智能体的 <a href="https://docs.langchain.com/oss/python/langgraph/graph-api#state" target="_blank" rel="noopener noreferrer"><code>State</code></a> 传入一次更新。所有智能体的状态中都包含 <a href="https://docs.langchain.com/oss/python/langgraph/graph-api-state#messagesstate" target="_blank" rel="noopener noreferrer">消息序列</a>；要调用智能体，请传入一条新消息以及一个 <code>thread_id</code>，以便智能体能够持久化并恢复对话历史：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-7-tab-0" role="tab" aria-controls="codegroup-7-panel-0" aria-selected="true" tabindex="0">Google</button><button class="code-tab" type="button" id="codegroup-7-tab-1" role="tab" aria-controls="codegroup-7-panel-1" aria-selected="false" tabindex="-1">OpenAI</button><button class="code-tab" type="button" id="codegroup-7-tab-2" role="tab" aria-controls="codegroup-7-panel-2" aria-selected="false" tabindex="-1">Anthropic</button><button class="code-tab" type="button" id="codegroup-7-tab-3" role="tab" aria-controls="codegroup-7-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-7-tab-4" role="tab" aria-controls="codegroup-7-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-7-tab-5" role="tab" aria-controls="codegroup-7-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-7-tab-6" role="tab" aria-controls="codegroup-7-panel-6" aria-selected="false" tabindex="-1">Ollama</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-7-panel-0" role="tabpanel" aria-labelledby="codegroup-7-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+agent = create_agent(
+    model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>,
+    tools=[],
+    checkpointer=InMemorySaver(),
+)
+
+config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}}
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]},
+    config=config,
+)
+
+<span class="hljs-comment"># A follow-up turn on the same conversation: reuse the same thread_id to keep history</span>
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What about tomorrow?"</span>}]},
+    config=config,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-7-panel-1" role="tabpanel" aria-labelledby="codegroup-7-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+agent = create_agent(
+    model=<span class="hljs-string">"openai:gpt-5.5"</span>,
+    tools=[],
+    checkpointer=InMemorySaver(),
+)
+
+config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}}
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]},
+    config=config,
+)
+
+<span class="hljs-comment"># A follow-up turn on the same conversation: reuse the same thread_id to keep history</span>
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What about tomorrow?"</span>}]},
+    config=config,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-7-panel-2" role="tabpanel" aria-labelledby="codegroup-7-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+agent = create_agent(
+    model=<span class="hljs-string">"anthropic:claude-sonnet-5"</span>,
+    tools=[],
+    checkpointer=InMemorySaver(),
+)
+
+config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}}
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]},
+    config=config,
+)
+
+<span class="hljs-comment"># A follow-up turn on the same conversation: reuse the same thread_id to keep history</span>
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What about tomorrow?"</span>}]},
+    config=config,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-7-panel-3" role="tabpanel" aria-labelledby="codegroup-7-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+agent = create_agent(
+    model=<span class="hljs-string">"openrouter:z-ai/glm-5.2"</span>,
+    tools=[],
+    checkpointer=InMemorySaver(),
+)
+
+config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}}
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]},
+    config=config,
+)
+
+<span class="hljs-comment"># A follow-up turn on the same conversation: reuse the same thread_id to keep history</span>
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What about tomorrow?"</span>}]},
+    config=config,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-7-panel-4" role="tabpanel" aria-labelledby="codegroup-7-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+agent = create_agent(
+    model=<span class="hljs-string">"fireworks:accounts/fireworks/models/glm-5p2"</span>,
+    tools=[],
+    checkpointer=InMemorySaver(),
+)
+
+config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}}
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]},
+    config=config,
+)
+
+<span class="hljs-comment"># A follow-up turn on the same conversation: reuse the same thread_id to keep history</span>
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What about tomorrow?"</span>}]},
+    config=config,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-7-panel-5" role="tabpanel" aria-labelledby="codegroup-7-tab-5" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+agent = create_agent(
+    model=<span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>,
+    tools=[],
+    checkpointer=InMemorySaver(),
+)
+
+config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}}
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]},
+    config=config,
+)
+
+<span class="hljs-comment"># A follow-up turn on the same conversation: reuse the same thread_id to keep history</span>
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What about tomorrow?"</span>}]},
+    config=config,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-7-panel-6" role="tabpanel" aria-labelledby="codegroup-7-tab-6" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+agent = create_agent(
+    model=<span class="hljs-string">"ollama:north-mini-code-1.0"</span>,
+    tools=[],
+    checkpointer=InMemorySaver(),
+)
+
+config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}}
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]},
+    config=config,
+)
+
+<span class="hljs-comment"># A follow-up turn on the same conversation: reuse the same thread_id to keep history</span>
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What about tomorrow?"</span>}]},
+    config=config,
+)</code></pre>
+</div></div>
+</div>
+<div class="card-grid"><a class="doc-card" href="https://smith.langchain.com/public/1835d2f3-8da5-4e27-95d7-fb2c7d726ad5/r" target="_blank" rel="noopener noreferrer"><span class="card-title">查看示例追踪</span><span class="card-body"><p>打开此示例的公开 LangSmith 运行记录。</p></span></a></div>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>使用 <code>thread_id</code> 持久化对话历史需要为智能体配置 <a href="long-term-memory.html">检查点保存器</a>。在 <a href="https://docs.langchain.com/langsmith/deployment" target="_blank" rel="noopener noreferrer">LangSmith</a> 上部署时会自动配置检查点保存器。在本地运行时，需要显式传入一个，例如 <code>create_agent(..., checkpointer=InMemorySaver())</code>。</p></div>
+</aside>
+<p>如果你还需要向工具和中间件传递单次运行的配置（例如用户 ID、API 密钥或功能标志），可将其作为 <code>context</code> 与 <code>config</code> 一起传入。使用 <code>context_schema</code> 定义该数据的结构，并通过 <code>runtime.context</code> 访问它：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-8-tab-0" role="tab" aria-controls="codegroup-8-panel-0" aria-selected="true" tabindex="0">Google</button><button class="code-tab" type="button" id="codegroup-8-tab-1" role="tab" aria-controls="codegroup-8-panel-1" aria-selected="false" tabindex="-1">OpenAI</button><button class="code-tab" type="button" id="codegroup-8-tab-2" role="tab" aria-controls="codegroup-8-panel-2" aria-selected="false" tabindex="-1">Anthropic</button><button class="code-tab" type="button" id="codegroup-8-tab-3" role="tab" aria-controls="codegroup-8-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-8-tab-4" role="tab" aria-controls="codegroup-8-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-8-tab-5" role="tab" aria-controls="codegroup-8-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-8-tab-6" role="tab" aria-controls="codegroup-8-panel-6" aria-selected="false" tabindex="-1">Ollama</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-8-panel-0" role="tabpanel" aria-labelledby="codegroup-8-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_id: <span class="hljs-built_in">str</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>,
+    tools=[],
+    context_schema=Context,
+    checkpointer=InMemorySaver(),
+)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]},
+    config={<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}},
+    context=Context(user_id=<span class="hljs-string">"user-123"</span>),
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-8-panel-1" role="tabpanel" aria-labelledby="codegroup-8-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_id: <span class="hljs-built_in">str</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"openai:gpt-5.5"</span>,
+    tools=[],
+    context_schema=Context,
+    checkpointer=InMemorySaver(),
+)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]},
+    config={<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}},
+    context=Context(user_id=<span class="hljs-string">"user-123"</span>),
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-8-panel-2" role="tabpanel" aria-labelledby="codegroup-8-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_id: <span class="hljs-built_in">str</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"anthropic:claude-sonnet-5"</span>,
+    tools=[],
+    context_schema=Context,
+    checkpointer=InMemorySaver(),
+)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]},
+    config={<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}},
+    context=Context(user_id=<span class="hljs-string">"user-123"</span>),
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-8-panel-3" role="tabpanel" aria-labelledby="codegroup-8-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_id: <span class="hljs-built_in">str</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"openrouter:z-ai/glm-5.2"</span>,
+    tools=[],
+    context_schema=Context,
+    checkpointer=InMemorySaver(),
+)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]},
+    config={<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}},
+    context=Context(user_id=<span class="hljs-string">"user-123"</span>),
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-8-panel-4" role="tabpanel" aria-labelledby="codegroup-8-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_id: <span class="hljs-built_in">str</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"fireworks:accounts/fireworks/models/glm-5p2"</span>,
+    tools=[],
+    context_schema=Context,
+    checkpointer=InMemorySaver(),
+)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]},
+    config={<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}},
+    context=Context(user_id=<span class="hljs-string">"user-123"</span>),
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-8-panel-5" role="tabpanel" aria-labelledby="codegroup-8-tab-5" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_id: <span class="hljs-built_in">str</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>,
+    tools=[],
+    context_schema=Context,
+    checkpointer=InMemorySaver(),
+)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]},
+    config={<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}},
+    context=Context(user_id=<span class="hljs-string">"user-123"</span>),
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-8-panel-6" role="tabpanel" aria-labelledby="codegroup-8-tab-6" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Context</span>:
+    user_id: <span class="hljs-built_in">str</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"ollama:north-mini-code-1.0"</span>,
+    tools=[],
+    context_schema=Context,
+    checkpointer=InMemorySaver(),
+)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]},
+    config={<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}},
+    context=Context(user_id=<span class="hljs-string">"user-123"</span>),
+)</code></pre>
+</div></div>
+</div>
+<div class="card-grid"><a class="doc-card" href="https://smith.langchain.com/public/79519c6b-9286-45f0-b5c6-9afaa5ef22f8/r" target="_blank" rel="noopener noreferrer"><span class="card-title">查看示例追踪</span><span class="card-body"><p>打开此示例的公开 LangSmith 运行记录。</p></span></a></div>
+<p><code>thread_id</code> 界定<em>对话</em>（消息历史、检查点）的作用域，而 <code>context</code> 承载你的工具和中间件在调用时读取的<em>单次运行</em>数据。二者通常一起传入。更多信息请参阅 <a href="tools.html#context">工具上下文</a> 和 <a href="runtime.html">运行时</a>。</p>
+<h2 id="streaming">流式传输<a class="heading-anchor" href="#streaming" aria-label="链接到本节">#</a></h2>
+<p><code>invoke</code> 在运行结束时返回最终响应。如果智能体执行多次工具调用，用户往往需要在完成前获得进度更新。使用流式传输，可以在中间消息和工具活动发生时将其呈现出来。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> AIMessage, HumanMessage
+
+
+stream = agent.stream_events(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Search for AI news and summarize the findings"</span>}]},
+    version=<span class="hljs-string">"v3"</span>,
+)
+<span class="hljs-keyword">for</span> snapshot <span class="hljs-keyword">in</span> stream.values:
+    <span class="hljs-comment"># Each snapshot contains the full state at that point</span>
+    latest_message = snapshot[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>]
+    <span class="hljs-keyword">if</span> latest_message.content:
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(latest_message, HumanMessage):
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">f"User: <span class="hljs-subst">{latest_message.content}</span>"</span>)
+        <span class="hljs-keyword">elif</span> <span class="hljs-built_in">isinstance</span>(latest_message, AIMessage):
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Agent: <span class="hljs-subst">{latest_message.content}</span>"</span>)
+    <span class="hljs-keyword">elif</span> latest_message.tool_calls:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Calling tools: <span class="hljs-subst">{[tc[<span class="hljs-string">'name'</span>] <span class="hljs-keyword">for</span> tc <span class="hljs-keyword">in</span> latest_message.tool_calls]}</span>"</span>)</code></pre>
+</div>
+<div class="card-grid"><a class="doc-card" href="https://smith.langchain.com/public/25a56e3b-08d0-4fcd-934e-a16c0a99d629/r" target="_blank" rel="noopener noreferrer"><span class="card-title">查看示例追踪</span><span class="card-body"><p>打开此示例的公开 LangSmith 运行记录。</p></span></a></div>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>有关流式传输模式、事件类型和 UI 模式，请参阅 <a href="streaming.html">流式传输</a>。</p></div>
+</aside>
+<h2 id="configure-the-harness">配置运行框架<a class="heading-anchor" href="#configure-the-harness" aria-label="链接到本节">#</a></h2>
+<p><code>create_agent</code> 具有高度可扩展性。中间件是自定义的基础原语：每部分处理一个关注点，在恰当时机挂接到智能体循环中，并可与其他中间件自由组合。只需取用你的用例所需的部分，跳过其余部分。</p>
+<p>常见模式已作为一等中间件预置。其他任何能力都可以构建为 <a href="middleware-custom.html">自定义中间件</a>。</p>
+<figure class="doc-figure"><img src="https://mintcdn.com/langchain-5e9cc07a/jtty0O--UJOKG0nK/oss/images/agent_harness_capabilities.svg?fit=max&amp;auto=format&amp;n=jtty0O--UJOKG0nK&amp;q=85&amp;s=0ff671d72badd0844826660dfcb04391" alt="按类别划分的智能体运行框架能力" loading="lazy" decoding="async" class="doc-image"><figcaption>按类别划分的智能体运行框架能力</figcaption></figure>
+<p>随着智能体承担复杂工作，它们需要在几个关键领域获得支持。中间件生态提供：</p>
+<div class="card-grid"><a class="doc-card" href="#execution-environment"><span class="card-title">执行环境</span><span class="card-body"><p>工具、文件系统、沙箱和代码执行</p></span></a><a class="doc-card" href="#context-management"><span class="card-title">上下文管理</span><span class="card-body"><p>摘要、记忆、技能和提示词缓存</p></span></a><a class="doc-card" href="#planning-and-delegation"><span class="card-title">规划与委派</span><span class="card-body"><p>用于并行、隔离工作的待办列表和子智能体</p></span></a><a class="doc-card" href="#fault-tolerance"><span class="card-title">容错</span><span class="card-body"><p>重试、回退和调用限制</p></span></a><a class="doc-card" href="#guardrails"><span class="card-title">护栏</span><span class="card-body"><p>PII 检测和内容控制</p></span></a><a class="doc-card" href="#steering"><span class="card-title">引导</span><span class="card-body"><p>在高影响操作前进行人在回路审批</p></span></a></div>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p><code>create_deep_agent</code> 为长时间运行的编码和研究任务预置了这套技术栈（默认包含文件系统、摘要、子智能体和提示词缓存）。完整预置的运行框架请参阅 <a href="https://docs.langchain.com/oss/python/deepagents/harness" target="_blank" rel="noopener noreferrer">Deep Agents</a>。</p></div>
+</aside>
+<h3 id="execution-environment">执行环境<a class="heading-anchor" href="#execution-environment" aria-label="链接到本节">#</a></h3>
+<p>当智能体能够采取行动而不只是生成文本时，它尤其有用。执行环境为智能体提供一个工作区：可调用的工具、可跨轮次读写文件的文件系统，以及用于运行脚本或 shell 命令的代码执行能力。</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-9-tab-0" role="tab" aria-controls="codegroup-9-panel-0" aria-selected="true" tabindex="0">Google</button><button class="code-tab" type="button" id="codegroup-9-tab-1" role="tab" aria-controls="codegroup-9-panel-1" aria-selected="false" tabindex="-1">OpenAI</button><button class="code-tab" type="button" id="codegroup-9-tab-2" role="tab" aria-controls="codegroup-9-panel-2" aria-selected="false" tabindex="-1">Anthropic</button><button class="code-tab" type="button" id="codegroup-9-tab-3" role="tab" aria-controls="codegroup-9-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-9-tab-4" role="tab" aria-controls="codegroup-9-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-9-tab-5" role="tab" aria-controls="codegroup-9-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-9-tab-6" role="tab" aria-controls="codegroup-9-panel-6" aria-selected="false" tabindex="-1">Ollama</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-9-panel-0" role="tabpanel" aria-labelledby="codegroup-9-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware
+
+agent = create_agent(
+    model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>,
+    tools=[search],
+    middleware=[FilesystemMiddleware(backend=StateBackend())],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-9-panel-1" role="tabpanel" aria-labelledby="codegroup-9-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware
+
+agent = create_agent(
+    model=<span class="hljs-string">"openai:gpt-5.5"</span>,
+    tools=[search],
+    middleware=[FilesystemMiddleware(backend=StateBackend())],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-9-panel-2" role="tabpanel" aria-labelledby="codegroup-9-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware
+
+agent = create_agent(
+    model=<span class="hljs-string">"anthropic:claude-sonnet-5"</span>,
+    tools=[search],
+    middleware=[FilesystemMiddleware(backend=StateBackend())],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-9-panel-3" role="tabpanel" aria-labelledby="codegroup-9-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware
+
+agent = create_agent(
+    model=<span class="hljs-string">"openrouter:z-ai/glm-5.2"</span>,
+    tools=[search],
+    middleware=[FilesystemMiddleware(backend=StateBackend())],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-9-panel-4" role="tabpanel" aria-labelledby="codegroup-9-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware
+
+agent = create_agent(
+    model=<span class="hljs-string">"fireworks:accounts/fireworks/models/glm-5p2"</span>,
+    tools=[search],
+    middleware=[FilesystemMiddleware(backend=StateBackend())],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-9-panel-5" role="tabpanel" aria-labelledby="codegroup-9-tab-5" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware
+
+agent = create_agent(
+    model=<span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>,
+    tools=[search],
+    middleware=[FilesystemMiddleware(backend=StateBackend())],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-9-panel-6" role="tabpanel" aria-labelledby="codegroup-9-tab-6" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware
+
+agent = create_agent(
+    model=<span class="hljs-string">"ollama:north-mini-code-1.0"</span>,
+    tools=[search],
+    middleware=[FilesystemMiddleware(backend=StateBackend())],
+)</code></pre>
+</div></div>
+</div>
+<p>请参阅 <a href="https://reference.langchain.com/python/deepagents/middleware/filesystem/FilesystemMiddleware" target="_blank" rel="noopener noreferrer"><code>FilesystemMiddleware</code></a>、<a href="https://docs.langchain.com/oss/python/deepagents/sandboxes" target="_blank" rel="noopener noreferrer">沙箱</a>、<a href="https://docs.langchain.com/oss/python/deepagents/interpreters" target="_blank" rel="noopener noreferrer">解释器</a>。</p>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>此示例从 <code>deepagents</code> 包导入。安装方式如下：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-10-tab-0" role="tab" aria-controls="codegroup-10-panel-0" aria-selected="true" tabindex="0">pip</button><button class="code-tab" type="button" id="codegroup-10-tab-1" role="tab" aria-controls="codegroup-10-panel-1" aria-selected="false" tabindex="-1">uv</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-10-panel-0" role="tabpanel" aria-labelledby="codegroup-10-tab-0">
+  <pre><code class="hljs language-bash">pip install deepagents</code></pre>
+</div>
+<div class="code-panel" id="codegroup-10-panel-1" role="tabpanel" aria-labelledby="codegroup-10-tab-1" hidden="">
+  <pre><code class="hljs language-bash">uv add deepagents</code></pre>
+</div></div>
+</div></div>
+</aside>
+<h3 id="context-management">上下文管理<a class="heading-anchor" href="#context-management" aria-label="链接到本节">#</a></h3>
+<p>每次模型调用都有固定的上下文窗口。智能体运行时，该窗口会被不断累积的历史、工具结果和中间步骤填满。摘要会在溢出发生前压缩历史；记忆在启动时加载持久指令，使知识能够跨会话延续；技能按需呈现领域知识，而不是一开始就加载全部内容。</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-11-tab-0" role="tab" aria-controls="codegroup-11-panel-0" aria-selected="true" tabindex="0">Google</button><button class="code-tab" type="button" id="codegroup-11-tab-1" role="tab" aria-controls="codegroup-11-panel-1" aria-selected="false" tabindex="-1">OpenAI</button><button class="code-tab" type="button" id="codegroup-11-tab-2" role="tab" aria-controls="codegroup-11-panel-2" aria-selected="false" tabindex="-1">Anthropic</button><button class="code-tab" type="button" id="codegroup-11-tab-3" role="tab" aria-controls="codegroup-11-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-11-tab-4" role="tab" aria-controls="codegroup-11-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-11-tab-5" role="tab" aria-controls="codegroup-11-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-11-tab-6" role="tab" aria-controls="codegroup-11-panel-6" aria-selected="false" tabindex="-1">Ollama</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-11-panel-0" role="tabpanel" aria-labelledby="codegroup-11-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware, MemoryMiddleware, SkillsMiddleware, SummarizationMiddleware
+
+backend = StateBackend()
+model = <span class="hljs-string">"google_genai:gemini-3.6-flash"</span>
+
+agent = create_agent(
+    model=model,
+    tools=[search],
+    middleware=[
+        FilesystemMiddleware(backend=backend),
+        SummarizationMiddleware(model=model, backend=backend),
+        MemoryMiddleware(backend=backend, sources=[<span class="hljs-string">"./AGENTS.md"</span>]),
+        SkillsMiddleware(backend=backend, sources=[<span class="hljs-string">"./skills/"</span>]),
+    ],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-11-panel-1" role="tabpanel" aria-labelledby="codegroup-11-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware, MemoryMiddleware, SkillsMiddleware, SummarizationMiddleware
+
+backend = StateBackend()
+model = <span class="hljs-string">"openai:gpt-5.5"</span>
+
+agent = create_agent(
+    model=model,
+    tools=[search],
+    middleware=[
+        FilesystemMiddleware(backend=backend),
+        SummarizationMiddleware(model=model, backend=backend),
+        MemoryMiddleware(backend=backend, sources=[<span class="hljs-string">"./AGENTS.md"</span>]),
+        SkillsMiddleware(backend=backend, sources=[<span class="hljs-string">"./skills/"</span>]),
+    ],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-11-panel-2" role="tabpanel" aria-labelledby="codegroup-11-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware, MemoryMiddleware, SkillsMiddleware, SummarizationMiddleware
+
+backend = StateBackend()
+model = <span class="hljs-string">"anthropic:claude-sonnet-5"</span>
+
+agent = create_agent(
+    model=model,
+    tools=[search],
+    middleware=[
+        FilesystemMiddleware(backend=backend),
+        SummarizationMiddleware(model=model, backend=backend),
+        MemoryMiddleware(backend=backend, sources=[<span class="hljs-string">"./AGENTS.md"</span>]),
+        SkillsMiddleware(backend=backend, sources=[<span class="hljs-string">"./skills/"</span>]),
+    ],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-11-panel-3" role="tabpanel" aria-labelledby="codegroup-11-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware, MemoryMiddleware, SkillsMiddleware, SummarizationMiddleware
+
+backend = StateBackend()
+model = <span class="hljs-string">"openrouter:z-ai/glm-5.2"</span>
+
+agent = create_agent(
+    model=model,
+    tools=[search],
+    middleware=[
+        FilesystemMiddleware(backend=backend),
+        SummarizationMiddleware(model=model, backend=backend),
+        MemoryMiddleware(backend=backend, sources=[<span class="hljs-string">"./AGENTS.md"</span>]),
+        SkillsMiddleware(backend=backend, sources=[<span class="hljs-string">"./skills/"</span>]),
+    ],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-11-panel-4" role="tabpanel" aria-labelledby="codegroup-11-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware, MemoryMiddleware, SkillsMiddleware, SummarizationMiddleware
+
+backend = StateBackend()
+model = <span class="hljs-string">"fireworks:accounts/fireworks/models/glm-5p2"</span>
+
+agent = create_agent(
+    model=model,
+    tools=[search],
+    middleware=[
+        FilesystemMiddleware(backend=backend),
+        SummarizationMiddleware(model=model, backend=backend),
+        MemoryMiddleware(backend=backend, sources=[<span class="hljs-string">"./AGENTS.md"</span>]),
+        SkillsMiddleware(backend=backend, sources=[<span class="hljs-string">"./skills/"</span>]),
+    ],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-11-panel-5" role="tabpanel" aria-labelledby="codegroup-11-tab-5" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware, MemoryMiddleware, SkillsMiddleware, SummarizationMiddleware
+
+backend = StateBackend()
+model = <span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>
+
+agent = create_agent(
+    model=model,
+    tools=[search],
+    middleware=[
+        FilesystemMiddleware(backend=backend),
+        SummarizationMiddleware(model=model, backend=backend),
+        MemoryMiddleware(backend=backend, sources=[<span class="hljs-string">"./AGENTS.md"</span>]),
+        SkillsMiddleware(backend=backend, sources=[<span class="hljs-string">"./skills/"</span>]),
+    ],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-11-panel-6" role="tabpanel" aria-labelledby="codegroup-11-tab-6" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware, MemoryMiddleware, SkillsMiddleware, SummarizationMiddleware
+
+backend = StateBackend()
+model = <span class="hljs-string">"ollama:north-mini-code-1.0"</span>
+
+agent = create_agent(
+    model=model,
+    tools=[search],
+    middleware=[
+        FilesystemMiddleware(backend=backend),
+        SummarizationMiddleware(model=model, backend=backend),
+        MemoryMiddleware(backend=backend, sources=[<span class="hljs-string">"./AGENTS.md"</span>]),
+        SkillsMiddleware(backend=backend, sources=[<span class="hljs-string">"./skills/"</span>]),
+    ],
+)</code></pre>
+</div></div>
+</div>
+<p>请参阅 <a href="https://reference.langchain.com/python/langchain/agents/middleware/summarization/SummarizationMiddleware" target="_blank" rel="noopener noreferrer"><code>SummarizationMiddleware</code></a>、<a href="https://reference.langchain.com/python/deepagents/middleware/memory/MemoryMiddleware" target="_blank" rel="noopener noreferrer"><code>MemoryMiddleware</code></a>、<a href="multi-agent-skills.html">技能</a>、<a href="https://docs.langchain.com/oss/python/deepagents/context-engineering" target="_blank" rel="noopener noreferrer">上下文工程</a>。</p>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>此示例从 <code>deepagents</code> 包导入。安装方式如下：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-12-tab-0" role="tab" aria-controls="codegroup-12-panel-0" aria-selected="true" tabindex="0">pip</button><button class="code-tab" type="button" id="codegroup-12-tab-1" role="tab" aria-controls="codegroup-12-panel-1" aria-selected="false" tabindex="-1">uv</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-12-panel-0" role="tabpanel" aria-labelledby="codegroup-12-tab-0">
+  <pre><code class="hljs language-bash">pip install deepagents</code></pre>
+</div>
+<div class="code-panel" id="codegroup-12-panel-1" role="tabpanel" aria-labelledby="codegroup-12-tab-1" hidden="">
+  <pre><code class="hljs language-bash">uv add deepagents</code></pre>
+</div></div>
+</div></div>
+</aside>
+<h3 id="planning-and-delegation">规划与委派<a class="heading-anchor" href="#planning-and-delegation" aria-label="链接到本节">#</a></h3>
+<p>复杂任务往往超出单个上下文窗口的处理能力。通过委派，主智能体可以把工作拆分成多个部分，交给各自在独立上下文中运行的子智能体，而自身保持专注于协调而非执行。工作可以并行运行，主智能体的上下文保持干净。</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-13-tab-0" role="tab" aria-controls="codegroup-13-panel-0" aria-selected="true" tabindex="0">Google</button><button class="code-tab" type="button" id="codegroup-13-tab-1" role="tab" aria-controls="codegroup-13-panel-1" aria-selected="false" tabindex="-1">OpenAI</button><button class="code-tab" type="button" id="codegroup-13-tab-2" role="tab" aria-controls="codegroup-13-panel-2" aria-selected="false" tabindex="-1">Anthropic</button><button class="code-tab" type="button" id="codegroup-13-tab-3" role="tab" aria-controls="codegroup-13-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-13-tab-4" role="tab" aria-controls="codegroup-13-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-13-tab-5" role="tab" aria-controls="codegroup-13-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-13-tab-6" role="tab" aria-controls="codegroup-13-panel-6" aria-selected="false" tabindex="-1">Ollama</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-13-panel-0" role="tabpanel" aria-labelledby="codegroup-13-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware
+<span class="hljs-keyword">from</span> deepagents.middleware.subagents <span class="hljs-keyword">import</span> SubAgentMiddleware
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> TodoListMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+backend = StateBackend()
+
+agent = create_agent(
+    model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>,
+    tools=[search],
+    middleware=[
+        FilesystemMiddleware(backend=backend),
+        TodoListMiddleware(),
+        SubAgentMiddleware(
+            backend=backend,
+            subagents=[
+                {
+                    <span class="hljs-string">"name"</span>: <span class="hljs-string">"researcher"</span>,
+                    <span class="hljs-string">"description"</span>: <span class="hljs-string">"Searches and returns a structured summary."</span>,
+                    <span class="hljs-string">"system_prompt"</span>: <span class="hljs-string">"Use the search tool to research the question and summarize key points."</span>,
+                    <span class="hljs-string">"tools"</span>: [search],
+                    <span class="hljs-string">"model"</span>: <span class="hljs-string">"anthropic:claude-sonnet-4-6"</span>,
+                    <span class="hljs-string">"middleware"</span>: [],
+                }
+            ],
+        ),
+    ],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-13-panel-1" role="tabpanel" aria-labelledby="codegroup-13-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware
+<span class="hljs-keyword">from</span> deepagents.middleware.subagents <span class="hljs-keyword">import</span> SubAgentMiddleware
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> TodoListMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+backend = StateBackend()
+
+agent = create_agent(
+    model=<span class="hljs-string">"openai:gpt-5.5"</span>,
+    tools=[search],
+    middleware=[
+        FilesystemMiddleware(backend=backend),
+        TodoListMiddleware(),
+        SubAgentMiddleware(
+            backend=backend,
+            subagents=[
+                {
+                    <span class="hljs-string">"name"</span>: <span class="hljs-string">"researcher"</span>,
+                    <span class="hljs-string">"description"</span>: <span class="hljs-string">"Searches and returns a structured summary."</span>,
+                    <span class="hljs-string">"system_prompt"</span>: <span class="hljs-string">"Use the search tool to research the question and summarize key points."</span>,
+                    <span class="hljs-string">"tools"</span>: [search],
+                    <span class="hljs-string">"model"</span>: <span class="hljs-string">"anthropic:claude-sonnet-4-6"</span>,
+                    <span class="hljs-string">"middleware"</span>: [],
+                }
+            ],
+        ),
+    ],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-13-panel-2" role="tabpanel" aria-labelledby="codegroup-13-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware
+<span class="hljs-keyword">from</span> deepagents.middleware.subagents <span class="hljs-keyword">import</span> SubAgentMiddleware
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> TodoListMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+backend = StateBackend()
+
+agent = create_agent(
+    model=<span class="hljs-string">"anthropic:claude-sonnet-5"</span>,
+    tools=[search],
+    middleware=[
+        FilesystemMiddleware(backend=backend),
+        TodoListMiddleware(),
+        SubAgentMiddleware(
+            backend=backend,
+            subagents=[
+                {
+                    <span class="hljs-string">"name"</span>: <span class="hljs-string">"researcher"</span>,
+                    <span class="hljs-string">"description"</span>: <span class="hljs-string">"Searches and returns a structured summary."</span>,
+                    <span class="hljs-string">"system_prompt"</span>: <span class="hljs-string">"Use the search tool to research the question and summarize key points."</span>,
+                    <span class="hljs-string">"tools"</span>: [search],
+                    <span class="hljs-string">"model"</span>: <span class="hljs-string">"anthropic:claude-sonnet-4-6"</span>,
+                    <span class="hljs-string">"middleware"</span>: [],
+                }
+            ],
+        ),
+    ],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-13-panel-3" role="tabpanel" aria-labelledby="codegroup-13-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware
+<span class="hljs-keyword">from</span> deepagents.middleware.subagents <span class="hljs-keyword">import</span> SubAgentMiddleware
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> TodoListMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+backend = StateBackend()
+
+agent = create_agent(
+    model=<span class="hljs-string">"openrouter:z-ai/glm-5.2"</span>,
+    tools=[search],
+    middleware=[
+        FilesystemMiddleware(backend=backend),
+        TodoListMiddleware(),
+        SubAgentMiddleware(
+            backend=backend,
+            subagents=[
+                {
+                    <span class="hljs-string">"name"</span>: <span class="hljs-string">"researcher"</span>,
+                    <span class="hljs-string">"description"</span>: <span class="hljs-string">"Searches and returns a structured summary."</span>,
+                    <span class="hljs-string">"system_prompt"</span>: <span class="hljs-string">"Use the search tool to research the question and summarize key points."</span>,
+                    <span class="hljs-string">"tools"</span>: [search],
+                    <span class="hljs-string">"model"</span>: <span class="hljs-string">"anthropic:claude-sonnet-4-6"</span>,
+                    <span class="hljs-string">"middleware"</span>: [],
+                }
+            ],
+        ),
+    ],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-13-panel-4" role="tabpanel" aria-labelledby="codegroup-13-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware
+<span class="hljs-keyword">from</span> deepagents.middleware.subagents <span class="hljs-keyword">import</span> SubAgentMiddleware
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> TodoListMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+backend = StateBackend()
+
+agent = create_agent(
+    model=<span class="hljs-string">"fireworks:accounts/fireworks/models/glm-5p2"</span>,
+    tools=[search],
+    middleware=[
+        FilesystemMiddleware(backend=backend),
+        TodoListMiddleware(),
+        SubAgentMiddleware(
+            backend=backend,
+            subagents=[
+                {
+                    <span class="hljs-string">"name"</span>: <span class="hljs-string">"researcher"</span>,
+                    <span class="hljs-string">"description"</span>: <span class="hljs-string">"Searches and returns a structured summary."</span>,
+                    <span class="hljs-string">"system_prompt"</span>: <span class="hljs-string">"Use the search tool to research the question and summarize key points."</span>,
+                    <span class="hljs-string">"tools"</span>: [search],
+                    <span class="hljs-string">"model"</span>: <span class="hljs-string">"anthropic:claude-sonnet-4-6"</span>,
+                    <span class="hljs-string">"middleware"</span>: [],
+                }
+            ],
+        ),
+    ],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-13-panel-5" role="tabpanel" aria-labelledby="codegroup-13-tab-5" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware
+<span class="hljs-keyword">from</span> deepagents.middleware.subagents <span class="hljs-keyword">import</span> SubAgentMiddleware
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> TodoListMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+backend = StateBackend()
+
+agent = create_agent(
+    model=<span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>,
+    tools=[search],
+    middleware=[
+        FilesystemMiddleware(backend=backend),
+        TodoListMiddleware(),
+        SubAgentMiddleware(
+            backend=backend,
+            subagents=[
+                {
+                    <span class="hljs-string">"name"</span>: <span class="hljs-string">"researcher"</span>,
+                    <span class="hljs-string">"description"</span>: <span class="hljs-string">"Searches and returns a structured summary."</span>,
+                    <span class="hljs-string">"system_prompt"</span>: <span class="hljs-string">"Use the search tool to research the question and summarize key points."</span>,
+                    <span class="hljs-string">"tools"</span>: [search],
+                    <span class="hljs-string">"model"</span>: <span class="hljs-string">"anthropic:claude-sonnet-4-6"</span>,
+                    <span class="hljs-string">"middleware"</span>: [],
+                }
+            ],
+        ),
+    ],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-13-panel-6" role="tabpanel" aria-labelledby="codegroup-13-tab-6" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> deepagents.backends <span class="hljs-keyword">import</span> StateBackend
+<span class="hljs-keyword">from</span> deepagents.middleware <span class="hljs-keyword">import</span> FilesystemMiddleware
+<span class="hljs-keyword">from</span> deepagents.middleware.subagents <span class="hljs-keyword">import</span> SubAgentMiddleware
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> TodoListMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+backend = StateBackend()
+
+agent = create_agent(
+    model=<span class="hljs-string">"ollama:north-mini-code-1.0"</span>,
+    tools=[search],
+    middleware=[
+        FilesystemMiddleware(backend=backend),
+        TodoListMiddleware(),
+        SubAgentMiddleware(
+            backend=backend,
+            subagents=[
+                {
+                    <span class="hljs-string">"name"</span>: <span class="hljs-string">"researcher"</span>,
+                    <span class="hljs-string">"description"</span>: <span class="hljs-string">"Searches and returns a structured summary."</span>,
+                    <span class="hljs-string">"system_prompt"</span>: <span class="hljs-string">"Use the search tool to research the question and summarize key points."</span>,
+                    <span class="hljs-string">"tools"</span>: [search],
+                    <span class="hljs-string">"model"</span>: <span class="hljs-string">"anthropic:claude-sonnet-4-6"</span>,
+                    <span class="hljs-string">"middleware"</span>: [],
+                }
+            ],
+        ),
+    ],
+)</code></pre>
+</div></div>
+</div>
+<p>请参阅<a href="multi-agent-subagents.html">子智能体</a>。</p>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>此示例从<code>deepagents</code>包导入。安装方式如下：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-14-tab-0" role="tab" aria-controls="codegroup-14-panel-0" aria-selected="true" tabindex="0">pip</button><button class="code-tab" type="button" id="codegroup-14-tab-1" role="tab" aria-controls="codegroup-14-panel-1" aria-selected="false" tabindex="-1">uv</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-14-panel-0" role="tabpanel" aria-labelledby="codegroup-14-tab-0">
+  <pre><code class="hljs language-bash">pip install deepagents</code></pre>
+</div>
+<div class="code-panel" id="codegroup-14-panel-1" role="tabpanel" aria-labelledby="codegroup-14-tab-1" hidden="">
+  <pre><code class="hljs language-bash">uv add deepagents</code></pre>
+</div></div>
+</div></div>
+</aside>
+<h3 id="name-your-agent">为智能体命名<a class="heading-anchor" href="#name-your-agent" aria-label="链接到本节">#</a></h3>
+<p>可以选择为智能体指定标识符。当把智能体作为子图嵌入<a href="https://docs.langchain.com/oss/python/langchain/multi-agent" target="_blank" rel="noopener noreferrer">多智能体</a>系统时，这一点尤其有用。</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-15-tab-0" role="tab" aria-controls="codegroup-15-panel-0" aria-selected="true" tabindex="0">Google</button><button class="code-tab" type="button" id="codegroup-15-tab-1" role="tab" aria-controls="codegroup-15-panel-1" aria-selected="false" tabindex="-1">OpenAI</button><button class="code-tab" type="button" id="codegroup-15-tab-2" role="tab" aria-controls="codegroup-15-panel-2" aria-selected="false" tabindex="-1">Anthropic</button><button class="code-tab" type="button" id="codegroup-15-tab-3" role="tab" aria-controls="codegroup-15-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-15-tab-4" role="tab" aria-controls="codegroup-15-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-15-tab-5" role="tab" aria-controls="codegroup-15-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-15-tab-6" role="tab" aria-controls="codegroup-15-panel-6" aria-selected="false" tabindex="-1">Ollama</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-15-panel-0" role="tabpanel" aria-labelledby="codegroup-15-tab-0">
+  <pre><code class="hljs language-python">agent = create_agent(model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>, tools=tools, name=<span class="hljs-string">"research_assistant"</span>)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-15-panel-1" role="tabpanel" aria-labelledby="codegroup-15-tab-1" hidden="">
+  <pre><code class="hljs language-python">agent = create_agent(model=<span class="hljs-string">"openai:gpt-5.5"</span>, tools=tools, name=<span class="hljs-string">"research_assistant"</span>)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-15-panel-2" role="tabpanel" aria-labelledby="codegroup-15-tab-2" hidden="">
+  <pre><code class="hljs language-python">agent = create_agent(model=<span class="hljs-string">"anthropic:claude-sonnet-5"</span>, tools=tools, name=<span class="hljs-string">"research_assistant"</span>)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-15-panel-3" role="tabpanel" aria-labelledby="codegroup-15-tab-3" hidden="">
+  <pre><code class="hljs language-python">agent = create_agent(model=<span class="hljs-string">"openrouter:z-ai/glm-5.2"</span>, tools=tools, name=<span class="hljs-string">"research_assistant"</span>)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-15-panel-4" role="tabpanel" aria-labelledby="codegroup-15-tab-4" hidden="">
+  <pre><code class="hljs language-python">agent = create_agent(model=<span class="hljs-string">"fireworks:accounts/fireworks/models/glm-5p2"</span>, tools=tools, name=<span class="hljs-string">"research_assistant"</span>)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-15-panel-5" role="tabpanel" aria-labelledby="codegroup-15-tab-5" hidden="">
+  <pre><code class="hljs language-python">agent = create_agent(model=<span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>, tools=tools, name=<span class="hljs-string">"research_assistant"</span>)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-15-panel-6" role="tabpanel" aria-labelledby="codegroup-15-tab-6" hidden="">
+  <pre><code class="hljs language-python">agent = create_agent(model=<span class="hljs-string">"ollama:north-mini-code-1.0"</span>, tools=tools, name=<span class="hljs-string">"research_assistant"</span>)</code></pre>
+</div></div>
+</div>
+<h3 id="fault-tolerance">容错<a class="heading-anchor" href="#fault-tolerance" aria-label="链接到本节">#</a></h3>
+<p>生产环境中的智能体会遇到开发阶段很少出现的故障：速率限制、模型超时、瞬时 API 错误。容错中间件在基础设施层面处理这些问题，因此你的工具和业务逻辑无需在每次调用外层都包 try/catch。</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-16-tab-0" role="tab" aria-controls="codegroup-16-panel-0" aria-selected="true" tabindex="0">Google</button><button class="code-tab" type="button" id="codegroup-16-tab-1" role="tab" aria-controls="codegroup-16-panel-1" aria-selected="false" tabindex="-1">OpenAI</button><button class="code-tab" type="button" id="codegroup-16-tab-2" role="tab" aria-controls="codegroup-16-panel-2" aria-selected="false" tabindex="-1">Anthropic</button><button class="code-tab" type="button" id="codegroup-16-tab-3" role="tab" aria-controls="codegroup-16-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-16-tab-4" role="tab" aria-controls="codegroup-16-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-16-tab-5" role="tab" aria-controls="codegroup-16-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-16-tab-6" role="tab" aria-controls="codegroup-16-panel-6" aria-selected="false" tabindex="-1">Ollama</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-16-panel-0" role="tabpanel" aria-labelledby="codegroup-16-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> ModelRetryMiddleware, ToolRetryMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>,
+    tools=[search],
+    middleware=[
+        ModelRetryMiddleware(max_retries=<span class="hljs-number">3</span>),
+        ToolRetryMiddleware(max_retries=<span class="hljs-number">2</span>),
+    ],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-16-panel-1" role="tabpanel" aria-labelledby="codegroup-16-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> ModelRetryMiddleware, ToolRetryMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"openai:gpt-5.5"</span>,
+    tools=[search],
+    middleware=[
+        ModelRetryMiddleware(max_retries=<span class="hljs-number">3</span>),
+        ToolRetryMiddleware(max_retries=<span class="hljs-number">2</span>),
+    ],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-16-panel-2" role="tabpanel" aria-labelledby="codegroup-16-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> ModelRetryMiddleware, ToolRetryMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"anthropic:claude-sonnet-5"</span>,
+    tools=[search],
+    middleware=[
+        ModelRetryMiddleware(max_retries=<span class="hljs-number">3</span>),
+        ToolRetryMiddleware(max_retries=<span class="hljs-number">2</span>),
+    ],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-16-panel-3" role="tabpanel" aria-labelledby="codegroup-16-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> ModelRetryMiddleware, ToolRetryMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"openrouter:z-ai/glm-5.2"</span>,
+    tools=[search],
+    middleware=[
+        ModelRetryMiddleware(max_retries=<span class="hljs-number">3</span>),
+        ToolRetryMiddleware(max_retries=<span class="hljs-number">2</span>),
+    ],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-16-panel-4" role="tabpanel" aria-labelledby="codegroup-16-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> ModelRetryMiddleware, ToolRetryMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"fireworks:accounts/fireworks/models/glm-5p2"</span>,
+    tools=[search],
+    middleware=[
+        ModelRetryMiddleware(max_retries=<span class="hljs-number">3</span>),
+        ToolRetryMiddleware(max_retries=<span class="hljs-number">2</span>),
+    ],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-16-panel-5" role="tabpanel" aria-labelledby="codegroup-16-tab-5" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> ModelRetryMiddleware, ToolRetryMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>,
+    tools=[search],
+    middleware=[
+        ModelRetryMiddleware(max_retries=<span class="hljs-number">3</span>),
+        ToolRetryMiddleware(max_retries=<span class="hljs-number">2</span>),
+    ],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-16-panel-6" role="tabpanel" aria-labelledby="codegroup-16-tab-6" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> ModelRetryMiddleware, ToolRetryMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"ollama:north-mini-code-1.0"</span>,
+    tools=[search],
+    middleware=[
+        ModelRetryMiddleware(max_retries=<span class="hljs-number">3</span>),
+        ToolRetryMiddleware(max_retries=<span class="hljs-number">2</span>),
+    ],
+)</code></pre>
+</div></div>
+</div>
+<p>请参阅<a href="https://reference.langchain.com/python/langchain/agents/middleware/model_retry/ModelRetryMiddleware" target="_blank" rel="noopener noreferrer"><code>ModelRetryMiddleware</code></a>、<a href="https://reference.langchain.com/python/langchain/agents/middleware/tool_retry/ToolRetryMiddleware" target="_blank" rel="noopener noreferrer"><code>ToolRetryMiddleware</code></a>，以及<a href="middleware-built-in.html">预置中间件</a>。</p>
+<h3 id="guardrails">护栏<a class="heading-anchor" href="#guardrails" aria-label="链接到本节">#</a></h3>
+<p>有些策略无法放在提示词中——无论模型做什么，它们都需要被确定性地强制执行。护栏会在数据流经智能体循环时进行拦截，在工具结果进入模型上下文之前应用合规规则或内容策略。</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-17-tab-0" role="tab" aria-controls="codegroup-17-panel-0" aria-selected="true" tabindex="0">Google</button><button class="code-tab" type="button" id="codegroup-17-tab-1" role="tab" aria-controls="codegroup-17-panel-1" aria-selected="false" tabindex="-1">OpenAI</button><button class="code-tab" type="button" id="codegroup-17-tab-2" role="tab" aria-controls="codegroup-17-panel-2" aria-selected="false" tabindex="-1">Anthropic</button><button class="code-tab" type="button" id="codegroup-17-tab-3" role="tab" aria-controls="codegroup-17-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-17-tab-4" role="tab" aria-controls="codegroup-17-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-17-tab-5" role="tab" aria-controls="codegroup-17-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-17-tab-6" role="tab" aria-controls="codegroup-17-panel-6" aria-selected="false" tabindex="-1">Ollama</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-17-panel-0" role="tabpanel" aria-labelledby="codegroup-17-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> PIIMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>,
+    tools=[search],
+    middleware=[PIIMiddleware(<span class="hljs-string">"email"</span>)],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-17-panel-1" role="tabpanel" aria-labelledby="codegroup-17-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> PIIMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"openai:gpt-5.5"</span>,
+    tools=[search],
+    middleware=[PIIMiddleware(<span class="hljs-string">"email"</span>)],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-17-panel-2" role="tabpanel" aria-labelledby="codegroup-17-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> PIIMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"anthropic:claude-sonnet-5"</span>,
+    tools=[search],
+    middleware=[PIIMiddleware(<span class="hljs-string">"email"</span>)],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-17-panel-3" role="tabpanel" aria-labelledby="codegroup-17-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> PIIMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"openrouter:z-ai/glm-5.2"</span>,
+    tools=[search],
+    middleware=[PIIMiddleware(<span class="hljs-string">"email"</span>)],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-17-panel-4" role="tabpanel" aria-labelledby="codegroup-17-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> PIIMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"fireworks:accounts/fireworks/models/glm-5p2"</span>,
+    tools=[search],
+    middleware=[PIIMiddleware(<span class="hljs-string">"email"</span>)],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-17-panel-5" role="tabpanel" aria-labelledby="codegroup-17-tab-5" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> PIIMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>,
+    tools=[search],
+    middleware=[PIIMiddleware(<span class="hljs-string">"email"</span>)],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-17-panel-6" role="tabpanel" aria-labelledby="codegroup-17-tab-6" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> PIIMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"ollama:north-mini-code-1.0"</span>,
+    tools=[search],
+    middleware=[PIIMiddleware(<span class="hljs-string">"email"</span>)],
+)</code></pre>
+</div></div>
+</div>
+<p>请参阅<a href="https://reference.langchain.com/python/langchain/agents/middleware/pii/PIIMiddleware" target="_blank" rel="noopener noreferrer"><code>PIIMiddleware</code></a>，以及<a href="middleware-built-in.html">预置中间件</a>。</p>
+<h3 id="steering">人工引导<a class="heading-anchor" href="#steering" aria-label="链接到本节">#</a></h3>
+<p>完全自主并不总是合适。引导让你可以在特定决策点安排人工介入——例如破坏性写入、昂贵的 API 调用或任何需要判断的操作之前——而无需重构智能体。智能体会暂停并等待；人员批准、编辑或拒绝；随后继续执行。</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-18-tab-0" role="tab" aria-controls="codegroup-18-panel-0" aria-selected="true" tabindex="0">Google</button><button class="code-tab" type="button" id="codegroup-18-tab-1" role="tab" aria-controls="codegroup-18-panel-1" aria-selected="false" tabindex="-1">OpenAI</button><button class="code-tab" type="button" id="codegroup-18-tab-2" role="tab" aria-controls="codegroup-18-panel-2" aria-selected="false" tabindex="-1">Anthropic</button><button class="code-tab" type="button" id="codegroup-18-tab-3" role="tab" aria-controls="codegroup-18-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-18-tab-4" role="tab" aria-controls="codegroup-18-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-18-tab-5" role="tab" aria-controls="codegroup-18-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-18-tab-6" role="tab" aria-controls="codegroup-18-panel-6" aria-selected="false" tabindex="-1">Ollama</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-18-panel-0" role="tabpanel" aria-labelledby="codegroup-18-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> HumanInTheLoopMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>,
+    tools=[search],
+    middleware=[HumanInTheLoopMiddleware(interrupt_on={<span class="hljs-string">"write_file"</span>: <span class="hljs-literal">True</span>})],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-18-panel-1" role="tabpanel" aria-labelledby="codegroup-18-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> HumanInTheLoopMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"openai:gpt-5.5"</span>,
+    tools=[search],
+    middleware=[HumanInTheLoopMiddleware(interrupt_on={<span class="hljs-string">"write_file"</span>: <span class="hljs-literal">True</span>})],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-18-panel-2" role="tabpanel" aria-labelledby="codegroup-18-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> HumanInTheLoopMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"anthropic:claude-sonnet-5"</span>,
+    tools=[search],
+    middleware=[HumanInTheLoopMiddleware(interrupt_on={<span class="hljs-string">"write_file"</span>: <span class="hljs-literal">True</span>})],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-18-panel-3" role="tabpanel" aria-labelledby="codegroup-18-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> HumanInTheLoopMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"openrouter:z-ai/glm-5.2"</span>,
+    tools=[search],
+    middleware=[HumanInTheLoopMiddleware(interrupt_on={<span class="hljs-string">"write_file"</span>: <span class="hljs-literal">True</span>})],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-18-panel-4" role="tabpanel" aria-labelledby="codegroup-18-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> HumanInTheLoopMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"fireworks:accounts/fireworks/models/glm-5p2"</span>,
+    tools=[search],
+    middleware=[HumanInTheLoopMiddleware(interrupt_on={<span class="hljs-string">"write_file"</span>: <span class="hljs-literal">True</span>})],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-18-panel-5" role="tabpanel" aria-labelledby="codegroup-18-tab-5" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> HumanInTheLoopMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>,
+    tools=[search],
+    middleware=[HumanInTheLoopMiddleware(interrupt_on={<span class="hljs-string">"write_file"</span>: <span class="hljs-literal">True</span>})],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-18-panel-6" role="tabpanel" aria-labelledby="codegroup-18-tab-6" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> HumanInTheLoopMiddleware
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Search for a query and return a short summary."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Search results for: <span class="hljs-subst">{query}</span>"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"ollama:north-mini-code-1.0"</span>,
+    tools=[search],
+    middleware=[HumanInTheLoopMiddleware(interrupt_on={<span class="hljs-string">"write_file"</span>: <span class="hljs-literal">True</span>})],
+)</code></pre>
+</div></div>
+</div>
+<p>请参阅<a href="https://reference.langchain.com/python/langchain/agents/middleware/human_in_the_loop/HumanInTheLoopMiddleware" target="_blank" rel="noopener noreferrer"><code>HumanInTheLoopMiddleware</code></a>，以及<a href="human-in-the-loop.html">人在回路</a>。</p>
+<h3 id="middleware-resources">中间件资源<a class="heading-anchor" href="#middleware-resources" aria-label="链接到本节">#</a></h3>
+<div class="card-grid"><a class="doc-card" href="middleware-overview.html"><span class="card-title">中间件概览</span><span class="card-body"><p>中间件栈的工作原理以及钩子的触发时机</p></span></a><a class="doc-card" href="middleware-built-in.html"><span class="card-title">预置中间件</span><span class="card-body"><p>完整参考与配置示例</p></span></a><a class="doc-card" href="middleware-custom.html"><span class="card-title">自定义中间件</span><span class="card-body"><p>编写你自己的钩子，用于业务逻辑、PII 脱敏等场景</p></span></a></div></article>
+        <nav class="pager" aria-label="翻页"><a class="prev" href="philosophy.html"><span class="pager-label">上一篇</span><span class="pager-title">设计理念</span></a><a class="next" href="models.html"><span class="pager-label">下一篇</span><span class="pager-title">模型</span></a></nav>
+        <footer class="page-footer">
+          <p>本页为社区维护的简体中文翻译，不是 LangChain 官方文档。如与英文原文有出入，请以 <a href="https://docs.langchain.com/oss/python/langchain/agents" target="_blank" rel="noopener noreferrer">英文原文</a> 为准。</p>
+        </footer>
+      </div>
+    </main>
+    <aside class="toc" aria-label="本页目录"><div class="toc-inner"><div class="toc-title">本页目录</div><a class="toc-link level-2" href="#core-components">核心组件</a><a class="toc-link level-3" href="#model">模型</a><a class="toc-link level-3" href="#tools">工具</a><a class="toc-link level-3" href="#system-prompt">系统提示词</a><a class="toc-link level-3" href="#structured-output">结构化输出</a><a class="toc-link level-3" href="#agent-state">智能体状态</a><a class="toc-link level-2" href="#invocation">调用</a><a class="toc-link level-2" href="#streaming">流式传输</a><a class="toc-link level-2" href="#configure-the-harness">配置运行框架</a><a class="toc-link level-3" href="#execution-environment">执行环境</a><a class="toc-link level-3" href="#context-management">上下文管理</a><a class="toc-link level-3" href="#planning-and-delegation">规划与委派</a><a class="toc-link level-3" href="#name-your-agent">为智能体命名</a><a class="toc-link level-3" href="#fault-tolerance">容错</a><a class="toc-link level-3" href="#guardrails">护栏</a><a class="toc-link level-3" href="#steering">人工引导</a><a class="toc-link level-3" href="#middleware-resources">中间件资源</a></div></aside>
+  </div>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p><strong>LangChain 中文文档</strong> · 社区翻译，非官方站点。内容基于 <a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener noreferrer">docs.langchain.com</a> 的 LangChain（Python）文档生成。</p>
+      <p>共 59 篇 · 代码示例保持英文原样 · 以英文原文为准</p>
+    </div>
+  </footer>
+  <button class="back-top" type="button" data-back-top aria-label="回到顶部">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script src="assets/docs.js" defer></script>
+</body>
+</html>

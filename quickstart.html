@@ -1,0 +1,937 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>快速开始 | LangChain 中文文档</title>
+  <meta name="description" content="在几分钟内构建你的第一个智能体">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M12.5 19.5l7-7M10 22l-1 1a4 4 0 0 1-5.7-5.7l3.4-3.4a4 4 0 0 1 5.7 0M22 10l1-1a4 4 0 0 1 5.7 5.7l-3.4 3.4a4 4 0 0 1-5.7 0' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem('lc-docs-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();</script>
+  <link rel="stylesheet" href="assets/docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div id="progress" data-progress></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="打开文档导航" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="LangChain 中文文档首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9.4 14.6l5.2-5.2M7.1 16.9l-1.4 1.4a3.7 3.7 0 0 1-5.2-5.2l3.2-3.2a3.7 3.7 0 0 1 5.2 0M16.9 7.1l1.4-1.4a3.7 3.7 0 0 1 5.2 5.2l-3.2 3.2a3.7 3.7 0 0 1-5.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text">LangChain <span class="brand-sub">中文文档</span></span>
+      </a>
+      <nav class="top-nav" aria-label="主导航">
+        <a class="top-link active" href="index.html" aria-current="page">LangChain</a>
+        <a class="top-link" href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a>
+        <a class="top-link" href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener noreferrer">LangSmith</a>
+        <a class="top-link" href="https://reference.langchain.com/python/langchain/" target="_blank" rel="noopener noreferrer">API 参考</a>
+      </nav>
+      <div class="header-actions">
+        <a class="source-link" href="https://docs.langchain.com/oss/python/langchain/quickstart" target="_blank" rel="noopener noreferrer">English <span aria-hidden="true">↗</span></a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="切换到深色模式" aria-pressed="false" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v1.6M10 16.2v1.6M2.2 10h1.6M16.2 10h1.6M4.5 4.5l1.1 1.1M14.4 14.4l1.1 1.1M15.5 4.5l-1.1 1.1M5.6 14.4l-1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.4 12.1A6.6 6.6 0 0 1 7.9 3.6 6.8 6.8 0 1 0 16.4 12.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" id="sidebar" aria-label="文档导航">
+      <div class="sidebar-head">
+        <div class="sidebar-title">文档目录</div>
+        <div class="nav-search">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.2" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="搜索页面…" aria-label="搜索文档页面" data-nav-search autocomplete="off" spellcheck="false">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+      </div>
+      <div class="sidebar-scroll"><nav class="nav" id="doc-nav" aria-label="文档页面"><div class="nav-home"><a class="nav-link" href="index.html" data-search="LangChain 概览 LangChain overview index  "><span class="nav-dot" aria-hidden="true"></span><span>LangChain 概览</span></a></div><section class="nav-section" data-nav-section><div class="nav-section-title">开始使用</div><a class="nav-link" href="install.html" data-search="安装 LangChain Install LangChain install Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>安装 LangChain</span></a><a class="nav-link active" href="quickstart.html" data-search="快速开始 Quickstart quickstart Get started 开始使用 开始使用" aria-current="page"><span class="nav-dot" aria-hidden="true"></span><span>快速开始</span></a><a class="nav-link" href="philosophy.html" data-search="设计理念 Philosophy philosophy Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>设计理念</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">核心组件</div><a class="nav-link" href="agents.html" data-search="智能体 Agents agents Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>智能体</span></a><a class="nav-link" href="models.html" data-search="模型 Models models Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>模型</span></a><a class="nav-link" href="messages.html" data-search="消息 Messages messages Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>消息</span></a><a class="nav-link" href="tools.html" data-search="工具 Tools tools Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>工具</span></a><a class="nav-link" href="short-term-memory.html" data-search="短期记忆 Short-term memory short-term-memory Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>短期记忆</span></a><a class="nav-link" href="event-streaming.html" data-search="事件流 Event streaming event-streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>事件流</span></a><a class="nav-link" href="streaming.html" data-search="流式传输 Streaming streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>流式传输</span></a><a class="nav-link" href="structured-output.html" data-search="结构化输出 Structured output structured-output Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>结构化输出</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">中间件</div><a class="nav-link" href="middleware-overview.html" data-search="中间件概览 Middleware overview middleware-overview Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>中间件概览</span></a><a class="nav-link" href="middleware-built-in.html" data-search="预置中间件 Prebuilt middleware middleware-built-in Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>预置中间件</span></a><a class="nav-link" href="middleware-custom.html" data-search="自定义中间件 Custom middleware middleware-custom Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>自定义中间件</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">前端</div><a class="nav-link" href="frontend-overview.html" data-search="前端概览 Overview frontend-overview Frontend 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端概览</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">模式</div><a class="nav-link" href="frontend-markdown-messages.html" data-search="Markdown 消息 Markdown messages frontend-markdown-messages Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>Markdown 消息</span></a><a class="nav-link" href="frontend-tool-calling.html" data-search="工具调用 Tool calling frontend-tool-calling Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>工具调用</span></a><a class="nav-link" href="frontend-headless-tools.html" data-search="无头工具 Headless tools frontend-headless-tools Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>无头工具</span></a><a class="nav-link" href="frontend-human-in-the-loop.html" data-search="前端人在回路 Human-in-the-Loop frontend-human-in-the-loop Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端人在回路</span></a><a class="nav-link" href="frontend-branching-chat.html" data-search="分支对话 Branching chat frontend-branching-chat Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>分支对话</span></a><a class="nav-link" href="frontend-reasoning-tokens.html" data-search="推理 token Reasoning tokens frontend-reasoning-tokens Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>推理 token</span></a><a class="nav-link" href="frontend-structured-output.html" data-search="前端结构化输出 Structured output frontend-structured-output Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端结构化输出</span></a><a class="nav-link" href="frontend-message-queues.html" data-search="消息队列 Message queues frontend-message-queues Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>消息队列</span></a><a class="nav-link" href="frontend-join-rejoin.html" data-search="断开与重连流 Join &amp; rejoin streams frontend-join-rejoin Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>断开与重连流</span></a><a class="nav-link" href="frontend-time-travel.html" data-search="时间旅行 Time travel frontend-time-travel Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>时间旅行</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">生成式 UI</div><a class="nav-link" href="frontend-generative-ui-overview.html" data-search="生成式 UI 概览 Generative UI overview frontend-generative-ui-overview Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>生成式 UI 概览</span></a><a class="nav-link" href="frontend-controlled-generative-ui.html" data-search="受控生成式 UI Controlled generative UI frontend-controlled-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>受控生成式 UI</span></a><a class="nav-link" href="frontend-declarative-generative-ui.html" data-search="声明式生成式 UI Declarative generative UI frontend-declarative-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>声明式生成式 UI</span></a><a class="nav-link" href="frontend-open-ended-generative-ui.html" data-search="开放式生成式 UI Open-ended generative UI frontend-open-ended-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>开放式生成式 UI</span></a></div></div><div class="nav-subgroup"><div class="nav-subgroup-title">集成</div><a class="nav-link" href="frontend-integrations-overview.html" data-search="集成概览 Overview frontend-integrations-overview Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>集成概览</span></a><a class="nav-link" href="frontend-integrations-copilotkit.html" data-search="CopilotKit CopilotKit frontend-integrations-copilotkit Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>CopilotKit</span></a><a class="nav-link" href="frontend-integrations-ai-elements.html" data-search="AI Elements AI Elements frontend-integrations-ai-elements Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>AI Elements</span></a><a class="nav-link" href="frontend-integrations-assistant-ui.html" data-search="assistant-ui assistant-ui frontend-integrations-assistant-ui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>assistant-ui</span></a><a class="nav-link" href="frontend-integrations-openui.html" data-search="OpenUI OpenUI frontend-integrations-openui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>OpenUI</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">高级用法</div><a class="nav-link" href="guardrails.html" data-search="护栏 Guardrails guardrails Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>护栏</span></a><a class="nav-link" href="runtime.html" data-search="运行时 Runtime runtime Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>运行时</span></a><a class="nav-link" href="context-engineering.html" data-search="智能体中的上下文工程 Context engineering in agents context-engineering Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>智能体中的上下文工程</span></a><a class="nav-link" href="human-in-the-loop.html" data-search="人在回路 Human-in-the-loop human-in-the-loop Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>人在回路</span></a><a class="nav-link" href="retrieval.html" data-search="检索 Retrieval retrieval Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>检索</span></a><a class="nav-link" href="long-term-memory.html" data-search="长期记忆 Long-term memory long-term-memory Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>长期记忆</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">MCP</div><a class="nav-link" href="mcp.html" data-search="MCP 概述 Model Context Protocol (MCP) mcp Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 概述</span></a><a class="nav-link" href="mcp-tools.html" data-search="MCP 工具 Tools mcp-tools Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 工具</span></a><a class="nav-link" href="mcp-connections.html" data-search="MCP 连接 Connections mcp-connections Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 连接</span></a><a class="nav-link" href="mcp-auth.html" data-search="MCP 认证 Authentication mcp-auth Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 认证</span></a></div><div class="nav-subgroup"><div class="nav-subgroup-title">多智能体</div><a class="nav-link" href="multi-agent.html" data-search="多智能体 Multi-agent multi-agent Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>多智能体</span></a><a class="nav-link" href="multi-agent-subagents.html" data-search="子智能体 Subagents multi-agent-subagents Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>子智能体</span></a><a class="nav-link" href="multi-agent-handoffs.html" data-search="交接 Handoffs multi-agent-handoffs Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>交接</span></a><a class="nav-link" href="multi-agent-skills.html" data-search="技能 Skills multi-agent-skills Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>技能</span></a><a class="nav-link" href="multi-agent-router.html" data-search="路由器 Router multi-agent-router Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>路由器</span></a><a class="nav-link" href="multi-agent-custom-workflow.html" data-search="自定义工作流 Custom workflow multi-agent-custom-workflow Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>自定义工作流</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">智能体开发</div><a class="nav-link" href="studio.html" data-search="LangSmith Studio LangSmith Studio studio Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith Studio</span></a><a class="nav-link" href="ui.html" data-search="Agent Chat UI Agent Chat UI ui Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>Agent Chat UI</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">测试</div><a class="nav-link" href="test.html" data-search="测试 Test test Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>测试</span></a><a class="nav-link" href="test-unit-testing.html" data-search="单元测试 Unit testing test-unit-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>单元测试</span></a><a class="nav-link" href="test-integration-testing.html" data-search="集成测试 Integration testing test-integration-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>集成测试</span></a><a class="nav-link" href="test-evals.html" data-search="智能体评估 Agent Evals test-evals Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>智能体评估</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">生产</div><a class="nav-link" href="deploy.html" data-search="部署 Deployment deploy Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>部署</span></a><a class="nav-link" href="observability.html" data-search="LangSmith 可观测性 LangSmith Observability observability Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith 可观测性</span></a></section><div class="nav-empty" data-nav-empty hidden>没有匹配的页面</div></nav></div>
+      <div class="sidebar-foot"><strong>59 篇</strong> · 社区翻译</div>
+    </aside>
+    <div class="sidebar-overlay" data-sidebar-overlay></div>
+    <main class="main" id="main">
+      <div class="content-wrap">
+        <nav class="breadcrumbs" aria-label="面包屑"><a href="index.html">LangChain</a><span class="sep">/</span><span>开始使用</span><span class="sep">/</span><span class="current">快速开始</span></nav>
+        <header class="page-header">
+          <h1>快速开始</h1>
+          <div class="page-lead">在几分钟内构建你的第一个智能体</div>
+          <div class="page-meta">
+            <span>约 21 分钟</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>社区翻译</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <a href="https://docs.langchain.com/oss/python/langchain/quickstart" target="_blank" rel="noopener noreferrer">查看英文原文 ↗</a>
+          </div>
+        </header>
+        <article class="content"><p>本快速入门将向你展示如何在短短几分钟内创建一个功能完备的 AI 智能体。</p>
+<p>构建 LangChain 快速入门智能体</p>
+<p>按照 LangChain 快速入门，在此工作目录中构建一个基础的 LangChain 智能体。</p>
+<h2 id="step-1-read-the-guide">第 1 步：阅读指南<a class="heading-anchor" href="#step-1-read-the-guide" aria-label="链接到本节">#</a></h2>
+<p>检测此项目使用的是 Python 还是 TypeScript/JavaScript。获取并遵循对应的页面；将其作为包名、模型字符串和代码的权威依据：</p>
+<ul><li><p>Python：<a href="quickstart.html">https://docs.langchain.com/oss/python/langchain/quickstart.md</a></p></li><li><p>TypeScript：<a href="https://docs.langchain.com/oss/javascript/langchain/quickstart" target="_blank" rel="noopener noreferrer">https://docs.langchain.com/oss/javascript/langchain/quickstart.md</a></p></li></ul>
+<h2 id="step-2-install-dependencies">第 2 步：安装依赖<a class="heading-anchor" href="#step-2-install-dependencies" aria-label="链接到本节">#</a></h2>
+<p>使用项目已有的包管理器（<code>uv</code>、<code>pip</code>、<code>npm</code>、<code>pnpm</code>、<code>yarn</code> 或 <code>bun</code>）安装指南中列出的包。如果项目已经固定了版本，优先固定当前稳定版本，而不是使用浮动的 <code>latest</code> 标签。</p>
+<h2 id="step-3-configure-model-credentials">第 3 步：配置模型凭据<a class="heading-anchor" href="#step-3-configure-model-credentials" aria-label="链接到本节">#</a></h2>
+<p>检查是否已设置受支持的模型提供商 API 密钥（例如 <code>OPENAI_API_KEY</code>、<code>GOOGLE_API_KEY</code> 或 <code>ANTHROPIC_API_KEY</code>）。若均未设置，询问用户使用哪个提供商，然后暂停并等待其创建密钥并在 shell 或 <code>.env</code> 文件中设置。不要凭空编造、硬编码或提交 API 密钥。</p>
+<h2 id="step-4-implement-the-basic-agent">第 4 步：实现基础智能体<a class="heading-anchor" href="#step-4-implement-the-basic-agent" aria-label="链接到本节">#</a></h2>
+<p>按指南创建“构建基础智能体”示例：<code>create_agent</code>、一个简单工具（如 <code>get_weather</code>）、一段简短的提示词，以及一次 <code>invoke</code> 调用。使用用户所选提供商的模型字符串。打印最终消息内容（Python：<code>.content_blocks</code>），以便用户验证运行结果。</p>
+<h2 id="step-5-optional-langsmith-tracing">第 5 步：可选的 LangSmith 追踪<a class="heading-anchor" href="#step-5-optional-langsmith-tracing" aria-label="链接到本节">#</a></h2>
+<p>询问用户是否需要追踪。若需要，遵循 <a href="https://docs.langchain.com/langsmith/create-an-agent" target="_blank" rel="noopener noreferrer">https://docs.langchain.com/langsmith/create-an-agent</a> 在基于智能体的工作区中注册智能体。让其设置 <code>LANGSMITH_AGENT_ID</code>、<code>LANGSMITH_AGENT_ENVIRONMENT</code>、<code>LANGSMITH_TRACING=true</code> 和 <code>LANGSMITH_API_KEY</code>，然后重新运行。不要编造 LangSmith 密钥。</p>
+<h2 id="rules">规则<a class="heading-anchor" href="#rules" aria-label="链接到本节">#</a></h2>
+<ul><li><p>将范围限定在本快速入门内。不要添加无关的框架、评估或生产部署。</p></li><li><p>如指南所示，优先使用 <code>create_agent</code>（来自 <code>langchain.agents</code> / <code>langchain</code>）。</p></li><li><p>当密钥、提供商选择或项目约定不明确时，应询问而非猜测。</p></li></ul>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p><strong>使用 AI 编码助手？</strong></p>
+<ul><li><p>安装 <a href="https://docs.langchain.com/use-these-docs" target="_blank" rel="noopener noreferrer">LangChain Docs MCP 服务器</a>，让你的智能体能够访问最新的 LangChain 文档和示例。</p><p>连接 LangChain 文档 MCP 服务器</p><p>将两个 LangChain 文档 MCP 服务器连接至我的编码智能体，使其能够查询最新的 LangChain、LangGraph 和 LangSmith 文档与 API 参考。</p><p>要添加的服务器：</p><ul><li><p><code>docs-langchain</code>: <a href="https://docs.langchain.com/mcp" target="_blank" rel="noopener noreferrer">https://docs.langchain.com/mcp</a></p></li><li><p><code>reference-langchain</code>: <a href="https://reference.langchain.com/mcp" target="_blank" rel="noopener noreferrer">https://reference.langchain.com/mcp</a></p></li></ul><p>检测我正在使用哪个智能体或编辑器（Claude Code、Cursor、Codex CLI、Claude Desktop、Deep Agents Code、VS Code、Antigravity 或其他兼容 MCP 的客户端）。使用 <a href="https://docs.langchain.com/use-these-docs" target="_blank" rel="noopener noreferrer">https://docs.langchain.com/use-these-docs.md</a> 中对应的配置方式：</p><ul><li><p>Claude Code：为每个服务器执行 <code>claude mcp add --transport http</code>（默认为项目范围；仅当我要求全局访问时才使用 <code>--scope user</code>）。</p></li><li><p>Codex CLI：使用每个服务器 URL 执行 <code>codex mcp add</code>。</p></li><li><p>Cursor、Deep Agents Code、VS Code 或 Antigravity：使用该页面上针对我的客户端所示的字段名，将两个条目合并到 MCP 设置 JSON 中。</p></li><li><p>Claude Desktop：在 Settings &gt; Connectors 下添加两个 URL。</p></li></ul><p>不要编造其他 MCP URL。配置完成后，确认两个服务器均已列出且可访问。</p></li><li><p>安装 <a href="https://github.com/langchain-ai/langchain-skills" target="_blank" rel="noopener noreferrer">LangChain Skills</a>，以提升你的智能体在 LangChain 生态任务中的表现。</p><p>安装 LangChain Skills</p><p>为我的编码智能体安装 LangChain Skills，使其在 LangChain、LangGraph 和 Deep Agents 任务中表现更好。</p><p>使用来自 <a href="https://github.com/langchain-ai/langchain-skills" target="_blank" rel="noopener noreferrer">https://github.com/langchain-ai/langchain-skills</a> 的 Agent Skills 安装器：</p><div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">bash</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">npx skills add langchain-ai/langchain-skills --skill <span class="hljs-string">'*'</span> --<span class="hljs-built_in">yes</span></code></pre>
+</div><p>如果我要求改为全局安装，请使用：</p><div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">bash</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">npx skills add langchain-ai/langchain-skills --skill <span class="hljs-string">'*'</span> --<span class="hljs-built_in">yes</span> --global</code></pre>
+</div><p>检测我正在使用哪个智能体或编辑器。如果我使用 Claude Code 且偏好插件方式，请遵循该仓库 README 中的市场安装说明（先 <code>/plugin marketplace add</code> 再 <code>/plugin install</code>）。不要编造其他 skill 包名或安装 URL。安装完成后，确认智能体可以使用这些 skill。</p></li></ul></div>
+</aside>
+<h2 id="install-dependencies">安装依赖<a class="heading-anchor" href="#install-dependencies" aria-label="链接到本节">#</a></h2>
+<p>安装以下包以便跟随本指南操作：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-1-tab-0" role="tab" aria-controls="codegroup-1-panel-0" aria-selected="true" tabindex="0">uv</button><button class="code-tab" type="button" id="codegroup-1-tab-1" role="tab" aria-controls="codegroup-1-panel-1" aria-selected="false" tabindex="-1">pip</button><button class="code-tab" type="button" id="codegroup-1-tab-2" role="tab" aria-controls="codegroup-1-panel-2" aria-selected="false" tabindex="-1">venv</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-1-panel-0" role="tabpanel" aria-labelledby="codegroup-1-tab-0">
+  <pre><code class="hljs language-bash">uv python pin 3.11
+uv init
+uv add langchain
+uv <span class="hljs-built_in">sync</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-1" role="tabpanel" aria-labelledby="codegroup-1-tab-1" hidden="">
+  <pre><code class="hljs language-bash"><span class="hljs-comment"># Install Python 3.11+ separately if needed.</span>
+pip install -U langchain</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-2" role="tabpanel" aria-labelledby="codegroup-1-tab-2" hidden="">
+  <pre><code class="hljs language-bash"><span class="hljs-comment"># Install Python 3.11+ separately if needed.</span>
+python3.11 -m venv .venv
+<span class="hljs-built_in">source</span> .venv/bin/activate
+<span class="hljs-comment"># Windows: .venv\Scripts\activate</span>
+pip install -U langchain</code></pre>
+</div></div>
+</div>
+<h2 id="set-up-api-keys">设置 API 密钥<a class="heading-anchor" href="#set-up-api-keys" aria-label="链接到本节">#</a></h2>
+<p>从 <a href="https://docs.langchain.com/oss/python/integrations/providers/overview" target="_blank" rel="noopener noreferrer">任意受支持的模型提供商</a> 获取 API 密钥（例如 Google Gemini 或 OpenAI）。</p>
+<p>在 shell 或 <code>.env</code> 文件中设置 API 密钥，例如：</p>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-2-tab-0" role="tab" aria-controls="tabs-2-panel-0" aria-selected="true" tabindex="0">OpenAI</button><button class="doc-tab" type="button" id="tabs-2-tab-1" role="tab" aria-controls="tabs-2-panel-1" aria-selected="false" tabindex="-1">Google Gemini</button><button class="doc-tab" type="button" id="tabs-2-tab-2" role="tab" aria-controls="tabs-2-panel-2" aria-selected="false" tabindex="-1">Claude (Anthropic)</button><button class="doc-tab" type="button" id="tabs-2-tab-3" role="tab" aria-controls="tabs-2-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="doc-tab" type="button" id="tabs-2-tab-4" role="tab" aria-controls="tabs-2-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="doc-tab" type="button" id="tabs-2-tab-5" role="tab" aria-controls="tabs-2-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="doc-tab" type="button" id="tabs-2-tab-6" role="tab" aria-controls="tabs-2-panel-6" aria-selected="false" tabindex="-1">Ollama</button><button class="doc-tab" type="button" id="tabs-2-tab-7" role="tab" aria-controls="tabs-2-panel-7" aria-selected="false" tabindex="-1">Azure</button><button class="doc-tab" type="button" id="tabs-2-tab-8" role="tab" aria-controls="tabs-2-panel-8" aria-selected="false" tabindex="-1">AWS Bedrock</button><button class="doc-tab" type="button" id="tabs-2-tab-9" role="tab" aria-controls="tabs-2-panel-9" aria-selected="false" tabindex="-1">HuggingFace</button><button class="doc-tab" type="button" id="tabs-2-tab-10" role="tab" aria-controls="tabs-2-panel-10" aria-selected="false" tabindex="-1">Other</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-2-panel-0" role="tabpanel" aria-labelledby="tabs-2-tab-0">
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-3-tab-0" role="tab" aria-controls="codegroup-3-panel-0" aria-selected="true" tabindex="0">Shell</button><button class="code-tab" type="button" id="codegroup-3-tab-1" role="tab" aria-controls="codegroup-3-panel-1" aria-selected="false" tabindex="-1">.env</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-3-panel-0" role="tabpanel" aria-labelledby="codegroup-3-tab-0">
+  <pre><code class="hljs language-bash"><span class="hljs-built_in">export</span> OPENAI_API_KEY=<span class="hljs-string">"your-api-key"</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-3-panel-1" role="tabpanel" aria-labelledby="codegroup-3-tab-1" hidden="">
+  <pre><code class="hljs language-bash">OPENAI_API_KEY=your-api-key</code></pre>
+</div></div>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-2-panel-1" role="tabpanel" aria-labelledby="tabs-2-tab-1" hidden="">
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-4-tab-0" role="tab" aria-controls="codegroup-4-panel-0" aria-selected="true" tabindex="0">Shell</button><button class="code-tab" type="button" id="codegroup-4-tab-1" role="tab" aria-controls="codegroup-4-panel-1" aria-selected="false" tabindex="-1">.env</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-4-panel-0" role="tabpanel" aria-labelledby="codegroup-4-tab-0">
+  <pre><code class="hljs language-bash"><span class="hljs-built_in">export</span> GOOGLE_API_KEY=<span class="hljs-string">"your-api-key"</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-4-panel-1" role="tabpanel" aria-labelledby="codegroup-4-tab-1" hidden="">
+  <pre><code class="hljs language-bash">GOOGLE_API_KEY=your-api-key</code></pre>
+</div></div>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-2-panel-2" role="tabpanel" aria-labelledby="tabs-2-tab-2" hidden="">
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-5-tab-0" role="tab" aria-controls="codegroup-5-panel-0" aria-selected="true" tabindex="0">Shell</button><button class="code-tab" type="button" id="codegroup-5-tab-1" role="tab" aria-controls="codegroup-5-panel-1" aria-selected="false" tabindex="-1">.env</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-5-panel-0" role="tabpanel" aria-labelledby="codegroup-5-tab-0">
+  <pre><code class="hljs language-bash"><span class="hljs-built_in">export</span> ANTHROPIC_API_KEY=<span class="hljs-string">"your-api-key"</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-5-panel-1" role="tabpanel" aria-labelledby="codegroup-5-tab-1" hidden="">
+  <pre><code class="hljs language-bash">ANTHROPIC_API_KEY=your-api-key</code></pre>
+</div></div>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-2-panel-3" role="tabpanel" aria-labelledby="tabs-2-tab-3" hidden="">
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-6-tab-0" role="tab" aria-controls="codegroup-6-panel-0" aria-selected="true" tabindex="0">Shell</button><button class="code-tab" type="button" id="codegroup-6-tab-1" role="tab" aria-controls="codegroup-6-panel-1" aria-selected="false" tabindex="-1">.env</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-6-panel-0" role="tabpanel" aria-labelledby="codegroup-6-tab-0">
+  <pre><code class="hljs language-bash"><span class="hljs-built_in">export</span> OPENROUTER_API_KEY=<span class="hljs-string">"your-api-key"</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-6-panel-1" role="tabpanel" aria-labelledby="codegroup-6-tab-1" hidden="">
+  <pre><code class="hljs language-bash">OPENROUTER_API_KEY=your-api-key</code></pre>
+</div></div>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-2-panel-4" role="tabpanel" aria-labelledby="tabs-2-tab-4" hidden="">
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-7-tab-0" role="tab" aria-controls="codegroup-7-panel-0" aria-selected="true" tabindex="0">Shell</button><button class="code-tab" type="button" id="codegroup-7-tab-1" role="tab" aria-controls="codegroup-7-panel-1" aria-selected="false" tabindex="-1">.env</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-7-panel-0" role="tabpanel" aria-labelledby="codegroup-7-tab-0">
+  <pre><code class="hljs language-bash"><span class="hljs-built_in">export</span> FIREWORKS_API_KEY=<span class="hljs-string">"your-api-key"</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-7-panel-1" role="tabpanel" aria-labelledby="codegroup-7-tab-1" hidden="">
+  <pre><code class="hljs language-bash">FIREWORKS_API_KEY=your-api-key</code></pre>
+</div></div>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-2-panel-5" role="tabpanel" aria-labelledby="tabs-2-tab-5" hidden="">
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-8-tab-0" role="tab" aria-controls="codegroup-8-panel-0" aria-selected="true" tabindex="0">Shell</button><button class="code-tab" type="button" id="codegroup-8-tab-1" role="tab" aria-controls="codegroup-8-panel-1" aria-selected="false" tabindex="-1">.env</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-8-panel-0" role="tabpanel" aria-labelledby="codegroup-8-tab-0">
+  <pre><code class="hljs language-bash"><span class="hljs-built_in">export</span> BASETEN_API_KEY=<span class="hljs-string">"your-api-key"</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-8-panel-1" role="tabpanel" aria-labelledby="codegroup-8-tab-1" hidden="">
+  <pre><code class="hljs language-bash">BASETEN_API_KEY=your-api-key</code></pre>
+</div></div>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-2-panel-6" role="tabpanel" aria-labelledby="tabs-2-tab-6" hidden="">
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-9-tab-0" role="tab" aria-controls="codegroup-9-panel-0" aria-selected="true" tabindex="0">Shell</button><button class="code-tab" type="button" id="codegroup-9-tab-1" role="tab" aria-controls="codegroup-9-panel-1" aria-selected="false" tabindex="-1">.env</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-9-panel-0" role="tabpanel" aria-labelledby="codegroup-9-tab-0">
+  <pre><code class="hljs language-bash"><span class="hljs-comment"># Local: Ollama must be running (https://ollama.com)</span>
+<span class="hljs-comment"># Cloud: Set your Ollama API key for hosted inference</span>
+<span class="hljs-built_in">export</span> OLLAMA_API_KEY=<span class="hljs-string">"your-api-key"</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-9-panel-1" role="tabpanel" aria-labelledby="codegroup-9-tab-1" hidden="">
+  <pre><code class="hljs language-bash"><span class="hljs-comment"># Local: Ollama must be running (https://ollama.com)</span>
+<span class="hljs-comment"># Cloud: Set your Ollama API key for hosted inference</span>
+OLLAMA_API_KEY=your-api-key</code></pre>
+</div></div>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-2-panel-7" role="tabpanel" aria-labelledby="tabs-2-tab-7" hidden="">
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-10-tab-0" role="tab" aria-controls="codegroup-10-panel-0" aria-selected="true" tabindex="0">Shell</button><button class="code-tab" type="button" id="codegroup-10-tab-1" role="tab" aria-controls="codegroup-10-panel-1" aria-selected="false" tabindex="-1">.env</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-10-panel-0" role="tabpanel" aria-labelledby="codegroup-10-tab-0">
+  <pre><code class="hljs language-bash"><span class="hljs-built_in">export</span> AZURE_OPENAI_API_KEY=<span class="hljs-string">"your-api-key"</span>
+<span class="hljs-built_in">export</span> AZURE_OPENAI_ENDPOINT=<span class="hljs-string">"https://your-resource.openai.azure.com"</span>
+<span class="hljs-built_in">export</span> AZURE_OPENAI_DEPLOYMENT_NAME=<span class="hljs-string">"your-deployment"</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-10-panel-1" role="tabpanel" aria-labelledby="codegroup-10-tab-1" hidden="">
+  <pre><code class="hljs language-bash">AZURE_OPENAI_API_KEY=your-api-key
+AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com
+AZURE_OPENAI_DEPLOYMENT_NAME=your-deployment</code></pre>
+</div></div>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-2-panel-8" role="tabpanel" aria-labelledby="tabs-2-tab-8" hidden="">
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-11-tab-0" role="tab" aria-controls="codegroup-11-panel-0" aria-selected="true" tabindex="0">Shell</button><button class="code-tab" type="button" id="codegroup-11-tab-1" role="tab" aria-controls="codegroup-11-panel-1" aria-selected="false" tabindex="-1">.env</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-11-panel-0" role="tabpanel" aria-labelledby="codegroup-11-tab-0">
+  <pre><code class="hljs language-bash"><span class="hljs-built_in">export</span> AWS_ACCESS_KEY_ID=<span class="hljs-string">"your-access-key"</span>
+<span class="hljs-built_in">export</span> AWS_SECRET_ACCESS_KEY=<span class="hljs-string">"your-secret-key"</span>
+<span class="hljs-built_in">export</span> AWS_REGION=<span class="hljs-string">"us-east-1"</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-11-panel-1" role="tabpanel" aria-labelledby="codegroup-11-tab-1" hidden="">
+  <pre><code class="hljs language-bash">AWS_ACCESS_KEY_ID=your-access-key
+AWS_SECRET_ACCESS_KEY=your-secret-key
+AWS_REGION=us-east-1</code></pre>
+</div></div>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-2-panel-9" role="tabpanel" aria-labelledby="tabs-2-tab-9" hidden="">
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-12-tab-0" role="tab" aria-controls="codegroup-12-panel-0" aria-selected="true" tabindex="0">Shell</button><button class="code-tab" type="button" id="codegroup-12-tab-1" role="tab" aria-controls="codegroup-12-panel-1" aria-selected="false" tabindex="-1">.env</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-12-panel-0" role="tabpanel" aria-labelledby="codegroup-12-tab-0">
+  <pre><code class="hljs language-bash"><span class="hljs-built_in">export</span> HUGGINGFACEHUB_API_TOKEN=<span class="hljs-string">"hf_..."</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-12-panel-1" role="tabpanel" aria-labelledby="codegroup-12-tab-1" hidden="">
+  <pre><code class="hljs language-bash">HUGGINGFACEHUB_API_TOKEN=hf_...</code></pre>
+</div></div>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-2-panel-10" role="tabpanel" aria-labelledby="tabs-2-tab-10" hidden="">
+<p>查看受支持的 <a href="https://docs.langchain.com/oss/python/integrations/chat" target="_blank" rel="noopener noreferrer">聊天模型集成</a> 完整列表。</p>
+</div></div>
+</div>
+<p>如需加载 <code>.env</code> 文件，请使用 <a href="https://pypi.org/project/python-dotenv/" target="_blank" rel="noopener noreferrer"><code>python-dotenv</code></a>（<code>load_dotenv()</code>）。</p>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>如果你使用 LangSmith <a href="https://docs.langchain.com/langsmith/llm-gateway" target="_blank" rel="noopener noreferrer">LLM Gateway</a>，发往提供商的流量会经由 LangSmith 路由。此时应改用网关密钥作为 API 密钥。</p></div>
+</aside>
+<h2 id="build-a-basic-agent">构建基础智能体<a class="heading-anchor" href="#build-a-basic-agent" aria-label="链接到本节">#</a></h2>
+<p>首先创建一个能够回答问题并调用工具的简单智能体。本示例中的智能体使用所选的语言模型、一个基础的天气函数作为工具，以及一段简单的提示词来引导其行为：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-13-tab-0" role="tab" aria-controls="codegroup-13-panel-0" aria-selected="true" tabindex="0">OpenAI</button><button class="code-tab" type="button" id="codegroup-13-tab-1" role="tab" aria-controls="codegroup-13-panel-1" aria-selected="false" tabindex="-1">Google Gemini</button><button class="code-tab" type="button" id="codegroup-13-tab-2" role="tab" aria-controls="codegroup-13-panel-2" aria-selected="false" tabindex="-1">Claude (Anthropic)</button><button class="code-tab" type="button" id="codegroup-13-tab-3" role="tab" aria-controls="codegroup-13-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-13-tab-4" role="tab" aria-controls="codegroup-13-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-13-tab-5" role="tab" aria-controls="codegroup-13-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-13-tab-6" role="tab" aria-controls="codegroup-13-panel-6" aria-selected="false" tabindex="-1">Ollama</button><button class="code-tab" type="button" id="codegroup-13-tab-7" role="tab" aria-controls="codegroup-13-panel-7" aria-selected="false" tabindex="-1">Azure</button><button class="code-tab" type="button" id="codegroup-13-tab-8" role="tab" aria-controls="codegroup-13-panel-8" aria-selected="false" tabindex="-1">AWS Bedrock</button><button class="code-tab" type="button" id="codegroup-13-tab-9" role="tab" aria-controls="codegroup-13-panel-9" aria-selected="false" tabindex="-1">HuggingFace</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-13-panel-0" role="tabpanel" aria-labelledby="codegroup-13-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"openai:gpt-5.5"</span>,
+    tools=[get_weather],
+    system_prompt=<span class="hljs-string">"You are a helpful assistant"</span>,
+)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]}
+)
+<span class="hljs-built_in">print</span>(result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content_blocks)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-13-panel-1" role="tabpanel" aria-labelledby="codegroup-13-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"google_genai:gemini-2.5-flash-lite"</span>,
+    tools=[get_weather],
+    system_prompt=<span class="hljs-string">"You are a helpful assistant"</span>,
+)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]}
+)
+<span class="hljs-built_in">print</span>(result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content_blocks)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-13-panel-2" role="tabpanel" aria-labelledby="codegroup-13-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"claude-sonnet-4-6"</span>,
+    tools=[get_weather],
+    system_prompt=<span class="hljs-string">"You are a helpful assistant"</span>,
+)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]}
+)
+<span class="hljs-built_in">print</span>(result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content_blocks)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-13-panel-3" role="tabpanel" aria-labelledby="codegroup-13-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"openrouter:anthropic/claude-sonnet-4-6"</span>,
+    tools=[get_weather],
+    system_prompt=<span class="hljs-string">"You are a helpful assistant"</span>,
+)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]}
+)
+<span class="hljs-built_in">print</span>(result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content_blocks)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-13-panel-4" role="tabpanel" aria-labelledby="codegroup-13-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"fireworks:accounts/fireworks/models/qwen3p5-397b-a17b"</span>,
+    tools=[get_weather],
+    system_prompt=<span class="hljs-string">"You are a helpful assistant"</span>,
+)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]}
+)
+<span class="hljs-built_in">print</span>(result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content_blocks)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-13-panel-5" role="tabpanel" aria-labelledby="codegroup-13-tab-5" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>,
+    tools=[get_weather],
+    system_prompt=<span class="hljs-string">"You are a helpful assistant"</span>,
+)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]}
+)
+<span class="hljs-built_in">print</span>(result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content_blocks)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-13-panel-6" role="tabpanel" aria-labelledby="codegroup-13-tab-6" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"ollama:devstral-2"</span>,
+    tools=[get_weather],
+    system_prompt=<span class="hljs-string">"You are a helpful assistant"</span>,
+)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]}
+)
+<span class="hljs-built_in">print</span>(result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content_blocks)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-13-panel-7" role="tabpanel" aria-labelledby="codegroup-13-tab-7" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+model = init_chat_model(
+    <span class="hljs-string">"azure_openai:gpt-5.5"</span>,
+    azure_deployment=os.environ[<span class="hljs-string">"AZURE_OPENAI_DEPLOYMENT_NAME"</span>],
+)
+agent = create_agent(
+    model=model,
+    tools=[get_weather],
+    system_prompt=<span class="hljs-string">"You are a helpful assistant"</span>,
+)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]}
+)
+<span class="hljs-built_in">print</span>(result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content_blocks)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-13-panel-8" role="tabpanel" aria-labelledby="codegroup-13-tab-8" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"bedrock_converse:us.anthropic.claude-sonnet-4-6"</span>,
+    tools=[get_weather],
+    system_prompt=<span class="hljs-string">"You are a helpful assistant"</span>,
+)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]}
+)
+<span class="hljs-built_in">print</span>(result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content_blocks)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-13-panel-9" role="tabpanel" aria-labelledby="codegroup-13-tab-9" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"huggingface:microsoft/Phi-3-mini-4k-instruct"</span>,
+    tools=[get_weather],
+    system_prompt=<span class="hljs-string">"You are a helpful assistant"</span>,
+)
+
+result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What's the weather in San Francisco?"</span>}]}
+)
+<span class="hljs-built_in">print</span>(result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content_blocks)</code></pre>
+</div></div>
+</div>
+<p>运行代码并提示智能体介绍旧金山的天气时，智能体会使用该输入及其可用的上下文。它理解你在询问旧金山这座城市的天气，因此会用提供的城市名调用天气工具。</p>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>你可以通过更改模型名称并设置相应的 API 密钥来使用 <a href="https://docs.langchain.com/oss/python/integrations/providers/overview" target="_blank" rel="noopener noreferrer">任意受支持的模型</a>。使用 <a href="https://smith.langchain.com/?utm_source=docs&amp;utm_medium=cta&amp;utm_campaign=langsmith-signup&amp;utm_content=oss-langchain-quickstart" target="_blank" rel="noopener noreferrer">LangSmith</a> 追踪智能体内部发生的情况。按照 <a href="https://docs.langchain.com/langsmith/trace-with-langchain" target="_blank" rel="noopener noreferrer">追踪快速入门</a> 完成设置。</p>
+<p>我们还建议你设置 <a href="https://docs.langchain.com/langsmith/engine" target="_blank" rel="noopener noreferrer">LangSmith Engine</a>，它会监控你的追踪数据、检测问题并提出修复建议。</p></div>
+</aside>
+<h2 id="build-a-real-world-agent">构建真实场景智能体<a class="heading-anchor" href="#build-a-real-world-agent" aria-label="链接到本节">#</a></h2>
+<p>在下面的示例中，你将构建一个能够回答文本文件相关问题的研究智能体。在此过程中，你将了解以下概念：</p>
+<ol><li><p><strong>详细的系统提示词</strong>，以获得更好的智能体行为</p></li><li><p><strong>创建工具</strong>，与外部数据集成</p></li><li><p><strong>模型配置</strong>，确保响应一致</p></li><li><p><strong>对话记忆</strong>，实现类聊天式交互</p></li><li><p><strong>Deep Agents</strong>，提供内置功能</p></li><li><p><strong>测试</strong>你的智能体</p></li></ol>
+<p><strong>1. 定义系统提示词</strong></p>
+<p>系统提示词定义智能体的角色和行为。请保持具体且可执行：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">SYSTEM_PROMPT = <span class="hljs-string">"""You are a literary data assistant.
+
+## Capabilities
+
+- `fetch_text_from_url`: loads document text from a URL into the conversation.
+Do not guess line counts or positions—ground them in tool results from the saved file."""</span></code></pre>
+</div>
+<p><strong>2. 创建工具</strong></p>
+<p><a href="tools.html">工具</a> 让模型能够通过调用你定义的函数与外部系统交互。工具可以依赖 <a href="runtime.html">运行时上下文</a>，也可以与 <a href="short-term-memory.html">智能体记忆</a> 交互。</p>
+<p>本示例使用一个工具从给定的 URL 加载文档：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">import</span> urllib.error
+<span class="hljs-keyword">import</span> urllib.request
+
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">fetch_text_from_url</span>(<span class="hljs-params">url: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Fetch the document from a URL.
+    """</span>
+    req = urllib.request.Request(
+        url,
+        headers={<span class="hljs-string">"User-Agent"</span>: <span class="hljs-string">"Mozilla/5.0 (compatible; quickstart-research/1.0)"</span>},
+    )
+    <span class="hljs-keyword">try</span>:
+        <span class="hljs-keyword">with</span> urllib.request.urlopen(req, timeout=<span class="hljs-number">120</span>) <span class="hljs-keyword">as</span> resp:
+            raw = resp.read()
+    <span class="hljs-keyword">except</span> urllib.error.URLError <span class="hljs-keyword">as</span> e:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">f"Fetch failed: <span class="hljs-subst">{e}</span>"</span>
+    text = raw.decode(<span class="hljs-string">"utf-8"</span>, errors=<span class="hljs-string">"replace"</span>)
+    <span class="hljs-keyword">return</span> text</code></pre>
+</div>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>工具应有完善的文档：其名称、描述和参数名会成为模型提示词的一部分。LangChain 的 <a href="https://reference.langchain.com/python/langchain-core/tools/convert/tool" target="_blank" rel="noopener noreferrer"><code>@tool</code> 装饰器</a> 会添加元数据，并通过 <code>ToolRuntime</code> 参数启用运行时注入。在 <a href="tools.html">工具指南</a> 中了解更多。</p></div>
+</aside>
+<p><strong>3. 配置模型</strong></p>
+<p>使用适合你的用例的参数设置 <a href="models.html">语言模型</a>。例如：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-14-tab-0" role="tab" aria-controls="codegroup-14-panel-0" aria-selected="true" tabindex="0">OpenAI</button><button class="code-tab" type="button" id="codegroup-14-tab-1" role="tab" aria-controls="codegroup-14-panel-1" aria-selected="false" tabindex="-1">Google Gemini</button><button class="code-tab" type="button" id="codegroup-14-tab-2" role="tab" aria-controls="codegroup-14-panel-2" aria-selected="false" tabindex="-1">Claude (Anthropic)</button><button class="code-tab" type="button" id="codegroup-14-tab-3" role="tab" aria-controls="codegroup-14-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-14-tab-4" role="tab" aria-controls="codegroup-14-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-14-tab-5" role="tab" aria-controls="codegroup-14-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-14-tab-6" role="tab" aria-controls="codegroup-14-panel-6" aria-selected="false" tabindex="-1">Ollama</button><button class="code-tab" type="button" id="codegroup-14-tab-7" role="tab" aria-controls="codegroup-14-panel-7" aria-selected="false" tabindex="-1">Azure</button><button class="code-tab" type="button" id="codegroup-14-tab-8" role="tab" aria-controls="codegroup-14-panel-8" aria-selected="false" tabindex="-1">AWS Bedrock</button><button class="code-tab" type="button" id="codegroup-14-tab-9" role="tab" aria-controls="codegroup-14-panel-9" aria-selected="false" tabindex="-1">HuggingFace</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-14-panel-0" role="tabpanel" aria-labelledby="codegroup-14-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+
+model = init_chat_model(
+    <span class="hljs-string">"openai:gpt-5.5"</span>,
+    temperature=<span class="hljs-number">0.5</span>,
+    timeout=<span class="hljs-number">300</span>,
+    max_tokens=<span class="hljs-number">25000</span>,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-14-panel-1" role="tabpanel" aria-labelledby="codegroup-14-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+
+model = init_chat_model(
+    <span class="hljs-string">"gemini-3.1-pro-preview"</span>,
+    model_provider=<span class="hljs-string">"google-genai"</span>,
+    temperature=<span class="hljs-number">0.5</span>,
+    timeout=<span class="hljs-number">600</span>,
+    max_tokens=<span class="hljs-number">25000</span>,
+    streaming=<span class="hljs-literal">True</span>,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-14-panel-2" role="tabpanel" aria-labelledby="codegroup-14-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+
+model = init_chat_model(
+    <span class="hljs-string">"claude-sonnet-4-6"</span>,
+    temperature=<span class="hljs-number">0.5</span>,
+    timeout=<span class="hljs-number">600</span>,
+    max_tokens=<span class="hljs-number">25000</span>,
+    streaming=<span class="hljs-literal">True</span>,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-14-panel-3" role="tabpanel" aria-labelledby="codegroup-14-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+
+model = init_chat_model(
+    <span class="hljs-string">"openrouter:anthropic/claude-sonnet-4-6"</span>,
+    temperature=<span class="hljs-number">0.5</span>,
+    timeout=<span class="hljs-number">300</span>,
+    max_tokens=<span class="hljs-number">25000</span>,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-14-panel-4" role="tabpanel" aria-labelledby="codegroup-14-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+
+model = init_chat_model(
+    <span class="hljs-string">"fireworks:accounts/fireworks/models/qwen3p5-397b-a17b"</span>,
+    temperature=<span class="hljs-number">0.5</span>,
+    timeout=<span class="hljs-number">300</span>,
+    max_tokens=<span class="hljs-number">25000</span>,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-14-panel-5" role="tabpanel" aria-labelledby="codegroup-14-tab-5" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+
+model = init_chat_model(
+    <span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>,
+    temperature=<span class="hljs-number">0.5</span>,
+    timeout=<span class="hljs-number">300</span>,
+    max_tokens=<span class="hljs-number">25000</span>,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-14-panel-6" role="tabpanel" aria-labelledby="codegroup-14-tab-6" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+
+model = init_chat_model(
+    <span class="hljs-string">"ollama:devstral-2"</span>,
+    temperature=<span class="hljs-number">0.5</span>,
+    timeout=<span class="hljs-number">300</span>,
+    max_tokens=<span class="hljs-number">25000</span>,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-14-panel-7" role="tabpanel" aria-labelledby="codegroup-14-tab-7" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+
+model = init_chat_model(
+    <span class="hljs-string">"azure_openai:gpt-5.5"</span>,
+    temperature=<span class="hljs-number">0.5</span>,
+    timeout=<span class="hljs-number">300</span>,
+    max_tokens=<span class="hljs-number">25000</span>,
+    azure_deployment=os.environ[<span class="hljs-string">"AZURE_OPENAI_DEPLOYMENT_NAME"</span>],
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-14-panel-8" role="tabpanel" aria-labelledby="codegroup-14-tab-8" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+
+model = init_chat_model(
+    <span class="hljs-string">"us.anthropic.claude-sonnet-4-6"</span>,
+    model_provider=<span class="hljs-string">"bedrock_converse"</span>,
+    temperature=<span class="hljs-number">0.5</span>,
+    timeout=<span class="hljs-number">300</span>,
+    max_tokens=<span class="hljs-number">25000</span>,
+)</code></pre>
+</div>
+<div class="code-panel" id="codegroup-14-panel-9" role="tabpanel" aria-labelledby="codegroup-14-tab-9" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+
+model = init_chat_model(
+    <span class="hljs-string">"microsoft/Phi-3-mini-4k-instruct"</span>,
+    model_provider=<span class="hljs-string">"huggingface"</span>,
+    temperature=<span class="hljs-number">0.5</span>,
+    timeout=<span class="hljs-number">300</span>,
+    max_tokens=<span class="hljs-number">25000</span>,
+)</code></pre>
+</div></div>
+</div>
+<p>根据所选的模型和提供商，初始化参数可能有所不同；详情请参阅其参考页面。</p>
+<p><strong>4. 添加记忆</strong></p>
+<p>为智能体添加 <a href="short-term-memory.html">记忆</a>，以便在多次交互之间保持状态。这使智能体能够记住之前的对话和上下文。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+checkpointer = InMemorySaver()</code></pre>
+</div>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>在生产环境中，应使用可将消息历史保存到数据库的持久化检查点存储。更多详情请参阅 <a href="https://docs.langchain.com/oss/python/langgraph/add-memory#manage-short-term-memory" target="_blank" rel="noopener noreferrer">添加和管理记忆</a>。</p></div>
+</aside>
+<p><strong>5. 创建并运行智能体</strong></p>
+<p>现在，用上述所有组件组装你的智能体并运行它。</p>
+<p>创建智能体有两种不同的框架：LangChain 智能体和 Deep Agents。LangChain 与 Deep Agents 都为你提供对工具、记忆等的细粒度控制。两者的主要区别在于，Deep Agents 已内置一系列常用能力，例如规划、文件系统工具和子智能体。</p>
+<p>当你希望以最少配置获得最强能力时，请使用 Deep Agents；当你需要细粒度控制时，请选择 LangChain 智能体。</p>
+<p>为了在本步骤中对比两者，请安装 <code>deepagents</code> 包：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-15-tab-0" role="tab" aria-controls="codegroup-15-panel-0" aria-selected="true" tabindex="0">uv</button><button class="code-tab" type="button" id="codegroup-15-tab-1" role="tab" aria-controls="codegroup-15-panel-1" aria-selected="false" tabindex="-1">pip</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-15-panel-0" role="tabpanel" aria-labelledby="codegroup-15-tab-0">
+  <pre><code class="hljs language-bash">uv add deepagents</code></pre>
+</div>
+<div class="code-panel" id="codegroup-15-panel-1" role="tabpanel" aria-labelledby="codegroup-15-tab-1" hidden="">
+  <pre><code class="hljs language-bash">pip install -U deepagents</code></pre>
+</div></div>
+</div>
+<aside class="callout callout-warning">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>警告</span></div>
+  <div class="callout-body"><p>本示例会把《了不起的盖茨比》的全文发送给模型，响应可能需要一两分钟。你可以在下一步中查看示例输出。</p></div>
+</aside>
+<p>下面把两者都试一下：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> deepagents <span class="hljs-keyword">import</span> create_deep_agent
+
+agent = create_agent(
+    model=model,
+    tools=[fetch_text_from_url],
+    system_prompt=SYSTEM_PROMPT,
+    checkpointer=checkpointer,
+)
+
+deep_agent = create_deep_agent(
+    model=model,
+    tools=[fetch_text_from_url],
+    system_prompt=SYSTEM_PROMPT,
+    checkpointer=checkpointer,
+)
+
+content = <span class="hljs-string">f"""Project Gutenberg hosts a full plain-text copy of F. Scott Fitzgerald's The Great Gatsby.
+URL: https://www.gutenberg.org/files/64317/64317-0.txt
+
+Answer as much as you can:
+
+1) How many lines in the complete Gutenberg file contain the substring `Gatsby` (count lines, not occurrences within a line, each line ends with a line break).
+2) The 1-based line number of the first line in the file that contains `Daisy`.
+3) A two-sentence neutral synopsis.
+
+Do your best on (1) and (2). If at any point you realize you cannot **verify** an exact answer with
+your available tools and reasoning, do not fabricate numbers: use `null` for that field and spell out
+the limitation in `how_you_computed_counts`. If you encounter any errors please report what the error was and what the error message was."""</span>
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">"Running create_agent..."</span>, flush=<span class="hljs-literal">True</span>)
+agent_result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: content}]},
+    config={<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-string">"great-gatsby-lc"</span>}},
+)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">"Running create_deep_agent..."</span>, flush=<span class="hljs-literal">True</span>)
+deep_agent_result = deep_agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: content}]},
+    config={<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-string">"great-gatsby-da"</span>}},
+)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">"\ncreate_agent:"</span>)
+<span class="hljs-built_in">print</span>(agent_result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content_blocks)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">"\ncreate_deep_agent:"</span>)
+<span class="hljs-built_in">print</span>(deep_agent_result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content_blocks)</code></pre>
+</div>
+<p>下面的折叠面板把全部内容整合在一个可运行的脚本中：</p>
+<p><strong>完整示例代码</strong></p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">import</span> urllib.error
+<span class="hljs-keyword">import</span> urllib.request
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> deepagents <span class="hljs-keyword">import</span> create_deep_agent
+<span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+<span class="hljs-keyword">from</span> langchain.tools <span class="hljs-keyword">import</span> tool
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+SYSTEM_PROMPT = <span class="hljs-string">"""You are a literary data assistant.
+
+## Capabilities
+
+- `fetch_text_from_url`: loads document text from a URL into the conversation.
+Do not guess line counts or positions—ground them in tool results from the saved file."""</span>
+
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">fetch_text_from_url</span>(<span class="hljs-params">url: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Fetch the document from a URL.
+    """</span>
+    req = urllib.request.Request(
+        url,
+        headers={<span class="hljs-string">"User-Agent"</span>: <span class="hljs-string">"Mozilla/5.0 (compatible; quickstart-research/1.0)"</span>},
+    )
+    <span class="hljs-keyword">try</span>:
+        <span class="hljs-keyword">with</span> urllib.request.urlopen(req, timeout=<span class="hljs-number">120</span>) <span class="hljs-keyword">as</span> resp:
+            raw = resp.read()
+    <span class="hljs-keyword">except</span> urllib.error.URLError <span class="hljs-keyword">as</span> e:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">f"Fetch failed: <span class="hljs-subst">{e}</span>"</span>
+    text = raw.decode(<span class="hljs-string">"utf-8"</span>, errors=<span class="hljs-string">"replace"</span>)
+    <span class="hljs-keyword">return</span> text
+
+
+model = init_chat_model(
+    <span class="hljs-string">"gemini-3.1-pro-preview"</span>,
+    model_provider=<span class="hljs-string">"google-genai"</span>,
+    temperature=<span class="hljs-number">0.5</span>,
+    timeout=<span class="hljs-number">600</span>,
+    max_tokens=<span class="hljs-number">25000</span>,
+    streaming=<span class="hljs-literal">True</span>,
+)
+
+checkpointer = InMemorySaver()
+
+agent = create_agent(
+    model=model,
+    tools=[fetch_text_from_url],
+    system_prompt=SYSTEM_PROMPT,
+    checkpointer=checkpointer,
+)
+
+deep_agent = create_deep_agent(
+    model=model,
+    tools=[fetch_text_from_url],
+    system_prompt=SYSTEM_PROMPT,
+    checkpointer=checkpointer,
+)
+
+content = <span class="hljs-string">f"""Project Gutenberg hosts a full plain-text copy of F. Scott Fitzgerald's The Great Gatsby.
+URL: https://www.gutenberg.org/files/64317/64317-0.txt
+
+Answer as much as you can:
+
+1) How many lines in the complete Gutenberg file contain the substring `Gatsby` (count lines, not occurrences within a line, each line ends with a line break).
+2) The 1-based line number of the first line in the file that contains `Daisy`.
+3) A two-sentence neutral synopsis.
+
+Do your best on (1) and (2). If at any point you realize you cannot **verify** an exact answer with
+your available tools and reasoning, do not fabricate numbers: use `null` for that field and spell out
+the limitation in `how_you_computed_counts`. If you encounter any errors please report what the error was and what the error message was."""</span>
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">"Running create_agent..."</span>, flush=<span class="hljs-literal">True</span>)
+agent_result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: content}]},
+    config={<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-string">"great-gatsby-lc"</span>}},
+)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">"Running create_deep_agent..."</span>, flush=<span class="hljs-literal">True</span>)
+deep_agent_result = deep_agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: content}]},
+    config={<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-string">"great-gatsby-da"</span>}},
+)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">"\ncreate_agent:"</span>)
+<span class="hljs-built_in">print</span>(agent_result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content_blocks)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">"\ncreate_deep_agent:"</span>)
+<span class="hljs-built_in">print</span>(deep_agent_result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].content_blocks)</code></pre>
+</div>
+<p><strong>6. 查看结果</strong></p>
+<p>结果会因模型和执行情况而有所不同。</p>
+<div class="doc-tabs" data-doc-tabs="">
+  <div class="doc-tab-list" role="tablist" aria-label="切换标签"><button class="doc-tab" type="button" id="tabs-16-tab-0" role="tab" aria-controls="tabs-16-panel-0" aria-selected="true" tabindex="0">LangChain agents</button><button class="doc-tab" type="button" id="tabs-16-tab-1" role="tab" aria-controls="tabs-16-panel-1" aria-selected="false" tabindex="-1">Deep agents</button></div>
+  <div class="doc-tab-panels"><div class="doc-tab-panel" id="tabs-16-panel-0" role="tabpanel" aria-labelledby="tabs-16-tab-0">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">wrap expandable</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-txt">**1) Number of lines containing `Gatsby`:** `null`
+
+**2) First line containing `Daisy`:** `null`
+
+**3) Synopsis:**
+The Great Gatsby follows the mysterious millionaire Jay Gatsby and his obsession with reuniting with his former lover, Daisy Buchanan, as narrated by his neighbor Nick Carraway. Set against the backdrop of the Roaring Twenties on Long Island, the novel explores themes of wealth, class, and the elusive nature of the American Dream.
+
+**how_you_computed_counts:**
+I successfully fetched the full text of the eBook using the `fetch_text_from_url` tool. However, because I do not have access to a code execution environment (like Python) or text-processing tools (like `grep`), I cannot deterministically split the text by line breaks, iterate through the thousands of lines, and verify the exact line numbers or match counts. LLMs cannot reliably perform exact line-counting or indexing over massive texts within their context window without external computational tools. As instructed, rather than fabricating or guessing a number, I have output `null` for the exact counts and positions.</code></pre>
+</div>
+</div>
+<div class="doc-tab-panel" id="tabs-16-panel-1" role="tabpanel" aria-labelledby="tabs-16-tab-1" hidden="">
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">wrap expandable</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-txt">Based on the text fetched directly from the Gutenberg URL and analyzed using filesystem search tools, here are the answers to your questions:
+
+**1) Lines containing the substring `Gatsby`**
+**258** lines contain the exact substring `Gatsby`.
+
+**2) First line containing `Daisy`**
+Line **181** is the first line in the file that contains the exact substring `Daisy`.
+*(For context, the line reads: "Buchanans. Daisy was my second cousin once removed, and I’d known Tom")*
+
+**3) Two-sentence neutral synopsis**
+*The Great Gatsby* follows the mysterious millionaire Jay Gatsby and his obsessive pursuit to reunite with his former lover, Daisy Buchanan, in 1920s Long Island. The story is narrated by Nick Carraway, who observes the tragic consequences of Gatsby's relentless ambition and the shallow materialism of the era's wealthy elite.
+
+***
+
+**How counts were computed:**
+When fetching the document from the URL, the file was too large for the standard output and was automatically saved to the local filesystem by the system (`/large_tool_results/x246ax2x`). I then used the `grep` tool to search the saved file for the exact literal substrings `Gatsby` and `Daisy`. The `grep` tool returned every matching line along with its 1-based line number. I manually counted the exact number of lines returned for `Gatsby` (which totaled 258) and identified the first line number returned for `Daisy` (which was 181). I also verified there were no uppercase variations (`GATSBY` or `DAISY`) that would have been missed. No errors were encountered during this process.</code></pre>
+</div>
+</div></div>
+</div>
+<p>如果查看两个标签页上的输出，你会注意到 LangChain 智能体给出了答案，但这些答案只是估算。该智能体缺少回答这个问题的工具。你还可能遇到提示词过长的错误。</p>
+<p>而 Deep Agents 则可以：</p>
+<ol><li><p><strong>规划实现方式</strong>，借助内置的 <a href="https://docs.langchain.com/oss/python/deepagents/harness#task-planning" target="_blank" rel="noopener noreferrer"><code>write_todos</code></a> 工具来拆解研究任务。</p></li><li><p><strong>加载文件</strong>，通过调用 <code>fetch_text_from_url</code> 工具来收集信息。</p></li><li><p><strong>管理上下文</strong>，使用文件系统工具（<a href="https://docs.langchain.com/oss/python/deepagents/harness#virtual-filesystem-access" target="_blank" rel="noopener noreferrer"><code>grep</code></a> 和 <a href="https://docs.langchain.com/oss/python/deepagents/harness#virtual-filesystem-access" target="_blank" rel="noopener noreferrer"><code>read_file</code></a>）。</p></li><li><p><strong>派生子智能体</strong>，按需将复杂子任务委派给专门的子智能体。</p></li></ol>
+<p>对于 LangChain 智能体，你需要自行实现更多能力才能达到类似的服务水平，并且可以在使用过程中按需进行定制。</p>
+<h2 id="trace-agent-calls">追踪智能体调用<a class="heading-anchor" href="#trace-agent-calls" aria-label="链接到本节">#</a></h2>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>在<a href="https://docs.langchain.com/langsmith/agent-registry" target="_blank" rel="noopener noreferrer">基于智能体的工作区</a>中，需先<a href="https://docs.langchain.com/langsmith/create-an-agent" target="_blank" rel="noopener noreferrer">创建智能体</a>一次，然后再发送追踪数据。使用<a href="https://docs.langchain.com/langsmith/log-traces-to-agent" target="_blank" rel="noopener noreferrer">智能体寻址</a>来选择其标识符和环境。如果某个集成需要 <code>project_name</code>，请使用所选环境的 <a href="https://docs.langchain.com/langsmith/create-an-agent#use-an-environment-project" target="_blank" rel="noopener noreferrer"><code>tracer_session_name</code></a> 作为兼容值。</p></div>
+</aside>
+<p>你用 LangChain 构建的大多数有价值的智能体都会多次调用 LLM。随着这些智能体变得愈发复杂，能够检查智能体内部究竟发生了什么就变得很重要。最好的方式是使用<a href="https://smith.langchain.com/?utm_source=docs&amp;utm_medium=cta&amp;utm_campaign=langsmith-signup&amp;utm_content=oss-langchain-quickstart" target="_blank" rel="noopener noreferrer">LangSmith</a>。</p>
+<p>注册<a href="https://smith.langchain.com/?utm_source=docs&amp;utm_medium=cta&amp;utm_campaign=langsmith-signup&amp;utm_content=oss-langchain-quickstart" target="_blank" rel="noopener noreferrer">LangSmith</a>账号并设置以下环境变量，即可开始记录追踪数据：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">bash</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash"><span class="hljs-built_in">export</span> LANGSMITH_AGENT_ID=<span class="hljs-string">"&lt;your-agent-id&gt;"</span>
+<span class="hljs-built_in">export</span> LANGSMITH_AGENT_ENVIRONMENT=<span class="hljs-string">"local"</span>
+<span class="hljs-built_in">export</span> LANGSMITH_TRACING=<span class="hljs-string">"true"</span>
+<span class="hljs-built_in">export</span> LANGSMITH_API_KEY=<span class="hljs-string">"..."</span></code></pre>
+</div>
+<p>设置完成后，再次运行脚本，然后在<a href="https://smith.langchain.com/?utm_source=docs&amp;utm_medium=cta&amp;utm_campaign=langsmith-signup&amp;utm_content=oss-langchain-quickstart" target="_blank" rel="noopener noreferrer">LangSmith</a> 上查看智能体调用期间发生了什么。</p>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>如需进一步了解如何使用 LangSmith 追踪你的智能体，请参阅<a href="https://docs.langchain.com/langsmith/trace-with-langchain" target="_blank" rel="noopener noreferrer">LangSmith 文档</a>。</p>
+<p>我们还建议你设置<a href="https://docs.langchain.com/langsmith/engine" target="_blank" rel="noopener noreferrer">LangSmith Engine</a>，它可以监控你的追踪数据、检测问题并提出修复建议。</p></div>
+</aside>
+<h2 id="next-steps">后续步骤<a class="heading-anchor" href="#next-steps" aria-label="链接到本节">#</a></h2>
+<p>现在你拥有的智能体可以：</p>
+<ul><li><p><strong>理解上下文</strong>并记住对话</p></li><li><p><strong>使用工具</strong>并智能地运用</p></li><li><p><strong>提供结构化响应</strong>，并保持格式一致</p></li><li><p><strong>处理用户特定信息</strong>，通过上下文实现</p></li><li><p><strong>维护对话状态</strong>，贯穿各次交互</p></li><li><p><strong>规划、研究与综合</strong>（仅限 Deep Agents）</p></li></ul>
+<p>继续阅读：</p>
+<ul><li><p><strong>LangChain 智能体</strong>：<a href="https://docs.langchain.com/oss/python/langgraph/add-memory#manage-short-term-memory" target="_blank" rel="noopener noreferrer">添加和管理记忆</a>、<a href="https://docs.langchain.com/oss/python/langgraph/deploy" target="_blank" rel="noopener noreferrer">部署到生产环境</a></p></li><li><p><strong>Deep Agents</strong>：<a href="https://docs.langchain.com/oss/python/deepagents/customization" target="_blank" rel="noopener noreferrer">定制选项</a>、<a href="https://docs.langchain.com/oss/python/deepagents/memory" target="_blank" rel="noopener noreferrer">持久化记忆</a>、<a href="https://docs.langchain.com/oss/python/langgraph/deploy" target="_blank" rel="noopener noreferrer">部署到生产环境</a></p></li></ul></article>
+        <nav class="pager" aria-label="翻页"><a class="prev" href="install.html"><span class="pager-label">上一篇</span><span class="pager-title">安装 LangChain</span></a><a class="next" href="philosophy.html"><span class="pager-label">下一篇</span><span class="pager-title">设计理念</span></a></nav>
+        <footer class="page-footer">
+          <p>本页为社区维护的简体中文翻译，不是 LangChain 官方文档。如与英文原文有出入，请以 <a href="https://docs.langchain.com/oss/python/langchain/quickstart" target="_blank" rel="noopener noreferrer">英文原文</a> 为准。</p>
+        </footer>
+      </div>
+    </main>
+    <aside class="toc" aria-label="本页目录"><div class="toc-inner"><div class="toc-title">本页目录</div><a class="toc-link level-2" href="#step-1-read-the-guide">第 1 步：阅读指南</a><a class="toc-link level-2" href="#step-2-install-dependencies">第 2 步：安装依赖</a><a class="toc-link level-2" href="#step-3-configure-model-credentials">第 3 步：配置模型凭据</a><a class="toc-link level-2" href="#step-4-implement-the-basic-agent">第 4 步：实现基础智能体</a><a class="toc-link level-2" href="#step-5-optional-langsmith-tracing">第 5 步：可选的 LangSmith 追踪</a><a class="toc-link level-2" href="#rules">规则</a><a class="toc-link level-2" href="#install-dependencies">安装依赖</a><a class="toc-link level-2" href="#set-up-api-keys">设置 API 密钥</a><a class="toc-link level-2" href="#build-a-basic-agent">构建基础智能体</a><a class="toc-link level-2" href="#build-a-real-world-agent">构建真实场景智能体</a><a class="toc-link level-2" href="#trace-agent-calls">追踪智能体调用</a><a class="toc-link level-2" href="#next-steps">后续步骤</a></div></aside>
+  </div>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p><strong>LangChain 中文文档</strong> · 社区翻译，非官方站点。内容基于 <a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener noreferrer">docs.langchain.com</a> 的 LangChain（Python）文档生成。</p>
+      <p>共 59 篇 · 代码示例保持英文原样 · 以英文原文为准</p>
+    </div>
+  </footer>
+  <button class="back-top" type="button" data-back-top aria-label="回到顶部">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script src="assets/docs.js" defer></script>
+</body>
+</html>

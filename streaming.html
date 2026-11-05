@@ -1,0 +1,1282 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>流式传输 | LangChain 中文文档</title>
+  <meta name="description" content="流式传输智能体运行过程中的实时更新">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M12.5 19.5l7-7M10 22l-1 1a4 4 0 0 1-5.7-5.7l3.4-3.4a4 4 0 0 1 5.7 0M22 10l1-1a4 4 0 0 1 5.7 5.7l-3.4 3.4a4 4 0 0 1-5.7 0' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>(function(){try{var t=localStorage.getItem('lc-docs-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();</script>
+  <link rel="stylesheet" href="assets/docs.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <div id="progress" data-progress></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="打开文档导航" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="LangChain 中文文档首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9.4 14.6l5.2-5.2M7.1 16.9l-1.4 1.4a3.7 3.7 0 0 1-5.2-5.2l3.2-3.2a3.7 3.7 0 0 1 5.2 0M16.9 7.1l1.4-1.4a3.7 3.7 0 0 1 5.2 5.2l-3.2 3.2a3.7 3.7 0 0 1-5.2 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text">LangChain <span class="brand-sub">中文文档</span></span>
+      </a>
+      <nav class="top-nav" aria-label="主导航">
+        <a class="top-link active" href="index.html" aria-current="page">LangChain</a>
+        <a class="top-link" href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph</a>
+        <a class="top-link" href="https://docs.langchain.com/langsmith/home" target="_blank" rel="noopener noreferrer">LangSmith</a>
+        <a class="top-link" href="https://reference.langchain.com/python/langchain/" target="_blank" rel="noopener noreferrer">API 参考</a>
+      </nav>
+      <div class="header-actions">
+        <a class="source-link" href="https://docs.langchain.com/oss/python/langchain/streaming" target="_blank" rel="noopener noreferrer">English <span aria-hidden="true">↗</span></a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="切换到深色模式" aria-pressed="false" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.2v1.6M10 16.2v1.6M2.2 10h1.6M16.2 10h1.6M4.5 4.5l1.1 1.1M14.4 14.4l1.1 1.1M15.5 4.5l-1.1 1.1M5.6 14.4l-1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.4 12.1A6.6 6.6 0 0 1 7.9 3.6 6.8 6.8 0 1 0 16.4 12.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" id="sidebar" aria-label="文档导航">
+      <div class="sidebar-head">
+        <div class="sidebar-title">文档目录</div>
+        <div class="nav-search">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="5.2" stroke="currentColor" stroke-width="1.4"/><path d="m13 13 3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="搜索页面…" aria-label="搜索文档页面" data-nav-search autocomplete="off" spellcheck="false">
+          <span class="search-hint" aria-hidden="true">/</span>
+        </div>
+      </div>
+      <div class="sidebar-scroll"><nav class="nav" id="doc-nav" aria-label="文档页面"><div class="nav-home"><a class="nav-link" href="index.html" data-search="LangChain 概览 LangChain overview index  "><span class="nav-dot" aria-hidden="true"></span><span>LangChain 概览</span></a></div><section class="nav-section" data-nav-section><div class="nav-section-title">开始使用</div><a class="nav-link" href="install.html" data-search="安装 LangChain Install LangChain install Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>安装 LangChain</span></a><a class="nav-link" href="quickstart.html" data-search="快速开始 Quickstart quickstart Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>快速开始</span></a><a class="nav-link" href="philosophy.html" data-search="设计理念 Philosophy philosophy Get started 开始使用 开始使用"><span class="nav-dot" aria-hidden="true"></span><span>设计理念</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">核心组件</div><a class="nav-link" href="agents.html" data-search="智能体 Agents agents Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>智能体</span></a><a class="nav-link" href="models.html" data-search="模型 Models models Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>模型</span></a><a class="nav-link" href="messages.html" data-search="消息 Messages messages Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>消息</span></a><a class="nav-link" href="tools.html" data-search="工具 Tools tools Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>工具</span></a><a class="nav-link" href="short-term-memory.html" data-search="短期记忆 Short-term memory short-term-memory Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>短期记忆</span></a><a class="nav-link" href="event-streaming.html" data-search="事件流 Event streaming event-streaming Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>事件流</span></a><a class="nav-link active" href="streaming.html" data-search="流式传输 Streaming streaming Core components 核心组件 核心组件" aria-current="page"><span class="nav-dot" aria-hidden="true"></span><span>流式传输</span></a><a class="nav-link" href="structured-output.html" data-search="结构化输出 Structured output structured-output Core components 核心组件 核心组件"><span class="nav-dot" aria-hidden="true"></span><span>结构化输出</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">中间件</div><a class="nav-link" href="middleware-overview.html" data-search="中间件概览 Middleware overview middleware-overview Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>中间件概览</span></a><a class="nav-link" href="middleware-built-in.html" data-search="预置中间件 Prebuilt middleware middleware-built-in Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>预置中间件</span></a><a class="nav-link" href="middleware-custom.html" data-search="自定义中间件 Custom middleware middleware-custom Middleware 中间件 中间件"><span class="nav-dot" aria-hidden="true"></span><span>自定义中间件</span></a></section><section class="nav-section" data-nav-section><div class="nav-section-title">前端</div><a class="nav-link" href="frontend-overview.html" data-search="前端概览 Overview frontend-overview Frontend 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端概览</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">模式</div><a class="nav-link" href="frontend-markdown-messages.html" data-search="Markdown 消息 Markdown messages frontend-markdown-messages Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>Markdown 消息</span></a><a class="nav-link" href="frontend-tool-calling.html" data-search="工具调用 Tool calling frontend-tool-calling Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>工具调用</span></a><a class="nav-link" href="frontend-headless-tools.html" data-search="无头工具 Headless tools frontend-headless-tools Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>无头工具</span></a><a class="nav-link" href="frontend-human-in-the-loop.html" data-search="前端人在回路 Human-in-the-Loop frontend-human-in-the-loop Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端人在回路</span></a><a class="nav-link" href="frontend-branching-chat.html" data-search="分支对话 Branching chat frontend-branching-chat Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>分支对话</span></a><a class="nav-link" href="frontend-reasoning-tokens.html" data-search="推理 token Reasoning tokens frontend-reasoning-tokens Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>推理 token</span></a><a class="nav-link" href="frontend-structured-output.html" data-search="前端结构化输出 Structured output frontend-structured-output Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>前端结构化输出</span></a><a class="nav-link" href="frontend-message-queues.html" data-search="消息队列 Message queues frontend-message-queues Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>消息队列</span></a><a class="nav-link" href="frontend-join-rejoin.html" data-search="断开与重连流 Join &amp; rejoin streams frontend-join-rejoin Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>断开与重连流</span></a><a class="nav-link" href="frontend-time-travel.html" data-search="时间旅行 Time travel frontend-time-travel Frontend Patterns 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>时间旅行</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">生成式 UI</div><a class="nav-link" href="frontend-generative-ui-overview.html" data-search="生成式 UI 概览 Generative UI overview frontend-generative-ui-overview Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>生成式 UI 概览</span></a><a class="nav-link" href="frontend-controlled-generative-ui.html" data-search="受控生成式 UI Controlled generative UI frontend-controlled-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>受控生成式 UI</span></a><a class="nav-link" href="frontend-declarative-generative-ui.html" data-search="声明式生成式 UI Declarative generative UI frontend-declarative-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>声明式生成式 UI</span></a><a class="nav-link" href="frontend-open-ended-generative-ui.html" data-search="开放式生成式 UI Open-ended generative UI frontend-open-ended-generative-ui Frontend Patterns Generative UI 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>开放式生成式 UI</span></a></div></div><div class="nav-subgroup"><div class="nav-subgroup-title">集成</div><a class="nav-link" href="frontend-integrations-overview.html" data-search="集成概览 Overview frontend-integrations-overview Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>集成概览</span></a><a class="nav-link" href="frontend-integrations-copilotkit.html" data-search="CopilotKit CopilotKit frontend-integrations-copilotkit Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>CopilotKit</span></a><a class="nav-link" href="frontend-integrations-ai-elements.html" data-search="AI Elements AI Elements frontend-integrations-ai-elements Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>AI Elements</span></a><a class="nav-link" href="frontend-integrations-assistant-ui.html" data-search="assistant-ui assistant-ui frontend-integrations-assistant-ui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>assistant-ui</span></a><a class="nav-link" href="frontend-integrations-openui.html" data-search="OpenUI OpenUI frontend-integrations-openui Frontend Integrations 前端 前端"><span class="nav-dot" aria-hidden="true"></span><span>OpenUI</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">高级用法</div><a class="nav-link" href="guardrails.html" data-search="护栏 Guardrails guardrails Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>护栏</span></a><a class="nav-link" href="runtime.html" data-search="运行时 Runtime runtime Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>运行时</span></a><a class="nav-link" href="context-engineering.html" data-search="智能体中的上下文工程 Context engineering in agents context-engineering Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>智能体中的上下文工程</span></a><a class="nav-link" href="human-in-the-loop.html" data-search="人在回路 Human-in-the-loop human-in-the-loop Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>人在回路</span></a><a class="nav-link" href="retrieval.html" data-search="检索 Retrieval retrieval Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>检索</span></a><a class="nav-link" href="long-term-memory.html" data-search="长期记忆 Long-term memory long-term-memory Advanced usage 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>长期记忆</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">MCP</div><a class="nav-link" href="mcp.html" data-search="MCP 概述 Model Context Protocol (MCP) mcp Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 概述</span></a><a class="nav-link" href="mcp-tools.html" data-search="MCP 工具 Tools mcp-tools Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 工具</span></a><a class="nav-link" href="mcp-connections.html" data-search="MCP 连接 Connections mcp-connections Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 连接</span></a><a class="nav-link" href="mcp-auth.html" data-search="MCP 认证 Authentication mcp-auth Advanced usage MCP 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>MCP 认证</span></a></div><div class="nav-subgroup"><div class="nav-subgroup-title">多智能体</div><a class="nav-link" href="multi-agent.html" data-search="多智能体 Multi-agent multi-agent Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>多智能体</span></a><a class="nav-link" href="multi-agent-subagents.html" data-search="子智能体 Subagents multi-agent-subagents Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>子智能体</span></a><a class="nav-link" href="multi-agent-handoffs.html" data-search="交接 Handoffs multi-agent-handoffs Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>交接</span></a><a class="nav-link" href="multi-agent-skills.html" data-search="技能 Skills multi-agent-skills Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>技能</span></a><a class="nav-link" href="multi-agent-router.html" data-search="路由器 Router multi-agent-router Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>路由器</span></a><a class="nav-link" href="multi-agent-custom-workflow.html" data-search="自定义工作流 Custom workflow multi-agent-custom-workflow Advanced usage Multi-agent 高级用法 高级用法"><span class="nav-dot" aria-hidden="true"></span><span>自定义工作流</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">智能体开发</div><a class="nav-link" href="studio.html" data-search="LangSmith Studio LangSmith Studio studio Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith Studio</span></a><a class="nav-link" href="ui.html" data-search="Agent Chat UI Agent Chat UI ui Agent development 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>Agent Chat UI</span></a><div class="nav-subgroup"><div class="nav-subgroup-title">测试</div><a class="nav-link" href="test.html" data-search="测试 Test test Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>测试</span></a><a class="nav-link" href="test-unit-testing.html" data-search="单元测试 Unit testing test-unit-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>单元测试</span></a><a class="nav-link" href="test-integration-testing.html" data-search="集成测试 Integration testing test-integration-testing Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>集成测试</span></a><a class="nav-link" href="test-evals.html" data-search="智能体评估 Agent Evals test-evals Agent development Test 智能体开发 智能体开发"><span class="nav-dot" aria-hidden="true"></span><span>智能体评估</span></a></div></section><section class="nav-section" data-nav-section><div class="nav-section-title">生产</div><a class="nav-link" href="deploy.html" data-search="部署 Deployment deploy Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>部署</span></a><a class="nav-link" href="observability.html" data-search="LangSmith 可观测性 LangSmith Observability observability Production 生产 生产"><span class="nav-dot" aria-hidden="true"></span><span>LangSmith 可观测性</span></a></section><div class="nav-empty" data-nav-empty hidden>没有匹配的页面</div></nav></div>
+      <div class="sidebar-foot"><strong>59 篇</strong> · 社区翻译</div>
+    </aside>
+    <div class="sidebar-overlay" data-sidebar-overlay></div>
+    <main class="main" id="main">
+      <div class="content-wrap">
+        <nav class="breadcrumbs" aria-label="面包屑"><a href="index.html">LangChain</a><span class="sep">/</span><span>核心组件</span><span class="sep">/</span><span class="current">流式传输</span></nav>
+        <header class="page-header">
+          <h1>流式传输</h1>
+          <div class="page-lead">流式传输智能体运行过程中的实时更新</div>
+          <div class="page-meta">
+            <span>约 17 分钟</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>社区翻译</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <a href="https://docs.langchain.com/oss/python/langchain/streaming" target="_blank" rel="noopener noreferrer">查看英文原文 ↗</a>
+          </div>
+        </header>
+        <article class="content"><aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>对于新应用，我们推荐 <a href="event-streaming.html">事件流式传输</a>——这是 LangChain v1.3 引入的类型化投影 API。事件流式传输会为每个投影（消息、值、工具调用、子图）提供独立的迭代器，因此你可以分别消费它们，而无需根据 <code>stream_mode</code> 数据块进行分支判断。</p></div>
+</aside>
+<p>LangChain 实现了一套流式传输系统，用于呈现实时更新。</p>
+<p>流式传输对于提升基于 LLM 构建的应用的响应能力至关重要。即使在完整响应就绪之前也逐步显示输出，流式传输能显著改善用户体验（UX），在应对 LLM 的延迟时尤其如此。</p>
+<h2 id="overview">概述<a class="heading-anchor" href="#overview" aria-label="链接到本节">#</a></h2>
+<p>LangChain 的流式传输系统让你可以把智能体运行过程中的实时反馈呈现到应用中。</p>
+<p>LangChain 流式传输可以实现的功能：</p>
+<ul><li><p><a href="#agent-progress"><strong>流式传输智能体进度</strong></a>——在智能体每一步之后获取状态更新。</p></li><li><p><a href="#llm-tokens"><strong>流式传输 LLM token</strong></a>——在语言模型生成 token 时实时流式传输。</p></li><li><p><a href="#streaming-thinking-/-reasoning-tokens"><strong>流式传输思考 / 推理 token</strong></a>——在模型推理生成时实时呈现。</p></li><li><p><a href="#custom-updates"><strong>流式传输自定义更新</strong></a>——发出用户自定义信号（例如 <code>"Fetched 10/100 records"</code>）。</p></li><li><p><a href="#stream-multiple-modes"><strong>流式传输多种模式</strong></a>——可从 <code>updates</code>（智能体进度）、<code>messages</code>（LLM token + 元数据）或 <code>custom</code>（任意用户数据）中选择。</p></li></ul>
+<p>更多端到端示例请参阅下文的<a href="#common-patterns">常见模式</a>一节。</p>
+<h2 id="supported-stream-modes">支持的流式传输模式<a class="heading-anchor" href="#supported-stream-modes" aria-label="链接到本节">#</a></h2>
+<p>将以下一个或多个流式模式以列表形式传给 <a href="https://reference.langchain.com/python/langgraph/graphs/#langgraph.graph.state.CompiledStateGraph.stream" target="_blank" rel="noopener noreferrer"><code>stream</code></a> 或 <a href="https://reference.langchain.com/python/langgraph/graphs/#langgraph.graph.state.CompiledStateGraph.astream" target="_blank" rel="noopener noreferrer"><code>astream</code></a> 方法：</p>
+<div class="table-wrap"><table><thead><tr><th>模式</th><th>说明</th></tr></thead><tbody><tr><td><code>updates</code></td><td>在智能体每一步之后流式传输状态更新。如果同一步中产生了多个更新（例如运行了多个节点），这些更新会分别流式传输。</td></tr><tr><td><code>messages</code></td><td>从任何调用 LLM 的图节点流式传输 <code>(token, metadata)</code> 元组。</td></tr><tr><td><code>custom</code></td><td>使用流写入器从图节点内部流式传输自定义数据。</td></tr></tbody></table></div>
+<h2 id="agent-progress">智能体进度<a class="heading-anchor" href="#agent-progress" aria-label="链接到本节">#</a></h2>
+<p>要流式传输智能体进度，请使用 <a href="https://reference.langchain.com/python/langgraph/graphs/#langgraph.graph.state.CompiledStateGraph.stream" target="_blank" rel="noopener noreferrer"><code>stream</code></a> 或 <a href="https://reference.langchain.com/python/langgraph/graphs/#langgraph.graph.state.CompiledStateGraph.astream" target="_blank" rel="noopener noreferrer"><code>astream</code></a> 方法并指定 <code>stream_mode="updates"</code>。这会在智能体每一步之后发出一个事件。</p>
+<p>例如，如果你的智能体只调用一次工具，你应该会看到以下更新：</p>
+<ul><li><p><strong>LLM 节点</strong>：带有工具调用请求的 <a href="https://reference.langchain.com/python/langchain-core/messages/ai/AIMessage" target="_blank" rel="noopener noreferrer"><code>AIMessage</code></a></p></li><li><p><strong>工具节点</strong>：带有执行结果的 <a href="https://reference.langchain.com/python/langchain-core/messages/tool/ToolMessage" target="_blank" rel="noopener noreferrer"><code>ToolMessage</code></a></p></li><li><p><strong>LLM 节点</strong>：最终 AI 响应</p></li></ul>
+<p>通过 <code>config</code> 传入 <code>thread_id</code>，会话就会被检查点保存，后续轮次可以恢复同一段历史。<code>thread_id</code> 与 <code>stream_mode</code> 相互独立；你也可以在同一处传入 <code>context</code>，存放工具从 <code>runtime.context</code> 读取的单次运行数据。</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-1-tab-0" role="tab" aria-controls="codegroup-1-panel-0" aria-selected="true" tabindex="0">Google</button><button class="code-tab" type="button" id="codegroup-1-tab-1" role="tab" aria-controls="codegroup-1-panel-1" aria-selected="false" tabindex="-1">OpenAI</button><button class="code-tab" type="button" id="codegroup-1-tab-2" role="tab" aria-controls="codegroup-1-panel-2" aria-selected="false" tabindex="-1">Anthropic</button><button class="code-tab" type="button" id="codegroup-1-tab-3" role="tab" aria-controls="codegroup-1-panel-3" aria-selected="false" tabindex="-1">OpenRouter</button><button class="code-tab" type="button" id="codegroup-1-tab-4" role="tab" aria-controls="codegroup-1-panel-4" aria-selected="false" tabindex="-1">Fireworks</button><button class="code-tab" type="button" id="codegroup-1-tab-5" role="tab" aria-controls="codegroup-1-panel-5" aria-selected="false" tabindex="-1">Baseten</button><button class="code-tab" type="button" id="codegroup-1-tab-6" role="tab" aria-controls="codegroup-1-panel-6" aria-selected="false" tabindex="-1">Ollama</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-1-panel-0" role="tabpanel" aria-labelledby="codegroup-1-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"google_genai:gemini-3.6-flash"</span>,
+    tools=[get_weather],
+    checkpointer=InMemorySaver()
+)
+config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}}
+stream = agent.stream_events(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What is the weather in SF?"</span>}]},
+    config=config,
+    version=<span class="hljs-string">"v3"</span>,
+)
+<span class="hljs-keyword">for</span> kind, item <span class="hljs-keyword">in</span> stream.interleave(<span class="hljs-string">"messages"</span>, <span class="hljs-string">"tool_calls"</span>):
+    <span class="hljs-keyword">if</span> kind == <span class="hljs-string">"messages"</span>:
+        <span class="hljs-keyword">for</span> token <span class="hljs-keyword">in</span> item.text:
+            <span class="hljs-built_in">print</span>(token, end=<span class="hljs-string">""</span>, flush=<span class="hljs-literal">True</span>)
+    <span class="hljs-keyword">elif</span> kind == <span class="hljs-string">"tool_calls"</span>:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"\nTool call: <span class="hljs-subst">{item.tool_name}</span>(<span class="hljs-subst">{item.<span class="hljs-built_in">input</span>}</span>)"</span>)
+        <span class="hljs-keyword">for</span> delta <span class="hljs-keyword">in</span> item.output_deltas:
+            <span class="hljs-built_in">print</span>(delta, end=<span class="hljs-string">""</span>, flush=<span class="hljs-literal">True</span>)
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"\nTool result: <span class="hljs-subst">{item.output}</span>"</span>)
+
+final_state = stream.output</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-1" role="tabpanel" aria-labelledby="codegroup-1-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"openai:gpt-5.5"</span>,
+    tools=[get_weather],
+    checkpointer=InMemorySaver()
+)
+config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}}
+stream = agent.stream_events(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What is the weather in SF?"</span>}]},
+    config=config,
+    version=<span class="hljs-string">"v3"</span>,
+)
+<span class="hljs-keyword">for</span> kind, item <span class="hljs-keyword">in</span> stream.interleave(<span class="hljs-string">"messages"</span>, <span class="hljs-string">"tool_calls"</span>):
+    <span class="hljs-keyword">if</span> kind == <span class="hljs-string">"messages"</span>:
+        <span class="hljs-keyword">for</span> token <span class="hljs-keyword">in</span> item.text:
+            <span class="hljs-built_in">print</span>(token, end=<span class="hljs-string">""</span>, flush=<span class="hljs-literal">True</span>)
+    <span class="hljs-keyword">elif</span> kind == <span class="hljs-string">"tool_calls"</span>:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"\nTool call: <span class="hljs-subst">{item.tool_name}</span>(<span class="hljs-subst">{item.<span class="hljs-built_in">input</span>}</span>)"</span>)
+        <span class="hljs-keyword">for</span> delta <span class="hljs-keyword">in</span> item.output_deltas:
+            <span class="hljs-built_in">print</span>(delta, end=<span class="hljs-string">""</span>, flush=<span class="hljs-literal">True</span>)
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"\nTool result: <span class="hljs-subst">{item.output}</span>"</span>)
+
+final_state = stream.output</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-2" role="tabpanel" aria-labelledby="codegroup-1-tab-2" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"anthropic:claude-sonnet-5"</span>,
+    tools=[get_weather],
+    checkpointer=InMemorySaver()
+)
+config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}}
+stream = agent.stream_events(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What is the weather in SF?"</span>}]},
+    config=config,
+    version=<span class="hljs-string">"v3"</span>,
+)
+<span class="hljs-keyword">for</span> kind, item <span class="hljs-keyword">in</span> stream.interleave(<span class="hljs-string">"messages"</span>, <span class="hljs-string">"tool_calls"</span>):
+    <span class="hljs-keyword">if</span> kind == <span class="hljs-string">"messages"</span>:
+        <span class="hljs-keyword">for</span> token <span class="hljs-keyword">in</span> item.text:
+            <span class="hljs-built_in">print</span>(token, end=<span class="hljs-string">""</span>, flush=<span class="hljs-literal">True</span>)
+    <span class="hljs-keyword">elif</span> kind == <span class="hljs-string">"tool_calls"</span>:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"\nTool call: <span class="hljs-subst">{item.tool_name}</span>(<span class="hljs-subst">{item.<span class="hljs-built_in">input</span>}</span>)"</span>)
+        <span class="hljs-keyword">for</span> delta <span class="hljs-keyword">in</span> item.output_deltas:
+            <span class="hljs-built_in">print</span>(delta, end=<span class="hljs-string">""</span>, flush=<span class="hljs-literal">True</span>)
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"\nTool result: <span class="hljs-subst">{item.output}</span>"</span>)
+
+final_state = stream.output</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-3" role="tabpanel" aria-labelledby="codegroup-1-tab-3" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"openrouter:z-ai/glm-5.2"</span>,
+    tools=[get_weather],
+    checkpointer=InMemorySaver()
+)
+config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}}
+stream = agent.stream_events(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What is the weather in SF?"</span>}]},
+    config=config,
+    version=<span class="hljs-string">"v3"</span>,
+)
+<span class="hljs-keyword">for</span> kind, item <span class="hljs-keyword">in</span> stream.interleave(<span class="hljs-string">"messages"</span>, <span class="hljs-string">"tool_calls"</span>):
+    <span class="hljs-keyword">if</span> kind == <span class="hljs-string">"messages"</span>:
+        <span class="hljs-keyword">for</span> token <span class="hljs-keyword">in</span> item.text:
+            <span class="hljs-built_in">print</span>(token, end=<span class="hljs-string">""</span>, flush=<span class="hljs-literal">True</span>)
+    <span class="hljs-keyword">elif</span> kind == <span class="hljs-string">"tool_calls"</span>:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"\nTool call: <span class="hljs-subst">{item.tool_name}</span>(<span class="hljs-subst">{item.<span class="hljs-built_in">input</span>}</span>)"</span>)
+        <span class="hljs-keyword">for</span> delta <span class="hljs-keyword">in</span> item.output_deltas:
+            <span class="hljs-built_in">print</span>(delta, end=<span class="hljs-string">""</span>, flush=<span class="hljs-literal">True</span>)
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"\nTool result: <span class="hljs-subst">{item.output}</span>"</span>)
+
+final_state = stream.output</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-4" role="tabpanel" aria-labelledby="codegroup-1-tab-4" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"fireworks:accounts/fireworks/models/glm-5p2"</span>,
+    tools=[get_weather],
+    checkpointer=InMemorySaver()
+)
+config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}}
+stream = agent.stream_events(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What is the weather in SF?"</span>}]},
+    config=config,
+    version=<span class="hljs-string">"v3"</span>,
+)
+<span class="hljs-keyword">for</span> kind, item <span class="hljs-keyword">in</span> stream.interleave(<span class="hljs-string">"messages"</span>, <span class="hljs-string">"tool_calls"</span>):
+    <span class="hljs-keyword">if</span> kind == <span class="hljs-string">"messages"</span>:
+        <span class="hljs-keyword">for</span> token <span class="hljs-keyword">in</span> item.text:
+            <span class="hljs-built_in">print</span>(token, end=<span class="hljs-string">""</span>, flush=<span class="hljs-literal">True</span>)
+    <span class="hljs-keyword">elif</span> kind == <span class="hljs-string">"tool_calls"</span>:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"\nTool call: <span class="hljs-subst">{item.tool_name}</span>(<span class="hljs-subst">{item.<span class="hljs-built_in">input</span>}</span>)"</span>)
+        <span class="hljs-keyword">for</span> delta <span class="hljs-keyword">in</span> item.output_deltas:
+            <span class="hljs-built_in">print</span>(delta, end=<span class="hljs-string">""</span>, flush=<span class="hljs-literal">True</span>)
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"\nTool result: <span class="hljs-subst">{item.output}</span>"</span>)
+
+final_state = stream.output</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-5" role="tabpanel" aria-labelledby="codegroup-1-tab-5" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"baseten:zai-org/GLM-5.2"</span>,
+    tools=[get_weather],
+    checkpointer=InMemorySaver()
+)
+config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}}
+stream = agent.stream_events(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What is the weather in SF?"</span>}]},
+    config=config,
+    version=<span class="hljs-string">"v3"</span>,
+)
+<span class="hljs-keyword">for</span> kind, item <span class="hljs-keyword">in</span> stream.interleave(<span class="hljs-string">"messages"</span>, <span class="hljs-string">"tool_calls"</span>):
+    <span class="hljs-keyword">if</span> kind == <span class="hljs-string">"messages"</span>:
+        <span class="hljs-keyword">for</span> token <span class="hljs-keyword">in</span> item.text:
+            <span class="hljs-built_in">print</span>(token, end=<span class="hljs-string">""</span>, flush=<span class="hljs-literal">True</span>)
+    <span class="hljs-keyword">elif</span> kind == <span class="hljs-string">"tool_calls"</span>:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"\nTool call: <span class="hljs-subst">{item.tool_name}</span>(<span class="hljs-subst">{item.<span class="hljs-built_in">input</span>}</span>)"</span>)
+        <span class="hljs-keyword">for</span> delta <span class="hljs-keyword">in</span> item.output_deltas:
+            <span class="hljs-built_in">print</span>(delta, end=<span class="hljs-string">""</span>, flush=<span class="hljs-literal">True</span>)
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"\nTool result: <span class="hljs-subst">{item.output}</span>"</span>)
+
+final_state = stream.output</code></pre>
+</div>
+<div class="code-panel" id="codegroup-1-panel-6" role="tabpanel" aria-labelledby="codegroup-1-tab-6" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_core.utils.uuid <span class="hljs-keyword">import</span> uuid7
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"ollama:north-mini-code-1.0"</span>,
+    tools=[get_weather],
+    checkpointer=InMemorySaver()
+)
+config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-built_in">str</span>(uuid7())}}
+stream = agent.stream_events(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What is the weather in SF?"</span>}]},
+    config=config,
+    version=<span class="hljs-string">"v3"</span>,
+)
+<span class="hljs-keyword">for</span> kind, item <span class="hljs-keyword">in</span> stream.interleave(<span class="hljs-string">"messages"</span>, <span class="hljs-string">"tool_calls"</span>):
+    <span class="hljs-keyword">if</span> kind == <span class="hljs-string">"messages"</span>:
+        <span class="hljs-keyword">for</span> token <span class="hljs-keyword">in</span> item.text:
+            <span class="hljs-built_in">print</span>(token, end=<span class="hljs-string">""</span>, flush=<span class="hljs-literal">True</span>)
+    <span class="hljs-keyword">elif</span> kind == <span class="hljs-string">"tool_calls"</span>:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"\nTool call: <span class="hljs-subst">{item.tool_name}</span>(<span class="hljs-subst">{item.<span class="hljs-built_in">input</span>}</span>)"</span>)
+        <span class="hljs-keyword">for</span> delta <span class="hljs-keyword">in</span> item.output_deltas:
+            <span class="hljs-built_in">print</span>(delta, end=<span class="hljs-string">""</span>, flush=<span class="hljs-literal">True</span>)
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"\nTool result: <span class="hljs-subst">{item.output}</span>"</span>)
+
+final_state = stream.output</code></pre>
+</div></div>
+</div>
+<div class="card-grid"><a class="doc-card" href="https://smith.langchain.com/public/16eb839b-dd05-461e-9f4f-563852f198e0/r" target="_blank" rel="noopener noreferrer"><span class="card-title">查看示例追踪</span><span class="card-body"><p>打开此示例对应的公开 LangSmith 运行记录。</p></span></a></div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">title="Output"</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">step: model
+content: [{<span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call'</span>, <span class="hljs-string">'name'</span>: <span class="hljs-string">'get_weather'</span>, <span class="hljs-string">'args'</span>: {<span class="hljs-string">'city'</span>: <span class="hljs-string">'San Francisco'</span>}, <span class="hljs-string">'id'</span>: <span class="hljs-string">'call_9lBtsDbmmobzyA8xc4I4Ctne'</span>}]
+step: tools
+content: [{<span class="hljs-string">'type'</span>: <span class="hljs-string">'text'</span>, <span class="hljs-string">'text'</span>: <span class="hljs-string">"It's always sunny in San Francisco!"</span>}]
+step: model
+content: [{<span class="hljs-string">'type'</span>: <span class="hljs-string">'text'</span>, <span class="hljs-string">'text'</span>: <span class="hljs-string">"San Francisco weather: It's always sunny in San Francisco!\n\nIf you’d like the exact current conditions (temperature, humidity, wind) and a short forecast, I can fetch that next. Would you like me to pull live details for San Francisco?"</span>}]</code></pre>
+</div>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>用 <code>thread_id</code> 持久化对话历史要求为智能体配置 <a href="long-term-memory.html">检查点保存器</a>。在 <a href="https://docs.langchain.com/langsmith/deployment" target="_blank" rel="noopener noreferrer">LangSmith 部署</a>中，检查点保存器会自动预置。在本地则需显式传入，例如 <code>create_agent(..., checkpointer=InMemorySaver())</code>。为简洁起见，本页其余代码片段省略了 <code>thread_id</code>，但在生产环境中应当传入。</p></div>
+</aside>
+<h2 id="llm-tokens">LLM token<a class="heading-anchor" href="#llm-tokens" aria-label="链接到本节">#</a></h2>
+<p>要在 LLM 生成 token 时进行流式传输，请使用 <code>stream_mode="messages"</code>。下面可以看到智能体流式传输工具调用和最终响应的输出。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">title="Streaming LLM tokens"</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5-nano"</span>,
+    tools=[get_weather],
+)
+<span class="hljs-keyword">for</span> chunk <span class="hljs-keyword">in</span> agent.stream(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What is the weather in SF?"</span>}]},
+    stream_mode=<span class="hljs-string">"messages"</span>,
+    version=<span class="hljs-string">"v2"</span>,
+):
+    <span class="hljs-keyword">if</span> chunk[<span class="hljs-string">"type"</span>] == <span class="hljs-string">"messages"</span>:
+        token, metadata = chunk[<span class="hljs-string">"data"</span>]
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"node: <span class="hljs-subst">{metadata[<span class="hljs-string">'langgraph_node'</span>]}</span>"</span>)
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"content: <span class="hljs-subst">{token.content_blocks}</span>"</span>)
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">"\n"</span>)</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">title="Output" expandable</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">node: model
+content: [{<span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>, <span class="hljs-string">'id'</span>: <span class="hljs-string">'call_vbCyBcP8VuneUzyYlSBZZsVa'</span>, <span class="hljs-string">'name'</span>: <span class="hljs-string">'get_weather'</span>, <span class="hljs-string">'args'</span>: <span class="hljs-string">''</span>, <span class="hljs-string">'index'</span>: 0}]
+
+
+node: model
+content: [{<span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'{"'</span>, <span class="hljs-string">'index'</span>: 0}]
+
+
+node: model
+content: [{<span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'city'</span>, <span class="hljs-string">'index'</span>: 0}]
+
+
+node: model
+content: [{<span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'":"'</span>, <span class="hljs-string">'index'</span>: 0}]
+
+
+node: model
+content: [{<span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'San'</span>, <span class="hljs-string">'index'</span>: 0}]
+
+
+node: model
+content: [{<span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">' Francisco'</span>, <span class="hljs-string">'index'</span>: 0}]
+
+
+node: model
+content: [{<span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'"}'</span>, <span class="hljs-string">'index'</span>: 0}]
+
+
+node: model
+content: []
+
+
+node: tools
+content: [{<span class="hljs-string">'type'</span>: <span class="hljs-string">'text'</span>, <span class="hljs-string">'text'</span>: <span class="hljs-string">"It's always sunny in San Francisco!"</span>}]
+
+
+node: model
+content: []
+
+
+node: model
+content: [{<span class="hljs-string">'type'</span>: <span class="hljs-string">'text'</span>, <span class="hljs-string">'text'</span>: <span class="hljs-string">'Here'</span>}]
+
+
+node: model
+content: [{<span class="hljs-string">'type'</span>: <span class="hljs-string">'text'</span>, <span class="hljs-string">'text'</span>: <span class="hljs-string">''</span>s<span class="hljs-string">'}]
+
+
+node: model
+content: [{'</span><span class="hljs-built_in">type</span><span class="hljs-string">': '</span>text<span class="hljs-string">', '</span>text<span class="hljs-string">': '</span> what<span class="hljs-string">'}]
+
+
+node: model
+content: [{'</span><span class="hljs-built_in">type</span><span class="hljs-string">': '</span>text<span class="hljs-string">', '</span>text<span class="hljs-string">': '</span> I<span class="hljs-string">'}]
+
+
+node: model
+content: [{'</span><span class="hljs-built_in">type</span><span class="hljs-string">': '</span>text<span class="hljs-string">', '</span>text<span class="hljs-string">': '</span> got<span class="hljs-string">'}]
+
+
+node: model
+content: [{'</span><span class="hljs-built_in">type</span><span class="hljs-string">': '</span>text<span class="hljs-string">', '</span>text<span class="hljs-string">': '</span>:<span class="hljs-string">'}]
+
+
+node: model
+content: [{'</span><span class="hljs-built_in">type</span><span class="hljs-string">': '</span>text<span class="hljs-string">', '</span>text<span class="hljs-string">': '</span> <span class="hljs-string">"'}]
+
+
+node: model
+content: [{'type': 'text', 'text': "</span>It<span class="hljs-string">'s"}]
+
+
+node: model
+content: [{'</span><span class="hljs-built_in">type</span><span class="hljs-string">': '</span>text<span class="hljs-string">', '</span>text<span class="hljs-string">': '</span> always<span class="hljs-string">'}]
+
+
+node: model
+content: [{'</span><span class="hljs-built_in">type</span><span class="hljs-string">': '</span>text<span class="hljs-string">', '</span>text<span class="hljs-string">': '</span> sunny<span class="hljs-string">'}]
+
+
+node: model
+content: [{'</span><span class="hljs-built_in">type</span><span class="hljs-string">': '</span>text<span class="hljs-string">', '</span>text<span class="hljs-string">': '</span> <span class="hljs-keyword">in</span><span class="hljs-string">'}]
+
+
+node: model
+content: [{'</span><span class="hljs-built_in">type</span><span class="hljs-string">': '</span>text<span class="hljs-string">', '</span>text<span class="hljs-string">': '</span> San<span class="hljs-string">'}]
+
+
+node: model
+content: [{'</span><span class="hljs-built_in">type</span><span class="hljs-string">': '</span>text<span class="hljs-string">', '</span>text<span class="hljs-string">': '</span> Francisco<span class="hljs-string">'}]
+
+
+node: model
+content: [{'</span><span class="hljs-built_in">type</span><span class="hljs-string">': '</span>text<span class="hljs-string">', '</span>text<span class="hljs-string">': '</span>!<span class="hljs-string">"\n\n'}]</span></code></pre>
+</div>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p><strong>将智能体包装为父 <code>StateGraph</code> 中的节点？</strong> <a href="https://reference.langchain.com/python/langchain/agents/factory/create_agent" target="_blank" rel="noopener noreferrer"><code>create_agent</code></a> 返回的是已编译的图，因此把它用作节点就会使它成为子图。除非传入 <code>subgraphs=True</code>，否则在父图上使用 <code>stream_mode="messages"</code> 不会发出内部智能体 LLM 调用产生的 token 数据块。参见<a href="https://docs.langchain.com/oss/python/langgraph/streaming#subgraph-outputs" target="_blank" rel="noopener noreferrer">子图输出</a>。</p></div>
+</aside>
+<h2 id="custom-updates">自定义更新<a class="heading-anchor" href="#custom-updates" aria-label="链接到本节">#</a></h2>
+<p>要在工具执行时流式传输其更新，可以使用 <a href="https://reference.langchain.com/python/langgraph/config/get_stream_writer" target="_blank" rel="noopener noreferrer"><code>get_stream_writer</code></a>。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">title="Streaming custom updates"</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langgraph.config <span class="hljs-keyword">import</span> get_stream_writer
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    writer = get_stream_writer()
+    <span class="hljs-comment"># stream any arbitrary data</span>
+    writer(<span class="hljs-string">f"Looking up data for city: <span class="hljs-subst">{city}</span>"</span>)
+    writer(<span class="hljs-string">f"Acquired data for city: <span class="hljs-subst">{city}</span>"</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"claude-sonnet-4-6"</span>,
+    tools=[get_weather],
+)
+
+<span class="hljs-keyword">for</span> chunk <span class="hljs-keyword">in</span> agent.stream(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What is the weather in SF?"</span>}]},
+    stream_mode=<span class="hljs-string">"custom"</span>,
+    version=<span class="hljs-string">"v2"</span>,
+):
+    <span class="hljs-keyword">if</span> chunk[<span class="hljs-string">"type"</span>] == <span class="hljs-string">"custom"</span>:
+        <span class="hljs-built_in">print</span>(chunk[<span class="hljs-string">"data"</span>])</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">title="Output"</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">Looking up data <span class="hljs-keyword">for</span> city: San Francisco
+Acquired data <span class="hljs-keyword">for</span> city: San Francisco</code></pre>
+</div>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>如果在工具内部添加 <a href="https://reference.langchain.com/python/langgraph/config/get_stream_writer" target="_blank" rel="noopener noreferrer"><code>get_stream_writer</code></a>，你将无法在 LangGraph 执行上下文之外调用该工具。</p></div>
+</aside>
+<h2 id="stream-multiple-modes">流式传输多种模式<a class="heading-anchor" href="#stream-multiple-modes" aria-label="链接到本节">#</a></h2>
+<p>你可以将流式模式以列表形式传入，从而指定多个流式模式：<code>stream_mode=["updates", "custom"]</code>。</p>
+<p>每个流式数据块都是一个 <code>StreamPart</code> 字典，包含 <code>type</code>、<code>ns</code> 和 <code>data</code> 键。使用 <code>chunk["type"]</code> 判断流式模式，使用 <code>chunk["data"]</code> 访问载荷。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">title="Streaming multiple modes"</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langgraph.config <span class="hljs-keyword">import</span> get_stream_writer
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    writer = get_stream_writer()
+    writer(<span class="hljs-string">f"Looking up data for city: <span class="hljs-subst">{city}</span>"</span>)
+    writer(<span class="hljs-string">f"Acquired data for city: <span class="hljs-subst">{city}</span>"</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+agent = create_agent(
+    model=<span class="hljs-string">"gpt-5-nano"</span>,
+    tools=[get_weather],
+)
+
+<span class="hljs-keyword">for</span> chunk <span class="hljs-keyword">in</span> agent.stream(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What is the weather in SF?"</span>}]},
+    stream_mode=[<span class="hljs-string">"updates"</span>, <span class="hljs-string">"custom"</span>],
+    version=<span class="hljs-string">"v2"</span>,
+):
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"stream_mode: <span class="hljs-subst">{chunk[<span class="hljs-string">'type'</span>]}</span>"</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"content: <span class="hljs-subst">{chunk[<span class="hljs-string">'data'</span>]}</span>"</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">"\n"</span>)</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">title="Output"</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">stream_mode: updates
+content: {<span class="hljs-string">'model'</span>: {<span class="hljs-string">'messages'</span>: [AIMessage(content=<span class="hljs-string">''</span>, response_metadata={<span class="hljs-string">'token_usage'</span>: {<span class="hljs-string">'completion_tokens'</span>: 280, <span class="hljs-string">'prompt_tokens'</span>: 132, <span class="hljs-string">'total_tokens'</span>: 412, <span class="hljs-string">'completion_tokens_details'</span>: {<span class="hljs-string">'accepted_prediction_tokens'</span>: 0, <span class="hljs-string">'audio_tokens'</span>: 0, <span class="hljs-string">'reasoning_tokens'</span>: 256, <span class="hljs-string">'rejected_prediction_tokens'</span>: 0}, <span class="hljs-string">'prompt_tokens_details'</span>: {<span class="hljs-string">'audio_tokens'</span>: 0, <span class="hljs-string">'cached_tokens'</span>: 0}}, <span class="hljs-string">'model_provider'</span>: <span class="hljs-string">'openai'</span>, <span class="hljs-string">'model_name'</span>: <span class="hljs-string">'gpt-5-nano-2025-08-07'</span>, <span class="hljs-string">'system_fingerprint'</span>: None, <span class="hljs-string">'id'</span>: <span class="hljs-string">'chatcmpl-C9tlgBzGEbedGYxZ0rTCz5F7OXpL7'</span>, <span class="hljs-string">'service_tier'</span>: <span class="hljs-string">'default'</span>, <span class="hljs-string">'finish_reason'</span>: <span class="hljs-string">'tool_calls'</span>, <span class="hljs-string">'logprobs'</span>: None}, <span class="hljs-built_in">id</span>=<span class="hljs-string">'lc_run--480c07cb-e405-4411-aa7f-0520fddeed66-0'</span>, tool_calls=[{<span class="hljs-string">'name'</span>: <span class="hljs-string">'get_weather'</span>, <span class="hljs-string">'args'</span>: {<span class="hljs-string">'city'</span>: <span class="hljs-string">'San Francisco'</span>}, <span class="hljs-string">'id'</span>: <span class="hljs-string">'call_KTNQIftMrl9vgNwEfAJMVu7r'</span>, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call'</span>}], usage_metadata={<span class="hljs-string">'input_tokens'</span>: 132, <span class="hljs-string">'output_tokens'</span>: 280, <span class="hljs-string">'total_tokens'</span>: 412, <span class="hljs-string">'input_token_details'</span>: {<span class="hljs-string">'audio'</span>: 0, <span class="hljs-string">'cache_read'</span>: 0}, <span class="hljs-string">'output_token_details'</span>: {<span class="hljs-string">'audio'</span>: 0, <span class="hljs-string">'reasoning'</span>: 256}})]}}
+
+
+stream_mode: custom
+content: Looking up data <span class="hljs-keyword">for</span> city: San Francisco
+
+
+stream_mode: custom
+content: Acquired data <span class="hljs-keyword">for</span> city: San Francisco
+
+
+stream_mode: updates
+content: {<span class="hljs-string">'tools'</span>: {<span class="hljs-string">'messages'</span>: [ToolMessage(content=<span class="hljs-string">"It's always sunny in San Francisco!"</span>, name=<span class="hljs-string">'get_weather'</span>, tool_call_id=<span class="hljs-string">'call_KTNQIftMrl9vgNwEfAJMVu7r'</span>)]}}
+
+
+stream_mode: updates
+content: {<span class="hljs-string">'model'</span>: {<span class="hljs-string">'messages'</span>: [AIMessage(content=<span class="hljs-string">'San Francisco weather: It'</span>s always sunny <span class="hljs-keyword">in</span> San Francisco!\n\n<span class="hljs-string">', response_metadata={'</span>token_usage<span class="hljs-string">': {'</span>completion_tokens<span class="hljs-string">': 764, '</span>prompt_tokens<span class="hljs-string">': 168, '</span>total_tokens<span class="hljs-string">': 932, '</span>completion_tokens_details<span class="hljs-string">': {'</span>accepted_prediction_tokens<span class="hljs-string">': 0, '</span>audio_tokens<span class="hljs-string">': 0, '</span>reasoning_tokens<span class="hljs-string">': 704, '</span>rejected_prediction_tokens<span class="hljs-string">': 0}, '</span>prompt_tokens_details<span class="hljs-string">': {'</span>audio_tokens<span class="hljs-string">': 0, '</span>cached_tokens<span class="hljs-string">': 0}}, '</span>model_provider<span class="hljs-string">': '</span>openai<span class="hljs-string">', '</span>model_name<span class="hljs-string">': '</span>gpt-5-nano-2025-08-07<span class="hljs-string">', '</span>system_fingerprint<span class="hljs-string">': None, '</span><span class="hljs-built_in">id</span><span class="hljs-string">': '</span>chatcmpl-C9tljDFVki1e1haCyikBptAuXuHYG<span class="hljs-string">', '</span>service_tier<span class="hljs-string">': '</span>default<span class="hljs-string">', '</span>finish_reason<span class="hljs-string">': '</span>stop<span class="hljs-string">', '</span>logprobs<span class="hljs-string">': None}, id='</span>lc_run--acbc740a-18fe-4a14-8619-da92a0d0ee90-0<span class="hljs-string">', usage_metadata={'</span>input_tokens<span class="hljs-string">': 168, '</span>output_tokens<span class="hljs-string">': 764, '</span>total_tokens<span class="hljs-string">': 932, '</span>input_token_details<span class="hljs-string">': {'</span>audio<span class="hljs-string">': 0, '</span>cache_read<span class="hljs-string">': 0}, '</span>output_token_details<span class="hljs-string">': {'</span>audio<span class="hljs-string">': 0, '</span>reasoning<span class="hljs-string">': 704}})]}}</span></code></pre>
+</div>
+<h2 id="common-patterns">常见模式<a class="heading-anchor" href="#common-patterns" aria-label="链接到本节">#</a></h2>
+<p>以下示例展示了流式传输的常见用例。</p>
+<h3 id="streaming-thinking-reasoning-tokens">流式传输思考 / 推理 token<a class="heading-anchor" href="#streaming-thinking-reasoning-tokens" aria-label="链接到本节">#</a></h3>
+<p>有些模型会在给出最终答案之前进行内部推理。你可以通过筛选 <a href="messages.html#standard-content-blocks">标准内容块</a>中的 <code>type</code> <code>"reasoning"</code>，在生成时流式传输这些思考 / 推理 token。</p>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>必须在模型上启用推理输出。</p>
+<p>配置细节请参阅<a href="models.html#reasoning">推理部分</a>以及你所用的 <a href="https://docs.langchain.com/oss/python/integrations/providers/overview" target="_blank" rel="noopener noreferrer">提供商的集成页面</a>。</p>
+<p>要快速检查模型是否支持推理，请参阅 <a href="https://models.dev/" target="_blank" rel="noopener noreferrer">models.dev</a>。</p></div>
+</aside>
+<p>要从智能体流式传输思考 token，请使用 <code>stream_mode="messages"</code> 并筛选推理内容块：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain_anthropic <span class="hljs-keyword">import</span> ChatAnthropic
+<span class="hljs-keyword">from</span> langchain_core.runnables <span class="hljs-keyword">import</span> Runnable
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+
+model = ChatAnthropic(
+    model_name=<span class="hljs-string">"claude-sonnet-4-6"</span>,
+    timeout=<span class="hljs-literal">None</span>,
+    stop=<span class="hljs-literal">None</span>,
+    thinking={<span class="hljs-string">"type"</span>: <span class="hljs-string">"enabled"</span>, <span class="hljs-string">"budget_tokens"</span>: <span class="hljs-number">5000</span>},
+)
+agent: Runnable = create_agent(
+    model=model,
+    tools=[get_weather],
+)
+
+stream = agent.stream_events(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What is the weather in SF?"</span>}]},
+    version=<span class="hljs-string">"v3"</span>,
+)
+<span class="hljs-keyword">for</span> message <span class="hljs-keyword">in</span> stream.messages:
+    <span class="hljs-keyword">for</span> token <span class="hljs-keyword">in</span> message.reasoning:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"[thinking] <span class="hljs-subst">{token}</span>"</span>, end=<span class="hljs-string">""</span>)
+    <span class="hljs-keyword">for</span> token <span class="hljs-keyword">in</span> message.text:
+        <span class="hljs-built_in">print</span>(token, end=<span class="hljs-string">""</span>, flush=<span class="hljs-literal">True</span>)</code></pre>
+</div>
+<div class="card-grid"><a class="doc-card" href="https://smith.langchain.com/public/e729edb4-e67d-4418-85b3-e1ce4663e8e5/r" target="_blank" rel="noopener noreferrer"><span class="card-title">查看示例追踪</span><span class="card-body"><p>打开此示例对应的公开 LangSmith 运行记录。</p></span></a></div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">title="Output"</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">[thinking] The user is asking about the weather <span class="hljs-keyword">in</span> San Francisco. I have a tool
+[thinking]  available to get this information. Let me call the get_weather tool
+[thinking]  with <span class="hljs-string">"San Francisco"</span> as the city parameter.
+The weather <span class="hljs-keyword">in</span> San Francisco is: It<span class="hljs-string">'s always sunny in San Francisco!</span></code></pre>
+</div>
+<p>无论使用哪家模型提供商，这一机制都以相同方式工作——LangChain 会通过 <a href="messages.html#standard-content-blocks"><code>content_blocks</code></a> 属性，将提供商特有的格式（Anthropic <code>thinking</code> 块、OpenAI <code>reasoning</code> 摘要等）统一为标准的 <code>"reasoning"</code> 内容块类型。</p>
+<p>要直接从聊天模型（不经过智能体）流式传输推理 token，请参阅<a href="models.html#reasoning">聊天模型的流式传输</a>。</p>
+<h3 id="streaming-tool-calls">流式传输工具调用<a class="heading-anchor" href="#streaming-tool-calls" aria-label="链接到本节">#</a></h3>
+<p>你可能希望同时流式传输以下两类内容：</p>
+<ol><li><p>生成 <a href="models.html#tool-calling">工具调用</a>时的不完整 JSON</p></li><li><p>实际执行的、解析完成的工具调用</p></li></ol>
+<p>指定 <a href="#llm-tokens"><code>stream_mode="messages"</code></a> 会流式传输智能体中所有 LLM 调用产生的增量<a href="messages.html#streaming-and-chunks">消息数据块</a>。要获取包含已解析工具调用的完整消息：</p>
+<ol><li><p>如果这些消息记录在 <a href="short-term-memory.html">状态</a>中（如 <a href="agents.html"><code>create_agent</code></a> 的模型节点中那样），可使用 <code>stream_mode=["messages", "updates"]</code> 通过 <a href="#agent-progress">状态更新</a>获取完整消息（下文有演示）。</p></li><li><p>如果这些消息未记录在状态中，请使用<a href="#custom-updates">自定义更新</a>，或在流式循环中聚合数据块（见<a href="#accessing-completed-messages">下一节</a>）。</p></li></ol>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>如果你的智能体包含多个 LLM，请参阅下文关于<a href="#streaming-from-sub-agents">子智能体流式传输</a>的一节。</p></div>
+</aside>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Any</span>
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> AIMessage, AIMessageChunk, AnyMessage, ToolMessage
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+
+agent = create_agent(<span class="hljs-string">"openai:gpt-5.5"</span>, tools=[get_weather])
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">_render_message_chunk</span>(<span class="hljs-params">token: AIMessageChunk</span>) -&gt; <span class="hljs-literal">None</span>:
+    <span class="hljs-keyword">if</span> token.text:
+        <span class="hljs-built_in">print</span>(token.text, end=<span class="hljs-string">"|"</span>)
+    <span class="hljs-keyword">if</span> token.tool_call_chunks:
+        <span class="hljs-built_in">print</span>(token.tool_call_chunks)
+    <span class="hljs-comment"># N.B. all content is available through token.content_blocks</span>
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">_render_completed_message</span>(<span class="hljs-params">message: AnyMessage</span>) -&gt; <span class="hljs-literal">None</span>:
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(message, AIMessage) <span class="hljs-keyword">and</span> message.tool_calls:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Tool calls: <span class="hljs-subst">{message.tool_calls}</span>"</span>)
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(message, ToolMessage):
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Tool response: <span class="hljs-subst">{message.content_blocks}</span>"</span>)
+
+
+input_message = {<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What is the weather in Boston?"</span>}
+<span class="hljs-keyword">for</span> chunk <span class="hljs-keyword">in</span> agent.stream(
+    {<span class="hljs-string">"messages"</span>: [input_message]},
+    stream_mode=[<span class="hljs-string">"messages"</span>, <span class="hljs-string">"updates"</span>],
+    version=<span class="hljs-string">"v2"</span>,
+):
+    <span class="hljs-keyword">if</span> chunk[<span class="hljs-string">"type"</span>] == <span class="hljs-string">"messages"</span>:
+        token, metadata = chunk[<span class="hljs-string">"data"</span>]
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(token, AIMessageChunk):
+            _render_message_chunk(token)
+    <span class="hljs-keyword">elif</span> chunk[<span class="hljs-string">"type"</span>] == <span class="hljs-string">"updates"</span>:
+        <span class="hljs-keyword">for</span> source, update <span class="hljs-keyword">in</span> chunk[<span class="hljs-string">"data"</span>].items():
+            <span class="hljs-keyword">if</span> source <span class="hljs-keyword">in</span> (<span class="hljs-string">"model"</span>, <span class="hljs-string">"tools"</span>):  <span class="hljs-comment"># `source` captures node name</span>
+                _render_completed_message(update[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>])</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">title="Output" expandable</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">[{<span class="hljs-string">'name'</span>: <span class="hljs-string">'get_weather'</span>, <span class="hljs-string">'args'</span>: <span class="hljs-string">''</span>, <span class="hljs-string">'id'</span>: <span class="hljs-string">'call_D3Orjr89KgsLTZ9hTzYv7Hpf'</span>, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'{"'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'city'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'":"'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'Boston'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'"}'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+Tool calls: [{<span class="hljs-string">'name'</span>: <span class="hljs-string">'get_weather'</span>, <span class="hljs-string">'args'</span>: {<span class="hljs-string">'city'</span>: <span class="hljs-string">'Boston'</span>}, <span class="hljs-string">'id'</span>: <span class="hljs-string">'call_D3Orjr89KgsLTZ9hTzYv7Hpf'</span>, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call'</span>}]
+Tool response: [{<span class="hljs-string">'type'</span>: <span class="hljs-string">'text'</span>, <span class="hljs-string">'text'</span>: <span class="hljs-string">"It's always sunny in Boston!"</span>}]
+The| weather| <span class="hljs-keyword">in</span>| Boston| is| **|sun|ny|**|.|</code></pre>
+</div>
+<h4 id="accessing-completed-messages">获取完整消息<a class="heading-anchor" href="#accessing-completed-messages" aria-label="链接到本节">#</a></h4>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>如果完整消息记录在智能体的 <a href="short-term-memory.html">状态</a>中，你可以像<a href="#streaming-tool-calls">流式传输工具调用</a>一节所演示的那样使用 <code>stream_mode=["messages", "updates"]</code>，在流式传输过程中获取完整消息。</p></div>
+</aside>
+<p>某些情况下，完整消息不会反映在<a href="#agent-progress">状态更新</a>中。如果你能访问智能体内部实现，可以使用<a href="#custom-updates">自定义更新</a>在流式传输过程中获取这些消息。否则，你可以在流式循环中聚合消息数据块（见下文）。</p>
+<p>请看下面的示例，我们将<a href="#custom-updates">流写入器</a>集成到一个简化的<a href="guardrails.html#after-agent-guardrails">护栏中间件</a>中。该中间件演示了通过工具调用生成结构化的“安全 / 不安全”评估（也可以用<a href="models.html#structured-output">结构化输出</a>来实现）：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Any</span>, <span class="hljs-type">Literal</span>
+
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> after_agent, AgentState
+<span class="hljs-keyword">from</span> langgraph.runtime <span class="hljs-keyword">import</span> Runtime
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> AIMessage
+<span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+<span class="hljs-keyword">from</span> langgraph.config <span class="hljs-keyword">import</span> get_stream_writer
+<span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ResponseSafety</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    <span class="hljs-string">"""Evaluate a response as safe or unsafe."""</span>
+    evaluation: <span class="hljs-type">Literal</span>[<span class="hljs-string">"safe"</span>, <span class="hljs-string">"unsafe"</span>]
+
+
+safety_model = init_chat_model(<span class="hljs-string">"openai:gpt-5.5"</span>)
+
+<span class="hljs-meta">@after_agent(<span class="hljs-params">can_jump_to=[<span class="hljs-string">"end"</span>]</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">safety_guardrail</span>(<span class="hljs-params">state: AgentState, runtime: Runtime</span>) -&gt; <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>] | <span class="hljs-literal">None</span>:
+    <span class="hljs-string">"""Model-based guardrail: Use an LLM to evaluate response safety."""</span>
+    stream_writer = get_stream_writer()
+    <span class="hljs-comment"># Get the model response</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> state[<span class="hljs-string">"messages"</span>]:
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+
+    last_message = state[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>]
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-built_in">isinstance</span>(last_message, AIMessage):
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+
+    <span class="hljs-comment"># Use another model to evaluate safety</span>
+    model_with_tools = safety_model.bind_tools([ResponseSafety], tool_choice=<span class="hljs-string">"any"</span>)
+    result = model_with_tools.invoke(
+        [
+            {
+                <span class="hljs-string">"role"</span>: <span class="hljs-string">"system"</span>,
+                <span class="hljs-string">"content"</span>: <span class="hljs-string">"Evaluate this AI response as generally safe or unsafe."</span>
+            },
+            {
+                <span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>,
+                <span class="hljs-string">"content"</span>: <span class="hljs-string">f"AI response: <span class="hljs-subst">{last_message.text}</span>"</span>
+            }
+        ]
+    )
+    stream_writer(result)
+
+    tool_call = result.tool_calls[<span class="hljs-number">0</span>]
+    <span class="hljs-keyword">if</span> tool_call[<span class="hljs-string">"args"</span>][<span class="hljs-string">"evaluation"</span>] == <span class="hljs-string">"unsafe"</span>:
+        last_message.content = <span class="hljs-string">"I cannot provide that response. Please rephrase your request."</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span></code></pre>
+</div>
+<p>然后我们可以将该中间件加入智能体，并把它的自定义流事件包含进来：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Any</span>
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> AIMessageChunk, AIMessage, AnyMessage
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+
+agent = create_agent(
+    model=<span class="hljs-string">"openai:gpt-5.5"</span>,
+    tools=[get_weather],
+    middleware=[safety_guardrail],
+)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">_render_message_chunk</span>(<span class="hljs-params">token: AIMessageChunk</span>) -&gt; <span class="hljs-literal">None</span>:
+    <span class="hljs-keyword">if</span> token.text:
+        <span class="hljs-built_in">print</span>(token.text, end=<span class="hljs-string">"|"</span>)
+    <span class="hljs-keyword">if</span> token.tool_call_chunks:
+        <span class="hljs-built_in">print</span>(token.tool_call_chunks)
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">_render_completed_message</span>(<span class="hljs-params">message: AnyMessage</span>) -&gt; <span class="hljs-literal">None</span>:
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(message, AIMessage) <span class="hljs-keyword">and</span> message.tool_calls:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Tool calls: <span class="hljs-subst">{message.tool_calls}</span>"</span>)
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(message, ToolMessage):
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Tool response: <span class="hljs-subst">{message.content_blocks}</span>"</span>)
+
+
+input_message = {<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What is the weather in Boston?"</span>}
+<span class="hljs-keyword">for</span> chunk <span class="hljs-keyword">in</span> agent.stream(
+    {<span class="hljs-string">"messages"</span>: [input_message]},
+    stream_mode=[<span class="hljs-string">"messages"</span>, <span class="hljs-string">"updates"</span>, <span class="hljs-string">"custom"</span>],
+    version=<span class="hljs-string">"v2"</span>,
+):
+    <span class="hljs-keyword">if</span> chunk[<span class="hljs-string">"type"</span>] == <span class="hljs-string">"messages"</span>:
+        token, metadata = chunk[<span class="hljs-string">"data"</span>]
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(token, AIMessageChunk):
+            _render_message_chunk(token)
+    <span class="hljs-keyword">elif</span> chunk[<span class="hljs-string">"type"</span>] == <span class="hljs-string">"updates"</span>:
+        <span class="hljs-keyword">for</span> source, update <span class="hljs-keyword">in</span> chunk[<span class="hljs-string">"data"</span>].items():
+            <span class="hljs-keyword">if</span> source <span class="hljs-keyword">in</span> (<span class="hljs-string">"model"</span>, <span class="hljs-string">"tools"</span>):
+                _render_completed_message(update[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>])
+    <span class="hljs-keyword">elif</span> chunk[<span class="hljs-string">"type"</span>] == <span class="hljs-string">"custom"</span>:
+        <span class="hljs-comment"># access completed message in stream</span>
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Tool calls: <span class="hljs-subst">{chunk[<span class="hljs-string">'data'</span>].tool_calls}</span>"</span>)</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">title="Output" expandable</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">[{<span class="hljs-string">'name'</span>: <span class="hljs-string">'get_weather'</span>, <span class="hljs-string">'args'</span>: <span class="hljs-string">''</span>, <span class="hljs-string">'id'</span>: <span class="hljs-string">'call_je6LWgxYzuZ84mmoDalTYMJC'</span>, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'{"'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'city'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'":"'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'Boston'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'"}'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+Tool calls: [{<span class="hljs-string">'name'</span>: <span class="hljs-string">'get_weather'</span>, <span class="hljs-string">'args'</span>: {<span class="hljs-string">'city'</span>: <span class="hljs-string">'Boston'</span>}, <span class="hljs-string">'id'</span>: <span class="hljs-string">'call_je6LWgxYzuZ84mmoDalTYMJC'</span>, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call'</span>}]
+Tool response: [{<span class="hljs-string">'type'</span>: <span class="hljs-string">'text'</span>, <span class="hljs-string">'text'</span>: <span class="hljs-string">"It's always sunny in Boston!"</span>}]
+The| weather| <span class="hljs-keyword">in</span>| **|Boston|**| is| **|sun|ny|**|.|[{<span class="hljs-string">'name'</span>: <span class="hljs-string">'ResponseSafety'</span>, <span class="hljs-string">'args'</span>: <span class="hljs-string">''</span>, <span class="hljs-string">'id'</span>: <span class="hljs-string">'call_O8VJIbOG4Q9nQF0T8ltVi58O'</span>, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'{"'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'evaluation'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'":"'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'safe'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'"}'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+Tool calls: [{<span class="hljs-string">'name'</span>: <span class="hljs-string">'ResponseSafety'</span>, <span class="hljs-string">'args'</span>: {<span class="hljs-string">'evaluation'</span>: <span class="hljs-string">'safe'</span>}, <span class="hljs-string">'id'</span>: <span class="hljs-string">'call_O8VJIbOG4Q9nQF0T8ltVi58O'</span>, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call'</span>}]</code></pre>
+</div>
+<p>或者，如果你无法向流中添加自定义事件，可以在流式循环中聚合消息数据块：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">input_message = {<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What is the weather in Boston?"</span>}
+full_message = <span class="hljs-literal">None</span>
+<span class="hljs-keyword">for</span> chunk <span class="hljs-keyword">in</span> agent.stream(
+    {<span class="hljs-string">"messages"</span>: [input_message]},
+    stream_mode=[<span class="hljs-string">"messages"</span>, <span class="hljs-string">"updates"</span>],
+    version=<span class="hljs-string">"v2"</span>,
+):
+    <span class="hljs-keyword">if</span> chunk[<span class="hljs-string">"type"</span>] == <span class="hljs-string">"messages"</span>:
+        token, metadata = chunk[<span class="hljs-string">"data"</span>]
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(token, AIMessageChunk):
+            _render_message_chunk(token)
+            full_message = token <span class="hljs-keyword">if</span> full_message <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> full_message + token
+            <span class="hljs-keyword">if</span> token.chunk_position == <span class="hljs-string">"last"</span>:
+                <span class="hljs-keyword">if</span> full_message.tool_calls:
+                    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Tool calls: <span class="hljs-subst">{full_message.tool_calls}</span>"</span>)
+                full_message = <span class="hljs-literal">None</span>
+    <span class="hljs-keyword">elif</span> chunk[<span class="hljs-string">"type"</span>] == <span class="hljs-string">"updates"</span>:
+        <span class="hljs-keyword">for</span> source, update <span class="hljs-keyword">in</span> chunk[<span class="hljs-string">"data"</span>].items():
+            <span class="hljs-keyword">if</span> source == <span class="hljs-string">"tools"</span>:
+                _render_completed_message(update[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>])</code></pre>
+</div>
+<h3 id="streaming-with-human-in-the-loop">人在回路场景下的流式传输<a class="heading-anchor" href="#streaming-with-human-in-the-loop" aria-label="链接到本节">#</a></h3>
+<p>要处理人在回路中的<a href="human-in-the-loop.html">中断</a>，我们在<a href="#streaming-tool-calls">上面的示例</a>基础上继续扩展：</p>
+<ol><li><p>我们为智能体配置<a href="human-in-the-loop.html#configuring-interrupts">人在回路中间件和检查点保存器</a></p></li><li><p>我们收集在<code>"updates"</code>流模式下产生的中断</p></li><li><p>我们通过<a href="human-in-the-loop.html#responding-to-interrupts">command</a>响应这些中断</p></li></ol>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Any</span>
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.agents.middleware <span class="hljs-keyword">import</span> HumanInTheLoopMiddleware
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> AIMessage, AIMessageChunk, AnyMessage, ToolMessage
+<span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> InMemorySaver
+<span class="hljs-keyword">from</span> langgraph.types <span class="hljs-keyword">import</span> Command, Interrupt
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+
+checkpointer = InMemorySaver()
+
+agent = create_agent(
+    <span class="hljs-string">"openai:gpt-5.5"</span>,
+    tools=[get_weather],
+    middleware=[
+        HumanInTheLoopMiddleware(interrupt_on={<span class="hljs-string">"get_weather"</span>: <span class="hljs-literal">True</span>}),
+    ],
+    checkpointer=checkpointer,
+)
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">_render_message_chunk</span>(<span class="hljs-params">token: AIMessageChunk</span>) -&gt; <span class="hljs-literal">None</span>:
+    <span class="hljs-keyword">if</span> token.text:
+        <span class="hljs-built_in">print</span>(token.text, end=<span class="hljs-string">"|"</span>)
+    <span class="hljs-keyword">if</span> token.tool_call_chunks:
+        <span class="hljs-built_in">print</span>(token.tool_call_chunks)
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">_render_completed_message</span>(<span class="hljs-params">message: AnyMessage</span>) -&gt; <span class="hljs-literal">None</span>:
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(message, AIMessage) <span class="hljs-keyword">and</span> message.tool_calls:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Tool calls: <span class="hljs-subst">{message.tool_calls}</span>"</span>)
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(message, ToolMessage):
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Tool response: <span class="hljs-subst">{message.content_blocks}</span>"</span>)
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">_render_interrupt</span>(<span class="hljs-params">interrupt: Interrupt</span>) -&gt; <span class="hljs-literal">None</span>:
+    interrupts = interrupt.value
+    <span class="hljs-keyword">for</span> request <span class="hljs-keyword">in</span> interrupts[<span class="hljs-string">"action_requests"</span>]:
+        <span class="hljs-built_in">print</span>(request[<span class="hljs-string">"description"</span>])
+
+
+input_message = {
+    <span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>,
+    <span class="hljs-string">"content"</span>: (
+        <span class="hljs-string">"Can you look up the weather in Boston and San Francisco?"</span>
+    ),
+}
+config = {<span class="hljs-string">"configurable"</span>: {<span class="hljs-string">"thread_id"</span>: <span class="hljs-string">"some_id"</span>}}
+interrupts = []
+<span class="hljs-keyword">for</span> chunk <span class="hljs-keyword">in</span> agent.stream(
+    {<span class="hljs-string">"messages"</span>: [input_message]},
+    config=config,
+    stream_mode=[<span class="hljs-string">"messages"</span>, <span class="hljs-string">"updates"</span>],
+    version=<span class="hljs-string">"v2"</span>,
+):
+    <span class="hljs-keyword">if</span> chunk[<span class="hljs-string">"type"</span>] == <span class="hljs-string">"messages"</span>:
+        token, metadata = chunk[<span class="hljs-string">"data"</span>]
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(token, AIMessageChunk):
+            _render_message_chunk(token)
+    <span class="hljs-keyword">elif</span> chunk[<span class="hljs-string">"type"</span>] == <span class="hljs-string">"updates"</span>:
+        <span class="hljs-keyword">for</span> source, update <span class="hljs-keyword">in</span> chunk[<span class="hljs-string">"data"</span>].items():
+            <span class="hljs-keyword">if</span> source <span class="hljs-keyword">in</span> (<span class="hljs-string">"model"</span>, <span class="hljs-string">"tools"</span>):
+                _render_completed_message(update[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>])
+            <span class="hljs-keyword">if</span> source == <span class="hljs-string">"__interrupt__"</span>:
+                interrupts.extend(update)
+                _render_interrupt(update[<span class="hljs-number">0</span>])</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">title="Output" expandable</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">[{<span class="hljs-string">'name'</span>: <span class="hljs-string">'get_weather'</span>, <span class="hljs-string">'args'</span>: <span class="hljs-string">''</span>, <span class="hljs-string">'id'</span>: <span class="hljs-string">'call_GOwNaQHeqMixay2qy80padfE'</span>, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'{"ci'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'ty": '</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'"Bosto'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'n"}'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: <span class="hljs-string">'get_weather'</span>, <span class="hljs-string">'args'</span>: <span class="hljs-string">''</span>, <span class="hljs-string">'id'</span>: <span class="hljs-string">'call_Ndb4jvWm2uMA0JDQXu37wDH6'</span>, <span class="hljs-string">'index'</span>: 1, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'{"ci'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 1, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'ty": '</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 1, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'"San F'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 1, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'ranc'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 1, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'isco"'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 1, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'}'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 1, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+Tool calls: [{<span class="hljs-string">'name'</span>: <span class="hljs-string">'get_weather'</span>, <span class="hljs-string">'args'</span>: {<span class="hljs-string">'city'</span>: <span class="hljs-string">'Boston'</span>}, <span class="hljs-string">'id'</span>: <span class="hljs-string">'call_GOwNaQHeqMixay2qy80padfE'</span>, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call'</span>}, {<span class="hljs-string">'name'</span>: <span class="hljs-string">'get_weather'</span>, <span class="hljs-string">'args'</span>: {<span class="hljs-string">'city'</span>: <span class="hljs-string">'San Francisco'</span>}, <span class="hljs-string">'id'</span>: <span class="hljs-string">'call_Ndb4jvWm2uMA0JDQXu37wDH6'</span>, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call'</span>}]
+Tool execution requires approval
+
+Tool: get_weather
+Args: {<span class="hljs-string">'city'</span>: <span class="hljs-string">'Boston'</span>}
+Tool execution requires approval
+
+Tool: get_weather
+Args: {<span class="hljs-string">'city'</span>: <span class="hljs-string">'San Francisco'</span>}</code></pre>
+</div>
+<p>接下来，我们为每个中断收集一个<a href="human-in-the-loop.html#interrupt-decision-types">decision</a>。需要注意，decision 的顺序必须与所收集动作的顺序一致。</p>
+<p>为便于说明，我们将编辑一个工具调用，并接受另一个：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">_get_interrupt_decisions</span>(<span class="hljs-params">interrupt: Interrupt</span>) -&gt; <span class="hljs-built_in">list</span>[<span class="hljs-built_in">dict</span>]:
+    <span class="hljs-keyword">return</span> [
+        {
+            <span class="hljs-string">"type"</span>: <span class="hljs-string">"edit"</span>,
+            <span class="hljs-string">"edited_action"</span>: {
+                <span class="hljs-string">"name"</span>: <span class="hljs-string">"get_weather"</span>,
+                <span class="hljs-string">"args"</span>: {<span class="hljs-string">"city"</span>: <span class="hljs-string">"Boston, U.K."</span>},
+            },
+        }
+        <span class="hljs-keyword">if</span> <span class="hljs-string">"boston"</span> <span class="hljs-keyword">in</span> request[<span class="hljs-string">"description"</span>].lower()
+        <span class="hljs-keyword">else</span> {<span class="hljs-string">"type"</span>: <span class="hljs-string">"approve"</span>}
+        <span class="hljs-keyword">for</span> request <span class="hljs-keyword">in</span> interrupt.value[<span class="hljs-string">"action_requests"</span>]
+    ]
+
+decisions = {}
+<span class="hljs-keyword">for</span> interrupt <span class="hljs-keyword">in</span> interrupts:
+    decisions[interrupt.<span class="hljs-built_in">id</span>] = {
+        <span class="hljs-string">"decisions"</span>: _get_interrupt_decisions(interrupt)
+    }
+
+decisions</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">title="Output"</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">{
+    <span class="hljs-string">'a96c40474e429d661b5b32a8d86f0f3e'</span>: {
+        <span class="hljs-string">'decisions'</span>: [
+            {
+                <span class="hljs-string">'type'</span>: <span class="hljs-string">'edit'</span>,
+                 <span class="hljs-string">'edited_action'</span>: {
+                     <span class="hljs-string">'name'</span>: <span class="hljs-string">'get_weather'</span>,
+                     <span class="hljs-string">'args'</span>: {<span class="hljs-string">'city'</span>: <span class="hljs-string">'Boston, U.K.'</span>}
+                 }
+            },
+            {<span class="hljs-string">'type'</span>: <span class="hljs-string">'approve'</span>},
+        ]
+    }
+}</code></pre>
+</div>
+<p>随后，我们可以向同一个流式循环传入<a href="human-in-the-loop.html#responding-to-interrupts">command</a>来恢复执行：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">interrupts = []
+<span class="hljs-keyword">for</span> chunk <span class="hljs-keyword">in</span> agent.stream(
+    Command(resume=decisions),
+    config=config,
+    stream_mode=[<span class="hljs-string">"messages"</span>, <span class="hljs-string">"updates"</span>],
+    version=<span class="hljs-string">"v2"</span>,
+):
+    <span class="hljs-comment"># Streaming loop is unchanged</span>
+    <span class="hljs-keyword">if</span> chunk[<span class="hljs-string">"type"</span>] == <span class="hljs-string">"messages"</span>:
+        token, metadata = chunk[<span class="hljs-string">"data"</span>]
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(token, AIMessageChunk):
+            _render_message_chunk(token)
+    <span class="hljs-keyword">elif</span> chunk[<span class="hljs-string">"type"</span>] == <span class="hljs-string">"updates"</span>:
+        <span class="hljs-keyword">for</span> source, update <span class="hljs-keyword">in</span> chunk[<span class="hljs-string">"data"</span>].items():
+            <span class="hljs-keyword">if</span> source <span class="hljs-keyword">in</span> (<span class="hljs-string">"model"</span>, <span class="hljs-string">"tools"</span>):
+                _render_completed_message(update[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>])
+            <span class="hljs-keyword">if</span> source == <span class="hljs-string">"__interrupt__"</span>:
+                interrupts.extend(update)
+                _render_interrupt(update[<span class="hljs-number">0</span>])</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">title="Output"</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">Tool response: [{<span class="hljs-string">'type'</span>: <span class="hljs-string">'text'</span>, <span class="hljs-string">'text'</span>: <span class="hljs-string">"It's always sunny in Boston, U.K.!"</span>}]
+Tool response: [{<span class="hljs-string">'type'</span>: <span class="hljs-string">'text'</span>, <span class="hljs-string">'text'</span>: <span class="hljs-string">"It's always sunny in San Francisco!"</span>}]
+-| **|Boston|**|:| It|<span class="hljs-string">'s| always| sunny| in| Boston|,| U|.K|.|
+|-| **|San| Francisco|**|:| It|'</span>s| always| sunny| <span class="hljs-keyword">in</span>| San| Francisco|!|</code></pre>
+</div>
+<h3 id="streaming-from-sub-agents">子智能体的流式传输<a class="heading-anchor" href="#streaming-from-sub-agents" aria-label="链接到本节">#</a></h3>
+<p>当智能体中任意位置存在多个 LLM 时，通常需要在消息生成时区分消息的来源。</p>
+<p>为此，在创建每个智能体时向其传入<a href="https://reference.langchain.com/python/langchain/agents/create_agent" target="_blank" rel="noopener noreferrer"><code>name</code></a>。这样，在以<code>"messages"</code>模式流式传输时，就可以通过<code>lc_agent_name</code>键在元数据中获取该名称。</p>
+<p>下面，我们更新<a href="#streaming-tool-calls">流式工具调用</a>示例：</p>
+<ol><li><p>我们将工具替换为一个<code>call_weather_agent</code>工具，该工具在内部调用一个智能体</p></li><li><p>我们为每个智能体添加一个<code>name</code></p></li><li><p>我们在创建流时指定<a href="https://docs.langchain.com/oss/python/langgraph/use-subgraphs#stream-subgraph-outputs" target="_blank" rel="noopener noreferrer"><code>subgraphs=True</code></a></p></li><li><p>我们的流处理与之前相同，只是增加了逻辑，使用<code>create_agent</code>的<code>name</code>参数跟踪当前活跃的智能体</p></li></ol>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>当你在智能体上设置<code>name</code>时，该名称也会附加到该智能体生成的任何<code>AIMessage</code>上。</p></div>
+</aside>
+<p>首先，我们构建智能体：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Any</span>
+
+<span class="hljs-keyword">from</span> langchain.agents <span class="hljs-keyword">import</span> create_agent
+<span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+<span class="hljs-keyword">from</span> langchain.messages <span class="hljs-keyword">import</span> AIMessage, AnyMessage
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Get weather for a given city."""</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"It's always sunny in <span class="hljs-subst">{city}</span>!"</span>
+
+
+weather_model = init_chat_model(<span class="hljs-string">"openai:gpt-5.5"</span>)
+weather_agent = create_agent(
+    model=weather_model,
+    tools=[get_weather],
+    name=<span class="hljs-string">"weather_agent"</span>,
+)
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">call_weather_agent</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">"""Query the weather agent."""</span>
+    result = weather_agent.invoke({
+        <span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: query}]
+    })
+    <span class="hljs-keyword">return</span> result[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>].text
+
+
+supervisor_model = init_chat_model(<span class="hljs-string">"openai:gpt-5.5"</span>)
+agent = create_agent(
+    model=supervisor_model,
+    tools=[call_weather_agent],
+    name=<span class="hljs-string">"supervisor"</span>,
+)</code></pre>
+</div>
+<p>接下来，我们在流式循环中加入逻辑，报告当前正在输出 token 的智能体：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">_render_message_chunk</span>(<span class="hljs-params">token: AIMessageChunk</span>) -&gt; <span class="hljs-literal">None</span>:
+    <span class="hljs-keyword">if</span> token.text:
+        <span class="hljs-built_in">print</span>(token.text, end=<span class="hljs-string">"|"</span>)
+    <span class="hljs-keyword">if</span> token.tool_call_chunks:
+        <span class="hljs-built_in">print</span>(token.tool_call_chunks)
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">_render_completed_message</span>(<span class="hljs-params">message: AnyMessage</span>) -&gt; <span class="hljs-literal">None</span>:
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(message, AIMessage) <span class="hljs-keyword">and</span> message.tool_calls:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Tool calls: <span class="hljs-subst">{message.tool_calls}</span>"</span>)
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(message, ToolMessage):
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Tool response: <span class="hljs-subst">{message.content_blocks}</span>"</span>)
+
+
+input_message = {<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What is the weather in Boston?"</span>}
+current_agent = <span class="hljs-literal">None</span>
+<span class="hljs-keyword">for</span> chunk <span class="hljs-keyword">in</span> agent.stream(
+    {<span class="hljs-string">"messages"</span>: [input_message]},
+    stream_mode=[<span class="hljs-string">"messages"</span>, <span class="hljs-string">"updates"</span>],
+    subgraphs=<span class="hljs-literal">True</span>,
+    version=<span class="hljs-string">"v2"</span>,
+):
+    <span class="hljs-keyword">if</span> chunk[<span class="hljs-string">"type"</span>] == <span class="hljs-string">"messages"</span>:
+        token, metadata = chunk[<span class="hljs-string">"data"</span>]
+        <span class="hljs-keyword">if</span> agent_name := metadata.get(<span class="hljs-string">"lc_agent_name"</span>):
+            <span class="hljs-keyword">if</span> agent_name != current_agent:
+                <span class="hljs-built_in">print</span>(<span class="hljs-string">f"🤖 <span class="hljs-subst">{agent_name}</span>: "</span>)
+                current_agent = agent_name
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(token, AIMessageChunk):
+            _render_message_chunk(token)
+    <span class="hljs-keyword">elif</span> chunk[<span class="hljs-string">"type"</span>] == <span class="hljs-string">"updates"</span>:
+        <span class="hljs-keyword">for</span> source, update <span class="hljs-keyword">in</span> chunk[<span class="hljs-string">"data"</span>].items():
+            <span class="hljs-keyword">if</span> source <span class="hljs-keyword">in</span> (<span class="hljs-string">"model"</span>, <span class="hljs-string">"tools"</span>):
+                _render_completed_message(update[<span class="hljs-string">"messages"</span>][-<span class="hljs-number">1</span>])</code></pre>
+</div>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">title="Output" expandable</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-bash">🤖 supervisor:
+[{<span class="hljs-string">'name'</span>: <span class="hljs-string">'call_weather_agent'</span>, <span class="hljs-string">'args'</span>: <span class="hljs-string">''</span>, <span class="hljs-string">'id'</span>: <span class="hljs-string">'call_asorzUf0mB6sb7MiKfgojp7I'</span>, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'{"'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'query'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'":"'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'Boston'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">' weather'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">' right'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">' now'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">' and'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">" today's"</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">' forecast'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'"}'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+Tool calls: [{<span class="hljs-string">'name'</span>: <span class="hljs-string">'call_weather_agent'</span>, <span class="hljs-string">'args'</span>: {<span class="hljs-string">'query'</span>: <span class="hljs-string">"Boston weather right now and today's forecast"</span>}, <span class="hljs-string">'id'</span>: <span class="hljs-string">'call_asorzUf0mB6sb7MiKfgojp7I'</span>, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call'</span>}]
+🤖 weather_agent:
+[{<span class="hljs-string">'name'</span>: <span class="hljs-string">'get_weather'</span>, <span class="hljs-string">'args'</span>: <span class="hljs-string">''</span>, <span class="hljs-string">'id'</span>: <span class="hljs-string">'call_LZ89lT8fW6w8vqck5pZeaDIx'</span>, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'{"'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'city'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'":"'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'Boston'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+[{<span class="hljs-string">'name'</span>: None, <span class="hljs-string">'args'</span>: <span class="hljs-string">'"}'</span>, <span class="hljs-string">'id'</span>: None, <span class="hljs-string">'index'</span>: 0, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call_chunk'</span>}]
+Tool calls: [{<span class="hljs-string">'name'</span>: <span class="hljs-string">'get_weather'</span>, <span class="hljs-string">'args'</span>: {<span class="hljs-string">'city'</span>: <span class="hljs-string">'Boston'</span>}, <span class="hljs-string">'id'</span>: <span class="hljs-string">'call_LZ89lT8fW6w8vqck5pZeaDIx'</span>, <span class="hljs-string">'type'</span>: <span class="hljs-string">'tool_call'</span>}]
+Tool response: [{<span class="hljs-string">'type'</span>: <span class="hljs-string">'text'</span>, <span class="hljs-string">'text'</span>: <span class="hljs-string">"It's always sunny in Boston!"</span>}]
+Boston| weather| right| now|:| **|Sunny|**|.
+
+|Today|<span class="hljs-string">'s| forecast| for| Boston|:| **|Sunny| all| day|**|.|Tool response: [{'</span><span class="hljs-built_in">type</span><span class="hljs-string">': '</span>text<span class="hljs-string">', '</span>text<span class="hljs-string">': '</span>Boston weather right now: **Sunny**.\n\nToday<span class="hljs-string">'s forecast for Boston: **Sunny all day**.'</span>}]
+🤖 supervisor:
+Boston| weather| right| now|:| **|Sunny|**|.
+
+|Today|<span class="hljs-string">'s| forecast| for| Boston|:| **|Sunny| all| day|**|.|</span></code></pre>
+</div>
+<h2 id="disable-streaming">禁用流式传输<a class="heading-anchor" href="#disable-streaming" aria-label="链接到本节">#</a></h2>
+<p>在某些应用中，你可能需要为特定模型禁用逐个 token 的流式传输。这在以下情况下很有用：</p>
+<ul><li><p>使用<a href="https://docs.langchain.com/oss/python/langchain/multi-agent" target="_blank" rel="noopener noreferrer">多智能体</a>系统时，控制哪些智能体流式输出其内容</p></li><li><p>混用支持流式传输和不支持流式传输的模型时</p></li><li><p>部署到<a href="https://docs.langchain.com/langsmith/observability" target="_blank" rel="noopener noreferrer">LangSmith</a>时，希望阻止某些模型输出被流式传输到客户端</p></li></ul>
+<p>在初始化模型时设置<code>streaming=False</code>。</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python"><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI
+
+model = ChatOpenAI(
+    model=<span class="hljs-string">"gpt-5.5"</span>,
+    streaming=<span class="hljs-literal">False</span>
+)</code></pre>
+</div>
+<aside class="callout callout-tip">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>提示</span></div>
+  <div class="callout-body"><p>部署到 LangSmith 时，对任何不希望其输出流式传输到客户端的模型设置<code>streaming=False</code>。这需要在部署前的图代码中配置。</p></div>
+</aside>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>并非所有聊天模型集成都支持<code>streaming</code>参数。如果你的模型不支持该参数，请改用<code>disable_streaming=True</code>。该参数通过基类在所有聊天模型上可用。</p></div>
+</aside>
+<p>更多详情请参阅<a href="https://docs.langchain.com/oss/python/langgraph/streaming#disable-streaming-for-specific-chat-models" target="_blank" rel="noopener noreferrer">LangGraph 流式传输指南</a>。</p>
+<h2 id="v2-streaming-format">v2 流式传输格式<a class="heading-anchor" href="#v2-streaming-format" aria-label="链接到本节">#</a></h2>
+<aside class="callout callout-note">
+  <div class="callout-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 9v4.4M10 6.3v.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span>注意</span></div>
+  <div class="callout-body"><p>需要 LangGraph 1.1 或更高版本。</p></div>
+</aside>
+<p>向<code>stream()</code>或<code>astream()</code>传入<code>version="v2"</code>可获得统一的输出格式。每个数据块都是一个<code>StreamPart</code>字典，包含<code>type</code>、<code>ns</code>和<code>data</code>键——无论流模式如何、包含多少种模式，结构都相同：</p>
+<div class="code-group" data-code-group="">
+  <div class="code-head code-head-tabs">
+    <div class="code-tabs" role="tablist" aria-label="选择示例"><button class="code-tab" type="button" id="codegroup-2-tab-0" role="tab" aria-controls="codegroup-2-panel-0" aria-selected="true" tabindex="0">v2 (new)</button><button class="code-tab" type="button" id="codegroup-2-tab-1" role="tab" aria-controls="codegroup-2-panel-1" aria-selected="false" tabindex="-1">v1 (current default)</button></div>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <div class="code-panels"><div class="code-panel" id="codegroup-2-panel-0" role="tabpanel" aria-labelledby="codegroup-2-tab-0">
+  <pre><code class="hljs language-python"><span class="hljs-comment"># Unified format — no more tuple unpacking</span>
+<span class="hljs-keyword">for</span> chunk <span class="hljs-keyword">in</span> agent.stream(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What is the weather in SF?"</span>}]},
+    stream_mode=[<span class="hljs-string">"updates"</span>, <span class="hljs-string">"custom"</span>],
+    version=<span class="hljs-string">"v2"</span>,
+):
+    <span class="hljs-built_in">print</span>(chunk[<span class="hljs-string">"type"</span>])  <span class="hljs-comment"># "updates" or "custom"</span>
+    <span class="hljs-built_in">print</span>(chunk[<span class="hljs-string">"data"</span>])  <span class="hljs-comment"># payload</span></code></pre>
+</div>
+<div class="code-panel" id="codegroup-2-panel-1" role="tabpanel" aria-labelledby="codegroup-2-tab-1" hidden="">
+  <pre><code class="hljs language-python"><span class="hljs-comment"># Must unpack (mode, data) tuples</span>
+<span class="hljs-keyword">for</span> mode, chunk <span class="hljs-keyword">in</span> agent.stream(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"What is the weather in SF?"</span>}]},
+    stream_mode=[<span class="hljs-string">"updates"</span>, <span class="hljs-string">"custom"</span>],
+):
+    <span class="hljs-built_in">print</span>(mode)   <span class="hljs-comment"># "updates" or "custom"</span>
+    <span class="hljs-built_in">print</span>(chunk)  <span class="hljs-comment"># payload</span></code></pre>
+</div></div>
+</div>
+<p>v2 格式还改进了<code>invoke()</code>——它返回一个<code>GraphOutput</code>对象，带有<code>.value</code>和<code>.interrupts</code>属性，将状态与中断元数据清晰地分离：</p>
+<div class="code-block" data-code-block="">
+  <div class="code-head">
+    <span class="code-label">python</span>
+    <button class="copy-btn" type="button" data-copy-code="" aria-label="复制代码"><svg class="copy-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.3"></rect><path d="M10.8 5.2V4A1.2 1.2 0 0 0 9.6 2.8H4A1.2 1.2 0 0 0 2.8 4v5.6A1.2 1.2 0 0 0 4 10.8h1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.2 8.4 3 3 6.6-6.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>复制</span></button>
+  </div>
+  <pre><code class="hljs language-python">result = agent.invoke(
+    {<span class="hljs-string">"messages"</span>: [{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Hello"</span>}]},
+    version=<span class="hljs-string">"v2"</span>,
+)
+<span class="hljs-built_in">print</span>(result.value)       <span class="hljs-comment"># state (dict, Pydantic model, or dataclass)</span>
+<span class="hljs-built_in">print</span>(result.interrupts)  <span class="hljs-comment"># tuple of Interrupt objects (empty if none)</span></code></pre>
+</div>
+<p>关于 v2 格式的更多详情，包括类型收窄、Pydantic/dataclass 强制转换和子图流式传输，请参阅<a href="https://docs.langchain.com/oss/python/langgraph/streaming#stream-output-format-v2" target="_blank" rel="noopener noreferrer">LangGraph 流式传输文档</a>。</p>
+<h2 id="related">相关内容<a class="heading-anchor" href="#related" aria-label="链接到本节">#</a></h2>
+<ul><li><p><a href="frontend-overview.html">前端流式传输</a>——使用<a href="https://reference.langchain.com/javascript/langchain-react/index/useStream" target="_blank" rel="noopener noreferrer"><code>useStream</code></a>构建 React UI，实现实时的智能体交互</p></li><li><p><a href="models.html#stream">聊天模型的流式传输</a>——直接从聊天模型流式获取 token，无需使用智能体或图</p></li><li><p><a href="models.html#reasoning">聊天模型的推理</a>——配置并访问聊天模型的推理输出</p></li><li><p><a href="messages.html#standard-content-blocks">标准内容块</a>——了解用于推理、文本和其他内容类型的规范化内容块格式</p></li><li><p><a href="human-in-the-loop.html#streaming-with-human-in-the-loop">人在回路的流式传输</a>——在处理交由人工审核的中断时流式传输智能体进度</p></li><li><p><a href="https://docs.langchain.com/oss/python/langgraph/streaming" target="_blank" rel="noopener noreferrer">LangGraph 流式传输</a>——高级流式传输选项，包括<code>values</code>、<code>debug</code>模式和子图流式传输</p></li></ul></article>
+        <nav class="pager" aria-label="翻页"><a class="prev" href="event-streaming.html"><span class="pager-label">上一篇</span><span class="pager-title">事件流</span></a><a class="next" href="structured-output.html"><span class="pager-label">下一篇</span><span class="pager-title">结构化输出</span></a></nav>
+        <footer class="page-footer">
+          <p>本页为社区维护的简体中文翻译，不是 LangChain 官方文档。如与英文原文有出入，请以 <a href="https://docs.langchain.com/oss/python/langchain/streaming" target="_blank" rel="noopener noreferrer">英文原文</a> 为准。</p>
+        </footer>
+      </div>
+    </main>
+    <aside class="toc" aria-label="本页目录"><div class="toc-inner"><div class="toc-title">本页目录</div><a class="toc-link level-2" href="#overview">概述</a><a class="toc-link level-2" href="#supported-stream-modes">支持的流式传输模式</a><a class="toc-link level-2" href="#agent-progress">智能体进度</a><a class="toc-link level-2" href="#llm-tokens">LLM token</a><a class="toc-link level-2" href="#custom-updates">自定义更新</a><a class="toc-link level-2" href="#stream-multiple-modes">流式传输多种模式</a><a class="toc-link level-2" href="#common-patterns">常见模式</a><a class="toc-link level-3" href="#streaming-thinking-reasoning-tokens">流式传输思考 / 推理 token</a><a class="toc-link level-3" href="#streaming-tool-calls">流式传输工具调用</a><a class="toc-link level-3" href="#streaming-with-human-in-the-loop">人在回路场景下的流式传输</a><a class="toc-link level-3" href="#streaming-from-sub-agents">子智能体的流式传输</a><a class="toc-link level-2" href="#disable-streaming">禁用流式传输</a><a class="toc-link level-2" href="#v2-streaming-format">v2 流式传输格式</a><a class="toc-link level-2" href="#related">相关内容</a></div></aside>
+  </div>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p><strong>LangChain 中文文档</strong> · 社区翻译，非官方站点。内容基于 <a href="https://docs.langchain.com/oss/python/langchain/overview" target="_blank" rel="noopener noreferrer">docs.langchain.com</a> 的 LangChain（Python）文档生成。</p>
+      <p>共 59 篇 · 代码示例保持英文原样 · 以英文原文为准</p>
+    </div>
+  </footer>
+  <button class="back-top" type="button" data-back-top aria-label="回到顶部">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5.5 9.5 10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script src="assets/docs.js" defer></script>
+</body>
+</html>
